@@ -1,0 +1,173 @@
+@import url('https://fonts.googleapis.com/css2?family=Manrope:wght@200..800&display=swap');
+
+* {
+    box-sizing: border-box;
+}
+
+/* 
+Header
+*/
+.bg-night {
+    background-color: #6686b7;
+}
+
+.test-nav {
+    display: grid;
+    grid-template-columns: 1fr 2fr;
+    /* justify-content: center;
+    align-content: center; */
+}
+
+.test-nav img {
+    width: 100px;
+    margin-left: 90px;
+}
+
+.title-in {
+    display: grid;
+    grid-template-columns: 1fr 2fr;
+}
+
+.text-in {
+    display: grid;
+    grid-template-columns: 1fr;
+}
+
+ul {
+    list-style-type: none;
+}
+
+li {
+    display: inline;
+}
+
+/* 
+Main
+*/
+
+.jumbotron {
+    padding-bottom: 160px;
+    padding-top: 140px;
+}
+
+.jumbo-title {
+    font-size: 3rem;
+}
+
+.btn-orange {
+    background-color: #f1883c !important;
+}
+
+.btn-white {
+    background-color: #fff;
+}
+
+.hero {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    margin-top: 50px;
+}
+
+.text-hero {
+    align-self: center;
+}
+
+.text-hero-h1 {
+    font-size: 50px;
+}
+
+.form-search {
+    width: 600px;
+    height: 55px;
+}
+
+.mtmin {
+    margin-top: -1rem;
+}
+
+.CardBook_img {
+    border-radius: 10px;
+    width: 75%;
+}
+
+.CardBook_card {
+    transition: .2s ease-in;
+}
+
+.faq {
+    width: 73%;
+}
+
+.m-faq {
+    margin-left: 12px;
+}
+
+/* 
+Katalog
+*/
+
+.active-type {
+    border: 2px solid orange;
+}
+
+.bg-hero {
+    background-color: #e5f8ff !important;
+}
+
+.k-hero {
+  background: url(https://buku.kemdikbud.go.id/assets/image/catalog/bg-hero.png) 0% 0% / 100% no-repeat;
+}
+
+/* 
+petunjuk
+*/
+
+.hero-petunjuk {
+    padding-bottom: 70px;
+    padding-top: 170px;
+    width: 100%;
+}
+
+.text-blue {
+    color: #2b4da2 !important;
+}
+
+.bg-pink {
+    background-color: #fff0e6;
+}
+
+/* 
+Detail
+*/
+
+.hero-detail {
+    border-radius: 10px;
+    width: 80%;
+}
+
+/* 
+Login
+*/
+
+.login {
+    background: url(https://buku.kemdikbud.go.id/static/media/background.3fb5f6000e35b298ef5c.png);
+    width: 101%;
+    background-color: #e5f8ff!important;
+    background-position: bottom;
+    background-repeat: no-repeat;
+    padding-bottom: 80px!important;
+}
+
+/* 
+footer
+*/
+
+.footer-title {
+    color: #fff;
+    font-weight: 700;
+    margin-bottom: 20px;
+}
+
+#footer {
+    padding-top: 50px;
+}
