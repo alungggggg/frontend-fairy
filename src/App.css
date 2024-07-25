@@ -149,13 +149,32 @@ Detail
 Login
 */
 
-.login {
+.login, .register {
     background: url(https://buku.kemdikbud.go.id/static/media/background.3fb5f6000e35b298ef5c.png);
-    width: 101%;
+    width: 100.8%;
     background-color: #e5f8ff!important;
     background-position: bottom;
     background-repeat: no-repeat;
     padding-bottom: 80px!important;
+}
+
+/* 
+Users
+*/
+
+.table-responsive {
+    display: block;
+    width: 100%;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+}
+
+.float-left {
+    float: left!important;
+}
+
+.float-right {
+    float: right!important;
 }
 
 /* 
