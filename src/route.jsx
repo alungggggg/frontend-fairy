@@ -1,5 +1,6 @@
 import { Route, Routes } from "react-router-dom";
 import kernel from "./Pages/kernel";
+import Test from "./Pages/test";
 
 const Routers = () => {
 
@@ -21,6 +22,7 @@ const Routers = () => {
 
             <Route path="/dongeng" element={<kernel.dongeng />} />
             <Route path="/dongeng/update/:id" element={<kernel.updateDongeng />} />
+            <Route path="/test" element={<Test />} />
         </Routes>
     )
 }

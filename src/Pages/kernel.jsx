@@ -15,4 +15,4 @@ import katalog from "./Services/katalog";
 import petunjuk from "./Services/petunjuk";
 
 
-export default { addUser, dongeng, updateDongeng, updateUser, updateDongeng, user, login, logout, register, detail, dongengView, home, katalog, petunjuk };
+export default { addUser, dongeng, updateDongeng, updateUser, user, login, logout, register, detail, dongengView, home, katalog, petunjuk };

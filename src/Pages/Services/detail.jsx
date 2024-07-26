@@ -1,22 +1,54 @@
 import Template from "../template/template";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import axios from "axios";
-import { useParams } from "react-router-dom";
+import { useParams } from "react-router-dom"
+import { pdfjs } from 'react-pdf';
+
+
+
+pdfjs.GlobalWorkerOptions.workerSrc = new URL(
+  'pdfjs-dist/build/pdf.worker.min.mjs',
+  import.meta.url,
+).toString();
+
+
 
 const Detail = () => {
-
-
+  const [thumbnailUrl, setThumbnailUrl] = useState(null);
   const { id } = useParams()
-
   const [detail, setDetail] = useState([]);
 
   useEffect(() => {
+
     const fetchDetail = async () => {
       const response = await axios.get(`http://localhost:5000/api/dongeng/${id}`);
       setDetail(response.data);
     }
+
+    const loadThumbnail = async (url) => {
+      // console.log(url)
+      const pdf = await pdfjs.getDocument("http://localhost:5000/pdf/2f9d219ac88da3da098b31098a2fb831.pdf").promise;
+      const page = await pdf.getPage(1);
+
+      const viewport = page.getViewport({ scale: 1 });
+      const canvas = document.createElement('canvas');
+      canvas.width = viewport.width;
+      canvas.height = viewport.height;
+
+      const context = canvas.getContext('2d');
+      const renderContext = {
+        canvasContext: context,
+        viewport: viewport,
+      };
+
+      await page.render(renderContext).promise;
+      setThumbnailUrl(canvas.toDataURL());
+    };
+
     fetchDetail()
+    loadThumbnail(detail.PdfPath);
   }, []);
+
 
   return (
     <>
@@ -40,6 +72,9 @@ const Detail = () => {
                     Buku Teks Kurikulum Merdeka
                   </a>
                 </li>
+
+
+
                 <li className="breadcrumb-item active" aria-current="page">
                   <a href="/" className="text-decoration-none text-blue">
                     {detail.title}
@@ -49,14 +84,13 @@ const Detail = () => {
             </nav>
           </section>
         </section>
-
         <section className="bg-white">
           <section className="container p-4">
             <section
               className="row p-3 mb-5"
               style={{
                 backgroundImage:
-                  "url(https://buku.kemdikbud.go.id/assets/image/catalog/Background.png)",
+                  `url(${thumbnailUrl})`,
                 backgroundRepeat: "no-repeat",
                 backgroundPosition: "100%",
                 backgroundSize: "cover",
@@ -64,11 +98,8 @@ const Detail = () => {
               }}
             >
               <section className="col-lg-3 text-center d-flex align-items-center justify-content-center">
-                <img
-                  src="https://static.buku.kemdikbud.go.id/content/image/coverteks/coverkurikulum21/Projek_Penguatan_Profil_Pelajar_Pancasila_BG_Paud_Cover.png"
-                  className="hero-detail"
-                  alt=""
-                />
+
+
               </section>
               <section className="col-lg-9 pt-5 pt-md-0">
                 <button className="btn btn-sm rounded-pill btn-outline-danger">
@@ -76,7 +107,7 @@ const Detail = () => {
                 </button>
                 <h3 className="my-3">
                   {detail.title}
-                  {detail.PdfPath}
+
                 </h3>
                 <button className="btn btn-sm btn-outline-primary py-2 mt-2">
                   <svg
@@ -266,8 +297,9 @@ const Detail = () => {
             </section>
           </section>
         </section>
-      </main>)}>
-      </Template>
+      </main >)
+      }>
+      </Template >
 
     </>
   );

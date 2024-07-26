@@ -25,7 +25,6 @@ const dongeng = () => {
         }
         return pages;
     }
-    console.log(pagesList())
 
     return (
         <>
