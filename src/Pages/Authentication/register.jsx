@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import validator from "validator";
 import axios from "axios";
 import Template from "../template/template";
+import Template from "../template/template";
 
 const register = () => {
   const [nama, setNama] = useState("");
@@ -16,19 +17,19 @@ const register = () => {
 
   const submit = async () => {
     if (!validator.isByteLength(nama, { min: 4 })) {
-      setNamaMessage(`Karakter Nama terlalu sedikit!`);
+      setNamaMessage("Karakter Nama terlalu sedikit!");
     }
 
     if (!validator.isEmail(email)) {
-      setEmailMessage(`Email tidak valid!`);
+      setEmailMessage("Email tidak valid!");
     }
 
     if (!validator.isByteLength(password, { min: 8 })) {
-      setPasswordMessage(`Minimal password harus berisi 8 karakter!`);
+      setPasswordMessage("Minimal password harus berisi 8 karakter!");
     }
 
     if (password != confirmPassword) {
-      setConfirmPasswordMessage(`Password dan Confrim Password tidak sama!`);
+      setConfirmPasswordMessage("Password dan Confrim Password tidak sama!");
     }
 
     try {
