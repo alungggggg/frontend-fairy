@@ -1,8 +1,11 @@
-import Template from "../template/template";
+import Header from "../template/header";
+import Footer from "../template/footer";
+
 const Petunjuk = () => {
   return (
     <>
-      <Template content={(<main>
+      <Header />
+      <main>
         <section className="bg-hero position-relative hero-petunjuk">
           <section className="container p-3 pb-0">
             <section className="row">
@@ -282,11 +285,10 @@ const Petunjuk = () => {
             </section>
           </section>
         </section>
-      </main>)}></Template>
-
-
-
+      </main>
+      <Footer />
     </>
+
   );
 };
 

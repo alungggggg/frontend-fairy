@@ -1,128 +1,145 @@
 import { useState, useEffect } from "react";
-import validator from "validator";
+import { useNavigate } from "react-router-dom";
+// import validator from "validator";
+import * as yup from "yup";
+import { Formik, Form, Field, ErrorMessage } from 'formik';
 import axios from "axios";
-import Template from "../template/template";
+import Header from "../template/header";
+import Footer from "../template/footer";
+
+const post = async ({ nama, email, password, confirmPassword }) => {
+  try {
+    const result = await axios.post("http://localhost:5000/api/register", {
+      nama,
+      email,
+      password,
+      confirmPassword,
+    });
+    navigate("/login", {
+      state: { message: "Berhasil Register!", status: "success" },
+    });
+  } catch (err) {
+    console.log(err.message);
+  }
+}
+
+const schema = yup.object().shape({
+  nama: yup.string().required().min(4),
+  email: yup.string().email('Email tidak valid').required('Email wajib diisi').test("Unique", "Email sudah terdaftar", async (value) => {
+    console.log(value);
+    const nunique = await axios.get(`http://localhost:5000/api/email?search=${value}`)
+    console.log(nunique.data.isAvailable)
+    return nunique.data.isAvailable
+  }),
+  password: yup.string()
+    .required('Password wajib diisi')
+    .min(8, 'Password minimal 8 karakter')
+    .matches(/[a-zA-Z]/, 'Password harus mengandung huruf'),
+  confirmPassword: yup.string()
+    .oneOf([yup.ref('password'), null], 'Password dan Konfirmasi Password harus sama')
+    .required('Konfirmasi Password wajib diisi')
+});
+
+const errorMessage = (message) => (
+  <p className="validation-error-message">{message}</p>
+);
 
 const register = () => {
-  const [nama, setNama] = useState("");
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const [confirmPassword, setConfirmPassword] = useState("");
 
-  const [namaMessage, setNamaMessage] = useState("");
-  const [emailMessage, setEmailMessage] = useState("");
-  const [passwordMessage, setPasswordMessage] = useState("");
-  const [confirmPasswordMessage, setConfirmPasswordMessage] = useState("");
-
-  const submit = async () => {
-    if (!validator.isByteLength(nama, { min: 4 })) {
-      setNamaMessage("Karakter Nama terlalu sedikit!");
-    }
-
-    if (!validator.isEmail(email)) {
-      setEmailMessage("Email tidak valid!");
-    }
-
-    if (!validator.isByteLength(password, { min: 8 })) {
-      setPasswordMessage("Minimal password harus berisi 8 karakter!");
-    }
-
-    if (password != confirmPassword) {
-      setConfirmPasswordMessage("Password dan Confrim Password tidak sama!");
-    }
-
-    try {
-      const result = await axios.post("http://localhost:5000/api/register", {
-        nama,
-        email,
-        password,
-        confirmPassword,
-      });
-      setEmailMessage(result.data.email.message);
-    } catch (err) {
-      console.log(err.message);
-    }
-  };
 
   return (
-    <Template
-      content={
+    <>
+      <Header />
+      <Formik
+        initialValues={{ nama: '', email: '', password: '', confirmPassword: '' }}
+        validationSchema={schema} validateOnChange={false} validateOnBlur={false}
+        onSubmit={(values, { setSubmitting }) => {
+          // console.log("Hallo")
+          post(values)
+        }}
+      >
         <section className="row justify-content-center pt-2 pt-md-5 p-3 p-md-0 register">
           <section className="col-lg-5">
             <h2 className="text-blue mt-4 mt-md-0">Registrasi</h2>
             <section className="card mt-2 shadow">
               <section className="card-body p-4">
-                <form>
+                <Form>
                   <section className="form-group mb-3">
                     <label htmlFor="" className="form-label fw-bold">
-                      {namaMessage}NAMA LENGKAP
+                      NAMA LENGKAP
                     </label>
-                    <input
+                    <Field
                       type="text"
-                      value={nama}
-                      onChange={(e) => {
-                        setNama(e.target.value);
-                        setNamaMessage("");
-                      }}
+                      name="nama"
                       className="form-control"
                       placeholder="Masukan nama lengkap"
                     />
-                  </section>
-                  <section className="form-group mb-3">
-                    <label htmlFor="" className="form-label fw-bold">
-                      {emailMessage}ALAMAT EMAIL
-                    </label>
-                    <input
-                      type="text"
-                      value={email}
-                      onChange={(e) => {
-                        setEmail(e.target.value);
-                        setEmailMessage("");
-                      }}
-                      className="form-control"
-                      placeholder="Masukan alamat email"
+
+                    <ErrorMessage
+                      // displays the validation error message for the 'email' field
+                      name="nama"
+                      render={errorMessage}
                     />
                   </section>
                   <section className="form-group mb-3">
                     <label htmlFor="" className="form-label fw-bold">
-                      {passwordMessage}KATA SANDI
+                      ALAMAT EMAIL
                     </label>
-                    <input
+                    <Field
+                      name="email"
                       type="text"
-                      value={password}
-                      onChange={(e) => {
-                        setPassword(e.target.value);
-                        setPasswordMessage("");
-                      }}
+                      className="form-control"
+                      placeholder="Masukan alamat email"
+                    />
+
+                    <ErrorMessage
+                      name="email"
+                      render={errorMessage}
+                    />
+
+                  </section>
+                  <section className="form-group mb-3">
+                    <label htmlFor="" className="form-label fw-bold">
+                      KATA SANDI
+                    </label>
+                    <Field
+                      type="password"
+                      name="password"
                       className="form-control"
                       placeholder="Masukan kata sandi"
                     />
                   </section>
+                  <ErrorMessage
+                    // displays the validation error message for the 'email' field
+                    name="password"
+                    render={errorMessage}
+                  />
+
                   <section className="form-group mb-3">
                     <label htmlFor="" className="form-label fw-bold">
-                      {confirmPasswordMessage}ULANGI KATA SANDI
+                      ULANGI KATA SANDI
                     </label>
-                    <input
-                      type="text"
-                      value={confirmPassword}
-                      onChange={(e) => {
-                        setConfirmPassword(e.target.value);
-                        setConfirmPasswordMessage("");
-                      }}
+                    <Field
+                      type="password"
+                      name="confirmPassword"
                       className="form-control"
                       placeholder="Masukan ulang kata sandi"
                     />
+                    <ErrorMessage
+                      name="confirmPassword"
+                      render={errorMessage}
+                    />
+
                   </section>
                   <section className="form-group d-grid gap-2">
                     <button
                       type="submit"
-                      onClick={submit}
                       className="btn btn-orange py-2 text-white"
                     >
                       Daftar
                     </button>
                   </section>
-                </form>
+                </Form>
                 <section className="form-group text-center mt-4">
                   <p>
                     Sudah punya akun?
@@ -135,8 +152,10 @@ const register = () => {
             </section>
           </section>
         </section>
-      }
-    ></Template>
+      </Formik>
+
+      <Footer />
+    </>
     // <>
 
     //   <Header></Header>

@@ -1,22 +1,48 @@
-import Template from "../template/template";
+import Header from "../template/header";
+import Footer from "../template/footer";
+import { loadThumbnail, loadThumbnails } from "../Component/thumbnail"
 import { useState, useEffect } from "react";
 import axios from "axios";
 
 const Katalog = () => {
   const [dongengs, setDongeng] = useState([]);
+  // const [thumbnail, setThumbnail] = useState([]);
+  const [thumbnail, setThumbnail] = useState([]);
 
   useEffect(() => {
     const fetchDongeng = async () => {
       const response = await axios.get("http://localhost:5000/api/dongeng");
       setDongeng(response.data)
+
+      const url = dongengs.map(dongeng => dongeng.PdfPath)
+
+      // const thumbnailsss = 
+      // setThumbnail(loadThumbnails(url))
+      // console.log(thumbnailsss)
+      setThumbnail(await loadThumbnails(url))
+      console.log(thumbnail)
+
+      let spliter = []
+      thumbnail.forEach((thumb, index) => {
+        let trim = thumb.split(",")
+        spliter.push([])
+        spliter[index].push(trim[0])
+        spliter[index].push(trim[1])
+      })
+
+      setThumbnail(spliter)
+
+      console.log(thumbnail)
     }
+
     fetchDongeng()
   }, []);
 
 
   return (
     <>
-      <Template content={(<main>
+      <Header />
+      <main>
         <section className="bg-hero k-hero">
           <section className="container py-4">
             <section className="d-flex flex-column flex-lg-row">
@@ -74,16 +100,16 @@ const Katalog = () => {
                       placeholder="Cari buku disini"
                       aria-label="Cari buku disini"
                     />
-                    <button className="btn btn-orange text-white" type="button">
+                    <button className="btn btn-orange text-white" type="button" onClick={() => console.log(thumbnail)}>
                       Cari
                     </button>
                   </section>
                 </section>
               </section>
               <section className="row">
-                {dongengs.map((dongeng) => (
+                {dongengs.map((dongeng, index) => (
                   <section className="col-lg-4 my-2" key={dongeng.id}>
-                    <a href="#" className="text-decoration-none text-dark">
+                    <a href={`/dongeng/detail/${dongeng.id}`} className="text-decoration-none text-dark">
                       <section className="card border-0 mt-3 CardBook_card">
                         <section
                           className="card-header text-center text-lg-start bg-white p-0 border-0"
@@ -94,8 +120,10 @@ const Katalog = () => {
                             backgroundPosition: "center bottom",
                           }}
                         >
+
                           <img
-                            src="https://static.buku.kemdikbud.go.id/content/image/coverteks/coverkurikulum21/Projek_Penguatan_Profil_Pelajar_Pancasila_BG_Paud_Cover.png"
+                            // src={`${thumbnail[0].split(',')[0]}, ${thumbnail[0].split(',')[1]}`}
+                            // src={`${thumbnail[index].split(",")[0]}`}
                             className="CardBook_img"
                             alt=""
                           />
@@ -117,8 +145,8 @@ const Katalog = () => {
             </section>
           </section>
         </section>
-      </main>)}>
-      </Template>
+      </main>
+      <Footer />
 
     </>
   );

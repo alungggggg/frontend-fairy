@@ -23,18 +23,35 @@ const addUser = () => {
     if (!validator.isByteLength(nama, { min: 4 })) {
       setNamaMessage(`Karakter Nama terlalu sedikit!`);
     }
+    if (nama.length == 0) {
+      setNamaMessage(`Field Nama wajib diisi!`);
+    }
 
     if (!validator.isEmail(email)) {
       setEmailMessage(`Email tidak valid!`);
+    }
+
+    if (email.length == 0) {
+      setEmailMessage(`Field Email wajib diisi!`);
     }
 
     if (!validator.isByteLength(password, { min: 8 })) {
       setPasswordMessage(`Minimal password harus berisi 8 karakter!`);
     }
 
+    if (password.length == 0) {
+      setPasswordMessage(`Field Password wajib diisi!`);
+    }
+
+    if (confirmPassword.length == 0) {
+      setNamaMessage(`Field Confirm Password wajib diisi!`);
+    }
+
     if (password != confirmPassword) {
       setConfirmPasswordMessage(`Password dan Confrim Password tidak sama!`);
     }
+
+
 
     try {
       const result = await axios.post(
