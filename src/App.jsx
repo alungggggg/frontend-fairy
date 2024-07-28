@@ -14,7 +14,7 @@ function App() {
           <Route path="/katalog" element={<kernel.katalog />} />
           <Route path="/Petunjuk" element={<kernel.petunjuk />} />
           <Route path="/dongeng/detail/:id" element={<kernel.detail />} />
-          <Route path="/dongeng/read" element={<kernel.dongengView />} />
+          <Route path="/dongeng/read/:id" element={<kernel.dongengView />} />
 
           <Route path="/login" element={<kernel.login />} />
           <Route path="/register" element={<kernel.register />} />

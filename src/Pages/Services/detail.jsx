@@ -2,10 +2,11 @@ import Template from "../template/template";
 import { loadThumbnail } from "../Component/thumbnail";
 import { useState, useEffect, useRef } from "react";
 import axios from "axios";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 
 
 const Detail = () => {
+  const navigate = useNavigate()
   const [thumbnailUrl, setThumbnailUrl] = useState(null);
   const { id } = useParams();
   const [detail, setDetail] = useState([]);
@@ -82,7 +83,7 @@ const Detail = () => {
                       Buku PDF
                     </button>
                     <h3 className="my-3">{detail.title}</h3>
-                    <button className="btn btn-sm btn-outline-primary py-2 mt-2">
+                    <button className="btn btn-sm btn-outline-primary py-2 mt-2" onClick={() => navigate(`/dongeng/read/${id}`)}>
                       <svg
                         xmlns="http://www.w3.org/2000/svg"
                         width="16"

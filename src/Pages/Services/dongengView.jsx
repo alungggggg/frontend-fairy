@@ -1,9 +1,11 @@
 import "react-pdf/dist/esm/Page/AnnotationLayer.css"
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import HTMLFlipBook from 'react-pageflip';
 import { pdfjs, Document, Page } from 'react-pdf';
 import Header from "../template/header";
 import Footer from "../template/footer";
+import axios from "axios";
+import { useParams } from "react-router-dom";
 
 pdfjs.GlobalWorkerOptions.workerSrc = new URL(
     'pdfjs-dist/build/pdf.worker.min.mjs',
@@ -12,8 +14,27 @@ pdfjs.GlobalWorkerOptions.workerSrc = new URL(
 
 
 const dongeng = () => {
+    const { id } = useParams()
+    const [file, setFile] = useState("")
+
+
+
+    useEffect(() => {
+        const getFile = async () => {
+            try {
+                const Response = await axios.get(`http://localhost:5000/api/dongeng/${id}`)
+                setFile(Response.data.PdfPath)
+            } catch (error) {
+                console.log(error.message)
+            }
+        }
+        getFile()
+        console.log(file)
+    }, [])
     const [numPages, setNumPages] = useState(null);
     const [pageNumber, setPageNumber] = useState(1);
+
+
 
     function onDocumentLoadSuccess({ numPages }) {
         setNumPages(numPages);
@@ -31,7 +52,7 @@ const dongeng = () => {
         <>
             <Header />
             <div>
-                <Document file="http://localhost:5000/pdf/1.pdf" onLoadSuccess={onDocumentLoadSuccess}>
+                <Document file={file} onLoadSuccess={onDocumentLoadSuccess}>
                     <HTMLFlipBook width={500} height={707}>
                         {pagesList()}
                     </HTMLFlipBook>
