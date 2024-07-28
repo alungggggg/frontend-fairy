@@ -20,7 +20,6 @@ const login = () => {
         icon: status,
       });
     }
-    getUser();
   }, []);
 
   const submit = async (e) => {

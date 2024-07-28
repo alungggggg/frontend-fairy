@@ -1,6 +1,8 @@
-import addUser from "./Admin/addUser";
 import dongeng from "./Admin/dongeng";
+import addDongeng from "./Admin/addDongeng"
 import updateDongeng from "./Admin/updateDongeng";
+
+import addUser from "./Admin/addUser";
 import updateUser from "./Admin/updateUser"
 import user from "./Admin/user"
 
@@ -15,4 +17,4 @@ import katalog from "./Services/katalog";
 import petunjuk from "./Services/petunjuk";
 
 
-export default { addUser, dongeng, updateDongeng, updateUser, user, login, logout, register, detail, dongengView, home, katalog, petunjuk };
+export default { addDongeng, addUser, dongeng, updateDongeng, updateUser, user, login, logout, register, detail, dongengView, home, katalog, petunjuk };

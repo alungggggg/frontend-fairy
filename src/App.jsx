@@ -25,6 +25,7 @@ function App() {
           <Route path="/users/update/:id" element={<kernel.updateUser />} />
 
           <Route path="/dongeng" element={<kernel.dongeng />} />
+          <Route path="/dongeng/add" element={<kernel.addDongeng />} />
           <Route path="/dongeng/update/:id" element={<kernel.updateDongeng />} />
           <Route path="/test" element={<Test />} />
         </Routes>

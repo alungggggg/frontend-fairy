@@ -1,6 +1,5 @@
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-// import validator from "validator";
 import * as yup from "yup";
 import { Formik, Form, Field, ErrorMessage } from 'formik';
 import axios from "axios";
@@ -8,6 +7,7 @@ import Header from "../template/header";
 import Footer from "../template/footer";
 
 const post = async ({ nama, email, password, confirmPassword }) => {
+  const navigate = useNavigate()
   try {
     const result = await axios.post("http://localhost:5000/api/register", {
       nama,
@@ -26,7 +26,6 @@ const post = async ({ nama, email, password, confirmPassword }) => {
 const schema = yup.object().shape({
   nama: yup.string().required().min(4),
   email: yup.string().email('Email tidak valid').required('Email wajib diisi').test("Unique", "Email sudah terdaftar", async (value) => {
-    console.log(value);
     const nunique = await axios.get(`http://localhost:5000/api/email?search=${value}`)
     console.log(nunique.data.isAvailable)
     return nunique.data.isAvailable
