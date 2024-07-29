@@ -3,9 +3,7 @@ import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import kernel from "./Pages/kernel";
 import Test from "./Pages/test";
 
-
 function App() {
-
   return (
     <>
       <Router>
@@ -15,6 +13,7 @@ function App() {
           <Route path="/Petunjuk" element={<kernel.petunjuk />} />
           <Route path="/dongeng/detail/:id" element={<kernel.detail />} />
           <Route path="/dongeng/read/:id" element={<kernel.dongengView />} />
+          <Route path="/err" element={<kernel.err404 />} />
 
           <Route path="/login" element={<kernel.login />} />
           <Route path="/register" element={<kernel.register />} />
@@ -26,10 +25,13 @@ function App() {
 
           <Route path="/dongeng" element={<kernel.dongeng />} />
           <Route path="/dongeng/add" element={<kernel.addDongeng />} />
-          <Route path="/dongeng/update/:id" element={<kernel.updateDongeng />} />
+          <Route
+            path="/dongeng/update/:id"
+            element={<kernel.updateDongeng />}
+          />
           <Route path="/test" element={<Test />} />
         </Routes>
-      </Router >
+      </Router>
     </>
   );
 }
