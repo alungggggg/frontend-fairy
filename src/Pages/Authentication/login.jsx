@@ -1,11 +1,12 @@
 import Header from "../template/header";
 import Footer from "../template/footer";
 import * as Yup from "yup"
-import errorMessage from "../../Component/errorMessage";
-import { Formik, Form, Field, ErrorMessage } from 'formik';
+import swal from "../../Component/alert"
+import { Formik, Form, Field } from 'formik';
 import { useState, useEffect } from "react";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import axios from "axios";
+
 
 const isEmailUnique = async (email) => {
   try {
@@ -39,18 +40,15 @@ const AuthError = () => (<p className="text-danger">email or password is incorre
 
 const login = () => {
   const navigate = useNavigate()
+  const location = useLocation();
+  const [error, setError] = useState("")
+  const { message, status } = location.state || {};
 
-  const [message, setMessage] = useState("")
-
-  // useEffect(() => {
-  //   if (message) {
-  //     Swal.fire({
-  //       title: status,
-  //       text: message,
-  //       icon: status,
-  //     });
-  //   }
-  // }, []);
+  useEffect(() => {
+    if (message) {
+      swal(message, status);
+    }
+  }, []);
 
   const submit = async ({ email, password }) => {
     try {
@@ -61,8 +59,7 @@ const login = () => {
       localStorage.setItem("token", result.data.token);
       navigate("/");
     } catch (err) {
-      console.log(err);
-      setMessage("Email atau Kata Sandi salah!")
+      setError("Email atau Kata Sandi salah!")
     }
   };
 
@@ -74,7 +71,7 @@ const login = () => {
           <h2 className="text-blue mt-4 mt-md-0">Masuk</h2>
           <section className="card mt-2 shadow">
             <section className="card-body p-4">
-              {(message != "") ? <AuthError /> : ""}
+              {(error != "") ? <AuthError /> : ""}
               <Formik initialValues={{ email: '', password: '' }}
                 validationSchema={schema} validateOnChange={false} validateOnBlur={false}
                 onSubmit={(values, { setSubmitting, errors }) => {
@@ -90,12 +87,6 @@ const login = () => {
                       className="form-control"
                       placeholder="Masukan alamat email"
                     />
-
-                    <ErrorMessage
-                      name="email"
-                      render={errorMessage}
-                    />
-
 
                   </section>
                   <section className="form-group my-4">
@@ -115,11 +106,6 @@ const login = () => {
                         type="password"
                         className="form-control"
                         placeholder="Masukan kata sandi"
-                      />
-
-                      <ErrorMessage
-                        name="password"
-                        render={errorMessage}
                       />
                     </section>
                   </section>

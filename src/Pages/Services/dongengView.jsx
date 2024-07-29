@@ -78,8 +78,8 @@ const dongeng = () => {
       </button>
       <section className="container" id="container">
         <Document
-          //   file="http://localhost:5000/pdf/2f9d219ac88da3da098b31098a2fb831.pdf"
-          file="http://localhost:5000/pdf/IMG-20240722-WA0008 (1).pdf"
+          file={file}
+          // file="http://localhost:5000/pdf/IMG-20240722-WA0008 (1).pdf"
           onLoadSuccess={onDocumentLoadSuccess}
         >
           <HTMLFlipBook

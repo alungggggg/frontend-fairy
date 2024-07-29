@@ -1,7 +1,8 @@
 import Header from "../template/header";
 import Footer from "../template/footer";
 import axios from "axios";
-import Swal from "sweetalert2";
+import swal, { confirmSwal } from "../../Component/alert";
+
 import { useState, useEffect } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
 
@@ -21,24 +22,25 @@ const User = () => {
 
   useEffect(() => {
     if (message) {
-      Swal.fire({
-        title: status,
-        text: message,
-        icon: status,
-      });
+      swal(message, status)
     }
     getUser();
   }, []);
 
   const deleteUser = async (key) => {
-    const result = await axios.delete(
-      `http://localhost:5000/api/users/${key}`,
-      {
-        headers: { Authorization: `Bearer ${localStorage.getItem("token")}` },
+    confirmSwal("Peringatan", "Anda yakin ingin menghapus user ini?").then(async (result) => {
+      if (result.isConfirmed) {
+        const result = await axios.delete(
+          `http://localhost:5000/api/users/${key}`,
+          {
+            headers: { Authorization: `Bearer ${localStorage.getItem("token")}` },
+          }
+        );
+        getUser();
+        swal("User Berhasil di hapus", "success")
       }
-    );
-    console.log(result);
-    getUser();
+    })
+
   };
   const updateUser = (key) => {
     navigate(`/users/update/${key}`);
@@ -51,47 +53,6 @@ const User = () => {
   return (
     <>
       <Header></Header>
-      {/* <section className="container">
-        <section className="card">
-          <section className="card-body">
-            <button
-              className="btn btn-orange py-2 text-white"
-              onClick={addUser}
-            >
-              Add User
-            </button>
-            <table className="container p-4 mt-5">
-              <thead className="border-bottom border-black">
-                <tr className="">
-                  <th className="">No.</th>
-                  <th>Nama</th>
-                  <th>Email</th>
-                  <th>Created At</th>
-                  <th>Updated At</th>
-                  <th>Aksi</th>
-                </tr>
-              </thead>
-              <tbody>
-                {users.map((user, index) => (
-                  <tr key={user.id}>
-                    <td>{index + 1}</td>
-                    <td>{user.nama}</td>
-                    <td>{user.email}</td>
-                    <td>{user.createdAt}</td>
-                    <td>{user.updatedAt}</td>
-                    <td>
-                      <button onClick={() => updateUser(user.id)}>
-                        update
-                      </button>
-                      <button onClick={() => deleteUser(user.id)}>hapus</button>
-                    </td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
-          </section>
-        </section>
-      </section> */}
       <section className="container mt-4 mb-4">
         <section className="card">
           <section className="card-header">

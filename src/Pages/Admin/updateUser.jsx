@@ -1,65 +1,110 @@
-import { useNavigate, useParams } from "react-router-dom"
-import { useEffect, useState } from "react"
-import validator from "validator"
-import axios from "axios"
+import { useNavigate, useParams } from "react-router-dom";
+import { useEffect, useState } from "react";
+import axios from "axios";
+import { Formik, Form, Field, ErrorMessage } from "formik";
+import { updateSchema, updateSchemaWithPassword } from "../../../validation/userValidate";
+import errorMessage from "../../Component/errorMessage";
 
-const updateUser = () => {
+const submit = async (values, id, navigate) => {
+    try {
+        const result = await axios.patch(
+            `http://localhost:5000/api/users/${id}`,
+            { nama: values.nama, email: values.email, password: values.password },
+            { headers: { "Authorization": `Bearer ${localStorage.getItem("token")}` } }
+        );
+        navigate('/users', { state: { message: 'User Berhasil di Ubah!', status: 'success' } });
+    } catch (error) {
+        console.error("Error updating user:", error.message);
+    }
+};
+
+const IsChangePass = () => (
+    <>
+        <Field name="password" type="password" placeholder="Password" />
+        <ErrorMessage name="password" render={errorMessage} />
+        <Field name="confirmPassword" type="password" placeholder="Confirm Password" />
+        <ErrorMessage name="confirmPassword" render={errorMessage} />
+    </>
+);
+
+const UpdateUser = () => {
+    const navigate = useNavigate();
+    const { id } = useParams();
+    const [user, setUser] = useState(null);
+    const [isChangePass, setIsChangePass] = useState(false);
+    const [validationSchema, setValidationSchema] = useState(updateSchema);
 
     useEffect(() => {
-        getUser()
-    }, [])
+        const getUser = async () => {
+            try {
+                const result = await axios.get(`http://localhost:5000/api/users/${id}`, {
+                    headers: { "Authorization": `Bearer ${localStorage.getItem("token")}` }
+                });
+                setUser(result.data);
+            } catch (error) {
+                console.log(error.message);
+            }
+        };
 
-    const navigate = useNavigate()
-    const { id } = useParams()
+        getUser();
+    }, [id]);
 
-    const [nama, setNama] = useState('')
-    const [email, setEmail] = useState('')
-
-    const [msgNama, setMsgNama] = useState('')
-    const [msgEmail, setMsgEmail] = useState('')
-
-    const getUser = async () => {
-        const result = await axios.get(`http://localhost:5000/api/users/${id}`, {
-            headers: { "Authorization": `Bearer ${localStorage.getItem("token")}` }
-        })
-        setNama(result.data.nama)
-        setEmail(result.data.email)
-        console.log('p')
-    }
-
-    const submit = async (e) => {
-        e.preventDefault()
-        if (!validator.isByteLength(nama, { min: 4 })) {
-            setMsgNama(`Karakter Nama terlalu sedikit!`)
+    useEffect(() => {
+        // Update schema validation when checkbox changes
+        if (isChangePass) {
+            setValidationSchema(updateSchemaWithPassword);
+        } else {
+            setValidationSchema(updateSchema);
         }
+    }, [isChangePass]);
 
-        const result = await axios.patch(`http://localhost:5000/api/users/${id}`, { nama, email }, { headers: { "Authorization": `Bearer ${localStorage.getItem("token")}` } })
-        navigate('/users', { state: { message: 'User Berhasil di Ubah!', status: 'success' } });
+    if (user === null) {
+        return <div>Loading...</div>;
     }
-
-
-
-
 
     return (
-        <>
-            <form action="">
-                <label htmlFor="">
-                    nama
-                </label>
-                <input type="text" value={nama} onChange={(e) => {
-                    setNama(e.target.value)
-                    setMsgNama("")
-                }} />
+        <Formik
+            initialValues={{ nama: user.nama, email: user.email, password: '', confirmPassword: '' }}
+            validationSchema={validationSchema}
+            validateOnChange={false}
+            validateOnBlur={false}
+            onSubmit={(values, { setSubmitting }) => {
+                submit(values, id, navigate);
+                setSubmitting(false);
+            }}
+        >
+            {({ values, setFieldValue }) => (
+                <Form>
+                    <label htmlFor="nama">Nama</label>
+                    <Field type="text" name="nama" />
+                    <ErrorMessage name="nama" render={errorMessage} />
 
-                <label htmlFor="">
-                    email
-                </label>
-                <input type="email" value={email} disabled />
-                <button type="submit" onClick={submit}>submit</button>
-            </form>
-        </>
-    )
-}
+                    <label htmlFor="email">Email</label>
+                    <Field type="email" name="email" disabled />
+                    <ErrorMessage name="email" render={errorMessage} />
 
-export default updateUser;
+                    <input
+                        type="checkbox"
+                        onChange={() => {
+                            setIsChangePass(!isChangePass);
+                            if (!isChangePass) {
+                                setFieldValue('password', '');
+                                setFieldValue('confirmPassword', '');
+                            } else {
+                                setFieldValue('password', undefined);
+                                setFieldValue('confirmPassword', undefined);
+                            }
+                        }}
+                        checked={isChangePass}
+                    />
+
+                    {isChangePass && <IsChangePass />}
+
+                    <button type="submit">Submit</button>
+                </Form>
+            )}
+        </Formik>
+    );
+};
+
+export default UpdateUser;
