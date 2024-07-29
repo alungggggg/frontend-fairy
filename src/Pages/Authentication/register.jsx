@@ -26,14 +26,16 @@ const post = async ({ nama, email, password, confirmPassword }) => {
 const schema = yup.object().shape({
   nama: yup.string().required().min(4),
   email: yup.string().email('Email tidak valid').required('Email wajib diisi').test("Unique", "Email sudah terdaftar", async (value) => {
-    const nunique = await axios.get(`http://localhost:5000/api/email?search=${value}`)
-    console.log(nunique.data.isAvailable)
+    const nunique = await axios.get(`http://localhost:5000/api/auth/alreadyexist/email?search=${value}`)
     return nunique.data.isAvailable
   }),
   password: yup.string()
-    .required('Password wajib diisi')
-    .min(8, 'Password minimal 8 karakter')
-    .matches(/[a-zA-Z]/, 'Password harus mengandung huruf'),
+    .required('Password is required')
+    .min(8, 'Password must be at least 8 characters')
+    .matches(/[A-Z]/, 'Password must contain at least one uppercase letter')
+    .matches(/[a-z]/, 'Password must contain at least one lowercase letter')
+    .matches(/\d/, 'Password must contain at least one number')
+    .matches(/(?=.*[!@#$%^&*(),.?":{}|<>])/, 'Password must contain at least one special character'),
   confirmPassword: yup.string()
     .oneOf([yup.ref('password'), null], 'Password dan Konfirmasi Password harus sama')
     .required('Konfirmasi Password wajib diisi')
