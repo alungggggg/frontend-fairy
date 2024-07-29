@@ -48,6 +48,7 @@ const schema = yup.object().shape({
       "Password dan Konfirmasi Password harus sama"
     )
     .required("Konfirmasi Password wajib diisi"),
+
 });
 
 const errorMessage = (message) => (
