@@ -156,7 +156,7 @@ const Home = () => {
             <section className="row align-items-center">
               <section className="col-lg-6">
                 <h3 className="fw-bold">
-                  Buku
+                  Buku&nbsp;
                   <section className="d-inline-flex flex-column">
                     <span>Terpopuler</span>
                     <span className="mtmin">
@@ -321,7 +321,7 @@ const Home = () => {
         >
           <section className="container p-3">
             <h3 className="fw-bold">
-              Akses buku
+              Akses buku&nbsp;
               <section className="d-inline-flex flex-column">
                 <span>Lebih Mudah</span>
                 <span className="mtmin">
@@ -445,7 +445,7 @@ const Home = () => {
             <section className="row align-items-center">
               <section className="col-lg-6">
                 <h3 className="fw-bold">
-                  Buku
+                  Buku&nbsp;
                   <section className="d-inline-flex flex-column">
                     <span>Audio</span>
                     <span className="mtmin">
@@ -610,7 +610,7 @@ const Home = () => {
         >
           <section className="container p-3">
             <h3 className="fw-bold">
-              Buku
+              Buku&nbsp;
               <section className="d-inline-flex flex-column">
                 <span>untuk semua</span>
                 <span className="mtmin">
@@ -917,8 +917,8 @@ const Home = () => {
         </section>
       </main>
       <Footer />
-    </>);
+    </>
+  );
 };
 
 export default Home;
-
