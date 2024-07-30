@@ -22,25 +22,28 @@ const User = () => {
 
   useEffect(() => {
     if (message) {
-      swal(message, status)
+      swal(message, status);
     }
     getUser();
   }, []);
 
   const deleteUser = async (key) => {
-    confirmSwal("Peringatan", "Anda yakin ingin menghapus user ini?").then(async (result) => {
-      if (result.isConfirmed) {
-        const result = await axios.delete(
-          `http://localhost:5000/api/users/${key}`,
-          {
-            headers: { Authorization: `Bearer ${localStorage.getItem("token")}` },
-          }
-        );
-        getUser();
-        swal("User Berhasil di hapus", "success")
+    confirmSwal("Peringatan", "Anda yakin ingin menghapus user ini?").then(
+      async (result) => {
+        if (result.isConfirmed) {
+          const result = await axios.delete(
+            `http://localhost:5000/api/users/${key}`,
+            {
+              headers: {
+                Authorization: `Bearer ${localStorage.getItem("token")}`,
+              },
+            }
+          );
+          getUser();
+          swal("User Berhasil di hapus", "success");
+        }
       }
-    })
-
+    );
   };
   const updateUser = (key) => {
     navigate(`/users/update/${key}`);
@@ -80,10 +83,16 @@ const User = () => {
                       <td>{user.createdAt}</td>
                       <td>{user.updatedAt}</td>
                       <td>
-                        <button onClick={() => updateUser(user.id)}>
+                        <button
+                          className="btn btn-sm btn-succes border"
+                          onClick={() => updateUser(user.id)}
+                        >
                           update
                         </button>
-                        <button onClick={() => deleteUser(user.id)}>
+                        <button
+                          className="btn btn-sm btn-danger border"
+                          onClick={() => deleteUser(user.id)}
+                        >
                           hapus
                         </button>
                       </td>
