@@ -93,7 +93,7 @@ const Home = () => {
               </section>
               <p className="text-white">Kali buku dibaca</p>
             </section>
-            <section className="col-6 col-lg-2">
+            {/* <section className="col-6 col-lg-2">
               <section className="position-relative">
                 <section className="position-relative" style={{ zIndex: 100 }}>
                   <span className="text-white fs-1 fw-bold">5.139.718</span>
@@ -106,7 +106,7 @@ const Home = () => {
                 />
               </section>
               <p className="text-white">Kali buku diunduh</p>
-            </section>
+            </section> */}
             <section className="col-6 col-lg-2">
               <section className="position-relative">
                 <section className="position-relative" style={{ zIndex: 100 }}>
@@ -121,7 +121,7 @@ const Home = () => {
               </section>
               <p className="text-white">Buku tersedia</p>
             </section>
-            <section className="col-6 col-lg-2">
+            {/* <section className="col-6 col-lg-2">
               <section className="position-relative">
                 <section className="position-relative" style={{ zIndex: 100 }}>
                   <span className="text-white fs-1 fw-bold">5.139.718</span>
@@ -134,7 +134,7 @@ const Home = () => {
                 />
               </section>
               <p className="text-white">Buku lulus penilaian</p>
-            </section>
+            </section> */}
             <section className="col-6 col-lg-2">
               <section className="position-relative">
                 <section className="position-relative" style={{ zIndex: 100 }}>

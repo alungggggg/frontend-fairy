@@ -1,5 +1,5 @@
 import "react-pdf/dist/esm/Page/AnnotationLayer.css";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import HTMLFlipBook from "react-pageflip";
 import { pdfjs, Document, Page } from "react-pdf";
 import Header from "../template/header";
@@ -13,6 +13,7 @@ pdfjs.GlobalWorkerOptions.workerSrc = new URL(
 ).toString();
 
 const dongeng = () => {
+  const book = useRef();
   const { id } = useParams();
   const [file, setFile] = useState("");
 
@@ -57,42 +58,109 @@ const dongeng = () => {
   return (
     <>
       <Header />
-      <button
-        onClick={() => {
-          let container = document.getElementById("container");
-          if (container.requestFullscreen) {
-            container.requestFullscreen();
-          } else if (container.mozRequestFullScreen) {
-            // Firefox
-            container.mozRequestFullScreen();
-          } else if (container.webkitRequestFullscreen) {
-            // Chrome, Safari and Opera
-            container.webkitRequestFullscreen();
-          } else if (container.msRequestFullscreen) {
-            // IE/Edge
-            container.msRequestFullscreen();
-          }
-        }}
-      >
-        Fullscreen
-      </button>
-      <section className="container" id="container">
-        <Document
-          file={file}
-          // file="http://localhost:5000/pdf/IMG-20240722-WA0008 (1).pdf"
-          onLoadSuccess={onDocumentLoadSuccess}
-        >
-          <HTMLFlipBook
-            showCover={true}
-            width={500}
-            height={500}
-            usePortrait={false}
-          >
-            {pagesList()}
-          </HTMLFlipBook>
-        </Document>
-        {/* <section className="ms-5"></section> */}
+      <section className="container mt-3 mb-3" id="container">
+        <section className="card">
+          <section className="card-title border-bottom z-1">
+            <h1 className="fw-bold fs-5 p-2 m-0 float-left m-2">Judul</h1>
+            <button
+              className="btn btn-succes border-black fw-bold float-right p-2 m-2"
+              onClick={() => {
+                let container = document.getElementById("container");
+                if (container.requestFullscreen) {
+                  container.requestFullscreen();
+                } else if (container.mozRequestFullScreen) {
+                  // Firefox
+                  container.mozRequestFullScreen();
+                } else if (container.webkitRequestFullscreen) {
+                  // Chrome, Safari and Opera
+                  container.webkitRequestFullscreen();
+                } else if (container.msRequestFullscreen) {
+                  // IE/Edge
+                  container.msRequestFullscreen();
+                }
+              }}
+            >
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="16"
+                height="16"
+                fill="currentColor"
+                className="bi bi-fullscreen me-1 mb-1"
+                viewBox="0 0 16 16"
+              >
+                <path d="M1.5 1a.5.5 0 0 0-.5.5v4a.5.5 0 0 1-1 0v-4A1.5 1.5 0 0 1 1.5 0h4a.5.5 0 0 1 0 1zM10 .5a.5.5 0 0 1 .5-.5h4A1.5 1.5 0 0 1 16 1.5v4a.5.5 0 0 1-1 0v-4a.5.5 0 0 0-.5-.5h-4a.5.5 0 0 1-.5-.5M.5 10a.5.5 0 0 1 .5.5v4a.5.5 0 0 0 .5.5h4a.5.5 0 0 1 0 1h-4A1.5 1.5 0 0 1 0 14.5v-4a.5.5 0 0 1 .5-.5m15 0a.5.5 0 0 1 .5.5v4a1.5 1.5 0 0 1-1.5 1.5h-4a.5.5 0 0 1 0-1h4a.5.5 0 0 0 .5-.5v-4a.5.5 0 0 1 .5-.5" />
+              </svg>
+              Fullscreen
+            </button>
+          </section>
+          <section className="card-body">
+            <Document
+              file={file}
+              // file="http://localhost:5000/pdf/IMG-20240722-WA0008 (1).pdf"
+              onLoadSuccess={onDocumentLoadSuccess}
+            >
+              <HTMLFlipBook
+                ref={book}
+                showCover={true}
+                width={500}
+                height={500}
+                usePortrait={false}
+              >
+                {pagesList()}
+              </HTMLFlipBook>
+            </Document>
+            <button
+              className="carousel-control-prev"
+              type="button"
+              data-bs-target="#carouselExample"
+              data-bs-slide="prev"
+              onClick={() => book.current.pageFlip().flipPrev()}
+            >
+              <span
+                className="carousel-control-prev-icon bg-dark"
+                aria-hidden="true"
+              ></span>
+              <span className="visually-hidden">Previous</span>
+            </button>
+            <button
+              className="carousel-control-next"
+              type="button"
+              data-bs-target="#carouselExample"
+              data-bs-slide="next"
+              onClick={() => book.current.pageFlip().flipNext()}
+            >
+              <span
+                className="carousel-control-next-icon bg-dark"
+                aria-hidden="true"
+              ></span>
+              <span className="visually-hidden">Next</span>
+            </button>
+            {/* <section className="ms-5"></section> */}
+          </section>
+        </section>
       </section>
+
+      {/* <section className="container-content container-content-dialog">
+        <section className="content-header">
+          <h1>Title</h1>
+        </section>
+        <section className="content-panel">
+          <Document
+            file={file}
+            // file="http://localhost:5000/pdf/IMG-20240722-WA0008 (1).pdf"
+            onLoadSuccess={onDocumentLoadSuccess}
+          >
+            <HTMLFlipBook
+              showCover={true}
+              width={500}
+              height={500}
+              usePortrait={false}
+            >
+              {pagesList()}
+            </HTMLFlipBook>
+          </Document>
+        </section>
+      </section> */}
       <Footer />
     </>
   );

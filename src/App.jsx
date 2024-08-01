@@ -13,7 +13,7 @@ function App() {
           <Route path="/Petunjuk" element={<kernel.petunjuk />} />
           <Route path="/dongeng/detail/:id" element={<kernel.detail />} />
           <Route path="/dongeng/read/:id" element={<kernel.dongengView />} />
-          <Route path="/err" element={<kernel.err404 />} />
+          <Route path="*" element={<kernel.err404 />} />
 
           <Route path="/login" element={<kernel.login />} />
           <Route path="/register" element={<kernel.register />} />
