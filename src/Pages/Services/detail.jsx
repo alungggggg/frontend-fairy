@@ -1,5 +1,4 @@
 import Template from "../template/template";
-import { loadThumbnail } from "../Component/thumbnail";
 import { useState, useEffect, useRef } from "react";
 import axios from "axios";
 import { useNavigate, useParams } from "react-router-dom";
@@ -7,7 +6,6 @@ import { useNavigate, useParams } from "react-router-dom";
 
 const Detail = () => {
   const navigate = useNavigate()
-  const [thumbnailUrl, setThumbnailUrl] = useState(null);
   const { id } = useParams();
   const [detail, setDetail] = useState([]);
 
@@ -17,11 +15,11 @@ const Detail = () => {
         `http://localhost:5000/api/dongeng/${id}`
       );
       setDetail(response.data);
-      setThumbnailUrl(await loadThumbnail(detail.PdfPath));
     };
     fetchDetail();
   }, []);
 
+  console.log(detail.cover)
   return (
     <>
       <Template
@@ -76,7 +74,7 @@ const Detail = () => {
                   }}
                 >
                   <section className="col-lg-3 text-center d-flex align-items-center justify-content-center">
-                    <img src={thumbnailUrl} className="hero-detail" alt="" />
+                    <img src={detail.cover} className="hero-detail" alt="" />
                   </section>
                   <section className="col-lg-9 pt-5 pt-md-0">
                     <button className="btn btn-sm rounded-pill btn-outline-danger">
