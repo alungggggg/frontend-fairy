@@ -1,5 +1,6 @@
 import Header from "../template/header";
 import Footer from "../template/footer";
+import PaginatedItems from "../test";
 import { loadThumbnail, loadThumbnails } from "../Component/thumbnail"
 import { useState, useEffect } from "react";
 import axios from "axios";
@@ -8,6 +9,8 @@ const Katalog = () => {
   const [dongengs, setDongeng] = useState([]);
   // const [thumbnail, setThumbnail] = useState([]);
   const [thumbnail, setThumbnail] = useState([]);
+  const [search, setSearch] = useState("asd");
+
 
   useEffect(() => {
     const fetchDongeng = async () => {
@@ -38,6 +41,15 @@ const Katalog = () => {
     fetchDongeng()
   }, []);
 
+  const [indexDongeng, setIndexDongeng] = useState({ start: 0, end: 9 })
+
+  let dongensFilter = dongengs.filter((element, index) => element.title.includes(search));
+
+  function setDongengSearch() {
+    alert(search)
+  }
+
+  let filteredDongens = dongengs.filter((element, index) => element.title.includes(search));
 
   return (
     <>
@@ -99,15 +111,16 @@ const Katalog = () => {
                       className="form-control py-2 border-start-0 border-end-0 px-1"
                       placeholder="Cari buku disini"
                       aria-label="Cari buku disini"
+                      onChange={(e) => setSearch(e.target.value)}
                     />
-                    <button className="btn btn-orange text-white" type="button" onClick={() => console.log(thumbnail)}>
+                    <button className="btn btn-orange text-white" type="button" onClick={setDongengSearch}>
                       Cari
                     </button>
                   </section>
                 </section>
               </section>
               <section className="row">
-                {dongengs.map((dongeng, index) => (
+                {filteredDongens.map((dongeng, index) => (
                   <section className="col-lg-4 my-2" key={dongeng.id}>
                     <a href={`/dongeng/detail/${dongeng.id}`} className="text-decoration-none text-dark">
                       <section className="card border-0 mt-3 CardBook_card">
@@ -145,6 +158,7 @@ const Katalog = () => {
             </section>
           </section>
         </section>
+        <PaginatedItems itemsPerPage={9} setIndexDongeng={(e) => setIndexDongeng(e)} dongengsLength={dongengs.length} dongengs={dongengs} />
       </main>
       <Footer />
 
