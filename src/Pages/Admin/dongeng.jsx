@@ -3,6 +3,7 @@ import Footer from "../template/footer";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
+import swal, { confirmSwal } from "../../Component/alert";
 
 const dongeng = () => {
   const navigate = useNavigate();
@@ -14,13 +15,20 @@ const dongeng = () => {
   };
 
   const deleteDongeng = async (id) => {
-    const result = await axios.delete(
-      `http://localhost:5000/api/dongeng/${id}`,
-      {
-        headers: { Authorization: `Bearer ${localStorage.getItem("token")}` },
+
+    confirmSwal("Peringatan", "Anda yakin ingin menghapus Dongeng ini?").then(async (result) => {
+      if (result.isConfirmed) {
+        const result = await axios.delete(
+          `http://localhost:5000/api/dongeng/${id}`,
+          {
+            headers: { Authorization: `Bearer ${localStorage.getItem("token")}` },
+          }
+        );
+        console.log(result);
+        getDongeng()
+        swal("Dongeng Berhasil di hapus", "success");
       }
-    );
-    console.log(result);
+    })
   };
 
   const updateDongeng = async (key) => {
@@ -54,7 +62,7 @@ const dongeng = () => {
                     <tr key={dongeng.id}>
                       <td>{index + 1}</td>
                       <td>{dongeng.title}</td>
-                      <td>Cover</td>
+                      <td><img src={dongeng.cover} alt="" /></td>
                       <td>
                         {/* () => deleteUser(user.id) */}
                         <button onClick={() => deleteDongeng(dongeng.id)}>

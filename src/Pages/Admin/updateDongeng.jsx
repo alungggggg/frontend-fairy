@@ -4,9 +4,9 @@ import * as Yup from 'yup';
 import axios from 'axios';
 import { useParams } from 'react-router-dom';
 
-const post = async ({ title, pdf }) => {
+const post = async ({ title, pdf }, id) => {
   try {
-    const response = await axios.post("http://localhost:5000/api/dongeng", {
+    const response = await axios.patch(`http://localhost:5000/api/dongeng/${id}`, {
       title, file: pdf
     }, {
       headers: {
@@ -63,7 +63,7 @@ const updateDongeng = () => {
       initialValues={{ pdf: null, title: dongeng.title }}
       validationSchema={schema}
       onSubmit={(values, { setSubmitting }) => {
-        post(values).then((response) => { console.log(response); });
+        post(values, id).then((response) => { console.log(response); });
         setSubmitting(false);
       }}
     >
