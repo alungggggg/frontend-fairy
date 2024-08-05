@@ -4,22 +4,33 @@ import axios from "axios";
 import { useNavigate, useParams } from "react-router-dom";
 
 
+const getData = async (id) => {
+  const response = await axios.get(
+    `http://localhost:5000/api/dongeng/${id}`
+  );
+  return response.data;
+};
+
+const sumview = async (id) => {
+  try {
+    const response = await axios.get(
+      `http://localhost:5000/api/dongengview/${id}`
+    );
+    return response.data;
+  } catch (error) {
+    console.log(error.message);
+  }
+}
+
 const Detail = () => {
   const navigate = useNavigate()
   const { id } = useParams();
   const [detail, setDetail] = useState([]);
 
   useEffect(() => {
-    const fetchDetail = async () => {
-      const response = await axios.get(
-        `http://localhost:5000/api/dongeng/${id}`
-      );
-      setDetail(response.data);
-    };
-    fetchDetail();
+    getData(id).then((res) => setDetail(res))
+    sumview(id).then((res) => { })
   }, []);
-
-  console.log(detail.cover)
   return (
     <>
       <Template

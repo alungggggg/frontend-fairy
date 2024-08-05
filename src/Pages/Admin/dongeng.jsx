@@ -1,43 +1,38 @@
 import Header from "../template/header";
 import Footer from "../template/footer";
 import axios from "axios";
+import ItemListDongeng from "./Component/itemListDongeng";
+import Pagination from "../../Component/pagination";
 import { useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
-import swal, { confirmSwal } from "../../Component/alert";
+
+const getDongeng = async () => {
+  const result = await axios.get("http://localhost:5000/api/dongeng");
+  return result.data
+};
 
 const dongeng = () => {
   const navigate = useNavigate();
-  const [dongengs, setDongeng] = useState([]);
 
-  const getDongeng = async () => {
-    const result = await axios.get("http://localhost:5000/api/dongeng");
-    setDongeng(result.data);
-  };
-
-  const deleteDongeng = async (id) => {
-
-    confirmSwal("Peringatan", "Anda yakin ingin menghapus Dongeng ini?").then(async (result) => {
-      if (result.isConfirmed) {
-        const result = await axios.delete(
-          `http://localhost:5000/api/dongeng/${id}`,
-          {
-            headers: { Authorization: `Bearer ${localStorage.getItem("token")}` },
-          }
-        );
-        console.log(result);
-        getDongeng()
-        swal("Dongeng Berhasil di hapus", "success");
-      }
-    })
-  };
-
-  const updateDongeng = async (key) => {
-    navigate(`/dongeng/update/${key}`);
-  };
+  const [currentPage, setCurrentPage] = useState(1);
+  const [itemsPerPage] = useState(3);
+  const [items, setItems] = useState([]);
+  const [searchTerm, setSearchTerm] = useState('');
 
   useEffect(() => {
-    getDongeng();
+    getDongeng().then((item) => setItems(item))
   }, []);
+
+  const filteredItems = items.filter(item =>
+    item.title.toLowerCase().includes(searchTerm.toLowerCase())
+  );
+
+  const indexOfLastItem = currentPage * itemsPerPage;
+  const indexOfFirstItem = indexOfLastItem - itemsPerPage;
+  const currentItems = filteredItems.slice(indexOfFirstItem, indexOfLastItem);
+
+  const paginate = pageNumber => setCurrentPage(pageNumber);
+
   return (
     <>
       <Header></Header>
@@ -51,33 +46,20 @@ const dongeng = () => {
               <table className="table m-0">
                 <thead>
                   <tr className="">
-                    <th className="">No.</th>
                     <th>Title</th>
                     <th>Cover</th>
                     <th>Aksi</th>
                   </tr>
                 </thead>
                 <tbody>
-                  {dongengs.map((dongeng, index) => (
-                    <tr key={dongeng.id}>
-                      <td>{index + 1}</td>
-                      <td>{dongeng.title}</td>
-                      <td><img src={dongeng.cover} alt="" /></td>
-                      <td>
-                        {/* () => deleteUser(user.id) */}
-                        <button onClick={() => deleteDongeng(dongeng.id)}>
-                          Delete
-                        </button>
-                        |
-                        <button onClick={() => updateDongeng(dongeng.id)}>
-                          Update
-                        </button>
-                        |<button>Preview</button>|
-                      </td>
-                    </tr>
-                  ))}
+                  <ItemListDongeng items={currentItems} getDongeng={getDongeng} />
                 </tbody>
               </table>
+              <Pagination
+                itemsPerPage={itemsPerPage}
+                totalItems={filteredItems.length}
+                paginate={paginate}
+              />
             </section>
           </section>
         </section>

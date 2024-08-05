@@ -9,6 +9,7 @@ import user from "./Admin/user";
 import login from "./Authentication/login";
 import logout from "./Authentication/logout";
 import register from "./Authentication/register";
+import forgotPassword from "./Authentication/forgotPassword";
 
 import detail from "./Services/detail";
 import dongengView from "./Services/dongengView";
@@ -16,6 +17,8 @@ import home from "./Services/home";
 import katalog from "./Services/katalog";
 import petunjuk from "./Services/petunjuk";
 import err404 from "./Services/404";
+
+import quiz from "./Services/Siswa/quiz";
 
 export default {
   addDongeng,
@@ -33,4 +36,6 @@ export default {
   katalog,
   petunjuk,
   err404,
+  quiz,
+  forgotPassword
 };

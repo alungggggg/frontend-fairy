@@ -2,23 +2,57 @@ import Header from "../template/header";
 import Footer from "../template/footer";
 import axios from "axios";
 import swal, { confirmSwal } from "../../Component/alert";
-
+import Pagination from "../../Component/pagination";
+import ItemListUser from "./Component/itemListUser";
 import { useState, useEffect } from "react";
-import { useNavigate, useLocation } from "react-router-dom";
+import { useLocation } from "react-router-dom";
+
+
+
 
 const User = () => {
-  const location = useLocation();
-  const navigate = useNavigate();
 
-  const { message, status } = location.state || {};
+  const [currentPage, setCurrentPage] = useState(1);
+  const [itemsPerPage] = useState(3);
+  const [items, setItems] = useState([]);
+  const [searchTerm, setSearchTerm] = useState('');
 
-  const [users, setUsers] = useState([]);
   const getUser = async () => {
     const result = await axios.get("http://localhost:5000/api/users", {
       headers: { Authorization: `Bearer ${localStorage.getItem("token")}` },
     });
-    setUsers(result.data);
+
+    setItems(result.data);
+
   };
+
+  useEffect(() => {
+    getUser()
+  }, [])
+
+  const handleSearch = (event) => {
+    setSearchTerm(event.target.value);
+    setCurrentPage(1);
+  };
+
+  // Filter items berdasarkan pencarian
+  const filteredItems = items.filter(item =>
+    item.nama.toLowerCase().includes(searchTerm.toLowerCase()) ||
+    item.email.toLowerCase().includes(searchTerm.toLowerCase())
+  );
+
+  const indexOfLastItem = currentPage * itemsPerPage;
+  const indexOfFirstItem = indexOfLastItem - itemsPerPage;
+  const currentItems = filteredItems.slice(indexOfFirstItem, indexOfLastItem);
+
+  const paginate = pageNumber => setCurrentPage(pageNumber);
+
+
+  const location = useLocation();
+
+  const { message, status } = location.state || {};
+
+
 
   useEffect(() => {
     if (message) {
@@ -26,28 +60,6 @@ const User = () => {
     }
     getUser();
   }, []);
-
-  const deleteUser = async (key) => {
-    confirmSwal("Peringatan", "Anda yakin ingin menghapus user ini?").then(
-      async (result) => {
-        if (result.isConfirmed) {
-          const result = await axios.delete(
-            `http://localhost:5000/api/users/${key}`,
-            {
-              headers: {
-                Authorization: `Bearer ${localStorage.getItem("token")}`,
-              },
-            }
-          );
-          getUser();
-          swal("User Berhasil di hapus", "success");
-        }
-      }
-    );
-  };
-  const updateUser = (key) => {
-    navigate(`/users/update/${key}`);
-  };
 
   const addUser = () => {
     navigate(`/users/add`);
@@ -60,13 +72,14 @@ const User = () => {
         <section className="card">
           <section className="card-header">
             <h3 className="card-title">Admin</h3>
+            <input type="text" onChange={handleSearch} />
+            <button className="btn btn-primary" onClick={handleSearch}>cari</button>
           </section>
           <section className="card-body p-0">
             <section className="table-responsive">
               <table className="table m-0">
                 <thead>
                   <tr className="">
-                    <th className="">No.</th>
                     <th>Nama</th>
                     <th>Email</th>
                     <th>Created At</th>
@@ -75,34 +88,18 @@ const User = () => {
                   </tr>
                 </thead>
                 <tbody>
-                  {users.map((user, index) => (
-                    <tr key={user.id}>
-                      <td>{index + 1}</td>
-                      <td>{user.nama}</td>
-                      <td>{user.email}</td>
-                      <td>{user.createdAt}</td>
-                      <td>{user.updatedAt}</td>
-                      <td>
-                        <button
-                          className="btn btn-sm btn-succes border"
-                          onClick={() => updateUser(user.id)}
-                        >
-                          update
-                        </button>
-                        <button
-                          className="btn btn-sm btn-danger border"
-                          onClick={() => deleteUser(user.id)}
-                        >
-                          hapus
-                        </button>
-                      </td>
-                    </tr>
-                  ))}
+                  <ItemListUser items={currentItems} getUser={getUser} />
                 </tbody>
               </table>
+
             </section>
           </section>
           <section className="card-footer">
+            <Pagination
+              itemsPerPage={itemsPerPage}
+              totalItems={filteredItems.length}
+              paginate={paginate}
+            />
             <button
               className="btn btn-sm btn-orange text-white float-left"
               onClick={addUser}
@@ -111,7 +108,7 @@ const User = () => {
             </button>
           </section>
         </section>
-      </section>
+      </section >
       <Footer></Footer>
     </>
   );

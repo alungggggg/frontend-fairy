@@ -83,18 +83,18 @@ const login = () => {
           <h2 className="text-blue mt-4 mt-md-0">Masuk</h2>
           <section className="card mt-2 shadow">
             <section className="card-body p-4">
-              {error != "" ? <AuthError /> : ""}
               <Formik
                 initialValues={{ email: "", password: "" }}
                 validationSchema={schema}
                 validateOnChange={false}
                 validateOnBlur={false}
                 onSubmit={(values, { setSubmitting, errors }) => {
-                  console.log(errors);
                   submit(values);
                   setSubmitting(false);
                 }}
               >
+
+
                 <Form>
                   <section className="form-group">
                     <label className="form-label fw-bold">ALAMAT EMAIL</label>
@@ -104,6 +104,7 @@ const login = () => {
                       className="form-control"
                       placeholder="Masukan alamat email"
                     />
+
                   </section>
                   <section className="form-group my-4">
                     <section>
@@ -111,7 +112,7 @@ const login = () => {
                         KATA SANDI
                       </label>
                       <label className="form-label float-end">
-                        <a href="#" className="text-blue text-decoration-none">
+                        <a href="/forgot-password" className="text-blue text-decoration-none">
                           LUPA KATA SANDI?
                         </a>
                       </label>
@@ -146,7 +147,7 @@ const login = () => {
                     </p>
                     <p className="mb-0">
                       Lupa kata sandi?
-                      <a href="#" className="text-decoration-none text-blue">
+                      <a href="/forgot-password" className="text-decoration-none text-blue">
                         Klik disini
                       </a>
                     </p>

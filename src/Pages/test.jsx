@@ -1,42 +1,82 @@
 import React, { useEffect, useState } from 'react';
-// import ReactDOM from 'react-dom';
-import ReactPaginate from 'react-paginate';
+import axios from "axios"
 
+const Pagination = ({ itemsPerPage, totalItems, paginate }) => {
+    const pageNumbers = [];
 
-function PaginatedItems({ itemsPerPage, setIndexDongeng, dongengsLength }) {
-    // Here we use item offsets; we could also use page offsets
-    // following the API or data you're working with.
-    const [itemOffset, setItemOffset] = useState(0);
-
-    // Simulate fetching items from another resources.
-    // (This could be items from props; or items loaded in a local state
-    // from an API endpoint with useEffect and useState)
-    const endOffset = itemOffset + itemsPerPage;
-    const pageCount = Math.ceil(dongengsLength / itemsPerPage);
-
-    useEffect(() => {
-        setIndexDongeng({ start: itemOffset, end: endOffset })
-    }, [itemOffset])
-    // Invoke when user click to request another page.
-    const handlePageClick = (event) => {
-        const newOffset = (event.selected * itemsPerPage) % dongengsLength
-        setItemOffset(newOffset);
-    };
+    for (let i = 1; i <= Math.ceil(totalItems / itemsPerPage); i++) {
+        pageNumbers.push(i);
+    }
 
     return (
-        <>
-            {/* <Items currentItems={currentItems} /> */}
-            <ReactPaginate
-                breakLabel="..."
-                nextLabel="next >"
-                onPageChange={handlePageClick}
-                pageRangeDisplayed={9}
-                pageCount={pageCount}
-                previousLabel="< previous"
-                renderOnZeroPageCount={null}
-            />
-        </>
+        <nav>
+            <ul className="pagination">
+                {pageNumbers.map(number => (
+                    <li key={number} className="page-item">
+                        <a onClick={() => paginate(number)} href="#" className="page-link">
+                            {number}
+                        </a>
+                    </li>
+                ))}
+            </ul>
+        </nav>
     );
+};
+
+const ItemList = ({ items }) => {
+    return (
+        <ul>
+            {items.map(item => (
+
+                <div key={item.id}>
+                    <img src={item.cover} alt="" />
+                    <li >{item.title}</li>
+                </div>
+            ))}
+        </ul>
+    );
+};
+
+const getItem = async () => {
+    const result = await axios.get("http://localhost:5000/api/dongeng")
+    return result.data
 }
 
-export default PaginatedItems
+const App = () => {
+    const [currentPage, setCurrentPage] = useState(1);
+    const [itemsPerPage] = useState(10);
+    const [items, setItems] = useState([]);
+
+    // Contoh data
+    // const items = Array.from({ length: 100 }, (_, i) => ({
+    //     id: i + 1,
+    //     title: `Item ${i + 1}`
+    // }));
+
+
+    useEffect(() => {
+        getItem().then((res) => setItems(res))
+    }, [])
+
+    // Mendapatkan item untuk halaman saat ini
+    const indexOfLastItem = currentPage * itemsPerPage;
+    const indexOfFirstItem = indexOfLastItem - itemsPerPage;
+    const currentItems = items.slice(indexOfFirstItem, indexOfLastItem);
+
+    // Fungsi untuk mengubah halaman
+    const paginate = pageNumber => setCurrentPage(pageNumber);
+
+    return (
+        <div>
+            <h1>Daftar Item dengan Pagination</h1>
+            <ItemList items={currentItems} />
+            <Pagination
+                itemsPerPage={itemsPerPage}
+                totalItems={items.length}
+                paginate={paginate}
+            />
+        </div>
+    );
+};
+
+export default App;

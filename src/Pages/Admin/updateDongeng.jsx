@@ -6,17 +6,22 @@ import { useParams } from 'react-router-dom';
 
 const post = async ({ title, pdf }, id) => {
   try {
-    const response = await axios.patch(`http://localhost:5000/api/dongeng/${id}`, {
-      title, file: pdf
-    }, {
+    const formData = new FormData();
+    formData.append('title', title);
+    if (pdf) {
+      formData.append('file', pdf);
+    }
+
+    const response = await axios.patch(`http://localhost:5000/api/dongeng/${id}`, formData, {
       headers: {
         Authorization: `Bearer ${localStorage.getItem("token")}`,
-        "Content-Type": `multipart/form-data`,
+        "Content-Type": "multipart/form-data",
       },
     });
     return response;
   } catch (error) {
     console.log(error.message);
+    throw error;
   }
 };
 
@@ -29,16 +34,18 @@ const schema = Yup.object({
     .matches(/^[a-zA-Z0-9 ]*$/, 'Title must be alphanumeric'),
   pdf: Yup
     .mixed()
-    .required('PDF file is required')
+    .nullable() // Allow null values
     .test('fileType', 'File must be a PDF', value => {
-      return value && value.type === 'application/pdf';
+      if (!value) return true; // Allow no file
+      return value.type === 'application/pdf';
     })
     .test('fileExtension', 'File must have a .pdf extension', value => {
-      return value && value.name.toString().toLowerCase().endsWith('.pdf');
+      if (!value) return true; // Allow no file
+      return value.name.toString().toLowerCase().endsWith('.pdf');
     })
 });
 
-const updateDongeng = () => {
+const UpdateDongeng = () => {
   const [dongeng, setDongeng] = useState(null);
   const { id } = useParams();
 
@@ -62,8 +69,14 @@ const updateDongeng = () => {
     <Formik
       initialValues={{ pdf: null, title: dongeng.title }}
       validationSchema={schema}
-      onSubmit={(values, { setSubmitting }) => {
-        post(values, id).then((response) => { console.log(response); });
+      onSubmit={async (values, { setSubmitting }) => {
+        console.log(values)
+        try {
+          const response = await post(values, id);
+          console.log(response);
+        } catch (error) {
+          console.log('Failed to update dongeng:', error.message);
+        }
         setSubmitting(false);
       }}
     >
@@ -71,7 +84,7 @@ const updateDongeng = () => {
         <Form>
           <div>
             <Field type="text" name="title" />
-            {errors.title ? (
+            {errors.title && touched.title ? (
               <div>{errors.title}</div>
             ) : null}
           </div>
@@ -82,7 +95,6 @@ const updateDongeng = () => {
               name="pdf"
               onChange={(event) => {
                 setFieldValue('pdf', event.target.files[0]);
-                console.log(event.target.files[0]);
               }}
             />
             {errors.pdf && touched.pdf ? (
@@ -99,4 +111,4 @@ const updateDongeng = () => {
   );
 };
 
-export default updateDongeng;
+export default UpdateDongeng;

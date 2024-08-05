@@ -1,4 +1,8 @@
+import { useNavigate } from 'react-router-dom';
+
 const err404 = () => {
+  const navigate = useNavigate();
+
   return (
     <>
       <section className="container my-4 py-4">
@@ -13,7 +17,7 @@ const err404 = () => {
             <p className="lead text-muted mb-5">
               Sepertinya halaman yang kamu cari tidak ditemukan.
             </p>
-            <a className="btn btn-primary px-4 py-2" href="/">
+            <button className="btn btn-primary px-4 py-2" onClick={() => navigate(-1)}>
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 width="16"
@@ -28,7 +32,7 @@ const err404 = () => {
                 />
               </svg>
               Kembali
-            </a>
+            </button>
           </section>
         </section>
       </section>

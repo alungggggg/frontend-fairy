@@ -1,89 +1,46 @@
 import Header from "../template/header";
 import Footer from "../template/footer";
-import PaginatedItems from "../test";
-import { loadThumbnail, loadThumbnails } from "../Component/thumbnail"
 import { useState, useEffect } from "react";
+import ItemList from "./Component/itemList"
+import Pagination from "../../Component/pagination"
 import axios from "axios";
 
 const Katalog = () => {
-  const [dongengs, setDongeng] = useState([]);
-  // const [thumbnail, setThumbnail] = useState([]);
-  const [thumbnail, setThumbnail] = useState([]);
-  const [search, setSearch] = useState("asd");
-
+  const [currentPage, setCurrentPage] = useState(1);
+  const [itemsPerPage] = useState(3);
+  const [items, setItems] = useState([]);
+  const [searchTerm, setSearchTerm] = useState('');
 
   useEffect(() => {
     const fetchDongeng = async () => {
       const response = await axios.get("http://localhost:5000/api/dongeng");
-      setDongeng(response.data)
-
-      const url = dongengs.map(dongeng => dongeng.PdfPath)
-
-      // const thumbnailsss = 
-      // setThumbnail(loadThumbnails(url))
-      // console.log(thumbnailsss)
-      setThumbnail(await loadThumbnails(url))
-      console.log(thumbnail)
-
-      let spliter = []
-      thumbnail.forEach((thumb, index) => {
-        let trim = thumb.split(",")
-        spliter.push([])
-        spliter[index].push(trim[0])
-        spliter[index].push(trim[1])
-      })
-
-      setThumbnail(spliter)
-
-      console.log(thumbnail)
+      setItems(response.data)
     }
 
     fetchDongeng()
   }, []);
 
-  const [indexDongeng, setIndexDongeng] = useState({ start: 0, end: 9 })
+  const handleSearch = (event) => {
+    setSearchTerm(event.target.value);
+    setCurrentPage(1);
+  };
 
-  let dongensFilter = dongengs.filter((element, index) => element.title.includes(search));
+  // Filter items berdasarkan pencarian
+  const filteredItems = items.filter(item =>
+    item.title.toLowerCase().includes(searchTerm.toLowerCase())
+  );
 
-  function setDongengSearch() {
-    alert(search)
-  }
+  const indexOfLastItem = currentPage * itemsPerPage;
+  const indexOfFirstItem = indexOfLastItem - itemsPerPage;
+  const currentItems = filteredItems.slice(indexOfFirstItem, indexOfLastItem);
 
-  let filteredDongens = dongengs.filter((element, index) => element.title.includes(search));
+  const paginate = pageNumber => setCurrentPage(pageNumber);
 
   return (
     <>
       <Header />
       <main>
         <section className="bg-hero k-hero">
-          <section className="container py-4">
-            <section className="d-flex flex-column flex-lg-row">
-              <button className="active-type card rounded p-3 border-0 shadow d-flex flex-row align-items-center me-4 my-1 my-lg-0">
-                <img
-                  src="https://buku.kemdikbud.go.id/assets/image/home/Group%2079.png"
-                  width={40}
-                  alt=""
-                />
-                <section className="ms-2">Teks Kurikulum Merdeka</section>
-              </button>
-              <button className="active-type card rounded p-3 border-0 shadow d-flex flex-row align-items-center me-4 my-1 my-lg-0">
-                <img
-                  src="https://buku.kemdikbud.go.id/assets/image/home/Group%2076.png"
-                  width={40}
-                  alt=""
-                />
-                <section className="ms-2">Teks K-13</section>
-              </button>
-              <button className="active-type card rounded p-3 border-0 shadow d-flex flex-row align-items-center me-4 my-1 my-lg-0">
-                <img
-                  src="https://buku.kemdikbud.go.id/assets/image/home/Group%2080.png"
-                  width={40}
-                  alt=""
-                />
-                <section className="ms-2">Nonteks</section>
-              </button>
-            </section>
-          </section>
         </section>
         <section className="bg-white">
           <section className="container px-3 py-5">
@@ -111,57 +68,27 @@ const Katalog = () => {
                       className="form-control py-2 border-start-0 border-end-0 px-1"
                       placeholder="Cari buku disini"
                       aria-label="Cari buku disini"
-                      onChange={(e) => setSearch(e.target.value)}
+                      onChange={handleSearch}
                     />
-                    <button className="btn btn-orange text-white" type="button" onClick={setDongengSearch}>
+                    <button className="btn btn-orange text-white" type="button" onClick={handleSearch}>
                       Cari
                     </button>
                   </section>
                 </section>
               </section>
               <section className="row">
-                {filteredDongens.map((dongeng, index) => (
-                  <section className="col-lg-4 my-2" key={dongeng.id}>
-                    <a href={`/dongeng/detail/${dongeng.id}`} className="text-decoration-none text-dark">
-                      <section className="card border-0 mt-3 CardBook_card">
-                        <section
-                          className="card-header text-center text-lg-start bg-white p-0 border-0"
-                          style={{
-                            backgroundImage:
-                              "url(https://buku.kemdikbud.go.id/assets/image/home/ellipse-2.png)",
-                            backgroundRepeat: "no-repeat",
-                            backgroundPosition: "center bottom",
-                          }}
-                        >
-
-                          <img
-                            // src={`${thumbnail[0].split(',')[0]}, ${thumbnail[0].split(',')[1]}`}
-                            // src={`${thumbnail[index].split(",")[0]}`}
-                            className="CardBook_img"
-                            alt=""
-                          />
-                        </section>
-                        <section className="card-body px-5 px-lg-0 py-2">
-                          <span className="badge rounded-pill bg-danger mt-2">
-                            PDF
-                          </span>
-                          <span className="badge rounded-pill bg-secondary mt-2 ms-1">
-                            PAUD
-                          </span>
-                          <section className="my-2">{dongeng.title}</section>
-                        </section>
-                      </section>
-                    </a>
-                  </section>
-                ))}
+                <ItemList items={currentItems} />
+                <Pagination
+                  itemsPerPage={itemsPerPage}
+                  totalItems={filteredItems.length}
+                  paginate={paginate}
+                />
               </section>
             </section>
           </section>
         </section>
-        <PaginatedItems itemsPerPage={9} setIndexDongeng={(e) => setIndexDongeng(e)} dongengsLength={dongengs.length} dongengs={dongengs} />
       </main>
       <Footer />
-
     </>
   );
 };
