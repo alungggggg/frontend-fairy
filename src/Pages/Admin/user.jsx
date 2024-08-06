@@ -7,15 +7,11 @@ import ItemListUser from "./Component/itemListUser";
 import { useState, useEffect } from "react";
 import { useLocation } from "react-router-dom";
 
-
-
-
 const User = () => {
-
   const [currentPage, setCurrentPage] = useState(1);
   const [itemsPerPage] = useState(3);
   const [items, setItems] = useState([]);
-  const [searchTerm, setSearchTerm] = useState('');
+  const [searchTerm, setSearchTerm] = useState("");
 
   const getUser = async () => {
     const result = await axios.get("http://localhost:5000/api/users", {
@@ -23,12 +19,11 @@ const User = () => {
     });
 
     setItems(result.data);
-
   };
 
   useEffect(() => {
-    getUser()
-  }, [])
+    getUser();
+  }, []);
 
   const handleSearch = (event) => {
     setSearchTerm(event.target.value);
@@ -36,23 +31,21 @@ const User = () => {
   };
 
   // Filter items berdasarkan pencarian
-  const filteredItems = items.filter(item =>
-    item.nama.toLowerCase().includes(searchTerm.toLowerCase()) ||
-    item.email.toLowerCase().includes(searchTerm.toLowerCase())
+  const filteredItems = items.filter(
+    (item) =>
+      item.nama.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      item.email.toLowerCase().includes(searchTerm.toLowerCase())
   );
 
   const indexOfLastItem = currentPage * itemsPerPage;
   const indexOfFirstItem = indexOfLastItem - itemsPerPage;
   const currentItems = filteredItems.slice(indexOfFirstItem, indexOfLastItem);
 
-  const paginate = pageNumber => setCurrentPage(pageNumber);
-
+  const paginate = (pageNumber) => setCurrentPage(pageNumber);
 
   const location = useLocation();
 
   const { message, status } = location.state || {};
-
-
 
   useEffect(() => {
     if (message) {
@@ -71,9 +64,20 @@ const User = () => {
       <section className="container mt-4 mb-4">
         <section className="card">
           <section className="card-header">
-            <h3 className="card-title">Admin</h3>
-            <input type="text" onChange={handleSearch} />
-            <button className="btn btn-primary" onClick={handleSearch}>cari</button>
+            <section className=" input-group">
+              <h3 className="card-title me-3">Admin</h3>
+              <input
+                type="text"
+                className="form-control"
+                onChange={handleSearch}
+              />
+              <button
+                className="btn btn-sm btn-orange text-white"
+                onClick={handleSearch}
+              >
+                cari
+              </button>
+            </section>
           </section>
           <section className="card-body p-0">
             <section className="table-responsive">
@@ -91,7 +95,6 @@ const User = () => {
                   <ItemListUser items={currentItems} getUser={getUser} />
                 </tbody>
               </table>
-
             </section>
           </section>
           <section className="card-footer">
@@ -108,7 +111,7 @@ const User = () => {
             </button>
           </section>
         </section>
-      </section >
+      </section>
       <Footer></Footer>
     </>
   );
