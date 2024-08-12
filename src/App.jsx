@@ -2,6 +2,7 @@ import "./App.css";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import kernel from "./Pages/kernel";
 import Test from "./Pages/test";
+import ProfileTest from "./Pages/profile";
 
 function App() {
   return (
@@ -29,7 +30,7 @@ function App() {
           <Route path="/dongeng" element={<kernel.dongeng />} />
           <Route path="/dongeng/add" element={<kernel.addDongeng />} />
           <Route path="/dongeng/update/:id" element={<kernel.updateDongeng />} />
-          <Route path="/test" element={<Test />} />
+          <Route path="/test" element={<ProfileTest />} />
 
           <Route path="*" element={<kernel.err404 />} />
         </Routes>

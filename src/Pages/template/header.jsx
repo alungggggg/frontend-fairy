@@ -1,4 +1,8 @@
+import { getCookie } from "cookies-next";
+
 const Header = () => {
+  const token = getCookie("token");
+
   return (
     <>
       <header className="sticky-top fixed-top">
@@ -85,12 +89,16 @@ const Header = () => {
                   </ul>
                 </li>
                 <li className="nav-item mx-1">
-                  <section className="nav-link" style={{ cursor: "pointer" }}>
+                  <a href="/test" className="nav-link">
                     Profil
-                  </section>
+                  </a>
                 </li>
               </ul>
-              <ul className="navbar-nav mb-2 mb-lg-0 text-center text-xl-start">
+              <ul
+                className={`navbar-nav mb-2 mb-lg-0 text-center text-xl-start ${
+                  token ? "d-none" : ""
+                }`}
+              >
                 <li className="nav-item ms-3 pt-1">
                   <a href="/login" className="btn btn-sm btn-outline-light">
                     Masuk
