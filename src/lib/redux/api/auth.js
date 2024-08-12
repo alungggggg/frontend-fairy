@@ -12,8 +12,11 @@ export const signIn = createAsyncThunk("auth/login", async (user) => {
       password,
     });
     if (response.data.data.status) {
+      console.log(response.data)
+      localStorage.setItem("token", response.data.token.accessToken);
       return response.data;
     }
+
 
     throw new Error("login failed");
   } catch (error) {
