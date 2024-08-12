@@ -1,12 +1,8 @@
-import { useEffect } from "react";
-import { useNavigate } from "react-router-dom"
-const Logout = () => {
-    const navigate = useNavigate();
+import { useDispatch } from "react-redux";
+import { signOut } from "../../lib/redux/api/auth";
+const Logout = async() => {
+  const dispatch = useDispatch();
+  dispatch(signOut());
+};
 
-    localStorage.removeItem("token")
-    useEffect(() => {
-        navigate('/login')
-    })
-}
-
-export default Logout
+export default Logout;

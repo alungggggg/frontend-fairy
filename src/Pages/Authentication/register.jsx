@@ -1,33 +1,35 @@
-import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import schema from "../../../validation/userValidate";
 import { Formik, Form, Field, ErrorMessage } from "formik";
 import errorMessage from "../../Component/errorMessage";
-import axios from "axios";
-import Header from "../template/header";
-import Footer from "../template/footer";
-
-const post = async ({ nama, email, password, confirmPassword }) => {
-  try {
-    const result = await axios.post("http://localhost:5000/api/register", {
-      nama,
-      email,
-      password,
-      confirmPassword,
-    });
-  } catch (err) {
-    console.log(err.message);
-  }
-};
-
+import AuthTemplate from "./authTemplate";
+import fairyApi from "../../lib/axios";
+import { useState } from "react";
 
 const register = () => {
-
   const navigate = useNavigate();
+  const [isLoading, setIsLoading] = useState(false);
+
+  const post = async ({ nama, email, password, confirmPassword }) => {
+    setIsLoading(true);
+    try {
+      await fairyApi.post("/register", {
+        nama,
+        email,
+        password,
+        confirmPassword,
+      });
+      setIsLoading(false);
+    } catch (err) {
+      console.log(err.message);
+      setIsLoading(false);
+    }
+  };
+
+  if (isLoading) return <p>Loading....</p>
 
   return (
-    <>
-      <Header />
+    <AuthTemplate>
       <Formik
         initialValues={{
           nama: "",
@@ -36,10 +38,12 @@ const register = () => {
           confirmPassword: "",
         }}
         validationSchema={schema}
-        validat OnChange={false}
+        validat
+        OnChange={false}
         validateOnBlur={false}
         onSubmit={(values, { setSubmitting }) => {
           post(values);
+          setSubmitting(false);
           navigate("/login", {
             state: { message: "Berhasil Register!", status: "success" },
           });
@@ -135,15 +139,7 @@ const register = () => {
           </section>
         </section>
       </Formik>
-
-      <Footer />
-    </>
-    // <>
-
-    //   <Header></Header>
-
-    //   <Footer></Footer>
-    // </>
+    </AuthTemplate>
   );
 };
 
