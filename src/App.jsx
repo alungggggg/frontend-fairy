@@ -10,6 +10,7 @@ function App() {
       <Router>
         <Routes>
           <Route path="/" element={<kernel.home />} />
+          <Route path="/profile" element={<kernel.profile />} />
           <Route path="/katalog" element={<kernel.katalog />} />
           <Route path="/Petunjuk" element={<kernel.petunjuk />} />
           <Route path="/dongeng/detail/:id" element={<kernel.detail />} />
