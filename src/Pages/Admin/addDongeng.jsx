@@ -4,8 +4,10 @@ import * as Yup from "yup";
 import axios from "axios";
 import Header from "../template/header";
 import Footer from "../template/footer";
+import { useDispatch } from "react-redux";
 
 const post = async ({ title, pdf }) => {
+  const dispatch = useDispatch();
   try {
     const response = axios.post(
       "http://localhost:5000/api/dongeng",
@@ -22,6 +24,7 @@ const post = async ({ title, pdf }) => {
     );
     return response;
   } catch (error) {
+    // dispatch()
     console.log(error.message);
   }
   // console.log("p")

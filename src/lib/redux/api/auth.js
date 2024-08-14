@@ -45,7 +45,7 @@ export const getValidationCode = createAsyncThunk(
   "auth/get-validation-code",
   async (email) => {
     try {
-      const response = await fairyApi.post("/forgot-password", { email });
+      const response = await axios.post("http://localhost:5000/api/forgot-password", { email });
       if (response.data) {
         return response.data;
       }
