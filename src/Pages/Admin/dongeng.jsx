@@ -8,7 +8,7 @@ import { useEffect, useState } from "react";
 
 const getDongeng = async () => {
   const result = await axios.get("http://localhost:5000/api/dongeng");
-  return result.data
+  return result.data;
 };
 
 const dongeng = () => {
@@ -17,13 +17,13 @@ const dongeng = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const [itemsPerPage] = useState(3);
   const [items, setItems] = useState([]);
-  const [searchTerm, setSearchTerm] = useState('');
+  const [searchTerm, setSearchTerm] = useState("");
 
   useEffect(() => {
-    getDongeng().then((item) => setItems(item))
+    getDongeng().then((item) => setItems(item));
   }, []);
 
-  const filteredItems = items.filter(item =>
+  const filteredItems = items.filter((item) =>
     item.title.toLowerCase().includes(searchTerm.toLowerCase())
   );
 
@@ -31,7 +31,7 @@ const dongeng = () => {
   const indexOfFirstItem = indexOfLastItem - itemsPerPage;
   const currentItems = filteredItems.slice(indexOfFirstItem, indexOfLastItem);
 
-  const paginate = pageNumber => setCurrentPage(pageNumber);
+  const paginate = (pageNumber) => setCurrentPage(pageNumber);
 
   return (
     <>
@@ -52,7 +52,10 @@ const dongeng = () => {
                   </tr>
                 </thead>
                 <tbody>
-                  <ItemListDongeng items={currentItems} getDongeng={getDongeng} />
+                  <ItemListDongeng
+                    items={currentItems}
+                    getDongeng={getDongeng}
+                  />
                 </tbody>
               </table>
               <Pagination

@@ -26,7 +26,7 @@ const register = () => {
     }
   };
 
-  if (isLoading) return <p>Loading....</p>
+  if (isLoading) return <p>Loading....</p>;
 
   return (
     <AuthTemplate>
@@ -38,8 +38,7 @@ const register = () => {
           confirmPassword: "",
         }}
         validationSchema={schema}
-        validat
-        OnChange={false}
+        validateOnChange={false}
         validateOnBlur={false}
         onSubmit={(values, { setSubmitting }) => {
           post(values);

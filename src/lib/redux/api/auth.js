@@ -12,8 +12,11 @@ export const signIn = createAsyncThunk("auth/login", async (user) => {
       password,
     });
     if (response.data.data.status) {
+      console.log(response.data)
+      localStorage.setItem("token", response.data.token.accessToken);
       return response.data;
     }
+
 
     throw new Error("login failed");
   } catch (error) {
@@ -42,7 +45,7 @@ export const getValidationCode = createAsyncThunk(
   "auth/get-validation-code",
   async (email) => {
     try {
-      const response = await fairyApi.post("/forgot-password", { email });
+      const response = await axios.post("http://localhost:5000/api/forgot-password", { email });
       if (response.data) {
         return response.data;
       }

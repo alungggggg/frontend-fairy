@@ -16,9 +16,11 @@ import dongengView from "./Services/dongengView";
 import home from "./Services/home";
 import katalog from "./Services/katalog";
 import petunjuk from "./Services/petunjuk";
+import profile from "./Services/profile";
 import err404 from "./Services/404";
 
 import quiz from "./Services/Siswa/quiz";
+import { Profiler } from "react";
 
 export default {
   addDongeng,
@@ -37,5 +39,6 @@ export default {
   petunjuk,
   err404,
   quiz,
-  forgotPassword
+  forgotPassword,
+  profile
 };
