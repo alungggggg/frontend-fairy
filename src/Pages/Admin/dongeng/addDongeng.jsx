@@ -2,8 +2,8 @@ import React from "react";
 import { Formik, Form, Field } from "formik";
 import * as Yup from "yup";
 import axios from "axios";
-import Header from "../template/header";
-import Footer from "../template/footer";
+import Header from "../../template/header";
+import Footer from "../../template/footer";
 import { useDispatch } from "react-redux";
 
 const post = async ({ title, pdf }) => {

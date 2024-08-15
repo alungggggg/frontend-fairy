@@ -3,6 +3,11 @@ import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import kernel from "./Pages/kernel";
 import Test from "./Pages/test";
 import ProfileTest from "./Pages/profile";
+import BankSoal from "./Pages/Admin/bankSoal";
+import Dashboard from "./Pages/Admin/dashboard";
+import PilihanGanda from "./Pages/Admin/bankSoal/pilihanGanda";
+import UraianSingkat from "./Pages/Admin/bankSoal/uraianSingkat";
+import UraianPanjang from "./Pages/Admin/bankSoal/uraianPanjang";
 
 function App() {
   return (
@@ -22,16 +27,30 @@ function App() {
           <Route path="/forgot-password" element={<kernel.forgotPassword />} />
           {/* <Route path="/forgot-password" element={<kernel.logout />} /> */}
 
-
-          <Route path="/users" element={<kernel.user />} />
           <Route path="/users/add" element={<kernel.addUser />} />
           <Route path="/users/update/:id" element={<kernel.updateUser />} />
           <Route path="/quiz" element={<kernel.quiz />} />
 
-          <Route path="/dongeng" element={<kernel.dongeng />} />
           <Route path="/dongeng/add" element={<kernel.addDongeng />} />
-          <Route path="/dongeng/update/:id" element={<kernel.updateDongeng />} />
+          <Route
+            path="/dongeng/update/:id"
+            element={<kernel.updateDongeng />}
+          />
           <Route path="/test" element={<ProfileTest />} />
+
+          <Route path="/admin">
+            <Route index element={<Dashboard />} />
+            
+            <Route path="bank-soal">
+              <Route index element={<BankSoal />} />
+              <Route path="pilihan-ganda" element={<PilihanGanda />} />
+              <Route path="uraian-singkat" element={<UraianSingkat />} />
+              <Route path="uraian-panjang" element={<UraianPanjang />} />
+            </Route>
+
+            <Route path="dongeng" element={<kernel.dongeng />} />
+            <Route path="users" element={<kernel.user />} />
+          </Route>
 
           <Route path="*" element={<kernel.err404 />} />
         </Routes>
