@@ -1,10 +1,9 @@
-import Header from "../template/header";
-import Footer from "../template/footer";
-import { useState } from "react";
+import Header from "../../template/header";
+import Footer from "../../template/footer";
 import { Formik, Form, Field, ErrorMessage } from "formik"
 import axios from "axios";
-import schema from "../../../validation/userValidate";
-import errorMessage from "../../Component/errorMessage";
+import schema from "../../../../validation/userValidate";
+import errorMessage from "../../../Component/errorMessage";
 import { useNavigate, useLocation } from "react-router-dom";
 
 const post = async ({ nama, email, password }) => {

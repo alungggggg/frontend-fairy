@@ -1,10 +1,10 @@
-import dongeng from "./Admin/dongeng";
-import addDongeng from "./Admin/addDongeng";
-import updateDongeng from "./Admin/updateDongeng";
+import dongeng from "./Admin/dongeng/dongeng";
+import addDongeng from "./Admin/dongeng/addDongeng";
+import updateDongeng from "./Admin/dongeng/updateDongeng";
 
-import addUser from "./Admin/addUser";
-import updateUser from "./Admin/updateUser";
-import user from "./Admin/user";
+import addUser from "./Admin/users/addUser";
+import updateUser from "./Admin/users/updateUser";
+import user from "./Admin/users/user";
 
 import login from "./Authentication/login";
 import logout from "./Authentication/logout";

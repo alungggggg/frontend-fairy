@@ -1,11 +1,12 @@
-import Header from "../template/header";
-import Footer from "../template/footer";
+import Header from "../../template/header";
+import Footer from "../../template/footer";
 import axios from "axios";
-import swal, { confirmSwal } from "../../Component/alert";
-import Pagination from "../../Component/pagination";
-import ItemListUser from "./Component/itemListUser";
+import swal, { confirmSwal } from "../../../Component/alert";
+import Pagination from "../../../Component/pagination";
+import ItemListUser from "../Component/itemListUser";
 import { useState, useEffect } from "react";
 import { useLocation } from "react-router-dom";
+import AdminLayout from "../adminLayout";
 
 const User = () => {
   const [currentPage, setCurrentPage] = useState(1);
@@ -59,8 +60,7 @@ const User = () => {
   };
 
   return (
-    <>
-      <Header></Header>
+    <AdminLayout>
       <section className="container mt-4 mb-4">
         <section className="card">
           <section className="card-header">
@@ -112,8 +112,7 @@ const User = () => {
           </section>
         </section>
       </section>
-      <Footer></Footer>
-    </>
+    </AdminLayout>
   );
 };
 

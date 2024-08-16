@@ -1,10 +1,11 @@
-import Header from "../template/header";
-import Footer from "../template/footer";
+import Header from "../../template/header";
+import Footer from "../../template/footer";
 import axios from "axios";
-import ItemListDongeng from "./Component/itemListDongeng";
-import Pagination from "../../Component/pagination";
+import ItemListDongeng from "../Component/itemListDongeng";
+import Pagination from "../../../Component/pagination";
 import { useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
+import AdminLayout from "../adminLayout";
 
 const getDongeng = async () => {
   const result = await axios.get("http://localhost:5000/api/dongeng");
@@ -34,8 +35,7 @@ const dongeng = () => {
   const paginate = (pageNumber) => setCurrentPage(pageNumber);
 
   return (
-    <>
-      <Header></Header>
+    <AdminLayout>
       <section className="container mt-4 mb-4">
         <section className="card">
           <section className="card-header">
@@ -67,9 +67,7 @@ const dongeng = () => {
           </section>
         </section>
       </section>
-
-      <Footer></Footer>
-    </>
+    </AdminLayout>
   );
 };
 
