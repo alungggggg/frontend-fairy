@@ -58,6 +58,28 @@ export const addSoalPilgan = createAsyncThunk(
   }
 );
 
+export const editSoalPilgan = createAsyncThunk(
+  "soalPilgan/editSoalPilgan",
+  async (payload) => {
+    try {
+      const responses = await fairyApi.patch(
+        `/update-soal-pilgan/${payload.id}`,
+        payload
+      );
+      if (responses) {
+        return responses.data;
+      }
+
+      throw new Error("Failed to edit a data");
+    } catch (error) {
+      if (error instanceof AxiosError) {
+        throw error.response ? error.response.status : error.message;
+      }
+      throw error;
+    }
+  }
+);
+
 const pilganSlice = createSlice({
   name: "soalPilgan",
   initialState: {
@@ -104,6 +126,18 @@ const pilganSlice = createSlice({
         state.error = action.error.message;
       })
       .addCase(addSoalPilgan.pending, (state) => {
+        state.isLoading = true;
+      })
+      .addCase(editSoalPilgan.fulfilled, (state, action) => {
+        state.isLoading = false;
+        state.error = null;
+        // getSoalPilgan();
+      })
+      .addCase(editSoalPilgan.rejected, (state, action) => {
+        state.isLoading = false;
+        state.error = action.error.message;
+      })
+      .addCase(editSoalPilgan.pending, (state) => {
         state.isLoading = true;
       });
   },

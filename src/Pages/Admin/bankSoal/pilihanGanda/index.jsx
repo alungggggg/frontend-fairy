@@ -1,13 +1,12 @@
 import { useDispatch, useSelector } from "react-redux";
 import AdminLayout from "../../adminLayout";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import {
   deleteSoalPilgan,
   getSoalPilgan,
 } from "../../../../lib/redux/api/soalPilgan";
 import Loading from "../../../../Component/loading";
-import AddSoalPilgan from "./addSoalPilgan";
-import { getAllDongeng } from "../../../../lib/redux/api/dongeng";
+import ModalPilihanGanda from "./modal";
 
 const PilihanGanda = () => {
   const tableHead = [
@@ -21,6 +20,9 @@ const PilihanGanda = () => {
     "Jawaban",
     "",
   ];
+
+  const [action, setAction] = useState();
+  const [idEdit , setIdEdit] = useState();
 
   const dispatch = useDispatch();
   const { soalPilgan, isLoading } = useSelector(
@@ -60,9 +62,10 @@ const PilihanGanda = () => {
               <button
                 type="button"
                 className="btn btn-secondary"
-                onClick={() =>
-                  document.getElementById("showModalAddSoalPilgan").click()
-                }
+                onClick={() => {
+                  document.getElementById("showModalAddSoalPilgan").click();
+                  setAction("add");
+                }}
               >
                 Add
               </button>
@@ -81,16 +84,26 @@ const PilihanGanda = () => {
                 <tbody>
                   {soalPilgan.map((item, i) => (
                     <tr key={i}>
-                      <td>{i}</td>
-                      <td>{item.soal}</td>
-                      <td>-</td>
-                      <td>{item.opsi_1}</td>
-                      <td>{item.opsi_2}</td>
-                      <td>{item.opsi_3}</td>
-                      <td>{item.opsi_4}</td>
-                      <td>{item.jawaban}</td>
+                      <td>{i+1}</td>
+                      <td>{item.soal || ""}</td>
+                      <td>{item.dongeng.title || ""}</td>
+                      <td>{item.opsi_1 || ""}</td>
+                      <td>{item.opsi_2 || ""}</td>
+                      <td>{item.opsi_3 || ""}</td>
+                      <td>{item.opsi_4 || ""}</td>
+                      <td>{item.jawaban || ""}</td>
                       <td className="d-flex gap-2">
-                        <button type="button" className="btn btn-secondary ">
+                        <button
+                          type="button"
+                          className="btn btn-secondary "
+                          onClick={() => {
+                            document
+                              .getElementById("showModalAddSoalPilgan")
+                              .click();
+                            setIdEdit(item.id);
+                            setAction("edit");
+                          }}
+                        >
                           Edit
                         </button>
                         <button
@@ -109,7 +122,7 @@ const PilihanGanda = () => {
           </section>
         </div>
       )}
-      <AddSoalPilgan />
+      <ModalPilihanGanda action={action} id={idEdit}/>
     </AdminLayout>
   );
 };
