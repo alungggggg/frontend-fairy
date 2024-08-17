@@ -10,6 +10,7 @@ import login from "./Authentication/login";
 import logout from "./Authentication/logout";
 import register from "./Authentication/register";
 import forgotPassword from "./Authentication/forgotPassword";
+import verify from "./Authentication/verify";
 
 import detail from "./Services/detail";
 import dongengView from "./Services/dongengView";
@@ -40,5 +41,6 @@ export default {
   err404,
   quiz,
   forgotPassword,
-  profile
+  profile,
+  verify
 };
