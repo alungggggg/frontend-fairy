@@ -46,7 +46,6 @@ const quiz = () => {
   const [answer, setAnswer] = useState({});
 
   const pertanyaanPilihanGanda = [
-    [],
     {
       id: "A1",
       soal: "Siapakah yang memimpin Kerajaan Jenggala?",
@@ -188,7 +187,7 @@ const quiz = () => {
             <section className="card">
               <section className="card-header fw-medium">No. Soal</section>
               <section className="card-body row-soal">
-                {pertanyaanPilihanGanda.slice(1).map((soal, index) => (
+                {pertanyaanPilihanGanda.map((soal, index) => (
                   <section
                     className="card d-flex align-items-center justify-content-center border-2"
                     key={soal.id}
@@ -205,23 +204,23 @@ const quiz = () => {
           <section className="col-9">
             <section className="card">
               <section className="card-header fw-medium d-flex justify-content-between">
-                {pertanyaanPilihanGanda[quizIndex]?.soal}
+                {pertanyaanPilihanGanda[quizIndex - 1]?.soal}
                 <section>
                   <CountdownTimer initialTime={7200} />
                 </section>
               </section>
               <section className="card-body">
-                {pertanyaanPilihanGanda[quizIndex]?.pilihanGanda.map(
+                {pertanyaanPilihanGanda[quizIndex - 1]?.pilihanGanda.map(
                   (pilihan, i) => (
                     <section className="form-check mb-3" key={i}>
                       <input
                         className="form-check-input p-2"
                         type="radio"
-                        name={pertanyaanPilihanGanda[quizIndex]?.id} // Use question ID as the name
+                        name={pertanyaanPilihanGanda[quizIndex - 1]?.id} // Use question ID as the name
                         id={`jawaban${i}`}
                         value={pilihan}
                         checked={
-                          answer[pertanyaanPilihanGanda[quizIndex]?.id] ===
+                          answer[pertanyaanPilihanGanda[quizIndex - 1]?.id] ===
                           pilihan
                         }
                         onChange={handleChange}
