@@ -9,7 +9,8 @@ const Sidebar = () => {
     { name: "Users", path: "/admin/users" },
     { name: "Dongeng", path: "/admin/dongeng" },
     { name: "Bank Soal", path: "/admin/bank-soal" },
-    // { name: "Forum", path: "#" },
+    { name: "Forum Quiz", path: "/admin/forum-quiz" },
+    { name: "Rekap Siswa", path: "" },
   ];
   return (
     <div className="col-auto col-md-3 col-xl-2 px-sm-2 px-0 bg-night">
