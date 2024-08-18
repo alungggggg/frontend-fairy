@@ -2,36 +2,31 @@ import { useDispatch, useSelector } from "react-redux";
 import AdminLayout from "../../adminLayout";
 import { useEffect, useState } from "react";
 import {
-  deleteSoalPilgan,
-  getSoalPilgan,
-} from "../../../../lib/redux/api/soalPilgan";
+  deleteSoalUraianSingkat,
+  getSoalUraianSingkat,
+} from "../../../../lib/redux/api/soalUraianSingkat";
 import Loading from "../../../../Component/loading";
-import ModalPilihanGanda from "./modal";
+import ModalUraianSingkat from "./modal";
 
-const PilihanGanda = () => {
-  const tableHead = [
-    "No",
-    "Soal",
-    "Judul Dongeng",
-    "Opsi 1",
-    "Opsi 2",
-    "Opsi 3",
-    "Opsi 4",
-    "Jawaban",
-    "",
-  ];
-
+const UraianSingkat = () => {
+  const tableHead = ["No", "Soal", "Judul Dongeng", "Jawaban", ""];
   const [action, setAction] = useState();
-  const [idEdit , setIdEdit] = useState();
+  const [idEdit, setIdEdit] = useState();
 
-  const dispatch = useDispatch();
-  const { soalPilgan, isLoading } = useSelector(
-    (state) => state.soalPilihanGanda
+  const { soalUraianSingkat, isLoading } = useSelector(
+    (state) => state.soalUraianSingkat
   );
+  const dispatch = useDispatch();
 
   useEffect(() => {
-    dispatch(getSoalPilgan());
+    dispatch(getSoalUraianSingkat());
   }, []);
+
+  function handleDeleteSoalUraianSingkat(id) {
+    if (window.confirm("Are you sure?")) {
+      dispatch(deleteSoalUraianSingkat(id));
+    }
+  }
 
   return (
     <AdminLayout>
@@ -63,8 +58,8 @@ const PilihanGanda = () => {
                 type="button"
                 className="btn btn-secondary"
                 onClick={() => {
-                  document.getElementById("showModalAddSoalPilgan").click();
                   setAction("add");
+                  document.getElementById("showModalUraianSingkat").click();
                 }}
               >
                 Add
@@ -82,38 +77,30 @@ const PilihanGanda = () => {
                   </tr>
                 </thead>
                 <tbody>
-                  {soalPilgan.map((item, i) => (
+                  {soalUraianSingkat.map((item, i) => (
                     <tr key={i}>
-                      <td>{i+1}</td>
-                      <td>{item.soal || ""}</td>
+                      <td>{i + 1}</td>
+                      <td>{item.soal}</td>
                       <td>{item.dongeng.title || ""}</td>
-                      <td>{item.opsi_1 || ""}</td>
-                      <td>{item.opsi_2 || ""}</td>
-                      <td>{item.opsi_3 || ""}</td>
-                      <td>{item.opsi_4 || ""}</td>
-                      <td>{item.jawaban || ""}</td>
+                      <td>{item.jawaban}</td>
                       <td className="d-flex gap-2">
                         <button
                           type="button"
-                          className="btn btn-secondary "
+                          className="btn btn-primary"
                           onClick={() => {
-                            document
-                              .getElementById("showModalAddSoalPilgan")
-                              .click();
                             setIdEdit(item.id);
                             setAction("edit");
+                            document
+                              .getElementById("showModalUraianSingkat")
+                              .click();
                           }}
                         >
                           Edit
                         </button>
                         <button
                           type="button"
-                          className="btn btn-secondary "
-                          onClick={() => {
-                            if (window.confirm("Are you sure?")) {
-                              dispatch(deleteSoalPilgan(item.id));
-                            }
-                          }}
+                          className="btn btn-danger"
+                          onClick={() => handleDeleteSoalUraianSingkat(item.id)}
                         >
                           Delete
                         </button>
@@ -126,9 +113,9 @@ const PilihanGanda = () => {
           </section>
         </div>
       )}
-      <ModalPilihanGanda action={action} id={idEdit}/>
+      <ModalUraianSingkat action={action} id={idEdit} />
     </AdminLayout>
   );
 };
 
-export default PilihanGanda;
+export default UraianSingkat;

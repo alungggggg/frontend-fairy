@@ -8,7 +8,6 @@ import Dashboard from "./Pages/Admin/dashboard";
 import PilihanGanda from "./Pages/Admin/bankSoal/pilihanGanda";
 import UraianSingkat from "./Pages/Admin/bankSoal/uraianSingkat";
 import UraianPanjang from "./Pages/Admin/bankSoal/uraianPanjang";
-
 function App() {
   return (
     <>
