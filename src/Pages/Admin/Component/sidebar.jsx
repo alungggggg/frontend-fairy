@@ -1,17 +1,10 @@
 import { Link, useLocation } from "react-router-dom";
 
-const Sidebar = () => {
+const Sidebar = ({navList = []}) => {
   const location = useLocation();
   const path = location.pathname;
 
-  const navList = [
-    { name: "Dashboard", path: "/admin" },
-    { name: "Users", path: "/admin/users" },
-    { name: "Dongeng", path: "/admin/dongeng" },
-    { name: "Bank Soal", path: "/admin/bank-soal" },
-    { name: "Forum Quiz", path: "/admin/forum-quiz" },
-    { name: "Rekap Siswa", path: "" },
-  ];
+  
   return (
     <div className="col-auto col-md-3 col-xl-2 px-sm-2 px-0 bg-night">
       <div

@@ -7,6 +7,8 @@ import {
 } from "../../../../lib/redux/api/soalPilgan";
 import Loading from "../../../../Component/loading";
 import ModalPilihanGanda from "./modal";
+import { ArrowLeft } from "../../forumQuiz/forumDetail";
+import { Link } from "react-router-dom";
 
 const PilihanGanda = () => {
   const tableHead = [
@@ -40,7 +42,18 @@ const PilihanGanda = () => {
           <Loading />
         </section>
       ) : (
-        <div className="">
+        <div className="container">
+          <div className="d-flex justify-content-between align-items-center p-0">
+            <Link
+              to={"/admin/bank-soal"}
+              className={
+                "d-flex align-items-center  gap-2 text-decoration-none fs-5 text-black "
+              }
+            >
+              <ArrowLeft size={24} /> Bank Soal List
+            </Link>
+          </div>
+          <hr className="my-3" />
           <div className="row mb-3">
             <div className="input-group col">
               <input

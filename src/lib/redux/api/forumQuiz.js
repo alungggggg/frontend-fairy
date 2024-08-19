@@ -21,6 +21,63 @@ export const getForumQuiz = createAsyncThunk(
   }
 );
 
+export const addForumQuiz = createAsyncThunk(
+  "forumQuiz/addForumQuiz",
+  async (payload) => {
+    console.log(payload);
+    try {
+      const response = await fairyApi.post("/create-quiz", payload);
+      if (response) {
+        return response.data;
+      }
+
+      throw new Error();
+    } catch (error) {
+      if (error instanceof AxiosError) {
+        return error.response ? error.response.status : error.message;
+      }
+      throw error;
+    }
+  }
+);
+export const getForumQuizById = createAsyncThunk(
+  "forumQuiz/getForumQuizById",
+  async (payload) => {
+    try {
+      const response = await fairyApi.get(`/get-quiz/${payload}`);
+      if (response) {
+        return response.data;
+      }
+
+      throw new Error();
+    } catch (error) {
+      if (error instanceof AxiosError) {
+        return error.response ? error.response.status : error.message;
+      }
+      throw error;
+    }
+  }
+);
+
+export const deleteForumQuiz = createAsyncThunk(
+  "forumQuiz/deleteForumQuiz",
+  async (payload) => {
+    try {
+      const response = await fairyApi.delete(`/delete-quiz/${payload}`);
+      if (response) {
+        return response.data;
+      }
+
+      throw new Error();
+    } catch (error) {
+      if (error instanceof AxiosError) {
+        return error.response ? error.response.status : error.message;
+      }
+      throw error;
+    }
+  }
+);
+
 const forumQuizSlice = createSlice({
   name: "forumQuiz",
   initialState: {
@@ -41,6 +98,41 @@ const forumQuizSlice = createSlice({
         state.error = action.error.message;
       })
       .addCase(getForumQuiz.pending, (state) => {
+        state.isLoading = true;
+      })
+      .addCase(addForumQuiz.fulfilled, (state, action) => {
+        state.isLoading = false;
+        state.error = null;
+      })
+      .addCase(addForumQuiz.rejected, (state, action) => {
+        state.isLoading = false;
+        state.error = action.error.message;
+      })
+      .addCase(addForumQuiz.pending, (state) => {
+        state.isLoading = true;
+      })
+      .addCase(getForumQuizById.fulfilled, (state, action) => {
+        state.forumQuiz = [];
+        state.forumQuiz.push(action.payload);
+        state.isLoading = false;
+        state.error = null;
+      })
+      .addCase(getForumQuizById.rejected, (state, action) => {
+        state.isLoading = false;
+        state.error = action.error.message;
+      })
+      .addCase(getForumQuizById.pending, (state) => {
+        state.isLoading = true;
+      })
+      .addCase(deleteForumQuiz.fulfilled, (state, action) => {
+        state.isLoading = false;
+        state.error = null;
+      })
+      .addCase(deleteForumQuiz.rejected, (state, action) => {
+        state.isLoading = false;
+        state.error = action.error.message;
+      })
+      .addCase(deleteForumQuiz.pending, (state) => {
         state.isLoading = true;
       });
   },

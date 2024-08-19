@@ -1,9 +1,14 @@
 import { useDispatch, useSelector } from "react-redux";
 import AdminLayout from "../../adminLayout";
 import { useEffect, useState } from "react";
-import { deleteSoalUraianPanjang, getSoalUraianPanjang } from "../../../../lib/redux/api/soalUraianPanjang";
+import {
+  deleteSoalUraianPanjang,
+  getSoalUraianPanjang,
+} from "../../../../lib/redux/api/soalUraianPanjang";
 import Loading from "../../../../Component/loading";
 import ModalUraianPanjang from "./modal";
+import { ArrowLeft } from "../../forumQuiz/forumDetail";
+import { Link } from "react-router-dom";
 
 const UraianPanjang = () => {
   const tableHead = ["No", "Soal", "Judul Dongeng", "Jawaban", ""];
@@ -33,7 +38,18 @@ const UraianPanjang = () => {
           <Loading />
         </section>
       ) : (
-        <div className="">
+        <div className="container">
+          <div className="d-flex justify-content-between align-items-center p-0">
+            <Link
+              to={"/admin/bank-soal"}
+              className={
+                "d-flex align-items-center  gap-2 text-decoration-none fs-5 text-black "
+              }
+            >
+              <ArrowLeft size={24} /> Bank Soal List
+            </Link>
+          </div>
+          <hr className="my-3"/>
           <div className="row mb-3">
             <div className="input-group col">
               <input
@@ -95,7 +111,11 @@ const UraianPanjang = () => {
                         >
                           Edit
                         </button>
-                        <button type="button" className="btn btn-danger" onClick={() => handleDelete(item.id)}>
+                        <button
+                          type="button"
+                          className="btn btn-danger"
+                          onClick={() => handleDelete(item.id)}
+                        >
                           Delete
                         </button>
                       </td>

@@ -4,23 +4,34 @@ import AdminLayout from "../adminLayout";
 const BankSoal = () => {
   return (
     <AdminLayout>
-      <div className="row gap-3 px-3">
-        <div className="card col-5">
-          <Link to={"./pilihan-ganda"} className="card-body">
-            Pilihan Ganda
-          </Link>
+      <section className="container">
+        <div className=" w-100 row row-cols-2 fs-2 gap-3">
+          <div className="card col" style={{ width: "49%" }}>
+            <Link
+              to={"./pilihan-ganda"}
+              className="card-body text-decoration-none p-4"
+            >
+              Pilihan Ganda
+            </Link>
+          </div>
+          <div className="card col" style={{ width: "49%" }}>
+            <Link
+              to={"./uraian-singkat"}
+              className="card-body text-decoration-none p-4"
+            >
+              Uraian Singkat
+            </Link>
+          </div>
+          <div className="card col" style={{ width: "49%" }}>
+            <Link
+              to={"./uraian-panjang"}
+              className="card-body text-decoration-none p-4"
+            >
+              Uraian Panjang
+            </Link>
+          </div>
         </div>
-        <div className="card col-5">
-          <Link to={"./uraian-singkat"} className="card-body">
-            Uraian Singkat
-          </Link>
-        </div>
-        <div className="card col-5">
-          <Link to={"./uraian-panjang"} className="card-body">
-            Uraian Panjang
-          </Link>
-        </div>
-      </div>
+      </section>
     </AdminLayout>
   );
 };

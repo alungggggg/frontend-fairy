@@ -9,6 +9,8 @@ import PilihanGanda from "./Pages/Admin/bankSoal/pilihanGanda";
 import UraianSingkat from "./Pages/Admin/bankSoal/uraianSingkat";
 import UraianPanjang from "./Pages/Admin/bankSoal/uraianPanjang";
 import ForumQuiz from "./Pages/Admin/forumQuiz";
+import ForumQuizDetail from "./Pages/Admin/forumQuiz/forumDetail";
+
 function App() {
   return (
     <>
@@ -50,7 +52,10 @@ function App() {
 
             <Route path="dongeng" element={<kernel.dongeng />} />
             <Route path="users" element={<kernel.user />} />
-            <Route path="forum-quiz" element={<ForumQuiz />} />
+            <Route path="forum-quiz">
+              <Route index element={<ForumQuiz />} />
+              <Route path=":id" element={<ForumQuizDetail />} />
+            </Route>
           </Route>
 
           <Route path="*" element={<kernel.err404 />} />
