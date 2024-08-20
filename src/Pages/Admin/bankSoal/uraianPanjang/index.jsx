@@ -2,38 +2,34 @@ import { useDispatch, useSelector } from "react-redux";
 import AdminLayout from "../../adminLayout";
 import { useEffect, useState } from "react";
 import {
-  deleteSoalPilgan,
-  getSoalPilgan,
-} from "../../../../lib/redux/api/soalPilgan";
+  deleteSoalUraianPanjang,
+  getSoalUraianPanjang,
+} from "../../../../lib/redux/api/soalUraianPanjang";
 import Loading from "../../../../Component/loading";
-import ModalPilihanGanda from "./modal";
+import ModalUraianPanjang from "./modal";
 import { ArrowLeft } from "../../forumQuiz/forumDetail";
 import { Link } from "react-router-dom";
 
-const PilihanGanda = () => {
-  const tableHead = [
-    "No",
-    "Soal",
-    "Judul Dongeng",
-    "Opsi 1",
-    "Opsi 2",
-    "Opsi 3",
-    "Opsi 4",
-    "Jawaban",
-    "",
-  ];
+const UraianPanjang = () => {
+  const tableHead = ["No", "Soal", "Judul Dongeng", "Jawaban", ""];
 
-  const [action, setAction] = useState();
-  const [idEdit , setIdEdit] = useState();
-
-  const dispatch = useDispatch();
-  const { soalPilgan, isLoading } = useSelector(
-    (state) => state.soalPilihanGanda
+  const { soalUraianPanjang, isLoading } = useSelector(
+    (state) => state.soalUraianPanjang
   );
 
+  const [action, setAction] = useState();
+  const [idEdit, setIdEdit] = useState();
+
+  const dispatch = useDispatch();
   useEffect(() => {
-    dispatch(getSoalPilgan());
+    dispatch(getSoalUraianPanjang());
   }, []);
+
+  function handleDelete(id) {
+    if (window.confirm("Are you sure?")) {
+      dispatch(deleteSoalUraianPanjang(id));
+    }
+  }
 
   return (
     <AdminLayout>
@@ -53,7 +49,7 @@ const PilihanGanda = () => {
               <ArrowLeft size={24} /> Bank Soal List
             </Link>
           </div>
-          <hr className="my-3" />
+          <hr className="my-3"/>
           <div className="row mb-3">
             <div className="input-group col">
               <input
@@ -76,8 +72,8 @@ const PilihanGanda = () => {
                 type="button"
                 className="btn btn-secondary"
                 onClick={() => {
-                  document.getElementById("showModalAddSoalPilgan").click();
                   setAction("add");
+                  document.getElementById("showModalUraianPanjang").click();
                 }}
               >
                 Add
@@ -95,38 +91,30 @@ const PilihanGanda = () => {
                   </tr>
                 </thead>
                 <tbody>
-                  {soalPilgan.map((item, i) => (
+                  {soalUraianPanjang.map((item, i) => (
                     <tr key={i}>
-                      <td>{i+1}</td>
-                      <td>{item.soal || ""}</td>
+                      <td>{i + 1}</td>
+                      <td>{item.soal}</td>
                       <td>{item.dongeng.title || ""}</td>
-                      <td>{item.opsi_1 || ""}</td>
-                      <td>{item.opsi_2 || ""}</td>
-                      <td>{item.opsi_3 || ""}</td>
-                      <td>{item.opsi_4 || ""}</td>
-                      <td>{item.jawaban || ""}</td>
+                      <td>{item.jawaban}</td>
                       <td className="d-flex gap-2">
                         <button
                           type="button"
-                          className="btn btn-secondary "
+                          className="btn btn-primary"
                           onClick={() => {
-                            document
-                              .getElementById("showModalAddSoalPilgan")
-                              .click();
-                            setIdEdit(item.id);
                             setAction("edit");
+                            setIdEdit(item.id);
+                            document
+                              .getElementById("showModalUraianPanjang")
+                              .click();
                           }}
                         >
                           Edit
                         </button>
                         <button
                           type="button"
-                          className="btn btn-secondary "
-                          onClick={() => {
-                            if (window.confirm("Are you sure?")) {
-                              dispatch(deleteSoalPilgan(item.id));
-                            }
-                          }}
+                          className="btn btn-danger"
+                          onClick={() => handleDelete(item.id)}
                         >
                           Delete
                         </button>
@@ -139,9 +127,9 @@ const PilihanGanda = () => {
           </section>
         </div>
       )}
-      <ModalPilihanGanda action={action} id={idEdit}/>
+      <ModalUraianPanjang action={action} id={idEdit} />
     </AdminLayout>
   );
 };
 
-export default PilihanGanda;
+export default UraianPanjang;

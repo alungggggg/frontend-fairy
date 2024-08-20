@@ -12,6 +12,7 @@
   "dependencies": {
     "@reduxjs/toolkit": "^2.2.7",
     "axios": "^1.7.2",
+    "bootstrap-icons": "^1.11.3",
     "cookies-next": "^4.2.1",
     "cors": "^2.8.5",
     "formik": "^2.4.6",
