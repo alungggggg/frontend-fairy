@@ -109,7 +109,7 @@ const forgotPassword = () => {
         }
       }}
     >
-      <Form>
+      {/* <Form>
         <Field type="password" name="newPassword" placeholder="New Password" />
         <ErrorMessage name="newPassword" render={errorMessage} />
 
@@ -121,7 +121,7 @@ const forgotPassword = () => {
         <ErrorMessage name="confirmPassword" render={errorMessage} />
 
         <button type="submit">Change</button>
-      </Form>
+      </Form> */}
 
       <section className="row justify-content-center pt-2 pt-md-5 p-3 p-md-0 register">
         <section className="col-lg-5">
