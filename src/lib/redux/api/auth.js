@@ -5,10 +5,12 @@ import { deleteCookie, getCookie, getCookies, setCookie } from "cookies-next";
 import fairyApi from "../../axios";
 
 export const signIn = createAsyncThunk("auth/login", async (user) => {
-  const { email, password } = user;
+  const { credential, password } = user;
+  console.log(credential);
+
   try {
     const response = await axios.post("http://localhost:5000/api/login", {
-      email,
+      credential,
       password,
     });
     if (response.data.data.status) {
