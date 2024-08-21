@@ -7,17 +7,16 @@ import Footer from "../../template/footer";
 import { useDispatch } from "react-redux";
 
 const post = async ({ title, pdf }) => {
-  const dispatch = useDispatch();
+  var file = pdf
   try {
-    const response = axios.post(
+    const response = await axios.post(
       "http://localhost:5000/api/dongeng",
       {
         title,
-        file: pdf,
+        file,
       },
       {
         headers: {
-          Authorization: `Bearer ${localStorage.getItem("token")}`,
           "Content-Type": `multipart/form-data`,
         },
       }
@@ -96,9 +95,7 @@ const addDongeng = () => {
                 initialValues={{ pdf: null }}
                 validationSchema={schema}
                 onSubmit={(values, { setSubmitting }) => {
-                  post(values).then((response) => {
-                    console.log(response);
-                  });
+                  post(values);
                 }}
               >
                 {({ setFieldValue, errors, touched, isSubmitting }) => (

@@ -23,12 +23,15 @@ const ForumQuiz = () => {
 
   let { forumQuiz, isLoading } = useSelector((state) => state.forumQuiz);
 
+  console.log(forumQuiz);
+
+
   let displayedForum = forumQuiz.filter((forum) => {
     return search
       ? forum.judul.toLowerCase().includes(search.toLowerCase()) ||
-          forum.dongeng.title.toLowerCase().includes(search.toLowerCase()) ||
-          forum.sekolah.toLowerCase().includes(search.toLowerCase()) ||
-          forum.token.toLowerCase().includes(search.toLowerCase())
+      forum.dongeng.title.toLowerCase().includes(search.toLowerCase()) ||
+      forum.sekolah.toLowerCase().includes(search.toLowerCase()) ||
+      forum.token.toLowerCase().includes(search.toLowerCase())
       : forum;
   });
 
