@@ -2,11 +2,12 @@ import Header from "../../template/header";
 import Footer from "../../template/footer";
 import { useState, useEffect } from "react";
 import Swal from "sweetalert2";
-import { useLocation } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 import { confirmSwal } from "../../../Component/alert";
 
 const quiz = () => {
   const location = useLocation();
+  const Navigate = useNavigate();
   const queryParams = new URLSearchParams(location.search);
   const quizIndex = queryParams.get("soal");
 
@@ -14,36 +15,64 @@ const quiz = () => {
     return (
       <>
         <Header />
-        <section className="container mt-5 mb-5">
-          <h1>Aturan</h1>
-          <p>
-            Kuis Sub-modul Pengenalan CSS berfungsi untuk menguji pengetahuan
-            Anda tentang materi yang telah dipelajari di sub-modul ini.
-          </p>
-          <p>
-            Terdapat 5 pertanyaan yang harus dikerjakan dalam ujian ini.
-            Beberapa ketentuan dari ujian ini adalah:
-          </p>
-          <ul className="">
-            <li className="">
-              <p>Syarat nilai kelulusan 80%</p>
-            </li>
-            <li className="">
-              <p>Durasi quiz: 20 menit</p>
-            </li>
-          </ul>
-          <p>
-            Apabila tidak memenuhi syarat kelulusan, maka Anda harus menunggu
-            selama 1 menit untuk mengulang pengerjaan ujian kembali.
-          </p>
-          <p>Selamat Mengerjakan!</p>
-        </section>
+        <main className="container mt-5 mb-5">
+          <section className="row">
+            <section className="col-md-8 p-2">
+              <h1 className="text-white">Aturan</h1>
+              <p className="text-white mt-4 mb-4">
+                Kuis Sub-modul Pengenalan Dongeng berfungsi untuk menguji
+                pengetahuan Anda tentang materi yang telah dipelajari di
+                sub-modul ini.
+              </p>
+              <p className="text-white">
+                Terdapat 5 pertanyaan yang harus dikerjakan dalam ujian ini.
+                Beberapa ketentuan dari ujian ini adalah:
+              </p>
+              <ul className="mt-4 mb-4">
+                <li className="">
+                  <p className="text-white">- Syarat nilai kelulusan 80</p>
+                </li>
+                <li className="">
+                  <p className="text-white">- Durasi quiz: 20 menit</p>
+                </li>
+              </ul>
+              <p className="text-white">
+                Apabila tidak memenuhi syarat kelulusan, Manfaatkan waktu tunggu
+                tersebut untuk mempelajari kembali materi sebelumnya, ya.
+              </p>
+              <p className="text-white">Selamat Mengerjakan!</p>
+              <section className="d-flex justify-content-end">
+                <button
+                  className="btn btn-lg btn-orange"
+                  onClick={Navigate("/quiz?soal=1")}
+                >
+                  Mulai
+                </button>
+              </section>
+            </section>
+
+            <section className="col-md-4 border-start p-2">
+              <h1 className="text-white">Riwayat</h1>
+              <table className="table table-striped">
+                <thead>
+                  <tr>
+                    <th>Tanggal</th>
+                    <th>Nilai</th>
+                  </tr>
+                </thead>
+                <tbody></tbody>
+              </table>
+            </section>
+          </section>
+        </main>
+
         <Footer />
       </>
     );
   }
 
   const [answer, setAnswer] = useState({});
+  console.log(answer);
 
   const pertanyaanPilihanGanda = [
     {
@@ -74,7 +103,7 @@ const quiz = () => {
       id: "A3",
       soal: "Berapa jumlah putri Nyai Intan?",
       pilihanGanda: ["2", "3", "4", "5"],
-      jawaban: 3,
+      jawaban: "3",
     },
 
     {
@@ -152,11 +181,20 @@ const quiz = () => {
     setAnswer(updatedAnswer);
   };
 
-  const handleSubmit = (e) => {
-    console.log(localStorage.getItem("answers"));
-    e.preventDefault();
-
+  const handleSubmit = (userAnswers) => {
     let score = 0;
+
+    pertanyaanPilihanGanda.forEach((pertanyaan) => {
+      const userAnswer = userAnswers[pertanyaan.id];
+      const isCorrect = userAnswer === pertanyaan.jawaban;
+      if (isCorrect) {
+        score += 1;
+      }
+    });
+
+    console.log(localStorage.getItem("answers"));
+
+    // let score = 0;
     let totalQuestions = pertanyaanPilihanGanda.length;
 
     pertanyaanPilihanGanda.forEach((question) => {
@@ -245,7 +283,7 @@ const quiz = () => {
                           "Apakah kamu yakin untuk submit jawaban?"
                         ).then((result) => {
                           if (result.isConfirmed) {
-                            handleSubmit(localStorage.getItem("answers"))
+                            handleSubmit(localStorage.getItem("answers"));
                           }
                         })
                       }
