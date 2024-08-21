@@ -10,11 +10,12 @@ const register = () => {
   const navigate = useNavigate();
   const [isLoading, setIsLoading] = useState(false);
 
-  const post = async ({ nama, email, password, confirmPassword }) => {
+  const post = async ({ nama, username, email, password, confirmPassword }) => {
     setIsLoading(true);
     try {
       await fairyApi.post("/register", {
         nama,
+        username,
         email,
         password,
         confirmPassword,
@@ -33,6 +34,7 @@ const register = () => {
       <Formik
         initialValues={{
           nama: "",
+          username: "",
           email: "",
           password: "",
           confirmPassword: "",
@@ -68,6 +70,23 @@ const register = () => {
                     <ErrorMessage
                       // displays the validation error message for the 'email' field
                       name="nama"
+                      render={errorMessage}
+                    />
+                  </section>
+                  <section className="form-group mb-3">
+                    <label htmlFor="" className="form-label fw-bold">
+                      USERNAME
+                    </label>
+                    <Field
+                      type="text"
+                      name="username"
+                      className="form-control"
+                      placeholder="Masukan Username"
+                    />
+
+                    <ErrorMessage
+                      // displays the validation error message for the 'email' field
+                      name="username"
                       render={errorMessage}
                     />
                   </section>

@@ -92,7 +92,7 @@ const login = () => {
               >
                 <Form>
                   <section className="form-group">
-                    <label className="form-label fw-bold">ALAMAT EMAIL</label>
+                    <label className="form-label fw-bold">Username or Password</label>
                     <Field
                       type="email"
                       name="email"
