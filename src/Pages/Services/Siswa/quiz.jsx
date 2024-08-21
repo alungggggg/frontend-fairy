@@ -153,6 +153,7 @@ const quiz = () => {
   };
 
   const handleSubmit = (e) => {
+    console.log(localStorage.getItem("answers"));
     e.preventDefault();
 
     let score = 0;
@@ -235,14 +236,18 @@ const quiz = () => {
                   )
                 )}
                 <section className="pt-3">
-                  {quizIndex == pertanyaanPilihanGanda.length - 1 ? (
+                  {quizIndex == pertanyaanPilihanGanda.length ? (
                     <button
                       className="float-right btn border-1 border-success-subtle bg-success-subtle"
                       onClick={() =>
                         confirmSwal(
                           "KONFIRMASI",
                           "Apakah kamu yakin untuk submit jawaban?"
-                        )
+                        ).then((result) => {
+                          if (result.isConfirmed) {
+                            handleSubmit(localStorage.getItem("answers"))
+                          }
+                        })
                       }
                     >
                       Submit
