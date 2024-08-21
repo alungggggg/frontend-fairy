@@ -1,7 +1,50 @@
 import Header from "../template/header";
 import Footer from "../template/footer";
+import axios from "axios";
+import fairyApi from "../../lib/axios";
+import { useEffect } from "react";
+
+const PopularBook = async () => {
+  return (
+    <section className="col-lg-3 my-2">
+      <a href="#" className="text-decoration-none text-dark">
+        <section className="card border-0 mt-3 CardBook_card">
+          <section
+            className="card-header text-center text-lg-start bg-white p-0 border-0"
+            style={{
+              backgroundImage:
+                'url("https://buku.kemdikbud.go.id/assets/image/home/ellipse-2.png")',
+              backgroundRepeat: "no-repeat",
+              backgroundPosition: "center bottom",
+            }}
+          >
+            <img
+              src="https://static.buku.kemdikbud.go.id/content/thumbnail/Cover_Kelas_XI_B_Indonesia_BS.png"
+              alt="Bahasa Indonesia Kelas XI"
+              className="CardBook_img-size"
+            />
+          </section>
+          <section className="card-body px-5 px-lg-0 py-2">
+            <span className="badge rounded-pill bg-danger mt-2">
+              PDF
+            </span>
+            <span className="badge rounded-pill bg-secondary mt-2 ms-1">
+              SMA/MA/SMK/MAK
+            </span>
+            <section className="my-2">
+              Bahasa Indonesia Kelas XI
+            </section>
+          </section>
+        </section>
+      </a>
+    </section>)
+}
 
 const Home = () => {
+  useEffect(() => {
+    console.log("p");
+
+  }, [])
   return (
     <>
       <Header />
@@ -121,6 +164,7 @@ const Home = () => {
               </section>
               <p className="text-white">Buku tersedia</p>
             </section>
+            <PopularBook />
             {/* <section className="col-6 col-lg-2">
               <section className="position-relative">
                 <section className="position-relative" style={{ zIndex: 100 }}>
@@ -178,38 +222,7 @@ const Home = () => {
               </section>
             </section>
             <section className="row mt-4">
-              <section className="col-lg-3 my-2">
-                <a href="#" className="text-decoration-none text-dark">
-                  <section className="card border-0 mt-3 CardBook_card">
-                    <section
-                      className="card-header text-center text-lg-start bg-white p-0 border-0"
-                      style={{
-                        backgroundImage:
-                          'url("https://buku.kemdikbud.go.id/assets/image/home/ellipse-2.png")',
-                        backgroundRepeat: "no-repeat",
-                        backgroundPosition: "center bottom",
-                      }}
-                    >
-                      <img
-                        src="https://static.buku.kemdikbud.go.id/content/thumbnail/Cover_Kelas_XI_B_Indonesia_BS.png"
-                        alt="Bahasa Indonesia Kelas XI"
-                        className="CardBook_img-size"
-                      />
-                    </section>
-                    <section className="card-body px-5 px-lg-0 py-2">
-                      <span className="badge rounded-pill bg-danger mt-2">
-                        PDF
-                      </span>
-                      <span className="badge rounded-pill bg-secondary mt-2 ms-1">
-                        SMA/MA/SMK/MAK
-                      </span>
-                      <section className="my-2">
-                        Bahasa Indonesia Kelas XI
-                      </section>
-                    </section>
-                  </section>
-                </a>
-              </section>
+
               <section className="col-lg-3 my-2">
                 <a href="#" className="text-decoration-none text-dark">
                   <section className="card border-0 mt-3 CardBook_card">

@@ -27,6 +27,7 @@ function App() {
           <Route path="/register" element={<kernel.register />} />
           <Route path="/logout" element={<kernel.logout />} />
           <Route path="/forgot-password" element={<kernel.forgotPassword />} />
+          <Route path="/verify" element={<kernel.verify />} />
           {/* <Route path="/forgot-password" element={<kernel.logout />} /> */}
 
           <Route path="/users/add" element={<kernel.addUser />} />
@@ -42,7 +43,7 @@ function App() {
 
           <Route path="/admin">
             <Route index element={<Dashboard />} />
-            
+
             <Route path="bank-soal">
               <Route index element={<BankSoal />} />
               <Route path="pilihan-ganda" element={<PilihanGanda />} />

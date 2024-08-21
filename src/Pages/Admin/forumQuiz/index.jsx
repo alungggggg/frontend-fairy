@@ -23,12 +23,15 @@ const ForumQuiz = () => {
 
   let { forumQuiz, isLoading } = useSelector((state) => state.forumQuiz);
 
+  console.log(forumQuiz);
+
+
   let displayedForum = forumQuiz.filter((forum) => {
     return search
       ? forum.judul.toLowerCase().includes(search.toLowerCase()) ||
-          forum.dongeng.title.toLowerCase().includes(search.toLowerCase()) ||
-          forum.sekolah.toLowerCase().includes(search.toLowerCase()) ||
-          forum.token.toLowerCase().includes(search.toLowerCase())
+      forum.dongeng.title.toLowerCase().includes(search.toLowerCase()) ||
+      forum.sekolah.toLowerCase().includes(search.toLowerCase()) ||
+      forum.token.toLowerCase().includes(search.toLowerCase())
       : forum;
   });
 
@@ -86,19 +89,19 @@ const ForumQuiz = () => {
                   </tr>
                 </thead>
                 <tbody>
-                  {displayedForum.map((item, i) => (
+                  {displayedForum?.map((item, i) => (
                     <tr
                       key={i}
                       onClick={() => navigate(`./${item.id}`)}
                       style={{ cursor: "pointer" }}
                     >
                       <td>{i + 1}</td>
-                      <td>{item.judul}</td>
-                      <td>{item.dongeng.title}</td>
-                      <td>{item.sekolah}</td>
-                      <td>{item.access_date}</td>
-                      <td>{item.expired_date}</td>
-                      <td>{item.token}</td>
+                      <td>{item?.judul}</td>
+                      <td>{item?.dongeng?.title || ``}</td>
+                      <td>{item?.sekolah}</td>
+                      <td>{item?.access_date}</td>
+                      <td>{item?.expired_date}</td>
+                      <td>{item?.token}</td>
                     </tr>
                   ))}
                 </tbody>
