@@ -5,6 +5,7 @@ import uraianSingkatSlice from "./api/soalUraianSingkat";
 import soalUraianPanjang from "./api/soalUraianPanjang";
 import forumQuizSlice from "./api/forumQuiz";
 import dongengSlice from "./api/dongeng";
+import rekapNilaiSlice from "./api/rekapNilai";
 
 export const store = configureStore({
   reducer: {
@@ -12,7 +13,8 @@ export const store = configureStore({
     soalPilihanGanda: pilganSlice,
     soalUraianSingkat: uraianSingkatSlice,
     soalUraianPanjang: soalUraianPanjang,
-    forumQuiz : forumQuizSlice,
+    forumQuiz: forumQuizSlice,
     dongeng: dongengSlice,
+    rekapNilai: rekapNilaiSlice,
   },
 });

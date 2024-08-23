@@ -23,8 +23,6 @@ const ForumQuiz = () => {
 
   let { forumQuiz, isLoading } = useSelector((state) => state.forumQuiz);
 
-  console.log(forumQuiz);
-
 
   let displayedForum = forumQuiz.filter((forum) => {
     return search
@@ -46,7 +44,7 @@ const ForumQuiz = () => {
           <Loading />
         </section>
       ) : (
-        <div className="container">
+        <div className="">
           <div className="row mb-3">
             <div className="input-group col">
               <input

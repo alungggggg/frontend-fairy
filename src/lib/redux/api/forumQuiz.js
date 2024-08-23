@@ -78,6 +78,28 @@ export const deleteForumQuiz = createAsyncThunk(
   }
 );
 
+export const editForumQuiz = createAsyncThunk(
+  "forumQuiz/editForumQuiz",
+  async (payload) => {
+    try {
+      const response = await fairyApi.patch(
+        `/update-quiz/${payload.id}`,
+        payload
+      );
+      if (response) {
+        return response.data;
+      }
+
+      throw new Error();
+    } catch (error) {
+      if (error instanceof AxiosError) {
+        return error.response ? error.response.status : error.message;
+      }
+      throw error;
+    }
+  }
+);
+
 const forumQuizSlice = createSlice({
   name: "forumQuiz",
   initialState: {
@@ -133,6 +155,17 @@ const forumQuizSlice = createSlice({
         state.error = action.error.message;
       })
       .addCase(deleteForumQuiz.pending, (state) => {
+        state.isLoading = true;
+      })
+      .addCase(editForumQuiz.fulfilled, (state, action) => {
+        state.isLoading = false;
+        state.error = null;
+      })
+      .addCase(editForumQuiz.rejected, (state, action) => {
+        state.isLoading = false;
+        state.error = action.error.message;
+      })
+      .addCase(editForumQuiz.pending, (state) => {
         state.isLoading = true;
       });
   },

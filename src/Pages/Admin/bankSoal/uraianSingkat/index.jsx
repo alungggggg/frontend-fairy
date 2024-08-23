@@ -9,16 +9,27 @@ import Loading from "../../../../Component/loading";
 import ModalUraianSingkat from "./modal";
 import { Link } from "react-router-dom";
 import { ArrowLeft } from "../../forumQuiz/forumDetail";
+import { DeleteIcon, EditIcon } from "../pilihanGanda";
+import { PlusIcon } from "../../forumQuiz";
 
 const UraianSingkat = () => {
   const tableHead = ["No", "Soal", "Judul Dongeng", "Jawaban", ""];
   const [action, setAction] = useState();
   const [idEdit, setIdEdit] = useState();
+  const [search, setSearch] = useState("");
 
   const { soalUraianSingkat, isLoading } = useSelector(
     (state) => state.soalUraianSingkat
   );
   const dispatch = useDispatch();
+
+  const displayedSoal = soalUraianSingkat.filter((soal) => {
+    return search
+      ? soal.soal.toLowerCase().includes(search.toLowerCase()) ||
+        soal.dongeng.title.toLowerCase().includes(search.toLowerCase()) ||
+        soal.jawaban.toLowerCase().includes(search.toLowerCase())
+      : soal;
+  });
 
   useEffect(() => {
     dispatch(getSoalUraianSingkat());
@@ -37,7 +48,7 @@ const UraianSingkat = () => {
           <Loading />
         </section>
       ) : (
-        <div className="container">
+        <div className="">
           <div className="d-flex justify-content-between align-items-center p-0">
             <Link
               to={"/admin/bank-soal"}
@@ -57,24 +68,28 @@ const UraianSingkat = () => {
                 placeholder="Search...."
                 aria-label="Search"
                 aria-describedby="button-addon2"
+                value={search}
+                onChange={(e) => setSearch(e.target.value)}
               />
               <button
                 className="btn btn-outline-secondary"
                 type="button"
                 id="Search"
+                onClick={() => setSearch("")}
               >
-                Search
+                Clear
               </button>
             </div>
             <div className="col d-flex justify-content-end">
               <button
                 type="button"
-                className="btn btn-secondary"
+                className="btn btn-secondary d-flex align-items-center gap-1 lh-sm bg-white text-black fs-5"
                 onClick={() => {
                   setAction("add");
                   document.getElementById("showModalUraianSingkat").click();
                 }}
               >
+                <PlusIcon size={24} />
                 Add
               </button>
             </div>
@@ -84,19 +99,30 @@ const UraianSingkat = () => {
               <table className="table table-striped m-0 ">
                 <thead>
                   <tr>
-                    {tableHead.map((item, i) => (
-                      <th key={i}>{item}</th>
-                    ))}
+                    {tableHead.map((item, i) => {
+                      if (i == tableHead.length - 1) {
+                        return (
+                          <th key={i} style={{ width: "120px" }}>
+                            {item}
+                          </th>
+                        );
+                      } else {
+                        return <th key={i}>{item}</th>;
+                      }
+                    })}
                   </tr>
                 </thead>
                 <tbody>
-                  {soalUraianSingkat.map((item, i) => (
-                    <tr key={i}>
+                  {displayedSoal.map((item, i) => (
+                    <tr key={i} className="align-middle">
                       <td>{i + 1}</td>
                       <td>{item.soal}</td>
                       <td>{item.dongeng.title || ""}</td>
                       <td>{item.jawaban}</td>
-                      <td className="d-flex gap-2">
+                      <td
+                        className="d-flex gap-2 justify-content-end"
+                        style={{ maxWidth: "120px" }}
+                      >
                         <button
                           type="button"
                           className="btn btn-primary"
@@ -108,14 +134,14 @@ const UraianSingkat = () => {
                               .click();
                           }}
                         >
-                          Edit
+                          <EditIcon size={18} />
                         </button>
                         <button
                           type="button"
                           className="btn btn-danger"
                           onClick={() => handleDeleteSoalUraianSingkat(item.id)}
                         >
-                          Delete
+                          <DeleteIcon size={18} />
                         </button>
                       </td>
                     </tr>

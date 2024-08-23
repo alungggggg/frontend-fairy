@@ -8,7 +8,7 @@ function ModalLayout({ childern }) {
         type="button"
         className="btn btn-primary d-none"
         data-bs-toggle="modal"
-        data-bs-target="#staticBackdrop_2"
+        data-bs-target="#staticBackdrop"
         id="showModalUraianPanjang"
       >
         Launch static backdrop modal
@@ -16,7 +16,7 @@ function ModalLayout({ childern }) {
 
       <div
         className="modal fade"
-        id="staticBackdrop_2"
+        id="staticBackdrop"
         data-bs-backdrop="static"
         data-bs-keyboard="false"
         tabIndex="-1"

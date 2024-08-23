@@ -3,7 +3,10 @@ import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import * as Yup from "yup";
 import { getAllDongeng } from "../../../../lib/redux/api/dongeng";
-import { addSoalUraianPanjang, getSoalUraianPanjang } from "../../../../lib/redux/api/soalUraianPanjang";
+import {
+  addSoalUraianPanjang,
+  getSoalUraianPanjang,
+} from "../../../../lib/redux/api/soalUraianPanjang";
 
 const uraianSingkatPanjang = Yup.object().shape({
   soal: Yup.string().required("Soal is required"),
@@ -68,11 +71,13 @@ const AddSoalUraianPanjang = () => {
                     </label>
                     <Field as="select" name="idDongeng" className="form-select">
                       <option value="">Pilih Dongeng</option>
-                      {dongeng.map((dongeng) => (
-                        <option key={dongeng.id} value={dongeng.id}>
-                          {dongeng.title}
-                        </option>
-                      ))}
+                      {dongeng
+                        ? dongeng.map((dongeng) => (
+                            <option key={dongeng.id} value={dongeng.id}>
+                              {dongeng.title}
+                            </option>
+                          ))
+                        : null}
                     </Field>
                     {errors.idDongeng && touched.idDongeng ? (
                       <div className="text-danger">{errors.idDongeng}</div>
