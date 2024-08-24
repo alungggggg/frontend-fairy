@@ -94,6 +94,7 @@ const addDongeng = () => {
               <Formik
                 initialValues={{ pdf: null }}
                 validationSchema={schema}
+                validateOnChange={false} validateOnBlur={false}
                 onSubmit={(values, { setSubmitting }) => {
                   post(values);
                 }}

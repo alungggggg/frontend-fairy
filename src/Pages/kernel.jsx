@@ -18,6 +18,7 @@ import home from "./Services/home";
 import katalog from "./Services/katalog";
 import petunjuk from "./Services/petunjuk";
 import profile from "./Services/profile";
+import updateProfile from "./Services/updateProfile";
 import err404 from "./Services/404";
 
 import quiz from "./Services/Siswa/quiz";
@@ -42,5 +43,6 @@ export default {
   quiz,
   forgotPassword,
   profile,
-  verify
+  updateProfile,
+  verify,
 };

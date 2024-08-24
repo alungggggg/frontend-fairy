@@ -21,7 +21,7 @@ import AuthTemplate from "./authTemplate";
 // };
 
 const schema = Yup.object({
-  email: Yup.string().email("Email is invalid").required("Email is required"),
+  credential: Yup.string().required("Field ini wajib diisi"),
   // .test(
   //   "checkUniqueEmail",
   //   "The Email Address could not be found.",
@@ -53,16 +53,17 @@ const login = () => {
   const dispatch = useDispatch();
   const { error } = useSelector((state) => state.auth);
 
-  const submit = async ({ email, password }) => {
+  const submit = async ({ credential, password }) => {
+    console.log(credential, password);
     try {
       dispatch(
         signIn({
-          email: email,
+          credential,
           password: password,
         })
       );
     } catch (err) {
-      setError("Email atau Kata Sandi salah!");
+      console.log(err.message);
     }
   };
 
@@ -81,7 +82,7 @@ const login = () => {
                 ""
               )}
               <Formik
-                initialValues={{ email: "", password: "" }}
+                initialValues={{ credential: "", password: "" }}
                 validationSchema={schema}
                 validateOnChange={false}
                 validateOnBlur={false}
@@ -92,14 +93,14 @@ const login = () => {
               >
                 <Form>
                   <section className="form-group">
-                    <label className="form-label fw-bold">ALAMAT EMAIL</label>
+                    <label className="form-label fw-bold">EMAIL OR USERNAME</label>
                     <Field
-                      type="email"
-                      name="email"
+                      type="text"
+                      name="credential"
                       className="form-control"
-                      placeholder="Masukan alamat email"
+                      placeholder="Masukan alamat email atau Username"
                     />
-                    <ErrorMessage name="email" render={errorMessage} />
+                    <ErrorMessage name="credential" render={errorMessage} />
                   </section>
                   <section className="form-group my-4">
                     <section>
