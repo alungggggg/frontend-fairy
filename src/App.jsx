@@ -10,6 +10,8 @@ import UraianSingkat from "./Pages/Admin/bankSoal/uraianSingkat";
 import UraianPanjang from "./Pages/Admin/bankSoal/uraianPanjang";
 import ForumQuiz from "./Pages/Admin/forumQuiz";
 import ForumQuizDetail from "./Pages/Admin/forumQuiz/forumDetail";
+import RekapNilai from "./Pages/Admin/forumQuiz/forum-quiz-rekap";
+import ForumQuizSoal from "./Pages/Admin/forumQuiz/forum-quiz-soal";
 
 function App() {
   return (
@@ -57,6 +59,8 @@ function App() {
             <Route path="forum-quiz">
               <Route index element={<ForumQuiz />} />
               <Route path=":id" element={<ForumQuizDetail />} />
+              <Route path=":id/rekap" element={<RekapNilai />} />
+              <Route path=":id/soal" element={<ForumQuizSoal />} />
             </Route>
           </Route>
 

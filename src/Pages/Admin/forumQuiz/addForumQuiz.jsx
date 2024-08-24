@@ -4,6 +4,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { getAllDongeng } from "../../../lib/redux/api/dongeng";
 import { forumQuizSchema } from "./modal";
 import { addForumQuiz, getForumQuiz } from "../../../lib/redux/api/forumQuiz";
+import Swal from "sweetalert2";
 
 const AddForumQuiz = () => {
   const sekolah = ["Sekolah 1", "Sekolah 2", "Sekolah 3"];
@@ -16,6 +17,7 @@ const AddForumQuiz = () => {
   async function handleAddForumQuiz(values) {
     await dispatch(addForumQuiz(values));
     document.getElementById("showModalForumQuiz").click();
+    Swal.fire("Success", "Forum Quiz has been added", "success");
     await dispatch(getForumQuiz());
   }
   return (
