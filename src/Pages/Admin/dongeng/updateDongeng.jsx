@@ -70,7 +70,7 @@ const UpdateDongeng = () => {
   return (
     <Formik
       initialValues={{ pdf: null, title: dongeng.title }}
-      validationSchema={schema}
+      validationSchema={schema} validateOnChange={false} validateOnBlur={false}
       onSubmit={async (values, { setSubmitting }) => {
         console.log(values);
         try {
