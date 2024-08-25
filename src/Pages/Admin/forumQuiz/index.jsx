@@ -5,6 +5,7 @@ import { getForumQuiz } from "../../../lib/redux/api/forumQuiz";
 import ModalForumQuiz from "./modal";
 import { useNavigate, useParams } from "react-router-dom";
 import Loading from "../../../Component/loading";
+import { getNewAccessToken } from "../../../lib/redux/api/auth";
 
 const ForumQuiz = () => {
   const [search, setSearch] = useState();
@@ -21,15 +22,26 @@ const ForumQuiz = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
-  let { forumQuiz, isLoading } = useSelector((state) => state.forumQuiz);
+  let { forumQuiz, isLoading, error } = useSelector((state) => state.forumQuiz);
 
+  async function reGetAction() {
+    await dispatch(getNewAccessToken());
+    await dispatch(getForumQuiz());
+  }
+  useEffect(() => {
+    if (error === "401") {
+      console.log("need");
 
-  let displayedForum = forumQuiz.filter((forum) => {
+      reGetAction();
+    }
+  }, [error]);
+
+  let displayedForum = forumQuiz?.filter((forum) => {
     return search
       ? forum.judul.toLowerCase().includes(search.toLowerCase()) ||
-      forum.dongeng.title.toLowerCase().includes(search.toLowerCase()) ||
-      forum.sekolah.toLowerCase().includes(search.toLowerCase()) ||
-      forum.token.toLowerCase().includes(search.toLowerCase())
+          forum.dongeng.title.toLowerCase().includes(search.toLowerCase()) ||
+          forum.sekolah.toLowerCase().includes(search.toLowerCase()) ||
+          forum.token.toLowerCase().includes(search.toLowerCase())
       : forum;
   });
 
@@ -53,14 +65,16 @@ const ForumQuiz = () => {
                 placeholder="Search...."
                 aria-label="Search"
                 aria-describedby="button-addon2"
+                value={search}
                 onChange={(e) => setSearch(e.target.value)}
               />
               <button
                 className="btn btn-outline-secondary"
                 type="button"
                 id="Search"
+                onClick={()=>setSearch("")}
               >
-                Search
+                Clear
               </button>
             </div>
             <div className="col d-flex justify-content-end">

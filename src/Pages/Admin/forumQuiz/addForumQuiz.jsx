@@ -5,11 +5,13 @@ import { getAllDongeng } from "../../../lib/redux/api/dongeng";
 import { forumQuizSchema } from "./modal";
 import { addForumQuiz, getForumQuiz } from "../../../lib/redux/api/forumQuiz";
 import Swal from "sweetalert2";
+import { getNewAccessToken } from "../../../lib/redux/api/auth";
 
 const AddForumQuiz = () => {
   const sekolah = ["Sekolah 1", "Sekolah 2", "Sekolah 3"];
   const dispatch = useDispatch();
   const { dongeng } = useSelector((state) => state.dongeng);
+  let { error } = useSelector((state) => state.forumQuiz);
   useEffect(() => {
     dispatch(getAllDongeng());
   }, []);
@@ -20,6 +22,10 @@ const AddForumQuiz = () => {
     Swal.fire("Success", "Forum Quiz has been added", "success");
     await dispatch(getForumQuiz());
   }
+
+  useEffect(()=>{
+    console.log(error);
+  },[error])
   return (
     <div className="modal-dialog modal-dialog-centered">
       <div className="modal-content">

@@ -1,5 +1,6 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import fairyApi from "../../axios";
+import { AxiosError } from "axios";
 
 export const getSoalPilgan = createAsyncThunk(
   "soalPilgan/getSoalPilgan",

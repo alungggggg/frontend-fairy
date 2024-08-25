@@ -6,19 +6,14 @@ import fairyApi from "../../axios";
 
 export const signIn = createAsyncThunk("auth/login", async (user) => {
   const { credential, password } = user;
-  console.log(credential);
-
   try {
     const response = await axios.post("http://localhost:5000/api/login", {
       credential,
       password,
     });
     if (response.data.data.status) {
-      console.log(response.data)
-      localStorage.setItem("token", response.data.token.accessToken);
       return response.data;
     }
-
 
     throw new Error("login failed");
   } catch (error) {
@@ -35,7 +30,6 @@ export const signOut = createAsyncThunk("auth/logout", async () => {
       refreshToken: getCookie("refreshToken"),
     });
   } catch (error) {
-    console.log(error);
     if (error instanceof AxiosError) {
       throw error.response ? error.response.status : error.message;
     }
@@ -47,7 +41,10 @@ export const getValidationCode = createAsyncThunk(
   "auth/get-validation-code",
   async (email) => {
     try {
-      const response = await axios.post("http://localhost:5000/api/forgot-password", { email });
+      const response = await axios.post(
+        "http://localhost:5000/api/forgot-password",
+        { email }
+      );
       if (response.data) {
         return response.data;
       }
@@ -107,8 +104,8 @@ const authSlice = createSlice({
         state.isLoading = false;
         state.user = action.payload.data;
         state.token = action.payload.token.accessToken;
-        setCookie("token", action.payload.token.accessToken);
-        setCookie("refreshToken", action.payload.token.refreshToken);
+        setCookie("accessToken", action.payload.token.accessToken);
+        setCookie("refreshToken", action.payload.token.refreshToken , { maxAge: 7 * 24 * 60 * 60 });
       })
       .addCase(signIn.rejected, (state, action) => {
         state.status = false;
@@ -118,7 +115,7 @@ const authSlice = createSlice({
       .addCase(signOut.fulfilled, (state) => {
         state.user = null;
         state.token = null;
-        deleteCookie("token");
+        deleteCookie("accessToken");
         deleteCookie("refreshToken");
         window.location.replace("/login");
       })
@@ -138,17 +135,13 @@ const authSlice = createSlice({
       .addCase(getNewAccessToken.fulfilled, (state, action) => {
         state.status = true;
         state.token = action.payload.accessToken;
-        console.log("token", action.payload.refreshToken);
-        setCookie("refreshToken", action.payload.refreshToken);
-        setCookie("token", action.payload.accessToken);
+        setCookie("accessToken", action.payload.accessToken);
       })
       .addCase(getNewAccessToken.rejected, (state, action) => {
         state.status = false;
         state.error = action.error.message;
         console.log(action.error.message);
         state.token = null;
-        deleteCookie("token");
-        deleteCookie("refreshToken");
         window.location.replace("/login");
       });
   },

@@ -7,6 +7,7 @@ import {
   addSoalPilgan,
   getSoalPilgan,
 } from "../../../../lib/redux/api/soalPilgan";
+import { getNewAccessToken } from "../../../../lib/redux/api/auth";
 
 const AddSoalPilganSchema = Yup.object().shape({
   soal: Yup.string().required("Soal is required"),
@@ -20,26 +21,41 @@ const AddSoalPilganSchema = Yup.object().shape({
 const AddSoalPilgan = () => {
   const dispatch = useDispatch();
   const { dongeng } = useSelector((state) => state.dongeng);
+  let { error } = useSelector((state) => state.soalPilihanGanda);
+  const [data, setData] = useState([]);
 
   useEffect(() => {
     dispatch(getAllDongeng());
   }, []);
 
   async function handleAddSoalPilgan(value) {
-    document.getElementById("showModalAddSoalPilgan").click();
     await dispatch(addSoalPilgan(value));
+    setData(value);
+    document.getElementById("showModalAddSoalPilgan").click();
     await dispatch(getSoalPilgan());
   }
 
+  async function reaction() {
+    await dispatch(getNewAccessToken());
+    handleAddSoalPilgan(data);
+  }
+
+  useEffect(() => {
+    if (error === "401") {
+      console.log(error);
+      reaction();
+    }
+  }, [error]);
+
   return (
     <div className="modal-dialog modal-dialog-centered modal-lg">
-      <div className="modal-content" >
+      <div className="modal-content">
         <div className="modal-header">
           <h5 className="modal-title" id="staticBackdropLabel">
             Menambahkan Soal Pilihan Ganda
           </h5>
         </div>
-        <div className="modal-body" style={{width : "800px"}}>
+        <div className="modal-body" style={{ width: "800px" }}>
           <Formik
             initialValues={{
               soal: "",

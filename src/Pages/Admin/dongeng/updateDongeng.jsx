@@ -3,30 +3,16 @@ import { Formik, Form, Field } from "formik";
 import * as Yup from "yup";
 import axios from "axios";
 import { useParams } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import { getDongengById } from "../../../lib/redux/api/dongeng";
 
 const post = async ({ title, pdf }, id) => {
-  try {
-    const formData = new FormData();
-    formData.append("title", title);
-    if (pdf) {
-      formData.append("file", pdf);
-    }
-
-    const response = await axios.patch(
-      `http://localhost:5000/api/dongeng/${id}`,
-      formData,
-      {
-        headers: {
-          Authorization: `Bearer ${localStorage.getItem("token")}`,
-          "Content-Type": "multipart/form-data",
-        },
-      }
-    );
-    return response;
-  } catch (error) {
-    console.log(error.message);
-    throw error;
+  const formData = new FormData();
+  formData.append("title", title);
+  if (pdf) {
+    formData.append("file", pdf);
   }
+  
 };
 
 const schema = Yup.object({
@@ -48,19 +34,12 @@ const schema = Yup.object({
 });
 
 const UpdateDongeng = () => {
-  const [dongeng, setDongeng] = useState(null);
   const { id } = useParams();
+  const {dongeng , isLoading} = useSelector(state => state.dongeng)
+  const dispatch = useDispatch()
 
   useEffect(() => {
-    const fetchDongeng = async () => {
-      try {
-        const raw = await axios.get(`http://localhost:5000/api/dongeng/${id}`);
-        setDongeng(raw.data);
-      } catch (error) {
-        console.log(error.message);
-      }
-    };
-    fetchDongeng();
+    dispatch(getDongengById(id))
   }, [id]);
 
   if (!dongeng) {

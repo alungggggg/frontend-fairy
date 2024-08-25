@@ -1,7 +1,8 @@
-import { NavLink, useLocation } from "react-router-dom";
+import { Navigate, NavLink, useLocation, useNavigate } from "react-router-dom";
 import Header from "../template/header";
 import Sidebar from "./Component/sidebar";
 import { useEffect, useState } from "react";
+import { getCookie } from "cookies-next";
 
 const AdminLayout = ({ children }) => {
   const navList = [
@@ -19,6 +20,12 @@ const AdminLayout = ({ children }) => {
       icon: <MortorboardIcon size={24} />,
     },
   ];
+
+  const refresh_token = getCookie("refreshToken");
+
+  if (!refresh_token) {
+    return <Navigate to={"/login"}/>
+  }
 
   return (
     <div className="container-fluid">
