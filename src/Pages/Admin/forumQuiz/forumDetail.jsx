@@ -31,7 +31,13 @@ const ForumQuizDetail = () => {
 
   async function handelDeleteQuiz() {
     if (window.confirm("Are you sure?")) {
-      await dispatch(deleteForumQuiz(id));
+      var res = await dispatch(deleteForumQuiz(id));
+      console.log(res);
+      if (res.payload == "401") {
+        console.log("getting acces token");
+        await dispatch(getNewAccessToken())
+        return handelDeleteQuiz()
+      }
       Swal.fire("Success", "Forum Quiz has been deleted", "success");
       return navigate("/admin/forum-quiz");
     }

@@ -48,7 +48,12 @@ const ModalEditBody = () => {
   const dispatch = useDispatch();
 
   async function handleEditQuiz(values) {
-    await dispatch(editForumQuiz(values));
+    var res = await dispatch(editForumQuiz(values));
+    if (res.payload == "401") {
+      console.log("getting acces token");
+      await dispatch(getNewAccessToken())
+      return handleEditQuiz(values)
+    }
     document.getElementById("showModalEditForum").click();
     Swal.fire("Success", "Forum Quiz has been updated", "success");
     navigate("/admin/forum-quiz");

@@ -6,6 +6,7 @@ import { Link, useParams } from "react-router-dom";
 import { PlusIcon } from ".";
 import jsPDF from "jspdf"; // Add this import
 import { ArrowLeft } from "./forumDetail";
+import { getNewAccessToken } from "../../../lib/redux/api/auth";
 
 const RekapNilai = () => {
   const { id } = useParams();
@@ -13,9 +14,17 @@ const RekapNilai = () => {
   const { rekapNilai } = useSelector((state) => state.rekapNilai);
 
   const tableHead = ["No", "Nama", "Asal Sekolah", "Nilai"];
-  
+
   useEffect(() => {
-    dispatch(getRekapNilaiByIdForum(id));
+    async function getRekap() {
+      var res = dispatch(getRekapNilaiByIdForum(id));
+      if (res.payload == "401") {
+        await dispatch(getNewAccessToken());
+        return getRekap();
+      }
+    }
+
+    getRekap();
   }, [id]);
 
   function converToPdf() {
@@ -37,17 +46,17 @@ const RekapNilai = () => {
   return (
     <AdminLayout>
       <div className="">
-      <div className="d-flex justify-content-between align-items-center p-0">
-            <Link
-              to={`../${id}`}
-              className={
-                "d-flex align-items-center  gap-2 text-decoration-none fs-5 text-black "
-              }
-            >
-              <ArrowLeft size={24} /> Forum Quiz
-            </Link>
-          </div>
-          <hr className="my-3" />
+        <div className="d-flex justify-content-between align-items-center p-0">
+          <Link
+            to={`../${id}`}
+            className={
+              "d-flex align-items-center  gap-2 text-decoration-none fs-5 text-black "
+            }
+          >
+            <ArrowLeft size={24} /> Forum Quiz
+          </Link>
+        </div>
+        <hr className="my-3" />
         <div className="row mb-3">
           <div className="input-group col">
             <input

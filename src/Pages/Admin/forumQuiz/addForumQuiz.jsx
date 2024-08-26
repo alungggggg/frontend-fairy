@@ -1,5 +1,5 @@
 import { Field, Form, Formik } from "formik";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { getAllDongeng } from "../../../lib/redux/api/dongeng";
 import { forumQuizSchema } from "./modal";
@@ -17,15 +17,17 @@ const AddForumQuiz = () => {
   }, []);
 
   async function handleAddForumQuiz(values) {
-    await dispatch(addForumQuiz(values));
+    var res = await dispatch(addForumQuiz(values));
+    if (res.payload == "401") {
+      console.log("getting acces token");
+      await dispatch(getNewAccessToken())
+      return handleAddForumQuiz(values)
+    }
     document.getElementById("showModalForumQuiz").click();
     Swal.fire("Success", "Forum Quiz has been added", "success");
     await dispatch(getForumQuiz());
   }
 
-  useEffect(()=>{
-    console.log(error);
-  },[error])
   return (
     <div className="modal-dialog modal-dialog-centered">
       <div className="modal-content">
@@ -36,6 +38,7 @@ const AddForumQuiz = () => {
         </div>
         <div className="modal-body">
           <Formik
+            enableReinitialize
             initialValues={{
               judul: "",
               idDongeng: "",

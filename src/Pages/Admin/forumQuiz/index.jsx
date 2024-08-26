@@ -6,6 +6,7 @@ import ModalForumQuiz from "./modal";
 import { useNavigate, useParams } from "react-router-dom";
 import Loading from "../../../Component/loading";
 import { getNewAccessToken } from "../../../lib/redux/api/auth";
+import { getAllDongeng } from "../../../lib/redux/api/dongeng";
 
 const ForumQuiz = () => {
   const [search, setSearch] = useState();
@@ -24,17 +25,18 @@ const ForumQuiz = () => {
 
   let { forumQuiz, isLoading, error } = useSelector((state) => state.forumQuiz);
 
+  const dongeng_error = useSelector((state) => state.dongeng.error);
+
   async function reGetAction() {
     await dispatch(getNewAccessToken());
     await dispatch(getForumQuiz());
+    await dispatch(getAllDongeng())
   }
   useEffect(() => {
-    if (error === "401") {
-      console.log("need");
-
+    if (error === "401" || dongeng_error == "401") {
       reGetAction();
     }
-  }, [error]);
+  }, [error , dongeng_error]);
 
   let displayedForum = forumQuiz?.filter((forum) => {
     return search
@@ -72,7 +74,7 @@ const ForumQuiz = () => {
                 className="btn btn-outline-secondary"
                 type="button"
                 id="Search"
-                onClick={()=>setSearch("")}
+                onClick={() => setSearch("")}
               >
                 Clear
               </button>
