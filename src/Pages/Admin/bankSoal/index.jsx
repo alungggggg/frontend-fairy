@@ -4,8 +4,8 @@ import AdminLayout from "../adminLayout";
 const BankSoal = () => {
   return (
     <AdminLayout>
-      <section className="container">
-        <div className=" w-100 row row-cols-2 fs-2 gap-3">
+      <section className="">
+        <div className=" w-100 d-flex flex-wrap justify-content-between row-cols-2 fs-2 row-gap-4">
           <div className="card col" style={{ width: "49%" }}>
             <Link
               to={"./pilihan-ganda"}

@@ -6,21 +6,33 @@ import {
   deleteForumQuiz,
   getForumQuizById,
 } from "../../../lib/redux/api/forumQuiz";
+import { getRekapNilaiByIdForum } from "../../../lib/redux/api/rekapNilai";
 import Loading from "../../../Component/loading";
+import { DeleteIcon, EditIcon } from "../bankSoal/pilihanGanda";
+import EditForum from "./editForum";
+import Swal from "sweetalert2";
 
 const ForumQuizDetail = () => {
   const { id } = useParams();
   const { forumQuiz, isLoading } = useSelector((state) => state.forumQuiz);
+  const { rekapNilai } = useSelector((state) => state.rekapNilai);
+
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
+  var soalPilgans = forumQuiz[0]?.dongeng.soalPilgans || [];
+  var soalUraianSingkats = forumQuiz[0]?.dongeng.soalUraianSingkats || [];
+  var soalUraianPanjangs = forumQuiz[0]?.dongeng.soalUraianPanjangs || [];
+
   useEffect(() => {
+    dispatch(getRekapNilaiByIdForum(id));
     dispatch(getForumQuizById(id));
   }, []);
 
   async function handelDeleteQuiz() {
     if (window.confirm("Are you sure?")) {
       await dispatch(deleteForumQuiz(id));
+      Swal.fire("Success", "Forum Quiz has been deleted", "success");
       return navigate("/admin/forum-quiz");
     }
   }
@@ -31,7 +43,7 @@ const ForumQuizDetail = () => {
           <Loading />
         </section>
       ) : (
-        <div className="container">
+        <div className="">
           <div className="d-flex justify-content-between align-items-center">
             <Link
               to={"/admin/forum-quiz"}
@@ -47,39 +59,72 @@ const ForumQuizDetail = () => {
             <div className="d-flex justify-content-between align-items-center mb-3">
               <h1 className="m-0 fs-1 fw-normal">{forumQuiz[0]?.judul}</h1>
               <div className="d-flex gap-2 align-items-center">
-                <button className="btn btn-secondary">Edit</button>
                 <button
-                  className="btn btn-secondary"
+                  className="btn btn-primary d-flex gap-2 align-items-center"
+                  onClick={() =>
+                    document.getElementById("showModalEditForum").click()
+                  }
+                >
+                  <EditIcon size={24} />
+                  Edit
+                </button>
+                <button
+                  className="btn btn-danger d-flex gap-2 align-items-center"
                   onClick={handelDeleteQuiz}
                 >
+                  <DeleteIcon size={24} />
                   Hapus
                 </button>
               </div>
             </div>
             <div className="w-100 d-flex gap-2">
-              <div className="card border p-3 w-50">
+              <Link
+                to={"./rekap"}
+                className="card border p-3 w-50 text-decoration-none"
+              >
                 <h1>Daftar Peserta</h1>
-                <p className="d-flex align-items-center gap-1 fs-5">
-                  <PersonIcon size={24} />
-                  24
-                </p>
-              </div>
-              <div className="card border p-3 w-50">
-                <h1>Daftar Soal</h1>
-                <div className="">
+                <div className="card border p-3 w-50 text-decoration-none">
                   <p className="m-0 fs-5 d-flex gap-1 align-items-center">
-                    <ListIcon size={24} />
-                    {forumQuiz[0]?.dongeng.soalPilgans.length ||
-                      0 + forumQuiz[0]?.dongeng.soalUraianPanjangs.length ||
-                      0 + forumQuiz[0]?.dongeng.soalUraianSingkats.length ||
-                      0}
+                    <PersonIcon size={24} />
+                    {rekapNilai?.length || 0}
                   </p>
                 </div>
-              </div>
+              </Link>
+              <Link
+                to={"./soal"}
+                className="card border p-3 w-50 text-decoration-none"
+              >
+                <h1>Daftar Soal</h1>
+                <div className="card border p-3 w-50 text-decoration-none">
+                  <p className="m-0 fs-5 d-flex gap-1 align-items-center">
+                    <ListIcon size={24} />
+                    {soalPilgans.length +
+                      soalUraianSingkats.length +
+                      soalUraianPanjangs.length}
+                  </p>
+                </div>
+              </Link>
+            </div>
+            <div className="w-100 d-flex justify-content-end">
+              <p className="fs-3 rounded-2 border p-2 d-flex gap-1 align-items-center">
+                <button
+                  className="btn"
+                  onMouseEnter={(e) =>e.target.style.backgroundColor = 'grey' }
+                  onMouseLeave={(e) =>e.target.style.backgroundColor = 'white' }
+                  onClick={() => {
+                    navigator.clipboard.writeText(forumQuiz[0]?.token);
+                    Swal.fire("Success", "Token has been copied", "success");
+                  }}
+                >
+                  <CopyIcon size={24} />
+                </button>
+                {forumQuiz[0]?.token}
+              </p>
             </div>
           </div>
         </div>
       )}
+      <EditForum />
     </AdminLayout>
   );
 };
@@ -112,7 +157,7 @@ export const PersonIcon = ({ size = 16 }) => {
       width={size}
       height={size}
       fill="currentColor"
-      class="bi bi-person"
+      className="bi bi-person"
       viewBox="0 0 16 16"
     >
       <path d="M8 8a3 3 0 1 0 0-6 3 3 0 0 0 0 6m2-3a2 2 0 1 1-4 0 2 2 0 0 1 4 0m4 8c0 1-1 1-1 1H3s-1 0-1-1 1-4 6-4 6 3 6 4m-1-.004c-.001-.246-.154-.986-.832-1.664C11.516 10.68 10.289 10 8 10s-3.516.68-4.168 1.332c-.678.678-.83 1.418-.832 1.664z" />
@@ -127,7 +172,7 @@ export const CheckRadioIcon = ({ size = 16 }) => {
       width={size}
       height={size}
       fill="currentColor"
-      class="bi bi-ui-radios"
+      className="bi bi-ui-radios"
       viewBox="0 0 16 16"
     >
       <path d="M7 2.5a.5.5 0 0 1 .5-.5h7a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-7a.5.5 0 0 1-.5-.5zM0 12a3 3 0 1 1 6 0 3 3 0 0 1-6 0m7-1.5a.5.5 0 0 1 .5-.5h7a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-7a.5.5 0 0 1-.5-.5zm0-5a.5.5 0 0 1 .5-.5h5a.5.5 0 0 1 0 1h-5a.5.5 0 0 1-.5-.5m0 8a.5.5 0 0 1 .5-.5h5a.5.5 0 0 1 0 1h-5a.5.5 0 0 1-.5-.5M3 1a3 3 0 1 0 0 6 3 3 0 0 0 0-6m0 4.5a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3" />
@@ -148,6 +193,24 @@ export const ArrowLeft = ({ size = 16 }) => {
       <path
         fill-rule="evenodd"
         d="M15 8a.5.5 0 0 0-.5-.5H2.707l3.147-3.146a.5.5 0 1 0-.708-.708l-4 4a.5.5 0 0 0 0 .708l4 4a.5.5 0 0 0 .708-.708L2.707 8.5H14.5A.5.5 0 0 0 15 8"
+      />
+    </svg>
+  );
+};
+
+export const CopyIcon = ({ size = 16 }) => {
+  return (
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      width={size}
+      height={size}
+      fill="currentColor"
+      class="bi bi-copy"
+      viewBox="0 0 16 16"
+    >
+      <path
+        fill-rule="evenodd"
+        d="M4 2a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2zm2-1a1 1 0 0 0-1 1v8a1 1 0 0 0 1 1h8a1 1 0 0 0 1-1V2a1 1 0 0 0-1-1zM2 5a1 1 0 0 0-1 1v8a1 1 0 0 0 1 1h8a1 1 0 0 0 1-1v-1h1v1a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h1v1z"
       />
     </svg>
   );
