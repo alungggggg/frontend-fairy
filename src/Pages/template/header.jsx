@@ -1,7 +1,7 @@
 import { getCookie } from "cookies-next";
 
 const Header = () => {
-  const token = getCookie("accessToken");
+  const token = getCookie("refreshToken");
 
   return (
     <>
