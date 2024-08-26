@@ -17,9 +17,6 @@ const uraianSingkatPanjang = Yup.object().shape({
 const AddSoalUraianPanjang = () => {
   const dispatch = useDispatch();
   const { dongeng } = useSelector((state) => state.dongeng);
-  useEffect(() => {
-    dispatch(getAllDongeng());
-  }, []);
 
   async function handleAddSoalUraianPanjang(value) {
     var res = await dispatch(addSoalUraianPanjang(value));

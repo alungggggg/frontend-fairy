@@ -12,6 +12,7 @@ import { Link } from "react-router-dom";
 import { DeleteIcon, EditIcon } from "../pilihanGanda";
 import { PlusIcon } from "../../forumQuiz";
 import { getNewAccessToken } from "../../../../lib/redux/api/auth";
+import Swal from "sweetalert2";
 
 const UraianPanjang = () => {
   const tableHead = ["No", "Soal", "Judul Dongeng", "Jawaban", ""];
@@ -39,14 +40,33 @@ const UraianPanjang = () => {
   }, []);
 
   async function handleDelete(id) {
-    if (window.confirm("Are you sure?")) {
-      var res = await dispatch(deleteSoalUraianPanjang(id));
-      if (!res.payload) {
-        console.log("getting new access token");
-        await dispatch(getNewAccessToken());
-        return handleDelete(id);
+    Swal.fire({
+      title: "Are you sure?",
+      text: "You won't be able to revert this!",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "Yes, delete it!",
+    }).then((result) => {
+      if (result.isConfirmed) {
+        const handleDelete = async () => {
+          var res = await dispatch(deleteSoalUraianPanjang(id));
+          if (!res.payload) {
+            console.log("getting new access token");
+            await dispatch(getNewAccessToken());
+            return handleDelete(id);
+          }
+          Swal.fire({
+            title: "Deleted!",
+            text: "Your file has been deleted.",
+            icon: "success",
+          });
+        };
+
+        handleDelete();
       }
-    }
+    });
   }
 
   const displayedSoal = soalUraianPanjang.filter((soal) => {

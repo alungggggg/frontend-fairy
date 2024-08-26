@@ -7,6 +7,7 @@ import {
   editSoalUraianSingkat,
   getSoalUraianSingkat,
 } from "../../../../lib/redux/api/soalUraianSingkat";
+import { getNewAccessToken } from "../../../../lib/redux/api/auth";
 
 const uraianSingkatSchema = Yup.object().shape({
   soal: Yup.string().required("Soal is required"),
@@ -26,11 +27,25 @@ const EditSoalUraianSingkat = ({ id }) => {
   }, [id]);
 
   useEffect(() => {
-    dispatch(getAllDongeng());
+    async function getDongengDatas() {
+      var res = await dispatch(getAllDongeng());
+      if (!res.payload) {
+        console.log("getting new access token");
+        await dispatch(getNewAccessToken)
+        return getDongengDatas()
+      }
+    }
+
+    getDongengDatas()
   }, []);
 
   async function handleAddSoalUraianSingkat(value) {
-    await dispatch(editSoalUraianSingkat(value));
+    var res=  await dispatch(editSoalUraianSingkat(value));
+    if(!res.payload){
+      console.log("getting new access token");
+      await dispatch(getNewAccessToken())
+      return handleAddSoalUraianSingkat(value)
+    }
     document.getElementById("showModalUraianSingkat").click();
     await dispatch(getSoalUraianSingkat());
   }

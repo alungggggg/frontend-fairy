@@ -22,10 +22,6 @@ const AddSoalPilgan = () => {
   const dispatch = useDispatch();
   const { dongeng } = useSelector((state) => state.dongeng);
 
-  useEffect(() => {
-    dispatch(getAllDongeng());
-  }, []);
-
   async function handleAddSoalPilgan(value) {
     var res = await dispatch(addSoalPilgan(value));
     if (!res.payload) {
