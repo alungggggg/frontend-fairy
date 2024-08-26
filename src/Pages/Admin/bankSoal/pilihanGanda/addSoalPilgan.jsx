@@ -30,7 +30,7 @@ const AddSoalPilgan = () => {
     var res = await dispatch(addSoalPilgan(value));
     if (!res.payload) {
       console.log("getting new access token");
-      dispatch(getNewAccessToken());
+      await dispatch(getNewAccessToken());
       return handleAddSoalPilgan(value);
     }
     document.getElementById("showModalAddSoalPilgan").click();

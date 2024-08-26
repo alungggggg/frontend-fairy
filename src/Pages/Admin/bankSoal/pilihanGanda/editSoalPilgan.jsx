@@ -35,12 +35,12 @@ const EditSoalPilgan = ({ id }) => {
       var res = await dispatch(getAllDongeng());
       if (!res.payload) {
         console.log("getting new access token");
-        dispatch(getNewAccessToken())
-        return getDongengDatas()
+        await dispatch(getNewAccessToken());
+        return getDongengDatas();
       }
     }
 
-    getDongengDatas()
+    getDongengDatas();
   }, []);
 
   async function handleEditSoalPilgan(value) {

@@ -46,12 +46,23 @@ const PilihanGanda = () => {
 
   const dispatch = useDispatch();
 
+  async function handleDeleteSoalPilgan(id) {
+    if (window.confirm("Are you sure?")) {
+      var res = await dispatch(deleteSoalPilgan(id));
+      if (!res.payload) {
+        console.log("getting new access token");
+        await dispatch(getNewAccessToken());
+        return handleDeleteSoalPilgan(id);
+      }
+    }
+  }
+
   useEffect(() => {
     async function getDatas() {
       var res = await dispatch(getSoalPilgan());
       if (!res.payload) {
         console.log("getting new access token");
-        dispatch(getNewAccessToken());
+        await dispatch(getNewAccessToken());
         return getDatas();
       }
     }
@@ -164,9 +175,7 @@ const PilihanGanda = () => {
                           type="button"
                           className="btn btn-danger "
                           onClick={() => {
-                            if (window.confirm("Are you sure?")) {
-                              dispatch(deleteSoalPilgan(item.id));
-                            }
+                            handleDeleteSoalPilgan(item.id);
                           }}
                         >
                           <DeleteIcon size={18} />
