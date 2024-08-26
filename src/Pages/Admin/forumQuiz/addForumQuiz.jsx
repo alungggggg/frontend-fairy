@@ -18,7 +18,8 @@ const AddForumQuiz = () => {
 
   async function handleAddForumQuiz(values) {
     var res = await dispatch(addForumQuiz(values));
-    if (res.payload == "401") {
+    console.log(res);
+    if (!res.payload) {
       console.log("getting acces token");
       await dispatch(getNewAccessToken())
       return handleAddForumQuiz(values)

@@ -25,18 +25,19 @@ const ForumQuiz = () => {
 
   let { forumQuiz, isLoading, error } = useSelector((state) => state.forumQuiz);
 
-  const dongeng_error = useSelector((state) => state.dongeng.error);
+  async function getDataQuiz() {
+    var res_forum = await dispatch(getForumQuiz());
+    var res_dongeng = await dispatch(getAllDongeng());
 
-  async function reGetAction() {
-    await dispatch(getNewAccessToken());
-    await dispatch(getForumQuiz());
-    await dispatch(getAllDongeng())
+    if (!res_forum.payload || !res_dongeng.payload) {
+      console.log("getting new access token");
+      await dispatch(getNewAccessToken());
+      return getDataQuiz();
+    }
   }
   useEffect(() => {
-    if (error === "401" || dongeng_error == "401") {
-      reGetAction();
-    }
-  }, [error , dongeng_error]);
+    getDataQuiz();
+  }, []);
 
   let displayedForum = forumQuiz?.filter((forum) => {
     return search

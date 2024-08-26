@@ -33,7 +33,7 @@ const ForumQuizDetail = () => {
     if (window.confirm("Are you sure?")) {
       var res = await dispatch(deleteForumQuiz(id));
       console.log(res);
-      if (res.payload == "401") {
+      if (!res.payload) {
         console.log("getting acces token");
         await dispatch(getNewAccessToken())
         return handelDeleteQuiz()

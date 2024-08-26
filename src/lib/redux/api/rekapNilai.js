@@ -13,7 +13,7 @@ export const getRekapNilaiByIdForum = createAsyncThunk(
       throw new Error();
     } catch (error) {
       if (error instanceof AxiosError) {
-        return error.response ? error.response.status : error.message;
+        throw error.response ? error.response.status : error.message;
       }
       throw error;
     }

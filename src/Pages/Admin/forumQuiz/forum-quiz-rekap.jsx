@@ -18,7 +18,7 @@ const RekapNilai = () => {
   useEffect(() => {
     async function getRekap() {
       var res = dispatch(getRekapNilaiByIdForum(id));
-      if (res.payload == "401") {
+      if (!res.payload) {
         await dispatch(getNewAccessToken());
         return getRekap();
       }

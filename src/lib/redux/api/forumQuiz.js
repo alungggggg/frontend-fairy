@@ -11,6 +11,8 @@ export const getForumQuiz = createAsyncThunk(
       if (response) {
         return response.data;
       }
+
+      throw new Error();
     } catch (error) {
       if (error instanceof AxiosError) {
         throw error.response ? error.response.status : error.message;
@@ -33,7 +35,7 @@ export const addForumQuiz = createAsyncThunk(
       throw new Error();
     } catch (error) {
       if (error instanceof AxiosError) {
-        return error.response ? error.response.status : error.message;
+        throw error.response ? error.response.status : error.message;
       }
       throw error;
     }
@@ -51,7 +53,7 @@ export const getForumQuizById = createAsyncThunk(
       throw new Error();
     } catch (error) {
       if (error instanceof AxiosError) {
-        return error.response ? error.response.status : error.message;
+        throw error.response ? error.response.status : error.message;
       }
       throw error;
     }
@@ -70,7 +72,7 @@ export const deleteForumQuiz = createAsyncThunk(
       throw new Error();
     } catch (error) {
       if (error instanceof AxiosError) {
-        return error.response ? error.response.status : error.message;
+        throw error.response ? error.response.status : error.message;
       }
       throw error;
     }
@@ -92,7 +94,7 @@ export const editForumQuiz = createAsyncThunk(
       throw new Error();
     } catch (error) {
       if (error instanceof AxiosError) {
-        return error.response ? error.response.status : error.message;
+        throw error.response ? error.response.status : error.message;
       }
       throw error;
     }
@@ -111,7 +113,7 @@ const forumQuizSlice = createSlice({
     builder
       .addCase(getForumQuiz.rejected, (state, action) => {
         state.isLoading = false;
-        state.forumQuiz = []
+        state.forumQuiz = [];
         state.error = action.error.message;
       })
       .addCase(getForumQuiz.fulfilled, (state, action) => {
