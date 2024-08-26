@@ -21,31 +21,21 @@ const AddSoalPilganSchema = Yup.object().shape({
 const AddSoalPilgan = () => {
   const dispatch = useDispatch();
   const { dongeng } = useSelector((state) => state.dongeng);
-  let { error } = useSelector((state) => state.soalPilihanGanda);
-  const [data, setData] = useState([]);
 
   useEffect(() => {
     dispatch(getAllDongeng());
   }, []);
 
   async function handleAddSoalPilgan(value) {
-    await dispatch(addSoalPilgan(value));
-    setData(value);
+    var res = await dispatch(addSoalPilgan(value));
+    if (!res.payload) {
+      console.log("getting new access token");
+      dispatch(getNewAccessToken());
+      return handleAddSoalPilgan(value);
+    }
     document.getElementById("showModalAddSoalPilgan").click();
     await dispatch(getSoalPilgan());
   }
-
-  async function reaction() {
-    await dispatch(getNewAccessToken());
-    handleAddSoalPilgan(data);
-  }
-
-  useEffect(() => {
-    if (error === "401") {
-      console.log(error);
-      reaction();
-    }
-  }, [error]);
 
   return (
     <div className="modal-dialog modal-dialog-centered modal-lg">

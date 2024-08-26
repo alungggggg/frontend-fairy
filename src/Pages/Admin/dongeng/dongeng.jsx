@@ -19,22 +19,24 @@ const dongeng = () => {
 
   const { dongeng, isLoading, error } = useSelector((state) => state.dongeng);
   const dispatch = useDispatch();
-  const navigate = useNavigate()
+  const navigate = useNavigate();
 
   useEffect(() => {
     dispatch(getAllDongeng());
   }, []);
 
-  async function reGetAction() {
-    await dispatch(getNewAccessToken());
-    await dispatch(getAllDongeng());
-  }
-
   useEffect(() => {
-    if (error === "401") {
-      reGetAction();
+    async function getData() {
+      const res = await dispatch(getAllDongeng());
+
+      if (!res.payload) {
+        console.log("getting new access token");
+        await dispatch(getNewAccessToken());
+        return getData();
+      }
     }
-  }, [error]);
+    getData();
+  }, []);
 
   const filteredItems = dongeng.filter((item) =>
     item.title.toLowerCase().includes(searchTerm.toLowerCase())
@@ -107,7 +109,7 @@ const dongeng = () => {
                 <tbody>
                   {currentItems.map((item, i) => (
                     <tr
-                    className="align-middle"
+                      className="align-middle"
                       key={i}
                       onClick={() => navigate(`./update/${item.id}`)}
                       style={{ cursor: "pointer" }}

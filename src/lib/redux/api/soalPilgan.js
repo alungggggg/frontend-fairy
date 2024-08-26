@@ -99,6 +99,7 @@ const pilganSlice = createSlice({
       .addCase(getSoalPilgan.rejected, (state, action) => {
         state.isLoading = false;
         state.error = action.error.message;
+        state.soalPilgan = []
       })
       .addCase(getSoalPilgan.pending, (state) => {
         state.isLoading = true;
@@ -113,6 +114,7 @@ const pilganSlice = createSlice({
       .addCase(deleteSoalPilgan.rejected, (state, action) => {
         state.isLoading = false;
         state.error = action.error.message;
+        state.soalPilgan = []
       })
       .addCase(deleteSoalPilgan.pending, (state) => {
         state.isLoading = true;
@@ -137,6 +139,7 @@ const pilganSlice = createSlice({
       .addCase(editSoalPilgan.rejected, (state, action) => {
         state.isLoading = false;
         state.error = action.error.message;
+        state.soalPilgan = []
       })
       .addCase(editSoalPilgan.pending, (state) => {
         state.isLoading = true;

@@ -10,6 +10,7 @@ import ModalPilihanGanda from "./modal";
 import { ArrowLeft } from "../../forumQuiz/forumDetail";
 import { Link } from "react-router-dom";
 import { PlusIcon } from "../../forumQuiz";
+import { getNewAccessToken } from "../../../../lib/redux/api/auth";
 
 const PilihanGanda = () => {
   const tableHead = [
@@ -46,7 +47,16 @@ const PilihanGanda = () => {
   const dispatch = useDispatch();
 
   useEffect(() => {
-    dispatch(getSoalPilgan());
+    async function getDatas() {
+      var res = await dispatch(getSoalPilgan());
+      if (!res.payload) {
+        console.log("getting new access token");
+        dispatch(getNewAccessToken());
+        return getDatas();
+      }
+    }
+
+    getDatas();
   }, []);
 
   return (
