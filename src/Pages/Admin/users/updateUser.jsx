@@ -77,11 +77,16 @@ const UpdateUser = () => {
     return <div>Loading...</div>;
   }
 
+
   return (
     <Formik
       initialValues={{
         nama: user.nama,
         email: user.email,
+        username: user.username || "",
+        kelas: user.kelas || "",
+        sekolah: user.sekolah || "",
+        role: user.role,
         password: "",
         confirmPassword: "",
       }}
@@ -99,9 +104,37 @@ const UpdateUser = () => {
           <Field type="text" name="nama" />
           <ErrorMessage name="nama" render={errorMessage} />
 
+          <label htmlFor="username">username</label>
+          <Field type="text" name="username" />
+          <ErrorMessage name="username" render={errorMessage} />
+
           <label htmlFor="email">Email</label>
           <Field type="email" name="email" disabled />
           <ErrorMessage name="email" render={errorMessage} />
+
+          <label htmlFor="role">role</label>
+          <Field as="select" name="role">
+            <option value="SISWA">SISWA</option>
+            <option value="GURU">GURU</option>
+            <option value="UMUM">UMUM</option>
+          </Field>
+          <ErrorMessage name="role" render={errorMessage} />
+
+
+          {(user.role == "SISWA") ? (
+            <>
+              <label htmlFor="kelas">kelas</label>
+              <Field type="text" name="kelas" />
+              <ErrorMessage name="kelas" render={errorMessage} />
+
+              <label htmlFor="sekolah">sekolah</label>
+              <Field type="text" name="sekolah" />
+              <ErrorMessage name="sekolah" render={errorMessage} />
+            </>
+          ) : ""}
+
+
+
 
           <input
             type="checkbox"

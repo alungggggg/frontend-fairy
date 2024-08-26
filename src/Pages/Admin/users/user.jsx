@@ -85,7 +85,9 @@ const User = () => {
                 <thead>
                   <tr className="">
                     <th>Nama</th>
+                    <th>Username</th>
                     <th>Email</th>
+                    <th>Role</th>
                     <th>Created At</th>
                     <th>Updated At</th>
                     <th>Aksi</th>
