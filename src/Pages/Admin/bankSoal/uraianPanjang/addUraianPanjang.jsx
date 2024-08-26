@@ -7,6 +7,7 @@ import {
   addSoalUraianPanjang,
   getSoalUraianPanjang,
 } from "../../../../lib/redux/api/soalUraianPanjang";
+import { getNewAccessToken } from "../../../../lib/redux/api/auth";
 
 const uraianSingkatPanjang = Yup.object().shape({
   soal: Yup.string().required("Soal is required"),
@@ -21,7 +22,12 @@ const AddSoalUraianPanjang = () => {
   }, []);
 
   async function handleAddSoalUraianPanjang(value) {
-    await dispatch(addSoalUraianPanjang(value));
+    var res = await dispatch(addSoalUraianPanjang(value));
+    if (!res.payload) {
+      console.log("getting new access token");
+      await dispatch(getNewAccessToken());
+      return handleAddSoalUraianPanjang(value);
+    }
     document.getElementById("showModalUraianPanjang").click();
     await dispatch(getSoalUraianPanjang());
   }

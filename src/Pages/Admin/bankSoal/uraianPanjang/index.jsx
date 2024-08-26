@@ -11,6 +11,7 @@ import { ArrowLeft } from "../../forumQuiz/forumDetail";
 import { Link } from "react-router-dom";
 import { DeleteIcon, EditIcon } from "../pilihanGanda";
 import { PlusIcon } from "../../forumQuiz";
+import { getNewAccessToken } from "../../../../lib/redux/api/auth";
 
 const UraianPanjang = () => {
   const tableHead = ["No", "Soal", "Judul Dongeng", "Jawaban", ""];
@@ -25,20 +26,34 @@ const UraianPanjang = () => {
 
   const dispatch = useDispatch();
   useEffect(() => {
-    dispatch(getSoalUraianPanjang());
+    async function getDatas() {
+      var res = await dispatch(getSoalUraianPanjang());
+      if (!res.payload) {
+        console.log("getting new access token");
+        await dispatch(getNewAccessToken());
+        return getDatas();
+      }
+    }
+
+    getDatas();
   }, []);
 
-  function handleDelete(id) {
+  async function handleDelete(id) {
     if (window.confirm("Are you sure?")) {
-      dispatch(deleteSoalUraianPanjang(id));
+      var res = await dispatch(deleteSoalUraianPanjang(id));
+      if (!res.payload) {
+        console.log("getting new access token");
+        await dispatch(getNewAccessToken());
+        return handleDelete(id);
+      }
     }
   }
 
   const displayedSoal = soalUraianPanjang.filter((soal) => {
     return search
       ? soal.soal.toLowerCase().includes(search.toLowerCase()) ||
-        soal.dongeng.title.toLowerCase().includes(search.toLowerCase()) ||
-        soal.jawaban.toLowerCase().includes(search.toLowerCase())
+          soal.dongeng.title.toLowerCase().includes(search.toLowerCase()) ||
+          soal.jawaban.toLowerCase().includes(search.toLowerCase())
       : soal;
   });
 
@@ -70,13 +85,17 @@ const UraianPanjang = () => {
                 aria-label="Search"
                 aria-describedby="button-addon2"
                 value={search}
-                onChange={(e) => {setSearch(e.target.value)}}
+                onChange={(e) => {
+                  setSearch(e.target.value);
+                }}
               />
               <button
                 className="btn btn-outline-secondary"
                 type="button"
                 id="Search"
-                onClick={() => {setSearch("")}}
+                onClick={() => {
+                  setSearch("");
+                }}
               >
                 Clear
               </button>
@@ -135,14 +154,14 @@ const UraianPanjang = () => {
                               .click();
                           }}
                         >
-                          <EditIcon size={18}/>
+                          <EditIcon size={18} />
                         </button>
                         <button
                           type="button"
                           className="btn btn-danger"
                           onClick={() => handleDelete(item.id)}
                         >
-                          <DeleteIcon size={18}/>
+                          <DeleteIcon size={18} />
                         </button>
                       </td>
                     </tr>
