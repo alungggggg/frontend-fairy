@@ -24,6 +24,26 @@ const submit = async (values, id, navigate) => {
   }
 };
 
+const SiswaForm = () => (
+  <>
+    <label htmlFor="kelas">kelas</label>
+    <Field type="text" name="kelas" />
+    <ErrorMessage name="kelas" render={errorMessage} />
+
+    <label htmlFor="sekolah">sekolah</label>
+    <Field type="text" name="sekolah" />
+    <ErrorMessage name="sekolah" render={errorMessage} />
+  </>
+)
+
+const GuruForm = () => (
+  <>
+    <label htmlFor="sekolah">sekolah</label>
+    <Field type="text" name="sekolah" />
+    <ErrorMessage name="sekolah" render={errorMessage} />
+  </>
+)
+
 const IsChangePass = () => (
   <>
     <Field name="password" type="password" placeholder="Password" />
@@ -43,6 +63,9 @@ const UpdateUser = () => {
   const [user, setUser] = useState(null);
   const [isChangePass, setIsChangePass] = useState(false);
   const [validationSchema, setValidationSchema] = useState(updateSchema);
+
+  const [isSiswa, setIsSiswa] = useState(false);
+  const [isGuru, setIsGuru] = useState(false);
 
   useEffect(() => {
     const getUser = async () => {
@@ -73,10 +96,24 @@ const UpdateUser = () => {
     }
   }, [isChangePass]);
 
+  useEffect(() => {
+    if (user) {
+      if (user.role === "SISWA") {
+        setIsSiswa(true);
+        setIsGuru(false);
+      } else if (user.role === "GURU") {
+        setIsGuru(true);
+        setIsSiswa(false);
+      } else {
+        setIsGuru(false);
+        setIsSiswa(false);
+      }
+    }
+  }, [user]);
+
   if (user === null) {
     return <div>Loading...</div>;
   }
-
 
   return (
     <Formik
@@ -113,28 +150,27 @@ const UpdateUser = () => {
           <ErrorMessage name="email" render={errorMessage} />
 
           <label htmlFor="role">role</label>
-          <Field as="select" name="role">
+          <Field as="select" name="role" onChange={(e) => {
+            setFieldValue('role', e.target.value)
+            if (e.target.value === 'SISWA') {
+              setIsSiswa(true)
+              setIsGuru(false)
+            } else if (e.target.value === 'GURU') {
+              setIsGuru(true)
+              setIsSiswa(false)
+            } else {
+              setIsGuru(false)
+              setIsSiswa(false)
+            }
+          }}>
             <option value="SISWA">SISWA</option>
             <option value="GURU">GURU</option>
             <option value="UMUM">UMUM</option>
           </Field>
           <ErrorMessage name="role" render={errorMessage} />
 
-
-          {(user.role == "SISWA") ? (
-            <>
-              <label htmlFor="kelas">kelas</label>
-              <Field type="text" name="kelas" />
-              <ErrorMessage name="kelas" render={errorMessage} />
-
-              <label htmlFor="sekolah">sekolah</label>
-              <Field type="text" name="sekolah" />
-              <ErrorMessage name="sekolah" render={errorMessage} />
-            </>
-          ) : ""}
-
-
-
+          {isSiswa && <SiswaForm />}
+          {isGuru && <GuruForm />}
 
           <input
             type="checkbox"

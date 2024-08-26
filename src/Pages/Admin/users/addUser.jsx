@@ -43,6 +43,27 @@ const SiswaForm = () => (
     </div>
   </>
 )
+
+const GuruForm = () => (
+  <>
+    <div className="form-group mb-3">
+      <label htmlFor="" className="form-label fw-bold">
+        SEKOLAH
+      </label>
+      <Field
+        type="text"
+        name="sekolah"
+        className="form-control"
+        placeholder="Masukan nama lengkap"
+      />
+      <ErrorMessage
+        name="sekolah"
+        render={errorMessage}
+      />
+    </div>
+  </>
+)
+
 const post = async ({ nama, email, password }) => {
   // const navigate = useNavigate();
 
@@ -62,6 +83,7 @@ const post = async ({ nama, email, password }) => {
 
 const addUser = () => {
   const [isSiswa, setIsSiswa] = useState(false)
+  const [isGuru, setIsGuru] = useState(false)
 
 
   const navigate = useNavigate()
@@ -154,8 +176,14 @@ const addUser = () => {
                           // }
                           if (e.target.value == "SISWA") {
                             setIsSiswa(true)
+                            setIsGuru(false)
                             console.log(e.target.value)
-                          } else {
+                          } else if (e.target.value == "GURU") {
+                            setIsGuru(true)
+                            setIsSiswa(false)
+                          }
+                          else {
+                            setIsGuru(false)
                             setIsSiswa(false)
                           }
                           console.log(isSiswa)
@@ -169,6 +197,7 @@ const addUser = () => {
                     </div>
 
                     {isSiswa && <SiswaForm />}
+                    {isGuru && <GuruForm />}
 
                     <section className="form-group mb-3">
                       <label htmlFor="" className="form-label fw-bold">
