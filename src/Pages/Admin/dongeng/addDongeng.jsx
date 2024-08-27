@@ -1,9 +1,12 @@
 import React from "react";
 import { Formik, Form, Field } from "formik";
 import * as Yup from "yup";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { addDongeng } from "../../../lib/redux/api/dongeng";
 import AdminLayout from "../adminLayout";
+import { Link } from "react-router-dom";
+import { getNewAccessToken } from "../../../lib/redux/api/auth";
+import Swal from "sweetalert2";
 
 const schema = Yup.object({
   title: Yup.string()
@@ -23,18 +26,37 @@ const schema = Yup.object({
 
 const AddDongeng = () => {
   const dispatch = useDispatch();
-  async function post(value) {
-    var file = value.pdf;
-    var title = value.title
+  const { isLoading } = useSelector((state) => state.dongeng);
 
-    // console.log(value);
-    await dispatch(addDongeng({
-      title, file
-    }));
+  async function post(value) {
+    console.log("tets");
+    var file = value.pdf;
+    var title = value.title;
+
+    const res = await dispatch(
+      addDongeng({
+        title,
+        file,
+      })
+    );
+
+    if (!res.payload) {
+      console.log("getting new access token");
+      await dispatch(getNewAccessToken());
+      return post(value);
+    }
+
+    Swal.fire({
+      title: "Berhasil Meneambahkan dongeng",
+    });
   }
   return (
     <AdminLayout>
       <section className="row justify-content-center pt-2 pt-md-5 p-3 p-md-0 login">
+        <div>
+          <Link to={"../"}>Back</Link>
+        </div>
+        {isLoading ? <div>Loading....</div> : ""}
         <section className="col-lg-5">
           <h2 className="text-blue mt-4 mt-md-0">Add Dongeng</h2>
           <section className="card mt-2 shadow">
@@ -95,44 +117,3 @@ const AddDongeng = () => {
 };
 
 export default AddDongeng;
-
-{
-  /* <Formik
-        initialValues={{ pdf: null }}
-        validationSchema={schema}
-        onSubmit={(values, { setSubmitting }) => {
-          post(values).then((response) => {
-            console.log(response);
-          });
-        }}
-      >
-        {({ setFieldValue, errors, touched, isSubmitting }) => (
-          <Form>
-            <div>
-              <input
-                type="text"
-                name="title"
-                onChange={(event) => {
-                  setFieldValue("title", event.target.value);
-                }}
-              />
-              {errors.title ? <div>{errors.title}</div> : null}
-            </div>
-
-            <div>
-              <input
-                type="file"
-                name="pdf"
-                onChange={(event) => {
-                  setFieldValue("pdf", event.target.files[0]);
-                  console.log(event.target.files[0]);
-                }}
-              />
-              {errors.pdf && touched.pdf ? <div>{errors.pdf}</div> : null}
-            </div>
-
-            <button type="submit">Submit</button>
-          </Form>
-        )}
-      </Formik> */
-}

@@ -67,7 +67,7 @@ export const addDongeng = createAsyncThunk(
     try {
       const response = await fairyApi.post("/dongeng", payload, {
         headers: {
-          'Content-Type': 'multipart/form-data', // Set the content type
+          "Content-Type": "multipart/form-data", // Set the content type
         },
       });
       if (response) {
@@ -132,6 +132,17 @@ const dongengSlice = createSlice({
         state.isLoading = false;
         state.dongeng = [];
         state.error = action.error.message;
+      })
+      .addCase(addDongeng.pending, (state) => {
+        state.isLoading = true;
+      })
+      .addCase(addDongeng.rejected, (state, action) => {
+        state.isLoading = false;
+        state.error = action.error.message;
+      })
+      .addCase(addDongeng.fulfilled, (state, action) => {
+        state.isLoading = false;
+        state.error = null;
       });
   },
 });

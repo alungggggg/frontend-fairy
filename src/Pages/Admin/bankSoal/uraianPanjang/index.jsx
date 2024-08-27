@@ -156,9 +156,9 @@ const UraianPanjang = () => {
                   {displayedSoal.map((item, i) => (
                     <tr key={i} className="align-middle">
                       <td>{i + 1}</td>
-                      <td>{item.soal}</td>
-                      <td>{item.dongeng.title || ""}</td>
-                      <td>{item.jawaban}</td>
+                      <td>{item?.soal}</td>
+                      <td>{item?.dongeng?.title || ""}</td>
+                      <td>{item?.jawaban}</td>
                       <td
                         className="d-flex gap-2 justify-content-end"
                         style={{ maxWidth: "120px" }}

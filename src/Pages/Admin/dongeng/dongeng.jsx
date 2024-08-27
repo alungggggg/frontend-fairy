@@ -80,7 +80,7 @@ const dongeng = () => {
                 type="button"
                 className="btn btn-secondary d-flex align-items-center gap-1 lh-sm bg-white text-black fs-5"
                 onClick={() => {
-                  document.getElementById("showModalForumQuiz").click();
+                  navigate("./add")
                 }}
               >
                 <PlusIcon size={24} />
@@ -114,14 +114,18 @@ const dongeng = () => {
                       onClick={() => navigate(`./update/${item.id}`)}
                       style={{ cursor: "pointer" }}
                     >
-                      <td>{i + 1}</td>
-                      <td>{item?.cover}</td>
+                      <td width={50}>{i + 1}</td>
+                      <td width={150}>
+                        <div>
+                          <img src={item?.cover} className="w-100" />
+                        </div>
+                      </td>
                       <td>{item?.title || ``}</td>
                       <td
-                        className="d-flex gap-2 justify-content-end"
-                        style={{ maxWidth: "120px" }}
+                        className="text-center"
+                        style={{ maxWidth: "100px" }}
                       >
-                        <button type="button" className="btn btn-primary">
+                        <button type="button" className="btn btn-primary me-1">
                           <EditIcon size={18} />
                         </button>
                         <button type="button" className="btn btn-danger">

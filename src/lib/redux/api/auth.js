@@ -12,6 +12,7 @@ export const signIn = createAsyncThunk("auth/login", async (user) => {
       password,
     });
     if (response.data.data.status) {
+      console.log(response.data);
       return response.data;
     }
 
@@ -87,7 +88,7 @@ const authSlice = createSlice({
   name: "auth",
   initialState: {
     isLoading: false,
-    user: null,
+    user: {},
     token: getCookie("token"),
     validationToken: null,
     status: false,
@@ -102,10 +103,13 @@ const authSlice = createSlice({
       .addCase(signIn.fulfilled, (state, action) => {
         state.status = true;
         state.isLoading = false;
-        state.user = action.payload.data;
+        state.user = action.payload.data
         state.token = action.payload.token.accessToken;
         setCookie("accessToken", action.payload.token.accessToken);
-        setCookie("refreshToken", action.payload.token.refreshToken , { maxAge: 7 * 24 * 60 * 60 });
+        setCookie("refreshToken", action.payload.token.refreshToken, {
+          maxAge: 7 * 24 * 60 * 60,
+        });
+        setCookie("userID" , action.payload.data.id)
       })
       .addCase(signIn.rejected, (state, action) => {
         state.status = false;

@@ -21,9 +21,9 @@ const ForumQuizDetail = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
-  var soalPilgans = forumQuiz[0]?.dongeng.soalPilgans || [];
-  var soalUraianSingkats = forumQuiz[0]?.dongeng.soalUraianSingkats || [];
-  var soalUraianPanjangs = forumQuiz[0]?.dongeng.soalUraianPanjangs || [];
+  var soalPilgans = forumQuiz[0]?.dongeng?.soalPilgans || [];
+  var soalUraianSingkats = forumQuiz[0]?.dongeng?.soalUraianSingkats || [];
+  var soalUraianPanjangs = forumQuiz[0]?.dongeng?.soalUraianPanjangs || [];
 
   useEffect(() => {
     async function getDatas() {
