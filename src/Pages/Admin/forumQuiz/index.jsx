@@ -23,16 +23,21 @@ const ForumQuiz = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
-  let { forumQuiz, isLoading, error } = useSelector((state) => state.forumQuiz);
+  let { forumQuiz, isLoading } = useSelector((state) => state.forumQuiz);
 
   async function getDataQuiz() {
     var res_forum = await dispatch(getForumQuiz());
     var res_dongeng = await dispatch(getAllDongeng());
 
-    if (!res_forum.payload || !res_dongeng.payload) {
-      console.log("getting new access token");
-      await dispatch(getNewAccessToken());
-      return getDataQuiz();
+    if (res_forum.error || res_dongeng.error) {
+      if (
+        res_forum.error.message === "401" ||
+        res_dongeng.error.message === "401"
+      ) {
+        console.log("getting new access token");
+        await dispatch(getNewAccessToken());
+        return getDataQuiz();
+      }
     }
   }
   useEffect(() => {
@@ -47,10 +52,6 @@ const ForumQuiz = () => {
           forum.token.toLowerCase().includes(search.toLowerCase())
       : forum;
   });
-
-  useEffect(() => {
-    dispatch(getForumQuiz());
-  }, []);
 
   return (
     <AdminLayout>

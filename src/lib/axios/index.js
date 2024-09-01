@@ -22,7 +22,8 @@ fairyApi.interceptors.response.use(
   },
   (error) => {
     if (error.response?.status === 401) {
-      console.log("Unautorize");
+      // console.log("unautorize");
+      throw error
       // return error
     }
     return Promise.reject(error);

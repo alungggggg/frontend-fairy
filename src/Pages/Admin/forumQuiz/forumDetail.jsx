@@ -30,10 +30,15 @@ const ForumQuizDetail = () => {
       var res_forum = await dispatch(getForumQuizById(id));
       var res_rekap = await dispatch(getRekapNilaiByIdForum(id));
 
-      if (!res_rekap.payload || !res_forum.payload) {
-        console.log("getting new access token");
-        dispatch(getNewAccessToken());
-        return getDatas();
+      if (res_forum.error || res_rekap.error) {
+        if (
+          res_forum.error.message === "401" ||
+          res_rekap.error.message === "401"
+        ) {
+          console.log("getting new access token");
+          dispatch(getNewAccessToken());
+          return getDatas();
+        }
       }
     }
 
@@ -44,10 +49,12 @@ const ForumQuizDetail = () => {
     if (window.confirm("Are you sure?")) {
       var res = await dispatch(deleteForumQuiz(id));
       console.log(res);
-      if (!res.payload) {
-        console.log("getting acces token");
-        await dispatch(getNewAccessToken());
-        return handelDeleteQuiz();
+      if (res.error) {
+        if (res.error.message === "401") {
+          console.log("getting acces token");
+          await dispatch(getNewAccessToken());
+          return handelDeleteQuiz();
+        }
       }
       Swal.fire("Success", "Forum Quiz has been deleted", "success");
       return navigate("/admin/forum-quiz");

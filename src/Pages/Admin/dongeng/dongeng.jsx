@@ -28,11 +28,14 @@ const dongeng = () => {
   useEffect(() => {
     async function getData() {
       const res = await dispatch(getAllDongeng());
+      // console.log(res.error.message);
 
-      if (!res.payload) {
-        console.log("getting new access token");
-        await dispatch(getNewAccessToken());
-        return getData();
+      if (res.error) {
+        if (res.error.message === "401") {
+          console.log("getting new access token");
+          await dispatch(getNewAccessToken());
+          return getData();
+        }
       }
     }
     getData();
@@ -80,7 +83,7 @@ const dongeng = () => {
                 type="button"
                 className="btn btn-secondary d-flex align-items-center gap-1 lh-sm bg-white text-black fs-5"
                 onClick={() => {
-                  navigate("./add")
+                  navigate("./add");
                 }}
               >
                 <PlusIcon size={24} />
@@ -121,10 +124,7 @@ const dongeng = () => {
                         </div>
                       </td>
                       <td>{item?.title || ``}</td>
-                      <td
-                        className="text-center"
-                        style={{ maxWidth: "100px" }}
-                      >
+                      <td className="text-center" style={{ maxWidth: "100px" }}>
                         <button type="button" className="btn btn-primary me-1">
                           <EditIcon size={18} />
                         </button>

@@ -18,11 +18,12 @@ const AddForumQuiz = () => {
 
   async function handleAddForumQuiz(values) {
     var res = await dispatch(addForumQuiz(values));
-    console.log(res);
-    if (!res.payload) {
-      console.log("getting acces token");
-      await dispatch(getNewAccessToken())
-      return handleAddForumQuiz(values)
+    if (res.error) {
+      if (res.error.message === "401") {
+        console.log("getting new access token");
+        await dispatch(getNewAccessToken());
+        return handleAddForumQuiz(values);
+      }
     }
     document.getElementById("showModalForumQuiz").click();
     Swal.fire("Success", "Forum Quiz has been added", "success");

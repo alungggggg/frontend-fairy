@@ -50,11 +50,14 @@ const ModalEditBody = () => {
 
   async function handleEditQuiz(values) {
     var res = await dispatch(editForumQuiz(values));
-    if (!res.payload) {
-      console.log("getting acces token");
-      await dispatch(getNewAccessToken());
-      return handleEditQuiz(values);
+    if (res.error) {
+      if (res.error.message === "401") {
+        console.log("getting new access token");
+        await dispatch(getNewAccessToken());
+        return handleEditQuiz(values);
+      }
     }
+
     document.getElementById("showModalEditForum").click();
     Swal.fire("Success", "Forum Quiz has been updated", "success");
     navigate("/admin/forum-quiz");
@@ -63,10 +66,12 @@ const ModalEditBody = () => {
   useEffect(() => {
     async function getDongengs() {
       const res = await dispatch(getAllDongeng());
-      if (!res.payload) {
-        console.log("getting new access token");
-        dispatch(getNewAccessToken());
-        return getDongengs();
+      if (res.error) {
+        if (res.error.message === "401") {
+          console.log("getting new access token");
+          await dispatch(getNewAccessToken());
+          return getDongengs();
+        }
       }
     }
 
