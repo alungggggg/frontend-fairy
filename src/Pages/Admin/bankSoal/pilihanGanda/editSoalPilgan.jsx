@@ -33,10 +33,12 @@ const EditSoalPilgan = ({ id }) => {
   useEffect(() => {
     async function getDongengDatas() {
       var res = await dispatch(getAllDongeng());
-      if (!res.payload) {
-        console.log("getting new access token");
-        await dispatch(getNewAccessToken());
-        return getDongengDatas();
+      if (res.error) {
+        if (res.error.message === "401") {
+          console.log("getting new access token");
+          await dispatch(getNewAccessToken());
+          return getDongengDatas();
+        }
       }
     }
 
@@ -44,8 +46,15 @@ const EditSoalPilgan = ({ id }) => {
   }, []);
 
   async function handleEditSoalPilgan(value) {
+    var res = await dispatch(editSoalPilgan(value));
+    if (res.error) {
+      if (res.error.message === "401") {
+        console.log("getting new access token");
+        dispatch(getNewAccessToken());
+        return handleEditSoalPilgan(value);
+      }
+    }
     document.getElementById("showModalAddSoalPilgan").click();
-    await dispatch(editSoalPilgan(value));
     await dispatch(getSoalPilgan());
   }
   return (

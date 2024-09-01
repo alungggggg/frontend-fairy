@@ -60,16 +60,20 @@ const PilihanGanda = () => {
       if (result.isConfirmed) {
         const handleDelete = async () => {
           var res = await dispatch(deleteSoalPilgan(id));
-          if (!res.payload) {
-            console.log("getting new access token");
-            await dispatch(getNewAccessToken());
-            return handleDeleteSoalPilgan(id);
+          if (res.error) {
+            if (res.error.message === "401") {
+              console.log("getting new access token");
+              await dispatch(getNewAccessToken());
+              return handleDelete();
+            }
           }
+          dispatch(getSoalPilgan())
           Swal.fire({
             title: "Deleted!",
             text: "Your file has been deleted.",
             icon: "success",
           });
+
         };
 
         handleDelete();
@@ -80,10 +84,12 @@ const PilihanGanda = () => {
   useEffect(() => {
     async function getDatas() {
       var res = await dispatch(getSoalPilgan());
-      if (!res.payload) {
-        console.log("getting new access token");
-        await dispatch(getNewAccessToken());
-        return getDatas();
+      if (res.error) {
+        if (res.error.message === "401") {
+          console.log("getting new access token");
+          await dispatch(getNewAccessToken());
+          return getDatas();
+        }
       }
     }
 
