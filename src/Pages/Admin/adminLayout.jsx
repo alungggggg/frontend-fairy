@@ -5,7 +5,7 @@ import { useEffect, useState } from "react";
 import { getCookie } from "cookies-next";
 import { useDispatch, useSelector } from "react-redux";
 import { getUserById } from "../../lib/redux/api/users";
-import { getNewAccessToken } from "../../lib/redux/api/auth";
+import { getNewAccessToken, signOut } from "../../lib/redux/api/auth";
 
 const AdminLayout = ({ children }) => {
   const navList = [
@@ -25,6 +25,10 @@ const AdminLayout = ({ children }) => {
   ];
 
   const dispatch = useDispatch();
+
+  async function handleLogout() {
+    await dispatch(signOut());
+  }
 
   const refresh_token = getCookie("refreshToken");
   const users_id = getCookie("userID");

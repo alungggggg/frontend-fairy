@@ -123,6 +123,7 @@ const authSlice = createSlice({
         state.token = null;
         deleteCookie("accessToken");
         deleteCookie("refreshToken");
+        deleteCookie("userID");
         window.location.replace("/login");
       })
       .addCase(getValidationCode.pending, (state) => {
