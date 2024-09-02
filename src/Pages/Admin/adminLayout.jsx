@@ -69,6 +69,30 @@ const AdminLayout = ({ children }) => {
             <section className="fw-bold">Perbukuan Indonesia</section>
           </section>
         </NavLink>
+        <div className="dropdown">
+          <a
+            href="#"
+            className="d-flex align-items-center text-white text-decoration-none dropdown-toggle"
+            id="dropdownUser1"
+            data-bs-toggle="dropdown"
+            aria-expanded="false"
+          >
+            <img
+              src="https://th.bing.com/th/id/OIP.oVIyTk_GGnAj3YzNXppdpQAAAA?w=189&h=189&c=7&r=0&o=5&pid=1.7"
+              alt="hugenerd"
+              width="50"
+              height="50"
+              className="rounded-circle"
+            />
+          </a>
+          <ul className="dropdown-menu dropdown-menu-dark text-small shadow mt-3">
+            <li>
+              <a className="dropdown-item" onClick={() => handleLogout()}>
+                Sign out
+              </a>
+            </li>
+          </ul>
+        </div>
       </div>
       <div className="row flex-nowrap">
         <Sidebar navList={navList} />
