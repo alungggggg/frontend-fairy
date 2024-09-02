@@ -55,7 +55,6 @@ function App() {
 
             <Route path="dongeng">
               <Route index element={<kernel.dongeng />} />
-              <Route path="add" element={<AddDongeng />} />
               <Route path="update/:id" element={<kernel.updateDongeng />} />
             </Route>
             <Route path="users" element={<kernel.user />} />

@@ -84,6 +84,25 @@ export const addDongeng = createAsyncThunk(
   }
 );
 
+export const deleteDongeng = createAsyncThunk(
+  "dongeng/deleteDongeng",
+  async (payload) => {
+    try {
+      const response = await fairyApi.delete(`/dongeng/${payload}`);
+      if (response) {
+        return response.data;
+      }
+
+      throw new Error();
+    } catch (error) {
+      if (error instanceof AxiosError) {
+        throw error.response ? error.response.status : error.message;
+      }
+      throw error;
+    }
+  }
+)
+
 const dongengSlice = createSlice({
   name: "dongeng",
   initialState: {
