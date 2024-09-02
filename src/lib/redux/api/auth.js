@@ -103,13 +103,15 @@ const authSlice = createSlice({
       .addCase(signIn.fulfilled, (state, action) => {
         state.status = true;
         state.isLoading = false;
-        state.user = action.payload.data
+        state.user = action.payload.data;
         state.token = action.payload.token.accessToken;
         setCookie("accessToken", action.payload.token.accessToken);
         setCookie("refreshToken", action.payload.token.refreshToken, {
           maxAge: 7 * 24 * 60 * 60,
         });
-        setCookie("userID" , action.payload.data.id)
+        setCookie("userID", action.payload.data.id, {
+          maxAge: 7 * 24 * 60 * 60,
+        });
       })
       .addCase(signIn.rejected, (state, action) => {
         state.status = false;
