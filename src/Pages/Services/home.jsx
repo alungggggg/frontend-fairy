@@ -11,20 +11,27 @@ const PopularBook = async () => {
 }
 
 const countBook = async () => {
-  const { data } = await fairyApi.get("count/dongeng")
+  const { data } = await fairyApi.get("/count/dongeng")
   return data.row
 }
 
+const countView = async () => {
+  const { data } = await fairyApi.get("/count/view")
+  return data.views
+}
 
 
 const Home = () => {
 
+  // console.log()
   const [populer, setPopuler] = useState([])
   const [countDongeng, setCountDongeng] = useState(0)
+  const [countViews, setCountViews] = useState(0)
   useEffect(() => {
     const set = async () => {
       setPopuler(await PopularBook())
       setCountDongeng(await countBook())
+      setCountViews(await countView())
     }
     set()
 
@@ -119,7 +126,7 @@ const Home = () => {
             <section className="col-6 col-lg-2">
               <section className="position-relative">
                 <section className="position-relative" style={{ zIndex: 100 }}>
-                  <span className="text-white fs-1 fw-bold"><CountUp start={0} end={5139718} duration={2000} /></span>
+                  <span className="text-white fs-1 fw-bold"><CountUp start={0} end={countViews} duration={2000} /></span>
                 </section>
                 <img
                   src="https://buku.kemdikbud.go.id/assets/image/home/line-stats.png"
@@ -386,7 +393,7 @@ const Home = () => {
             </section>
           </section>
         </section>
-        {getCookies("token") && (<section className="py-5 bg-white">
+        {getCookies("token").token && (<section className="py-5 bg-white">
           <section className="container-lg p-3">
             <section className="row align-items-center">
               <section className="col-lg-6">

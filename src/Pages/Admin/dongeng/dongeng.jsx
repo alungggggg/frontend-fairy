@@ -16,7 +16,7 @@ const dongeng = () => {
   const navigate = useNavigate();
 
   const [currentPage, setCurrentPage] = useState(1);
-  const [itemsPerPage] = useState(3);
+  const [itemsPerPage] = useState(10);
   const [items, setItems] = useState([]);
   const [searchTerm, setSearchTerm] = useState("");
 
