@@ -11,6 +11,8 @@ import { Link } from "react-router-dom";
 import { ArrowLeft } from "../../forumQuiz/forumDetail";
 import { DeleteIcon, EditIcon } from "../pilihanGanda";
 import { PlusIcon } from "../../forumQuiz";
+import { getNewAccessToken } from "../../../../lib/redux/api/auth";
+import Swal from "sweetalert2";
 
 const UraianSingkat = () => {
   const tableHead = ["No", "Soal", "Judul Dongeng", "Jawaban", ""];
@@ -26,19 +28,52 @@ const UraianSingkat = () => {
   const displayedSoal = soalUraianSingkat.filter((soal) => {
     return search
       ? soal.soal.toLowerCase().includes(search.toLowerCase()) ||
-        soal.dongeng.title.toLowerCase().includes(search.toLowerCase()) ||
-        soal.jawaban.toLowerCase().includes(search.toLowerCase())
+          soal.dongeng.title.toLowerCase().includes(search.toLowerCase()) ||
+          soal.jawaban.toLowerCase().includes(search.toLowerCase())
       : soal;
   });
 
   useEffect(() => {
-    dispatch(getSoalUraianSingkat());
+    async function getDatas() {
+      var res = await dispatch(getSoalUraianSingkat());
+      if (!res.payload) {
+        console.log("getting new access token");
+        await dispatch(getNewAccessToken());
+        return getDatas();
+      }
+    }
+
+    getDatas();
   }, []);
 
   function handleDeleteSoalUraianSingkat(id) {
-    if (window.confirm("Are you sure?")) {
-      dispatch(deleteSoalUraianSingkat(id));
-    }
+    Swal.fire({
+      title: "Are you sure?",
+      text: "You won't be able to revert this!",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "Yes, delete it!"
+    }).then((result) => {
+      if (result.isConfirmed) {
+        const handleDelete = async () => {
+          var res = await dispatch(deleteSoalUraianSingkat(id));
+          if (!res.payload) {
+            console.log("getting new access token");
+            await dispatch(getNewAccessToken());
+            return handleDelete();
+          }
+          Swal.fire({
+            title: "Deleted!",
+            text: "Your file has been deleted.",
+            icon: "success"
+          });
+        };
+
+        handleDelete()
+      }
+    });
   }
 
   return (
@@ -116,9 +151,9 @@ const UraianSingkat = () => {
                   {displayedSoal.map((item, i) => (
                     <tr key={i} className="align-middle">
                       <td>{i + 1}</td>
-                      <td>{item.soal}</td>
-                      <td>{item.dongeng.title || ""}</td>
-                      <td>{item.jawaban}</td>
+                      <td>{item?.soal}</td>
+                      <td>{item.dongeng?.title || ""}</td>
+                      <td>{item?.jawaban}</td>
                       <td
                         className="d-flex gap-2 justify-content-end"
                         style={{ maxWidth: "120px" }}

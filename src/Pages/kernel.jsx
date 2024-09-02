@@ -1,5 +1,4 @@
 import dongeng from "./Admin/dongeng/dongeng";
-import addDongeng from "./Admin/dongeng/addDongeng";
 import updateDongeng from "./Admin/dongeng/updateDongeng";
 
 import addUser from "./Admin/users/addUser";
@@ -28,7 +27,6 @@ import quiz from "./Services/Siswa/quiz";
 import { Profiler } from "react";
 
 export default {
-  addDongeng,
   addUser,
   dongeng,
   updateDongeng,

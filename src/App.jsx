@@ -12,6 +12,7 @@ import ForumQuiz from "./Pages/Admin/forumQuiz";
 import ForumQuizDetail from "./Pages/Admin/forumQuiz/forumDetail";
 import RekapNilai from "./Pages/Admin/forumQuiz/forum-quiz-rekap";
 import ForumQuizSoal from "./Pages/Admin/forumQuiz/forum-quiz-soal";
+import AddDongeng from "./Pages/Admin/dongeng/addDongeng";
 
 function App() {
   return (
@@ -40,11 +41,6 @@ function App() {
           <Route path="/users/update/:id" element={<kernel.updateUser />} />
           <Route path="/quiz" element={<kernel.quiz />} />
 
-          <Route path="/dongeng/add" element={<kernel.addDongeng />} />
-          <Route
-            path="/dongeng/update/:id"
-            element={<kernel.updateDongeng />}
-          />
           <Route path="/test" element={<ProfileTest />} />
 
           <Route path="/admin">
@@ -57,7 +53,11 @@ function App() {
               <Route path="uraian-panjang" element={<UraianPanjang />} />
             </Route>
 
-            <Route path="dongeng" element={<kernel.dongeng />} />
+            <Route path="dongeng">
+              <Route index element={<kernel.dongeng />} />
+              <Route path="add" element={<AddDongeng />} />
+              <Route path="update/:id" element={<kernel.updateDongeng />} />
+            </Route>
             <Route path="users" element={<kernel.user />} />
             <Route path="forum-quiz">
               <Route index element={<ForumQuiz />} />

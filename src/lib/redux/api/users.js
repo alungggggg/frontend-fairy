@@ -1,12 +1,14 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import fairyApi from "../../axios";
+import { AxiosError } from "axios";
 
-export const getRekapNilaiByIdForum = createAsyncThunk(
-  "rekapNilai/getRekapNilaiByIdForum",
-  async (payload) => {
+export const getUserById = createAsyncThunk(
+  "users/getAllUsers",
+  async (paylaod) => {
     try {
-      const response = await fairyApi.get(`/get-rekap/${payload}`);
-      if (response) {
+      const response = await fairyApi.get(`users/${paylaod}`);
+
+      if (response.data) {
         return response.data;
       }
 
@@ -20,29 +22,30 @@ export const getRekapNilaiByIdForum = createAsyncThunk(
   }
 );
 
-const rekapNilaiSlice = createSlice({
-  name: "rekapNilai",
+const usersSlice = createSlice({
+  name: "usersSlice",
   initialState: {
-    rekapNilai: [],
+    users: {},
     isLoading: false,
     error: null,
   },
   reducers: {},
   extraReducers: (builder) => {
     builder
-      .addCase(getRekapNilaiByIdForum.pending, (state) => {
+      .addCase(getUserById.pending, (state) => {
         state.isLoading = true;
       })
-      .addCase(getRekapNilaiByIdForum.fulfilled, (state, action) => {
-        state.rekapNilai = action.payload;
+      .addCase(getUserById.fulfilled, (state, action) => {
         state.isLoading = false;
-        state.error = null;
+        state.users = action.payload;
+        state.error = action.error;
       })
-      .addCase(getRekapNilaiByIdForum.rejected, (state, action) => {
+      .addCase(getUserById.rejected, (state, action) => {
         state.isLoading = false;
+        state.users = [];
         state.error = action.error.message;
       });
   },
 });
 
-export default rekapNilaiSlice.reducer;
+export default usersSlice.reducer;

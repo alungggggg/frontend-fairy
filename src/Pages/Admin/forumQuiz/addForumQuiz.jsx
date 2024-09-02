@@ -1,25 +1,35 @@
 import { Field, Form, Formik } from "formik";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { getAllDongeng } from "../../../lib/redux/api/dongeng";
 import { forumQuizSchema } from "./modal";
 import { addForumQuiz, getForumQuiz } from "../../../lib/redux/api/forumQuiz";
 import Swal from "sweetalert2";
+import { getNewAccessToken } from "../../../lib/redux/api/auth";
 
 const AddForumQuiz = () => {
   const sekolah = ["Sekolah 1", "Sekolah 2", "Sekolah 3"];
   const dispatch = useDispatch();
   const { dongeng } = useSelector((state) => state.dongeng);
+  let { error } = useSelector((state) => state.forumQuiz);
   useEffect(() => {
     dispatch(getAllDongeng());
   }, []);
 
   async function handleAddForumQuiz(values) {
-    await dispatch(addForumQuiz(values));
+    var res = await dispatch(addForumQuiz(values));
+    if (res.error) {
+      if (res.error.message === "401") {
+        console.log("getting new access token");
+        await dispatch(getNewAccessToken());
+        return handleAddForumQuiz(values);
+      }
+    }
     document.getElementById("showModalForumQuiz").click();
     Swal.fire("Success", "Forum Quiz has been added", "success");
     await dispatch(getForumQuiz());
   }
+
   return (
     <div className="modal-dialog modal-dialog-centered">
       <div className="modal-content">
@@ -30,6 +40,7 @@ const AddForumQuiz = () => {
         </div>
         <div className="modal-body">
           <Formik
+            enableReinitialize
             initialValues={{
               judul: "",
               idDongeng: "",

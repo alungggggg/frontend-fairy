@@ -6,6 +6,7 @@ import { editForumQuiz } from "../../../lib/redux/api/forumQuiz";
 import { useEffect } from "react";
 import { getAllDongeng } from "../../../lib/redux/api/dongeng";
 import Swal from "sweetalert2";
+import { getNewAccessToken } from "../../../lib/redux/api/auth";
 
 function ModalLayout({ childern }) {
   return (
@@ -48,14 +49,33 @@ const ModalEditBody = () => {
   const dispatch = useDispatch();
 
   async function handleEditQuiz(values) {
-    await dispatch(editForumQuiz(values));
+    var res = await dispatch(editForumQuiz(values));
+    if (res.error) {
+      if (res.error.message === "401") {
+        console.log("getting new access token");
+        await dispatch(getNewAccessToken());
+        return handleEditQuiz(values);
+      }
+    }
+
     document.getElementById("showModalEditForum").click();
     Swal.fire("Success", "Forum Quiz has been updated", "success");
     navigate("/admin/forum-quiz");
   }
 
   useEffect(() => {
-    dispatch(getAllDongeng());
+    async function getDongengs() {
+      const res = await dispatch(getAllDongeng());
+      if (res.error) {
+        if (res.error.message === "401") {
+          console.log("getting new access token");
+          await dispatch(getNewAccessToken());
+          return getDongengs();
+        }
+      }
+    }
+
+    getDongengs();
   }, []);
   return (
     <div className="modal-dialog modal-dialog-centered">

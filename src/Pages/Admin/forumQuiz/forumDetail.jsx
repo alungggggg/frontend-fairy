@@ -11,6 +11,7 @@ import Loading from "../../../Component/loading";
 import { DeleteIcon, EditIcon } from "../bankSoal/pilihanGanda";
 import EditForum from "./editForum";
 import Swal from "sweetalert2";
+import { getNewAccessToken } from "../../../lib/redux/api/auth";
 
 const ForumQuizDetail = () => {
   const { id } = useParams();
@@ -20,18 +21,41 @@ const ForumQuizDetail = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
-  var soalPilgans = forumQuiz[0]?.dongeng.soalPilgans || [];
-  var soalUraianSingkats = forumQuiz[0]?.dongeng.soalUraianSingkats || [];
-  var soalUraianPanjangs = forumQuiz[0]?.dongeng.soalUraianPanjangs || [];
+  var soalPilgans = forumQuiz[0]?.dongeng?.soalPilgans || [];
+  var soalUraianSingkats = forumQuiz[0]?.dongeng?.soalUraianSingkats || [];
+  var soalUraianPanjangs = forumQuiz[0]?.dongeng?.soalUraianPanjangs || [];
 
   useEffect(() => {
-    dispatch(getRekapNilaiByIdForum(id));
-    dispatch(getForumQuizById(id));
+    async function getDatas() {
+      var res_forum = await dispatch(getForumQuizById(id));
+      var res_rekap = await dispatch(getRekapNilaiByIdForum(id));
+
+      if (res_forum.error || res_rekap.error) {
+        if (
+          res_forum.error.message === "401" ||
+          res_rekap.error.message === "401"
+        ) {
+          console.log("getting new access token");
+          dispatch(getNewAccessToken());
+          return getDatas();
+        }
+      }
+    }
+
+    getDatas();
   }, []);
 
   async function handelDeleteQuiz() {
     if (window.confirm("Are you sure?")) {
-      await dispatch(deleteForumQuiz(id));
+      var res = await dispatch(deleteForumQuiz(id));
+      console.log(res);
+      if (res.error) {
+        if (res.error.message === "401") {
+          console.log("getting acces token");
+          await dispatch(getNewAccessToken());
+          return handelDeleteQuiz();
+        }
+      }
       Swal.fire("Success", "Forum Quiz has been deleted", "success");
       return navigate("/admin/forum-quiz");
     }
@@ -109,8 +133,12 @@ const ForumQuizDetail = () => {
               <p className="fs-3 rounded-2 border p-2 d-flex gap-1 align-items-center">
                 <button
                   className="btn"
-                  onMouseEnter={(e) =>e.target.style.backgroundColor = 'grey' }
-                  onMouseLeave={(e) =>e.target.style.backgroundColor = 'white' }
+                  onMouseEnter={(e) =>
+                    (e.target.style.backgroundColor = "grey")
+                  }
+                  onMouseLeave={(e) =>
+                    (e.target.style.backgroundColor = "white")
+                  }
                   onClick={() => {
                     navigator.clipboard.writeText(forumQuiz[0]?.token);
                     Swal.fire("Success", "Token has been copied", "success");

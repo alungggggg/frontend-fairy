@@ -7,6 +7,7 @@ import {
   addSoalUraianSingkat,
   getSoalUraianSingkat,
 } from "../../../../lib/redux/api/soalUraianSingkat";
+import { getNewAccessToken } from "../../../../lib/redux/api/auth";
 
 const uraianSingkatSchema = Yup.object().shape({
   soal: Yup.string().required("Soal is required"),
@@ -16,12 +17,14 @@ const uraianSingkatSchema = Yup.object().shape({
 const AddSoalUraianSingkat = () => {
   const dispatch = useDispatch();
   const { dongeng } = useSelector((state) => state.dongeng);
-  useEffect(() => {
-    dispatch(getAllDongeng());
-  }, []);
 
   async function handleAddSoalUraianSingkat(value) {
-    await dispatch(addSoalUraianSingkat(value));
+    var res = await dispatch(addSoalUraianSingkat(value));
+    if (!res.payload) {
+      console.log("getting new access token");
+      await dispatch(getNewAccessToken());
+      return handleAddSoalUraianSingkat(value);
+    }
     document.getElementById("showModalUraianSingkat").click();
     await dispatch(getSoalUraianSingkat());
   }
@@ -35,6 +38,7 @@ const AddSoalUraianSingkat = () => {
         </div>
         <div className="modal-body" style={{ width: "800px" }}>
           <Formik
+            enableReinitialize
             initialValues={{
               soal: "",
               idDongeng: "",

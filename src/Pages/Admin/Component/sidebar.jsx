@@ -1,9 +1,17 @@
+import { useDispatch } from "react-redux";
 import { Link, useLocation } from "react-router-dom";
+import { signOut } from "../../../lib/redux/api/auth";
 
 const Sidebar = ({ navList = [] }) => {
   const location = useLocation();
+  const dispatch = useDispatch();
+
   var path = location.pathname;
   path = path.split("/")[2];
+
+  function handleLogout() {
+    dispatch(signOut());
+  }
 
   const active = "bg-light rounded-start rounded-10 text-base";
 
@@ -58,11 +66,11 @@ const Sidebar = ({ navList = [] }) => {
               height="30"
               className="rounded-circle"
             />
-            <span className="d-none d-sm-inline mx-1">loser</span>
+            <span className="d-none d-sm-inline mx-1">User</span>
           </a>
           <ul className="dropdown-menu dropdown-menu-dark text-small shadow">
             <li>
-              <a className="dropdown-item" href="#">
+              <a className="dropdown-item" onClick={() => handleLogout()}>
                 Sign out
               </a>
             </li>

@@ -9,9 +9,9 @@ const fairyApi = axios.create({
 });
 
 fairyApi.interceptors.request.use((config) => {
-  const { token } = getCookies("token");
-  if (token) {
-    config.headers["Authorization"] = `Bearer ${token || ""}`;
+  const { accessToken } = getCookies("accessToken");
+  if (accessToken) {
+    config.headers["Authorization"] = `Bearer ${accessToken || ""}`;
   }
   return config;
 });
@@ -22,7 +22,9 @@ fairyApi.interceptors.response.use(
   },
   (error) => {
     if (error.response?.status === 401) {
-      console.log("Unautorize");
+      // console.log("unautorize");
+      throw error
+      // return error
     }
     return Promise.reject(error);
   }

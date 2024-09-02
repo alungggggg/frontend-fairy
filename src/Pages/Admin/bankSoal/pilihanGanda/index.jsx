@@ -10,6 +10,8 @@ import ModalPilihanGanda from "./modal";
 import { ArrowLeft } from "../../forumQuiz/forumDetail";
 import { Link } from "react-router-dom";
 import { PlusIcon } from "../../forumQuiz";
+import { getNewAccessToken } from "../../../../lib/redux/api/auth";
+import Swal from "sweetalert2";
 
 const PilihanGanda = () => {
   const tableHead = [
@@ -45,8 +47,53 @@ const PilihanGanda = () => {
 
   const dispatch = useDispatch();
 
+  async function handleDeleteSoalPilgan(id) {
+    Swal.fire({
+      title: "Are you sure?",
+      text: "You won't be able to revert this!",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "Yes, delete it!",
+    }).then((result) => {
+      if (result.isConfirmed) {
+        const handleDelete = async () => {
+          var res = await dispatch(deleteSoalPilgan(id));
+          if (res.error) {
+            if (res.error.message === "401") {
+              console.log("getting new access token");
+              await dispatch(getNewAccessToken());
+              return handleDelete();
+            }
+          }
+          dispatch(getSoalPilgan())
+          Swal.fire({
+            title: "Deleted!",
+            text: "Your file has been deleted.",
+            icon: "success",
+          });
+
+        };
+
+        handleDelete();
+      }
+    });
+  }
+
   useEffect(() => {
-    dispatch(getSoalPilgan());
+    async function getDatas() {
+      var res = await dispatch(getSoalPilgan());
+      if (res.error) {
+        if (res.error.message === "401") {
+          console.log("getting new access token");
+          await dispatch(getNewAccessToken());
+          return getDatas();
+        }
+      }
+    }
+
+    getDatas();
   }, []);
 
   return (
@@ -126,13 +173,13 @@ const PilihanGanda = () => {
                   {displayedSoal?.map((item, i) => (
                     <tr key={i} className="align-middle">
                       <td>{i + 1}</td>
-                      <td>{item.soal || ""}</td>
-                      <td>{item.dongeng.title || ""}</td>
-                      <td>{item.opsi_1 || ""}</td>
-                      <td>{item.opsi_2 || ""}</td>
-                      <td>{item.opsi_3 || ""}</td>
-                      <td>{item.opsi_4 || ""}</td>
-                      <td>{item.jawaban || ""}</td>
+                      <td>{item?.soal || ""}</td>
+                      <td>{item.dongeng?.title || ""}</td>
+                      <td>{item?.opsi_1 || ""}</td>
+                      <td>{item?.opsi_2 || ""}</td>
+                      <td>{item?.opsi_3 || ""}</td>
+                      <td>{item?.opsi_4 || ""}</td>
+                      <td>{item?.jawaban || ""}</td>
                       <td
                         className="d-flex gap-2 justify-content-end"
                         style={{ maxWidth: "120px" }}
@@ -154,9 +201,7 @@ const PilihanGanda = () => {
                           type="button"
                           className="btn btn-danger "
                           onClick={() => {
-                            if (window.confirm("Are you sure?")) {
-                              dispatch(deleteSoalPilgan(item.id));
-                            }
+                            handleDeleteSoalPilgan(item.id);
                           }}
                         >
                           <DeleteIcon size={18} />

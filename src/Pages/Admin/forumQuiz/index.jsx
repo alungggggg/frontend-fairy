@@ -5,6 +5,8 @@ import { getForumQuiz } from "../../../lib/redux/api/forumQuiz";
 import ModalForumQuiz from "./modal";
 import { useNavigate, useParams } from "react-router-dom";
 import Loading from "../../../Component/loading";
+import { getNewAccessToken } from "../../../lib/redux/api/auth";
+import { getAllDongeng } from "../../../lib/redux/api/dongeng";
 
 const ForumQuiz = () => {
   const [search, setSearch] = useState();
@@ -23,19 +25,33 @@ const ForumQuiz = () => {
 
   let { forumQuiz, isLoading } = useSelector((state) => state.forumQuiz);
 
+  async function getDataQuiz() {
+    var res_forum = await dispatch(getForumQuiz());
+    var res_dongeng = await dispatch(getAllDongeng());
 
-  let displayedForum = forumQuiz.filter((forum) => {
+    if (res_forum.error || res_dongeng.error) {
+      if (
+        res_forum.error.message === "401" ||
+        res_dongeng.error.message === "401"
+      ) {
+        console.log("getting new access token");
+        await dispatch(getNewAccessToken());
+        return getDataQuiz();
+      }
+    }
+  }
+  useEffect(() => {
+    getDataQuiz();
+  }, []);
+
+  let displayedForum = forumQuiz?.filter((forum) => {
     return search
       ? forum.judul.toLowerCase().includes(search.toLowerCase()) ||
-      forum.dongeng.title.toLowerCase().includes(search.toLowerCase()) ||
-      forum.sekolah.toLowerCase().includes(search.toLowerCase()) ||
-      forum.token.toLowerCase().includes(search.toLowerCase())
+          forum.dongeng.title.toLowerCase().includes(search.toLowerCase()) ||
+          forum.sekolah.toLowerCase().includes(search.toLowerCase()) ||
+          forum.token.toLowerCase().includes(search.toLowerCase())
       : forum;
   });
-
-  useEffect(() => {
-    dispatch(getForumQuiz());
-  }, []);
 
   return (
     <AdminLayout>
@@ -53,14 +69,16 @@ const ForumQuiz = () => {
                 placeholder="Search...."
                 aria-label="Search"
                 aria-describedby="button-addon2"
+                value={search}
                 onChange={(e) => setSearch(e.target.value)}
               />
               <button
                 className="btn btn-outline-secondary"
                 type="button"
                 id="Search"
+                onClick={() => setSearch("")}
               >
-                Search
+                Clear
               </button>
             </div>
             <div className="col d-flex justify-content-end">

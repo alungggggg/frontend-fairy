@@ -7,6 +7,7 @@ import {
   addSoalPilgan,
   getSoalPilgan,
 } from "../../../../lib/redux/api/soalPilgan";
+import { getNewAccessToken } from "../../../../lib/redux/api/auth";
 
 const AddSoalPilganSchema = Yup.object().shape({
   soal: Yup.string().required("Soal is required"),
@@ -21,25 +22,28 @@ const AddSoalPilgan = () => {
   const dispatch = useDispatch();
   const { dongeng } = useSelector((state) => state.dongeng);
 
-  useEffect(() => {
-    dispatch(getAllDongeng());
-  }, []);
-
   async function handleAddSoalPilgan(value) {
+    var res = await dispatch(addSoalPilgan(value));
+    if (res.error) {
+      if (res.error.message === "401") {
+        console.log("getting new access token");
+        await dispatch(getNewAccessToken());
+        return handleAddSoalPilgan(value);
+      }
+    }
     document.getElementById("showModalAddSoalPilgan").click();
-    await dispatch(addSoalPilgan(value));
     await dispatch(getSoalPilgan());
   }
 
   return (
     <div className="modal-dialog modal-dialog-centered modal-lg">
-      <div className="modal-content" >
+      <div className="modal-content">
         <div className="modal-header">
           <h5 className="modal-title" id="staticBackdropLabel">
             Menambahkan Soal Pilihan Ganda
           </h5>
         </div>
-        <div className="modal-body" style={{width : "800px"}}>
+        <div className="modal-body" style={{ width: "800px" }}>
           <Formik
             initialValues={{
               soal: "",

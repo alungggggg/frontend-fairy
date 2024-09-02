@@ -5,6 +5,7 @@ import { AxiosError } from "axios";
 export const getForumQuiz = createAsyncThunk(
   "forumQuiz/getForumQuiz",
   async () => {
+    // throw new Error();
     try {
       const response = await fairyApi.get("/get-all-quiz");
       if (response) {
@@ -14,7 +15,7 @@ export const getForumQuiz = createAsyncThunk(
       throw new Error();
     } catch (error) {
       if (error instanceof AxiosError) {
-        return error.response ? error.response.status : error.message;
+        throw error.response ? error.response.status : error.message;
       }
       throw error;
     }
@@ -34,7 +35,7 @@ export const addForumQuiz = createAsyncThunk(
       throw new Error();
     } catch (error) {
       if (error instanceof AxiosError) {
-        return error.response ? error.response.status : error.message;
+        throw error.response ? error.response.status : error.message;
       }
       throw error;
     }
@@ -52,7 +53,7 @@ export const getForumQuizById = createAsyncThunk(
       throw new Error();
     } catch (error) {
       if (error instanceof AxiosError) {
-        return error.response ? error.response.status : error.message;
+        throw error.response ? error.response.status : error.message;
       }
       throw error;
     }
@@ -71,7 +72,7 @@ export const deleteForumQuiz = createAsyncThunk(
       throw new Error();
     } catch (error) {
       if (error instanceof AxiosError) {
-        return error.response ? error.response.status : error.message;
+        throw error.response ? error.response.status : error.message;
       }
       throw error;
     }
@@ -93,7 +94,7 @@ export const editForumQuiz = createAsyncThunk(
       throw new Error();
     } catch (error) {
       if (error instanceof AxiosError) {
-        return error.response ? error.response.status : error.message;
+        throw error.response ? error.response.status : error.message;
       }
       throw error;
     }
@@ -110,14 +111,15 @@ const forumQuizSlice = createSlice({
   reducers: {},
   extraReducers: (builder) => {
     builder
+      .addCase(getForumQuiz.rejected, (state, action) => {
+        state.isLoading = false;
+        state.forumQuiz = [];
+        state.error = action.error.message;
+      })
       .addCase(getForumQuiz.fulfilled, (state, action) => {
         state.forumQuiz = action.payload;
         state.isLoading = false;
         state.error = null;
-      })
-      .addCase(getForumQuiz.rejected, (state, action) => {
-        state.isLoading = false;
-        state.error = action.error.message;
       })
       .addCase(getForumQuiz.pending, (state) => {
         state.isLoading = true;

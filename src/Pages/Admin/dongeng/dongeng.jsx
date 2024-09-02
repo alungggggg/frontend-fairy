@@ -1,30 +1,48 @@
-import Header from "../../template/header";
-import Footer from "../../template/footer";
-import axios from "axios";
 import ItemListDongeng from "../Component/itemListDongeng";
 import Pagination from "../../../Component/pagination";
-import { useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
 import AdminLayout from "../adminLayout";
-
-const getDongeng = async () => {
-  const result = await axios.get("http://localhost:5000/api/dongeng");
-  return result.data;
-};
+import { useDispatch, useSelector } from "react-redux";
+import { getAllDongeng } from "../../../lib/redux/api/dongeng";
+import Loading from "../../../Component/loading";
+import { PlusIcon } from "../forumQuiz";
+import { DeleteIcon, EditIcon } from "../bankSoal/pilihanGanda";
+import { getNewAccessToken } from "../../../lib/redux/api/auth";
+import { useNavigate } from "react-router-dom";
 
 const dongeng = () => {
-  const navigate = useNavigate();
-
   const [currentPage, setCurrentPage] = useState(1);
   const [itemsPerPage] = useState(10);
   const [items, setItems] = useState([]);
   const [searchTerm, setSearchTerm] = useState("");
 
+  const tableHead = ["No", "Cover", "Tittle", ""];
+
+  const { dongeng, isLoading, error } = useSelector((state) => state.dongeng);
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+
   useEffect(() => {
-    getDongeng().then((item) => setItems(item));
+    dispatch(getAllDongeng());
   }, []);
 
-  const filteredItems = items.filter((item) =>
+  useEffect(() => {
+    async function getData() {
+      const res = await dispatch(getAllDongeng());
+      // console.log(res.error.message);
+
+      if (res.error) {
+        if (res.error.message === "401") {
+          console.log("getting new access token");
+          await dispatch(getNewAccessToken());
+          return getData();
+        }
+      }
+    }
+    getData();
+  }, []);
+
+  const filteredItems = dongeng.filter((item) =>
     item.title.toLowerCase().includes(searchTerm.toLowerCase())
   );
 
@@ -36,37 +54,99 @@ const dongeng = () => {
 
   return (
     <AdminLayout>
-      <section className="container mt-4 mb-4">
-        <section className="card">
-          <section className="card-header">
-            <h3 className="card-title">Dongeng</h3>
-          </section>
+      {isLoading ? (
+        <section className="d-flex justify-content-center align-items-center h-100">
+          <Loading />
+        </section>
+      ) : (
+        <div className="">
+          <div className="row mb-3">
+            <div className="input-group col">
+              <input
+                type="text"
+                className="form-control"
+                placeholder="Search...."
+                aria-label="Search"
+                aria-describedby="button-addon2"
+                value={searchTerm}
+                onChange={(e) => setSearchTerm(e.target.value)}
+              />
+              <button
+                className="btn btn-outline-secondary"
+                type="button"
+                id="Search"
+              >
+                Clear
+              </button>
+            </div>
+            <div className="col d-flex justify-content-end">
+              <button
+                type="button"
+                className="btn btn-secondary d-flex align-items-center gap-1 lh-sm bg-white text-black fs-5"
+                onClick={() => {
+                  navigate("./add");
+                }}
+              >
+                <PlusIcon size={24} />
+                Add
+              </button>
+            </div>
+          </div>
           <section className="card-body p-0">
             <section className="table-responsive">
-              <table className="table m-0">
+              <table className="table table-striped m-0 ">
                 <thead>
-                  <tr className="">
-                    <th>Title</th>
-                    <th>Cover</th>
-                    <th>Aksi</th>
+                  <tr>
+                    {tableHead.map((item, i) => {
+                      if (i == tableHead.length - 1) {
+                        return (
+                          <th key={i} style={{ width: "120px" }}>
+                            {item}
+                          </th>
+                        );
+                      } else {
+                        return <th key={i}>{item}</th>;
+                      }
+                    })}
                   </tr>
                 </thead>
                 <tbody>
-                  <ItemListDongeng
-                    items={currentItems}
-                    getDongeng={getDongeng}
-                  />
+                  {currentItems.map((item, i) => (
+                    <tr
+                      className="align-middle"
+                      key={i}
+                      onClick={() => navigate(`./update/${item.id}`)}
+                      style={{ cursor: "pointer" }}
+                    >
+                      <td width={50}>{i + 1}</td>
+                      <td width={150}>
+                        <div>
+                          <img src={item?.cover} className="w-100" />
+                        </div>
+                      </td>
+                      <td>{item?.title || ``}</td>
+                      <td className="text-center" style={{ maxWidth: "100px" }}>
+                        <button type="button" className="btn btn-primary me-1">
+                          <EditIcon size={18} />
+                        </button>
+                        <button type="button" className="btn btn-danger">
+                          <DeleteIcon size={18} />
+                        </button>
+                      </td>
+                    </tr>
+                  ))}
                 </tbody>
               </table>
               <Pagination
                 itemsPerPage={itemsPerPage}
                 totalItems={filteredItems.length}
+                className={"mt-4"}
                 paginate={paginate}
               />
             </section>
           </section>
-        </section>
-      </section>
+        </div>
+      )}
     </AdminLayout>
   );
 };

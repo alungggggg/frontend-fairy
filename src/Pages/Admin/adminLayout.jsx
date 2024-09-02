@@ -1,7 +1,11 @@
-import { NavLink, useLocation } from "react-router-dom";
+import { Navigate, NavLink, useLocation, useNavigate } from "react-router-dom";
 import Header from "../template/header";
 import Sidebar from "./Component/sidebar";
 import { useEffect, useState } from "react";
+import { getCookie } from "cookies-next";
+import { useDispatch, useSelector } from "react-redux";
+import { getUserById } from "../../lib/redux/api/users";
+import { getNewAccessToken } from "../../lib/redux/api/auth";
 
 const AdminLayout = ({ children }) => {
   const navList = [
@@ -19,6 +23,30 @@ const AdminLayout = ({ children }) => {
       icon: <MortorboardIcon size={24} />,
     },
   ];
+
+  const dispatch = useDispatch();
+
+  const refresh_token = getCookie("refreshToken");
+  const users_id = getCookie("userID");
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    async function getDataUsers() {
+      var res = await dispatch(getUserById(users_id));
+      if (!res.payload) {
+        console.log("get new access token");
+        dispatch(getNewAccessToken());
+        return getDataUsers();
+      }
+      if (res.payload.role !== "admin") {
+        return navigate("/");
+      }
+    }
+
+    getDataUsers();
+  }, []);
+
+  if (!refresh_token) return <Navigate to={"/login"} />;
 
   return (
     <div className="container-fluid">

@@ -7,6 +7,7 @@ import {
   editSoalPilgan,
   getSoalPilgan,
 } from "../../../../lib/redux/api/soalPilgan";
+import { getNewAccessToken } from "../../../../lib/redux/api/auth";
 
 const editSoalPilganSchema = Yup.object().shape({
   soal: Yup.string().required("Soal is required"),
@@ -30,12 +31,30 @@ const EditSoalPilgan = ({ id }) => {
   }, [id]);
 
   useEffect(() => {
-    dispatch(getAllDongeng());
+    async function getDongengDatas() {
+      var res = await dispatch(getAllDongeng());
+      if (res.error) {
+        if (res.error.message === "401") {
+          console.log("getting new access token");
+          await dispatch(getNewAccessToken());
+          return getDongengDatas();
+        }
+      }
+    }
+
+    getDongengDatas();
   }, []);
 
   async function handleEditSoalPilgan(value) {
+    var res = await dispatch(editSoalPilgan(value));
+    if (res.error) {
+      if (res.error.message === "401") {
+        console.log("getting new access token");
+        dispatch(getNewAccessToken());
+        return handleEditSoalPilgan(value);
+      }
+    }
     document.getElementById("showModalAddSoalPilgan").click();
-    await dispatch(editSoalPilgan(value));
     await dispatch(getSoalPilgan());
   }
   return (

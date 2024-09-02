@@ -1,33 +1,13 @@
 import React from "react";
 import { Formik, Form, Field } from "formik";
 import * as Yup from "yup";
-import axios from "axios";
-import Header from "../../template/header";
-import Footer from "../../template/footer";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import { addDongeng } from "../../../lib/redux/api/dongeng";
+import AdminLayout from "../adminLayout";
+import { Link } from "react-router-dom";
+import { getNewAccessToken } from "../../../lib/redux/api/auth";
+import Swal from "sweetalert2";
 
-const post = async ({ title, pdf }) => {
-  var file = pdf
-  try {
-    const response = await axios.post(
-      "http://localhost:5000/api/dongeng",
-      {
-        title,
-        file,
-      },
-      {
-        headers: {
-          "Content-Type": `multipart/form-data`,
-        },
-      }
-    );
-    return response;
-  } catch (error) {
-    // dispatch()
-    console.log(error.message);
-  }
-  // console.log("p")
-};
 const schema = Yup.object({
   title: Yup.string()
     .required("Title is required")
@@ -44,49 +24,39 @@ const schema = Yup.object({
     }),
 });
 
-const addDongeng = () => {
+const AddDongeng = () => {
+  const dispatch = useDispatch();
+  const { isLoading } = useSelector((state) => state.dongeng);
+
+  async function post(value) {
+    console.log("tets");
+    var file = value.pdf;
+    var title = value.title;
+
+    const res = await dispatch(
+      addDongeng({
+        title,
+        file,
+      })
+    );
+
+    if (!res.payload) {
+      console.log("getting new access token");
+      await dispatch(getNewAccessToken());
+      return post(value);
+    }
+
+    Swal.fire({
+      title: "Berhasil Meneambahkan dongeng",
+    });
+  }
   return (
-    <>
-      <Header></Header>
-      {/* <Formik
-        initialValues={{ pdf: null }}
-        validationSchema={schema}
-        onSubmit={(values, { setSubmitting }) => {
-          post(values).then((response) => {
-            console.log(response);
-          });
-        }}
-      >
-        {({ setFieldValue, errors, touched, isSubmitting }) => (
-          <Form>
-            <div>
-              <input
-                type="text"
-                name="title"
-                onChange={(event) => {
-                  setFieldValue("title", event.target.value);
-                }}
-              />
-              {errors.title ? <div>{errors.title}</div> : null}
-            </div>
-
-            <div>
-              <input
-                type="file"
-                name="pdf"
-                onChange={(event) => {
-                  setFieldValue("pdf", event.target.files[0]);
-                  console.log(event.target.files[0]);
-                }}
-              />
-              {errors.pdf && touched.pdf ? <div>{errors.pdf}</div> : null}
-            </div>
-
-            <button type="submit">Submit</button>
-          </Form>
-        )}
-      </Formik> */}
+    <AdminLayout>
       <section className="row justify-content-center pt-2 pt-md-5 p-3 p-md-0 login">
+        <div>
+          <Link to={"../"}>Back</Link>
+        </div>
+        {isLoading ? <div>Loading....</div> : ""}
         <section className="col-lg-5">
           <h2 className="text-blue mt-4 mt-md-0">Add Dongeng</h2>
           <section className="card mt-2 shadow">
@@ -94,7 +64,8 @@ const addDongeng = () => {
               <Formik
                 initialValues={{ pdf: null }}
                 validationSchema={schema}
-                validateOnChange={false} validateOnBlur={false}
+                validateOnChange={false}
+                validateOnBlur={false}
                 onSubmit={(values, { setSubmitting }) => {
                   post(values);
                 }}
@@ -141,9 +112,8 @@ const addDongeng = () => {
           </section>
         </section>
       </section>
-      <Footer></Footer>
-    </>
+    </AdminLayout>
   );
 };
 
-export default addDongeng;
+export default AddDongeng;
