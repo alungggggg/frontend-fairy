@@ -13,16 +13,37 @@ const submit = async (values, id, navigate) => {
   try {
     const result = await axios.patch(
       `http://localhost:5000/api/users/${id}`,
-      { nama: values.nama, email: values.email, password: values.password },
+      values,
       { headers: { Authorization: `Bearer ${localStorage.getItem("token")}` } }
     );
-    navigate("/users", {
-      state: { message: "User Berhasil di Ubah!", status: "success" },
-    });
+    console.log(result)
+    // navigate("/admin/users", {
+    //   state: { message: "User Berhasil di Ubah!", status: "success" },
+    // });
   } catch (error) {
     console.error("Error updating user:", error.message);
   }
 };
+
+const SiswaForm = () => (
+  <>
+    <label htmlFor="kelas">kelas</label>
+    <Field type="text" name="kelas" />
+    <ErrorMessage name="kelas" render={errorMessage} />
+
+    <label htmlFor="sekolah">sekolah</label>
+    <Field type="text" name="sekolah" />
+    <ErrorMessage name="sekolah" render={errorMessage} />
+  </>
+)
+
+const GuruForm = () => (
+  <>
+    <label htmlFor="sekolah">sekolah</label>
+    <Field type="text" name="sekolah" />
+    <ErrorMessage name="sekolah" render={errorMessage} />
+  </>
+)
 
 const IsChangePass = () => (
   <>
@@ -43,6 +64,9 @@ const UpdateUser = () => {
   const [user, setUser] = useState(null);
   const [isChangePass, setIsChangePass] = useState(false);
   const [validationSchema, setValidationSchema] = useState(updateSchema);
+
+  const [isSiswa, setIsSiswa] = useState(false);
+  const [isGuru, setIsGuru] = useState(false);
 
   useEffect(() => {
     const getUser = async () => {
@@ -73,6 +97,21 @@ const UpdateUser = () => {
     }
   }, [isChangePass]);
 
+  useEffect(() => {
+    if (user) {
+      if (user.role === "SISWA") {
+        setIsSiswa(true);
+        setIsGuru(false);
+      } else if (user.role === "GURU") {
+        setIsGuru(true);
+        setIsSiswa(false);
+      } else {
+        setIsGuru(false);
+        setIsSiswa(false);
+      }
+    }
+  }, [user]);
+
   if (user === null) {
     return <div>Loading...</div>;
   }
@@ -82,6 +121,10 @@ const UpdateUser = () => {
       initialValues={{
         nama: user.nama,
         email: user.email,
+        username: user.username || "",
+        kelas: user.kelas || "",
+        sekolah: user.sekolah || "",
+        role: user.role,
         password: "",
         confirmPassword: "",
       }}
@@ -90,6 +133,7 @@ const UpdateUser = () => {
       validateOnBlur={false}
       onSubmit={(values, { setSubmitting }) => {
         submit(values, id, navigate);
+        // submit(values)
         setSubmitting(false);
       }}
     >
@@ -99,9 +143,36 @@ const UpdateUser = () => {
           <Field type="text" name="nama" />
           <ErrorMessage name="nama" render={errorMessage} />
 
+          <label htmlFor="username">username</label>
+          <Field type="text" name="username" />
+          <ErrorMessage name="username" render={errorMessage} />
+
           <label htmlFor="email">Email</label>
           <Field type="email" name="email" disabled />
           <ErrorMessage name="email" render={errorMessage} />
+
+          <label htmlFor="role">role</label>
+          <Field as="select" name="role" onChange={(e) => {
+            setFieldValue('role', e.target.value)
+            if (e.target.value === 'SISWA') {
+              setIsSiswa(true)
+              setIsGuru(false)
+            } else if (e.target.value === 'GURU') {
+              setIsGuru(true)
+              setIsSiswa(false)
+            } else {
+              setIsGuru(false)
+              setIsSiswa(false)
+            }
+          }}>
+            <option value="SISWA">SISWA</option>
+            <option value="GURU">GURU</option>
+            <option value="UMUM">UMUM</option>
+          </Field>
+          <ErrorMessage name="role" render={errorMessage} />
+
+          {isSiswa && <SiswaForm />}
+          {isGuru && <GuruForm />}
 
           <input
             type="checkbox"

@@ -12,7 +12,8 @@ import { useNavigate } from "react-router-dom";
 
 const dongeng = () => {
   const [currentPage, setCurrentPage] = useState(1);
-  const [itemsPerPage] = useState(3);
+  const [itemsPerPage] = useState(10);
+  const [items, setItems] = useState([]);
   const [searchTerm, setSearchTerm] = useState("");
 
   const tableHead = ["No", "Cover", "Tittle", ""];

@@ -3,11 +3,11 @@ import axios from "axios";
 
 export const defaultSchema = yup.object().shape({
   nama: yup.string().required().min(4),
-  username: yup.string().required().min(4).test("Unique", "Email sudah terdaftar", async (value) => {
+  username: yup.string().required().min(4).test("Unique", "Username sudah terdaftar", async (value) => {
     const nunique = await axios.get(
       `http://localhost:5000/api/auth/alreadyexist/username?search=${value}`
     );
-    console.log(nunique);
+    // console.log(nunique);
     return nunique.data.isAvailable;
   }),
   email: yup
