@@ -64,17 +64,19 @@ const GuruForm = () => (
   </>
 )
 
-const post = async ({ nama, email, password }) => {
+const post = async (values) => {
   // const navigate = useNavigate();
-
+  console.log("oke")
   try {
     const result = await axios.post(
       "http://localhost:5000/api/users",
-      { nama, email, password },
+      values,
       {
         headers: { Authorization: `Bearer ${localStorage.getItem("token")}` },
       }
     );
+    console.log(result)
+    // navigate()
 
   } catch (error) {
     console.log(error.message);
@@ -108,9 +110,10 @@ const addUser = () => {
                 validationSchema={schema} validateOnChange={false} validateOnBlur={false}
                 onSubmit={(values, { setSubmitting, errors }) => {
                   post(values)
-                  navigate("/users", {
-                    state: { message: "User Berhasil di buat!", status: "success" },
-                  });
+                  console.log(values)
+                  // navigate("/users", {
+                  //   state: { message: "User Berhasil di buat!", status: "success" },
+                  // });
                   setSubmitting(false);
                 }}>
 
@@ -189,11 +192,14 @@ const addUser = () => {
                           console.log(isSiswa)
                         }}
                       >
-                        <option value="">Select Role</option>
-                        <option value="SISWA">SISWA</option>
-                        <option value="GURU">GURU</option>
-                        <option value="UMUM">UMUM</option>
+                        <option value="" key={"null"}>Select Role</option>
+                        <option value="SISWA" key={"SISWA"}>SISWA</option>
+                        <option value="GURU" key={"GURU"}>GURU</option>
+                        <option value="UMUM" key={"UMUM"}>UMUM</option>
                       </Field>
+
+                      <ErrorMessage name="role"
+                        render={errorMessage} />
                     </div>
 
                     {isSiswa && <SiswaForm />}

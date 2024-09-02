@@ -13,12 +13,13 @@ const submit = async (values, id, navigate) => {
   try {
     const result = await axios.patch(
       `http://localhost:5000/api/users/${id}`,
-      { nama: values.nama, email: values.email, password: values.password },
+      values,
       { headers: { Authorization: `Bearer ${localStorage.getItem("token")}` } }
     );
-    navigate("/users", {
-      state: { message: "User Berhasil di Ubah!", status: "success" },
-    });
+    console.log(result)
+    // navigate("/admin/users", {
+    //   state: { message: "User Berhasil di Ubah!", status: "success" },
+    // });
   } catch (error) {
     console.error("Error updating user:", error.message);
   }
@@ -132,6 +133,7 @@ const UpdateUser = () => {
       validateOnBlur={false}
       onSubmit={(values, { setSubmitting }) => {
         submit(values, id, navigate);
+        // submit(values)
         setSubmitting(false);
       }}
     >

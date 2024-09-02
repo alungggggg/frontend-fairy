@@ -17,6 +17,9 @@ import dongengView from "./Services/dongengView";
 import home from "./Services/home";
 import katalog from "./Services/katalog";
 import petunjuk from "./Services/petunjuk";
+import petunjukSiswa from "./Services/petunjukSiswa";
+import petunjukGuru from "./Services/petunjukGuru";
+import petunjukUmum from "./Services/petunjukUmum";
 import profile from "./Services/profile";
 import updateProfile from "./Services/updateProfile";
 import err404 from "./Services/404";
@@ -45,4 +48,7 @@ export default {
   profile,
   updateProfile,
   verify,
+  petunjukSiswa,
+  petunjukUmum,
+  petunjukGuru,
 };

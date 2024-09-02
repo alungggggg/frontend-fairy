@@ -23,6 +23,9 @@ function App() {
           <Route path="/profile/update" element={<kernel.updateProfile />} />
           <Route path="/katalog" element={<kernel.katalog />} />
           <Route path="/Petunjuk" element={<kernel.petunjuk />} />
+          <Route path="/Petunjuk/siswa" element={<kernel.petunjukSiswa />} />
+          <Route path="/Petunjuk/guru" element={<kernel.petunjukUmum />} />
+          <Route path="/Petunjuk/umum" element={<kernel.petunjukGuru />} />
           <Route path="/dongeng/detail/:id" element={<kernel.detail />} />
           <Route path="/dongeng/read/:id" element={<kernel.dongengView />} />
 
