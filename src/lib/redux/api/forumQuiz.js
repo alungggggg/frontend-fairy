@@ -112,7 +112,9 @@ const forumQuizSlice = createSlice({
   extraReducers: (builder) => {
     builder
       .addCase(getForumQuiz.rejected, (state, action) => {
-        state.isLoading = false;
+        if (action.error.message !== "401") {
+          state.isLoading = false;
+        }
         state.forumQuiz = [];
         state.error = action.error.message;
       })
@@ -129,7 +131,9 @@ const forumQuizSlice = createSlice({
         state.error = null;
       })
       .addCase(addForumQuiz.rejected, (state, action) => {
-        state.isLoading = false;
+        if (action.error.message !== "401") {
+          state.isLoading = false;
+        }
         state.error = action.error.message;
       })
       .addCase(addForumQuiz.pending, (state) => {
@@ -142,7 +146,9 @@ const forumQuizSlice = createSlice({
         state.error = null;
       })
       .addCase(getForumQuizById.rejected, (state, action) => {
-        state.isLoading = false;
+        if (action.error.message !== "401") {
+          state.isLoading = false;
+        }
         state.error = action.error.message;
       })
       .addCase(getForumQuizById.pending, (state) => {
@@ -153,7 +159,9 @@ const forumQuizSlice = createSlice({
         state.error = null;
       })
       .addCase(deleteForumQuiz.rejected, (state, action) => {
-        state.isLoading = false;
+        if (action.error.message !== "401") {
+          state.isLoading = false;
+        }
         state.error = action.error.message;
       })
       .addCase(deleteForumQuiz.pending, (state) => {
@@ -164,7 +172,9 @@ const forumQuizSlice = createSlice({
         state.error = null;
       })
       .addCase(editForumQuiz.rejected, (state, action) => {
-        state.isLoading = false;
+        if (action.error.message !== "401") {
+          state.isLoading = false;
+        }
         state.error = action.error.message;
       })
       .addCase(editForumQuiz.pending, (state) => {

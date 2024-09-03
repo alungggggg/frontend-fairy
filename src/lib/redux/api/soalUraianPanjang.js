@@ -1,5 +1,6 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import fairyApi from "../../axios";
+import { AxiosError } from "axios";
 
 export const getSoalUraianPanjang = createAsyncThunk(
   "soalUraianPanjang/getSoalUraianPanjang",
@@ -90,7 +91,9 @@ const soalUraianPanjangSlice = createSlice({
         state.soalUraianPanjang = action.payload;
       })
       .addCase(getSoalUraianPanjang.rejected, (state, action) => {
-        state.isLoading = false;
+        if (action.error.message !== "401") {
+          state.isLoading = false;
+        }
         state.error = action.error.message;
       })
       .addCase(getSoalUraianPanjang.pending, (state) => {
@@ -105,7 +108,9 @@ const soalUraianPanjangSlice = createSlice({
         );
       })
       .addCase(deleteSoalUraianPanjang.rejected, (state, action) => {
-        state.isLoading = false;
+        if (action.error.message !== "401") {
+          state.isLoading = false;
+        }
         state.error = action.error.message;
       })
       .addCase(deleteSoalUraianPanjang.pending, (state) => {
@@ -118,7 +123,9 @@ const soalUraianPanjangSlice = createSlice({
         // state.soalUraianPanjang.push(action.payload);
       })
       .addCase(addSoalUraianPanjang.rejected, (state, action) => {
-        state.isLoading = false;
+        if (action.error.message !== "401") {
+          state.isLoading = false;
+        }
         state.error = action.error.message;
       })
       .addCase(addSoalUraianPanjang.pending, (state) => {
@@ -130,7 +137,9 @@ const soalUraianPanjangSlice = createSlice({
         state.error = null;
       })
       .addCase(editSoalUraianPanjang.rejected, (state, action) => {
-        state.isLoading = false;
+        if (action.error.message !== "401") {
+          state.isLoading = false;
+        }
         state.error = action.error.message;
       })
       .addCase(editSoalUraianPanjang.pending, (state) => {

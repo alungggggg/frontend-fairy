@@ -36,10 +36,12 @@ const UraianSingkat = () => {
   useEffect(() => {
     async function getDatas() {
       var res = await dispatch(getSoalUraianSingkat());
-      if (!res.payload) {
-        console.log("getting new access token");
-        await dispatch(getNewAccessToken());
-        return getDatas();
+      if (res.error) {
+        if (res.error.message !== "401") {
+          console.log("getting new access token");
+          await dispatch(getNewAccessToken());
+          return getDatas();
+        }
       }
     }
 
@@ -54,7 +56,7 @@ const UraianSingkat = () => {
       showCancelButton: true,
       confirmButtonColor: "#3085d6",
       cancelButtonColor: "#d33",
-      confirmButtonText: "Yes, delete it!"
+      confirmButtonText: "Yes, delete it!",
     }).then((result) => {
       if (result.isConfirmed) {
         const handleDelete = async () => {
@@ -67,11 +69,11 @@ const UraianSingkat = () => {
           Swal.fire({
             title: "Deleted!",
             text: "Your file has been deleted.",
-            icon: "success"
+            icon: "success",
           });
         };
 
-        handleDelete()
+        handleDelete();
       }
     });
   }

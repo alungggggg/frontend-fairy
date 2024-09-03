@@ -17,6 +17,6 @@ export const store = configureStore({
     forumQuiz: forumQuizSlice,
     dongeng: dongengSlice,
     rekapNilai: rekapNilaiSlice,
-    users: usersSlice,
+    user: usersSlice,
   },
 });

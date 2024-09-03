@@ -119,7 +119,9 @@ const dongengSlice = createSlice({
         state.dongeng = action.payload;
       })
       .addCase(getAllDongeng.rejected, (state, action) => {
-        state.isLoading = false;
+        if (action.error.message !== "401") {
+          state.isLoading = false;
+        }
         state.error = action.error.message;
         state.dongeng = [];
       })
@@ -135,7 +137,9 @@ const dongengSlice = createSlice({
         state.error = null;
       })
       .addCase(updateDongeng.rejected, (state, action) => {
-        state.isLoading = false;
+        if (action.error.message !== "401") {
+          state.isLoading = false;
+        }
         state.dongeng = [];
         state.error = action.error.message;
       })
@@ -148,7 +152,9 @@ const dongengSlice = createSlice({
         state.error = null;
       })
       .addCase(getDongengById.rejected, (state, action) => {
-        state.isLoading = false;
+        if (action.error.message !== "401") {
+          state.isLoading = false;
+        }
         state.dongeng = [];
         state.error = action.error.message;
       })
@@ -156,7 +162,9 @@ const dongengSlice = createSlice({
         state.isLoading = true;
       })
       .addCase(addDongeng.rejected, (state, action) => {
-        state.isLoading = false;
+        if (action.error.message !== "401") {
+          state.isLoading = false;
+        }
         state.error = action.error.message;
       })
       .addCase(addDongeng.fulfilled, (state, action) => {
