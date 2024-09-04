@@ -3,7 +3,7 @@ import fairyApi from "../../axios";
 import { AxiosError } from "axios";
 
 export const getUserById = createAsyncThunk(
-  "users/getAllUsers",
+  "user/getUsersById",
   async (paylaod) => {
     try {
       const response = await fairyApi.get(`users/${paylaod}`);

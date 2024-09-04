@@ -2,9 +2,13 @@ import React from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import swal from "sweetalert2"; // Pastikan Anda mengimpor swal dengan benar
+import { useDispatch } from "react-redux";
+import { getNewAccessToken } from "../../../lib/redux/api/auth";
+import { deleteUsers, getAllUsers } from "../../../lib/redux/api/userAdmin";
 
 const ItemListUser = ({ items, getUser }) => {
   const navigate = useNavigate();
+  const dispatch = useDispatch();
 
   const confirmSwal = (title, text) => {
     return swal.fire({
@@ -23,25 +27,30 @@ const ItemListUser = ({ items, getUser }) => {
     confirmSwal("Peringatan", "Anda yakin ingin menghapus user ini?").then(
       async (result) => {
         if (result.isConfirmed) {
-          try {
-            await axios.delete(`http://localhost:5000/api/users/${key}`, {
-              headers: {
-                Authorization: `Bearer ${localStorage.getItem("token")}`,
-              },
-            });
-            getUser();
-            swal.fire("Berhasil", "User berhasil dihapus", "success");
-          } catch (error) {
-            console.log(error.message);
-            swal.fire("Error", "Gagal menghapus user", "error");
+          async function handleDelete() {
+            const res = await dispatch(deleteUsers(key));
+            if (res.error) {
+              if (res.error.message === "401") {
+                console.log("getting new access token");
+                await dispatch(getNewAccessToken());
+                return handleDelete();
+              }
+            }
+            if (res.payload) {
+              swal.fire("Berhasil", "User berhasil dihapus", "success");
+            } else {
+              swal.fire("Gagal", "User gagal dihapus", "error");
+            }
+            await dispatch(getAllUsers());
           }
+          handleDelete()
         }
       }
     );
   };
 
   const updateUser = (key) => {
-    navigate(`/users/update/${key}`);
+    navigate(`./update/${key}`);
   };
 
   if (items.length === 0) {
