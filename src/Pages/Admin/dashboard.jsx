@@ -25,7 +25,8 @@ const Dashboard = () => {
       <>jumlah peserta</>
       <>jumlah dongeng:{jumlahDongeng}</>
       <>jumlah soal</>
-    </AdminLayout>);
+    </AdminLayout>
+  );
 };
 
 export default Dashboard;

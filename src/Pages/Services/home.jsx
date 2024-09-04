@@ -20,6 +20,15 @@ const countView = async () => {
   return data.views
 }
 
+const newVisitor = async () => {
+  await fairyApi.get("/visited")
+}
+
+const getVisitor = async () => {
+  const { data } = await fairyApi.get("/visited/get")
+  return data.visited
+}
+
 
 const Home = () => {
 
@@ -27,24 +36,21 @@ const Home = () => {
   const [populer, setPopuler] = useState([])
   const [countDongeng, setCountDongeng] = useState(0)
   const [countViews, setCountViews] = useState(0)
+  const [visited, setVisited] = useState(0)
+
   useEffect(() => {
     const set = async () => {
       setPopuler(await PopularBook())
       setCountDongeng(await countBook())
       setCountViews(await countView())
+      setVisited(await getVisitor())
+      await newVisitor()
     }
     set()
 
   }, [])
 
-  // useEffect(() => {
-  //   const count = async () => {
-  //     setPopuler(await countBook())
-  //   }
-  //   count()
-  // }, 0)
-  // console.log(populer)
-  // PopularBook()
+
   return (
     <>
       <Header />
@@ -183,7 +189,7 @@ const Home = () => {
             <section className="col-6 col-lg-2">
               <section className="position-relative">
                 <section className="position-relative" style={{ zIndex: 100 }}>
-                  <span className="text-white fs-1 fw-bold">5.139.718</span>
+                  <span className="text-white fs-1 fw-bold"><CountUp start={0} end={visited} duration={2000} /></span>
                 </section>
                 <img
                   src="https://buku.kemdikbud.go.id/assets/image/home/line-stats.png"
