@@ -252,7 +252,7 @@ const Home = () => {
                         <img
                           src={book.cover}
                           alt={book.title}
-                          className="CardBook_img-size"
+                          className="CardBook_img"
                         />
                       </section>
                       <section className="card-body px-5 px-lg-0 py-2">
