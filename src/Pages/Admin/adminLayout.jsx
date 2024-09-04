@@ -1,4 +1,4 @@
-import { Navigate, NavLink, useLocation, useNavigate } from "react-router-dom";
+import { Link, Navigate, NavLink, useLocation, useNavigate } from "react-router-dom";
 import Header from "../template/header";
 import Sidebar from "./Component/sidebar";
 import { useEffect, useState } from "react";
@@ -59,8 +59,8 @@ const AdminLayout = ({ children }) => {
   return (
     <div className="container-fluid">
       <div className="d-flex flex-column justify-content-between flex-md-row align-items-center text-light px-sm-2 px-0 py-4 bg-night gap-4">
-        <NavLink
-          href="/admin"
+        <Link
+          to={"/"}
           className="navbar-brand d-flex align-items-center"
         >
           <div style={{ minWidth: "50px" }}>
@@ -74,7 +74,7 @@ const AdminLayout = ({ children }) => {
             <section>Sistem Informasi</section>
             <section className="fw-bold">Perbukuan Indonesia</section>
           </section>
-        </NavLink>
+        </Link>
         <div className="dropdown">
           <a
             href="#"
