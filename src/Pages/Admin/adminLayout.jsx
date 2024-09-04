@@ -45,7 +45,8 @@ const AdminLayout = ({ children }) => {
           return getDataUsers();
         }
       }
-      if (res.payload.role !== "admin" && res.payload.role !=="guru") {
+      const { role } = res?.payload;
+      if (role !== "admin" && role !== "guru") {
         return navigate("/");
       }
     }

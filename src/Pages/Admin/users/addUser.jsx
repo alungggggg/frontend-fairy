@@ -1,12 +1,16 @@
 import Header from "../../template/header";
 import Footer from "../../template/footer";
-import { Formik, Form, Field, ErrorMessage } from "formik"
+import { Formik, Form, Field, ErrorMessage } from "formik";
 import axios from "axios";
 import schema from "../../../../validation/userValidate";
 import errorMessage from "../../../Component/errorMessage";
-import { useNavigate, useLocation } from "react-router-dom";
+import { useNavigate, useLocation, Link } from "react-router-dom";
 import { useState } from "react";
-
+import AdminLayout from "../adminLayout";
+import { useDispatch } from "react-redux";
+import { addUsers } from "../../../lib/redux/api/userAdmin";
+import Swal from "sweetalert2";
+import { getNewAccessToken } from "../../../lib/redux/api/auth";
 
 const SiswaForm = () => (
   <>
@@ -20,10 +24,7 @@ const SiswaForm = () => (
         className="form-control"
         placeholder="Masukan nama lengkap"
       />
-      <ErrorMessage
-        name="sekolah"
-        render={errorMessage}
-      />
+      <ErrorMessage name="sekolah" render={errorMessage} />
     </div>
 
     <div className="form-group mb-3">
@@ -36,13 +37,10 @@ const SiswaForm = () => (
         className="form-control"
         placeholder="Masukan nama lengkap"
       />
-      <ErrorMessage
-        name="kelas"
-        render={errorMessage}
-      />
+      <ErrorMessage name="kelas" render={errorMessage} />
     </div>
   </>
-)
+);
 
 const GuruForm = () => (
   <>
@@ -56,67 +54,78 @@ const GuruForm = () => (
         className="form-control"
         placeholder="Masukan nama lengkap"
       />
-      <ErrorMessage
-        name="sekolah"
-        render={errorMessage}
-      />
+      <ErrorMessage name="sekolah" render={errorMessage} />
     </div>
   </>
-)
-
-const post = async (values) => {
-  // const navigate = useNavigate();
-  console.log("oke")
-  try {
-    const result = await axios.post(
-      "http://localhost:5000/api/users",
-      values,
-      {
-        headers: { Authorization: `Bearer ${localStorage.getItem("token")}` },
-      }
-    );
-    console.log(result)
-    // navigate()
-
-  } catch (error) {
-    console.log(error.message);
-  }
-}
+);
 
 const addUser = () => {
-  const [isSiswa, setIsSiswa] = useState(false)
-  const [isGuru, setIsGuru] = useState(false)
+  const [isSiswa, setIsSiswa] = useState(false);
+  const [isGuru, setIsGuru] = useState(false);
 
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
 
-  const navigate = useNavigate()
+  const post = async (values) => {
+    // const navigate = useNavigate();
+    const res = await dispatch(addUsers(values));
+    if (res.error) {
+      if (res.error.message === "401") {
+        console.log("getting new access token");
+        await dispatch(getNewAccessToken());
+        return post(values);
+      }
+    }
+
+    if (!res.error) {
+      Swal.fire({
+        icon: "success",
+        title: "User Berhasil di buat!",
+        showConfirmButton: false,
+        timer: 1500,
+      });
+    } else {
+      Swal.fire({
+        icon: "error",
+        title: "User gagal di buat!",
+        showConfirmButton: false,
+        timer: 1500,
+      });
+    }
+
+    navigate("../");
+  };
+
   return (
-    <>
-      <Header></Header>
-      <section className="row justify-content-center pt-2 pt-md-5 p-3 p-md-0 register">
+    <AdminLayout>
+      <section className="row justify-content-center pt-2 pt-md-5 p-3 p-md-0">
         <section className="col-lg-5">
           <h2 className="text-blue mt-4 mt-md-0">Add Users</h2>
           <section className="card mt-2 shadow">
             <section className="card-body p-4">
-              <Formik initialValues={{
-                nama: "",
-                username: '',
-                email: '',
-                role: '',
-                kelas: '',
-                sekolah: '',
-                password: '',
-                confirmPassword: '',
-              }}
-                validationSchema={schema} validateOnChange={false} validateOnBlur={false}
+              <Formik
+                initialValues={{
+                  nama: "",
+                  username: "",
+                  email: "",
+                  role: "",
+                  kelas: "",
+                  sekolah: "",
+                  password: "",
+                  confirmPassword: "",
+                }}
+                validationSchema={schema}
+                validateOnChange={false}
+                validateOnBlur={false}
                 onSubmit={(values, { setSubmitting, errors }) => {
-                  post(values)
-                  console.log(values)
+                  post(values);
+                  console.log(values);
                   // navigate("/users", {
                   //   state: { message: "User Berhasil di buat!", status: "success" },
                   // });
                   setSubmitting(false);
-                }}>
-
+                }}
+              >
                 {({ setFieldValue, values }) => (
                   <Form>
                     <section className="form-group mb-3">
@@ -130,10 +139,7 @@ const addUser = () => {
                         placeholder="Masukan nama lengkap"
                       />
 
-                      <ErrorMessage
-                        name="nama"
-                        render={errorMessage}
-                      />
+                      <ErrorMessage name="nama" render={errorMessage} />
                       <label htmlFor="" className="form-label fw-bold">
                         USERNAME
                       </label>
@@ -144,10 +150,7 @@ const addUser = () => {
                         placeholder="Masukan username"
                       />
 
-                      <ErrorMessage
-                        name="username"
-                        render={errorMessage}
-                      />
+                      <ErrorMessage name="username" render={errorMessage} />
                     </section>
                     <section className="form-group mb-3">
                       <label htmlFor="" className="form-label fw-bold">
@@ -160,10 +163,7 @@ const addUser = () => {
                         placeholder="Masukan alamat email"
                       />
 
-                      <ErrorMessage
-                        name="email"
-                        render={errorMessage}
-                      />
+                      <ErrorMessage name="email" render={errorMessage} />
                     </section>
 
                     <div className="form-group mb-3">
@@ -171,35 +171,43 @@ const addUser = () => {
                         ROLE
                       </label>
 
-                      <Field as="select" name="role"
-                        onChange={e => {
-                          setFieldValue('role', e.target.value);
+                      <Field
+                        as="select"
+                        name="role"
+                        onChange={(e) => {
+                          setFieldValue("role", e.target.value);
                           // if (e.target.value === "SISWA") {
                           //   setIsSiswa(true)
                           // }
                           if (e.target.value == "SISWA") {
-                            setIsSiswa(true)
-                            setIsGuru(false)
-                            console.log(e.target.value)
+                            setIsSiswa(true);
+                            setIsGuru(false);
+                            console.log(e.target.value);
                           } else if (e.target.value == "GURU") {
-                            setIsGuru(true)
-                            setIsSiswa(false)
+                            setIsGuru(true);
+                            setIsSiswa(false);
+                          } else {
+                            setIsGuru(false);
+                            setIsSiswa(false);
                           }
-                          else {
-                            setIsGuru(false)
-                            setIsSiswa(false)
-                          }
-                          console.log(isSiswa)
+                          console.log(isSiswa);
                         }}
                       >
-                        <option value="" key={"null"}>Select Role</option>
-                        <option value="SISWA" key={"SISWA"}>SISWA</option>
-                        <option value="GURU" key={"GURU"}>GURU</option>
-                        <option value="UMUM" key={"UMUM"}>UMUM</option>
+                        <option value="" key={"null"}>
+                          Select Role
+                        </option>
+                        <option value="SISWA" key={"SISWA"}>
+                          SISWA
+                        </option>
+                        <option value="GURU" key={"GURU"}>
+                          GURU
+                        </option>
+                        <option value="UMUM" key={"UMUM"}>
+                          UMUM
+                        </option>
                       </Field>
 
-                      <ErrorMessage name="role"
-                        render={errorMessage} />
+                      <ErrorMessage name="role" render={errorMessage} />
                     </div>
 
                     {isSiswa && <SiswaForm />}
@@ -216,10 +224,7 @@ const addUser = () => {
                         placeholder="Masukan kata sandi"
                       />
 
-                      <ErrorMessage
-                        name="password"
-                        render={errorMessage}
-                      />
+                      <ErrorMessage name="password" render={errorMessage} />
                     </section>
                     <section className="form-group mb-3">
                       <label htmlFor="" className="form-label fw-bold">
@@ -236,7 +241,6 @@ const addUser = () => {
                         name="confirmPassword"
                         render={errorMessage}
                       />
-
                     </section>
                     <section className="form-group ">
                       <button
@@ -245,23 +249,21 @@ const addUser = () => {
                       >
                         Submit
                       </button>
-                      <a
-                        href="/users"
+                      <Link
+                        to={"../"}
                         className="btn btn-secondary py-2 text-white float-right"
                       >
                         Back
-                      </a>
+                      </Link>
                     </section>
                   </Form>
                 )}
-
               </Formik>
             </section>
           </section>
         </section>
-      </section >
-      <Footer></Footer>
-    </>
+      </section>
+    </AdminLayout>
   );
 };
 

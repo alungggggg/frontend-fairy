@@ -37,8 +37,6 @@ function App() {
           <Route path="/verify" element={<kernel.verify />} />
           {/* <Route path="/forgot-password" element={<kernel.logout />} /> */}
 
-          <Route path="/users/add" element={<kernel.addUser />} />
-          <Route path="/users/update/:id" element={<kernel.updateUser />} />
           <Route path="/quiz" element={<kernel.quiz />} />
 
           <Route path="/test" element={<ProfileTest />} />
@@ -57,7 +55,11 @@ function App() {
               <Route index element={<kernel.dongeng />} />
               <Route path="update/:id" element={<kernel.updateDongeng />} />
             </Route>
-            <Route path="users" element={<kernel.user />} />
+            <Route path="users">
+              <Route index element={<kernel.user />} />
+              <Route path="add" element={<kernel.addUser />} />
+              <Route path="update/:id" element={<kernel.updateUser />} />
+            </Route>
             <Route path="forum-quiz">
               <Route index element={<ForumQuiz />} />
               <Route path=":id" element={<ForumQuizDetail />} />

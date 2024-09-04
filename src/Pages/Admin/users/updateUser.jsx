@@ -8,22 +8,9 @@ import {
 } from "../../../../validation/userValidate";
 
 import errorMessage from "../../../Component/errorMessage";
-
-const submit = async (values, id, navigate) => {
-  try {
-    const result = await axios.patch(
-      `http://localhost:5000/api/users/${id}`,
-      values,
-      { headers: { Authorization: `Bearer ${localStorage.getItem("token")}` } }
-    );
-    console.log(result)
-    // navigate("/admin/users", {
-    //   state: { message: "User Berhasil di Ubah!", status: "success" },
-    // });
-  } catch (error) {
-    console.error("Error updating user:", error.message);
-  }
-};
+import { useDispatch, useSelector } from "react-redux";
+import { getUsersById, updateUser } from "../../../lib/redux/api/userAdmin";
+import { getNewAccessToken } from "../../../lib/redux/api/auth";
 
 const SiswaForm = () => (
   <>
@@ -35,7 +22,7 @@ const SiswaForm = () => (
     <Field type="text" name="sekolah" />
     <ErrorMessage name="sekolah" render={errorMessage} />
   </>
-)
+);
 
 const GuruForm = () => (
   <>
@@ -43,7 +30,7 @@ const GuruForm = () => (
     <Field type="text" name="sekolah" />
     <ErrorMessage name="sekolah" render={errorMessage} />
   </>
-)
+);
 
 const IsChangePass = () => (
   <>
@@ -61,27 +48,40 @@ const IsChangePass = () => (
 const UpdateUser = () => {
   const navigate = useNavigate();
   const { id } = useParams();
-  const [user, setUser] = useState(null);
+  const user = useSelector((state) => state.usersAdmin.users[0]);
   const [isChangePass, setIsChangePass] = useState(false);
   const [validationSchema, setValidationSchema] = useState(updateSchema);
 
   const [isSiswa, setIsSiswa] = useState(false);
   const [isGuru, setIsGuru] = useState(false);
 
+  const dispatch = useDispatch();
+
+  const submit = async (values) => {
+    async function updateUsers() {
+      const res = await dispatch(updateUser(values));
+      if (res.error) {
+        if (res.error.message === "401") {
+          console.log("getting new access token");
+          await dispatch(getNewAccessToken());
+          return updateUsers();
+        }
+      }
+    }
+
+    updateUsers();
+    navigate("/admin/users");
+  };
+
   useEffect(() => {
     const getUser = async () => {
-      try {
-        const result = await axios.get(
-          `http://localhost:5000/api/users/${id}`,
-          {
-            headers: {
-              Authorization: `Bearer ${localStorage.getItem("token")}`,
-            },
-          }
-        );
-        setUser(result.data);
-      } catch (error) {
-        console.log(error.message);
+      const res = await dispatch(getUsersById(id));
+      if (res.error) {
+        if (res.error.message === "401") {
+          console.log("getting new access token");
+          await dispatch(getNewAccessToken());
+          return getUser();
+        }
       }
     };
 
@@ -118,7 +118,9 @@ const UpdateUser = () => {
 
   return (
     <Formik
+      enableReinitialize
       initialValues={{
+        id: user.id,
         nama: user.nama,
         email: user.email,
         username: user.username || "",
@@ -152,19 +154,23 @@ const UpdateUser = () => {
           <ErrorMessage name="email" render={errorMessage} />
 
           <label htmlFor="role">role</label>
-          <Field as="select" name="role" onChange={(e) => {
-            setFieldValue('role', e.target.value)
-            if (e.target.value === 'SISWA') {
-              setIsSiswa(true)
-              setIsGuru(false)
-            } else if (e.target.value === 'GURU') {
-              setIsGuru(true)
-              setIsSiswa(false)
-            } else {
-              setIsGuru(false)
-              setIsSiswa(false)
-            }
-          }}>
+          <Field
+            as="select"
+            name="role"
+            onChange={(e) => {
+              setFieldValue("role", e.target.value);
+              if (e.target.value === "SISWA") {
+                setIsSiswa(true);
+                setIsGuru(false);
+              } else if (e.target.value === "GURU") {
+                setIsGuru(true);
+                setIsSiswa(false);
+              } else {
+                setIsGuru(false);
+                setIsSiswa(false);
+              }
+            }}
+          >
             <option value="SISWA">SISWA</option>
             <option value="GURU">GURU</option>
             <option value="UMUM">UMUM</option>
