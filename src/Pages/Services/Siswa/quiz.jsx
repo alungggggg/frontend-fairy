@@ -225,18 +225,53 @@ const quiz = () => {
           <section className="col-3">
             <section className="card">
               <section className="card-header fw-medium">No. Soal</section>
-              <section className="card-body row-soal">
-                {pertanyaanPilihanGanda.map((soal, index) => (
-                  <section
-                    className="card d-flex align-items-center justify-content-center border-2"
-                    key={soal.id}
-                    onClick={() => {
-                      window.location.replace(`/quiz?soal=${index + 1}`);
-                    }}
-                  >
-                    <p className="my-auto p-2 fw-semibold">{index + 1}</p>
+              <section className="card-body">
+                <p className="mb-0">Soal Pilihan Ganda</p>
+                <section className="card-body row-soal">
+                  {pertanyaanPilihanGanda.map((soal, index) => (
+                    <section
+                      className="card d-flex align-items-center justify-content-center border-2"
+                      key={soal.id}
+                      onClick={() => {
+                        window.location.replace(`/quiz?soal=${index + 1}`);
+                      }}
+                    >
+                      <p className="my-auto p-2 fw-semibold">{index + 1}</p>
+                    </section>
+                  ))}
+                </section>
+                <section>
+                  <p className="mb-0">Soal Uraian Singkat</p>
+                  <section className="card-body row-soal">
+                    {pertanyaanPilihanGanda.map((soal, index) => (
+                      <section
+                        className="card d-flex align-items-center justify-content-center border-2"
+                        key={soal.id}
+                        onClick={() => {
+                          window.location.replace(`/quiz?soal=${index + 1}`);
+                        }}
+                      >
+                        <p className="my-auto p-2 fw-semibold">{index + 1}</p>
+                      </section>
+                    ))}
                   </section>
-                ))}
+                </section>
+                <section>
+                  <p className="mb-0">Soal Uraian Panjang</p>
+                  <section className="card-body row-soal">
+                    {pertanyaanPilihanGanda.map((soal, index) => (
+                      <section
+                        className="card d-flex align-items-center justify-content-center border-2"
+                        key={soal.id}
+                        onClick={() => {
+                          window.location.replace(`/quiz?soal=${index + 1}`);
+                        }}
+                      >
+                        <p className="my-auto p-2 fw-semibold">{index + 1}</p>
+                      </section>
+                    ))}
+                  </section>
+                </section>
               </section>
             </section>
           </section>

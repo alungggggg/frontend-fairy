@@ -6,56 +6,51 @@ import fairyApi from "../../lib/axios";
 import { useEffect, useState } from "react";
 
 const PopularBook = async () => {
-  const { data } = await fairyApi.get("/popular")
-  return data
-}
+  const { data } = await fairyApi.get("/popular");
+  return data;
+};
 
 const countBook = async () => {
-  const { data } = await fairyApi.get("/count/dongeng")
-  return data.row
-}
+  const { data } = await fairyApi.get("/count/dongeng");
+  return data.row;
+};
 
 const countView = async () => {
-  const { data } = await fairyApi.get("/count/view")
-  return data.views
-}
+  const { data } = await fairyApi.get("/count/view");
+  return data.views;
+};
 
 const newVisitor = async () => {
-  await fairyApi.get("/visited")
-}
+  await fairyApi.get("/visited");
+};
 
 const getVisitor = async () => {
-  const { data } = await fairyApi.get("/visited/get")
-  return data.visited
-}
-
+  const { data } = await fairyApi.get("/visited/get");
+  return data.visited;
+};
 
 const Home = () => {
-
   // console.log()
-  const [populer, setPopuler] = useState([])
-  const [countDongeng, setCountDongeng] = useState(0)
-  const [countViews, setCountViews] = useState(0)
-  const [visited, setVisited] = useState(0)
+  const [populer, setPopuler] = useState([]);
+  const [countDongeng, setCountDongeng] = useState(0);
+  const [countViews, setCountViews] = useState(0);
+  const [visited, setVisited] = useState(0);
 
   useEffect(() => {
     const set = async () => {
-      setPopuler(await PopularBook())
-      setCountDongeng(await countBook())
-      setCountViews(await countView())
-      setVisited(await getVisitor())
-      await newVisitor()
-    }
-    set()
-
-  }, [])
-
+      setPopuler(await PopularBook());
+      setCountDongeng(await countBook());
+      setCountViews(await countView());
+      setVisited(await getVisitor());
+      await newVisitor();
+    };
+    set();
+  }, []);
 
   return (
     <>
       <Header />
       <main className="">
-
         <section className="bg-night position-relative jumbotron">
           <section className="container-xxl">
             <section className="row">
@@ -132,7 +127,9 @@ const Home = () => {
             <section className="col-6 col-lg-2">
               <section className="position-relative">
                 <section className="position-relative" style={{ zIndex: 100 }}>
-                  <span className="text-white fs-1 fw-bold"><CountUp start={0} end={countViews} duration={2000} /></span>
+                  <span className="text-white fs-1 fw-bold">
+                    <CountUp start={0} end={countViews} duration={2000} />
+                  </span>
                 </section>
                 <img
                   src="https://buku.kemdikbud.go.id/assets/image/home/line-stats.png"
@@ -160,7 +157,9 @@ const Home = () => {
             <section className="col-6 col-lg-2">
               <section className="position-relative">
                 <section className="position-relative" style={{ zIndex: 100 }}>
-                  <span className="text-white fs-1 fw-bold"><CountUp start={0} end={countDongeng} duration={2000} /></span>
+                  <span className="text-white fs-1 fw-bold">
+                    <CountUp start={0} end={countDongeng} duration={2000} />
+                  </span>
                 </section>
                 <img
                   src="https://buku.kemdikbud.go.id/assets/image/home/line-stats.png"
@@ -189,7 +188,9 @@ const Home = () => {
             <section className="col-6 col-lg-2">
               <section className="position-relative">
                 <section className="position-relative" style={{ zIndex: 100 }}>
-                  <span className="text-white fs-1 fw-bold"><CountUp start={0} end={visited} duration={2000} /></span>
+                  <span className="text-white fs-1 fw-bold">
+                    <CountUp start={0} end={visited} duration={2000} />
+                  </span>
                 </section>
                 <img
                   src="https://buku.kemdikbud.go.id/assets/image/home/line-stats.png"
@@ -229,9 +230,12 @@ const Home = () => {
               </section>
             </section>
             <section className="row mt-4">
-              {populer.map(book => (
+              {populer.map((book) => (
                 <section className="col-lg-3 my-2" key={book.id}>
-                  <a href={"dongeng/detail/" + book.id} className="text-decoration-none text-dark">
+                  <a
+                    href={"dongeng/detail/" + book.id}
+                    className="text-decoration-none text-dark"
+                  >
                     <section className="card border-0 mt-3 CardBook_card">
                       <section
                         className="card-header text-center text-lg-start bg-white p-0 border-0"
@@ -245,7 +249,7 @@ const Home = () => {
                         <img
                           src={book.cover}
                           alt={book.title}
-                          className="CardBook_img-size"
+                          className="CardBook_img"
                         />
                       </section>
                       <section className="card-body px-5 px-lg-0 py-2">
@@ -255,16 +259,12 @@ const Home = () => {
                         <span className="badge rounded-pill bg-secondary mt-2 ms-1">
                           SMA/MA/SMK/MAK
                         </span>
-                        <section className="my-2">
-                          {book.title}
-                        </section>
+                        <section className="my-2">{book.title}</section>
                       </section>
                     </section>
                   </a>
                 </section>
               ))}
-
-
             </section>
           </section>
         </section>
@@ -399,164 +399,166 @@ const Home = () => {
             </section>
           </section>
         </section>
-        {getCookies("token").token && (<section className="py-5 bg-white">
-          <section className="container-lg p-3">
-            <section className="row align-items-center">
-              <section className="col-lg-6">
-                <h3 className="fw-bold">
-                  Buku&nbsp;
-                  <section className="d-inline-flex flex-column">
-                    <span>Audio</span>
-                    <span className="mtmin">
-                      <img
-                        src="https://buku.kemdikbud.go.id/assets/image/home/line-populer.png"
-                        alt="Line title"
-                      />
-                    </span>
-                  </section>
-                </h3>
-                <p className="">
-                  Belajar lebih interaktif dan mudah dengan buku audio
-                </p>
-              </section>
-              <section className="col-lg-6 text-end">
-                <a href="#" className="btn btn-sm btn-outline-primary">
-                  Lihat semua buku audio
-                </a>
-              </section>
-            </section>
-            <section className="row mt-4">
-              <section className="col-lg-3 my-2">
-                <a href="#" className="text-decoration-none text-dark">
-                  <section className="card border-0 mt-3 CardBook_card">
-                    <section
-                      className="card-header text-center text-lg-start bg-white p-0 border-0"
-                      style={{
-                        backgroundImage:
-                          'url("https://buku.kemdikbud.go.id/assets/image/home/ellipse-2.png")',
-                        backgroundRepeat: "no-repeat",
-                        backgroundPosition: "center bottom",
-                      }}
-                    >
-                      <img
-                        src="https://static.buku.kemdikbud.go.id/content/thumbnail/Cover_Kelas_XI_B_Indonesia_BS.png"
-                        alt="Bahasa Indonesia Kelas XI"
-                        className="CardBook_img-size"
-                      />
+        {getCookies("token").token && (
+          <section className="py-5 bg-white">
+            <section className="container-lg p-3">
+              <section className="row align-items-center">
+                <section className="col-lg-6">
+                  <h3 className="fw-bold">
+                    Buku&nbsp;
+                    <section className="d-inline-flex flex-column">
+                      <span>Audio</span>
+                      <span className="mtmin">
+                        <img
+                          src="https://buku.kemdikbud.go.id/assets/image/home/line-populer.png"
+                          alt="Line title"
+                        />
+                      </span>
                     </section>
-                    <section className="card-body px-5 px-lg-0 py-2">
-                      <span className="badge rounded-pill bg-success mt-2">
-                        Audio
-                      </span>
-                      <span className="badge rounded-pill bg-secondary mt-2 ms-1">
-                        SMA/MA/SMK/MAK
-                      </span>
-                      <section className="my-2">
-                        Bahasa Indonesia Kelas XI
+                  </h3>
+                  <p className="">
+                    Belajar lebih interaktif dan mudah dengan buku audio
+                  </p>
+                </section>
+                <section className="col-lg-6 text-end">
+                  <a href="#" className="btn btn-sm btn-outline-primary">
+                    Lihat semua buku audio
+                  </a>
+                </section>
+              </section>
+              <section className="row mt-4">
+                <section className="col-lg-3 my-2">
+                  <a href="#" className="text-decoration-none text-dark">
+                    <section className="card border-0 mt-3 CardBook_card">
+                      <section
+                        className="card-header text-center text-lg-start bg-white p-0 border-0"
+                        style={{
+                          backgroundImage:
+                            'url("https://buku.kemdikbud.go.id/assets/image/home/ellipse-2.png")',
+                          backgroundRepeat: "no-repeat",
+                          backgroundPosition: "center bottom",
+                        }}
+                      >
+                        <img
+                          src="https://static.buku.kemdikbud.go.id/content/thumbnail/Cover_Kelas_XI_B_Indonesia_BS.png"
+                          alt="Bahasa Indonesia Kelas XI"
+                          className="CardBook_img-size"
+                        />
+                      </section>
+                      <section className="card-body px-5 px-lg-0 py-2">
+                        <span className="badge rounded-pill bg-success mt-2">
+                          Audio
+                        </span>
+                        <span className="badge rounded-pill bg-secondary mt-2 ms-1">
+                          SMA/MA/SMK/MAK
+                        </span>
+                        <section className="my-2">
+                          Bahasa Indonesia Kelas XI
+                        </section>
                       </section>
                     </section>
-                  </section>
-                </a>
-              </section>
-              <section className="col-lg-3 my-2">
-                <a href="#" className="text-decoration-none text-dark">
-                  <section className="card border-0 mt-3 CardBook_card">
-                    <section
-                      className="card-header text-center text-lg-start bg-white p-0 border-0"
-                      style={{
-                        backgroundImage:
-                          'url("https://buku.kemdikbud.go.id/assets/image/home/ellipse-2.png")',
-                        backgroundRepeat: "no-repeat",
-                        backgroundPosition: "center bottom",
-                      }}
-                    >
-                      <img
-                        src="https://static.buku.kemdikbud.go.id/content/thumbnail/Cover_Kelas_XI_B_Indonesia_BS.png"
-                        alt="Bahasa Indonesia Kelas XI"
-                        className="CardBook_img-size"
-                      />
-                    </section>
-                    <section className="card-body px-5 px-lg-0 py-2">
-                      <span className="badge rounded-pill bg-success mt-2">
-                        Audio
-                      </span>
-                      <span className="badge rounded-pill bg-secondary mt-2 ms-1">
-                        SMA/MA/SMK/MAK
-                      </span>
-                      <section className="my-2">
-                        Bahasa Indonesia Kelas XI
+                  </a>
+                </section>
+                <section className="col-lg-3 my-2">
+                  <a href="#" className="text-decoration-none text-dark">
+                    <section className="card border-0 mt-3 CardBook_card">
+                      <section
+                        className="card-header text-center text-lg-start bg-white p-0 border-0"
+                        style={{
+                          backgroundImage:
+                            'url("https://buku.kemdikbud.go.id/assets/image/home/ellipse-2.png")',
+                          backgroundRepeat: "no-repeat",
+                          backgroundPosition: "center bottom",
+                        }}
+                      >
+                        <img
+                          src="https://static.buku.kemdikbud.go.id/content/thumbnail/Cover_Kelas_XI_B_Indonesia_BS.png"
+                          alt="Bahasa Indonesia Kelas XI"
+                          className="CardBook_img-size"
+                        />
+                      </section>
+                      <section className="card-body px-5 px-lg-0 py-2">
+                        <span className="badge rounded-pill bg-success mt-2">
+                          Audio
+                        </span>
+                        <span className="badge rounded-pill bg-secondary mt-2 ms-1">
+                          SMA/MA/SMK/MAK
+                        </span>
+                        <section className="my-2">
+                          Bahasa Indonesia Kelas XI
+                        </section>
                       </section>
                     </section>
-                  </section>
-                </a>
-              </section>
-              <section className="col-lg-3 my-2">
-                <a href="#" className="text-decoration-none text-dark">
-                  <section className="card border-0 mt-3 CardBook_card">
-                    <section
-                      className="card-header text-center text-lg-start bg-white p-0 border-0"
-                      style={{
-                        backgroundImage:
-                          'url("https://buku.kemdikbud.go.id/assets/image/home/ellipse-2.png")',
-                        backgroundRepeat: "no-repeat",
-                        backgroundPosition: "center bottom",
-                      }}
-                    >
-                      <img
-                        src="https://static.buku.kemdikbud.go.id/content/thumbnail/Cover_Kelas_XI_B_Indonesia_BS.png"
-                        alt="Bahasa Indonesia Kelas XI"
-                        className="CardBook_img-size"
-                      />
-                    </section>
-                    <section className="card-body px-5 px-lg-0 py-2">
-                      <span className="badge rounded-pill bg-success mt-2">
-                        Audio
-                      </span>
-                      <span className="badge rounded-pill bg-secondary mt-2 ms-1">
-                        SMA/MA/SMK/MAK
-                      </span>
-                      <section className="my-2">
-                        Bahasa Indonesia Kelas XI
+                  </a>
+                </section>
+                <section className="col-lg-3 my-2">
+                  <a href="#" className="text-decoration-none text-dark">
+                    <section className="card border-0 mt-3 CardBook_card">
+                      <section
+                        className="card-header text-center text-lg-start bg-white p-0 border-0"
+                        style={{
+                          backgroundImage:
+                            'url("https://buku.kemdikbud.go.id/assets/image/home/ellipse-2.png")',
+                          backgroundRepeat: "no-repeat",
+                          backgroundPosition: "center bottom",
+                        }}
+                      >
+                        <img
+                          src="https://static.buku.kemdikbud.go.id/content/thumbnail/Cover_Kelas_XI_B_Indonesia_BS.png"
+                          alt="Bahasa Indonesia Kelas XI"
+                          className="CardBook_img-size"
+                        />
+                      </section>
+                      <section className="card-body px-5 px-lg-0 py-2">
+                        <span className="badge rounded-pill bg-success mt-2">
+                          Audio
+                        </span>
+                        <span className="badge rounded-pill bg-secondary mt-2 ms-1">
+                          SMA/MA/SMK/MAK
+                        </span>
+                        <section className="my-2">
+                          Bahasa Indonesia Kelas XI
+                        </section>
                       </section>
                     </section>
-                  </section>
-                </a>
-              </section>
-              <section className="col-lg-3 my-2">
-                <a href="#" className="text-decoration-none text-dark">
-                  <section className="card border-0 mt-3 CardBook_card">
-                    <section
-                      className="card-header text-center text-lg-start bg-white p-0 border-0"
-                      style={{
-                        backgroundImage:
-                          'url("https://buku.kemdikbud.go.id/assets/image/home/ellipse-2.png")',
-                        backgroundRepeat: "no-repeat",
-                        backgroundPosition: "center bottom",
-                      }}
-                    >
-                      <img
-                        src="https://static.buku.kemdikbud.go.id/content/thumbnail/Cover_Kelas_XI_B_Indonesia_BS.png"
-                        alt="Bahasa Indonesia Kelas XI"
-                        className="CardBook_img-size"
-                      />
-                    </section>
-                    <section className="card-body px-5 px-lg-0 py-2">
-                      <span className="badge rounded-pill bg-success mt-2">
-                        Audio
-                      </span>
-                      <span className="badge rounded-pill bg-secondary mt-2 ms-1">
-                        SMA/MA/SMK/MAK
-                      </span>
-                      <section className="my-2">
-                        Bahasa Indonesia Kelas XI
+                  </a>
+                </section>
+                <section className="col-lg-3 my-2">
+                  <a href="#" className="text-decoration-none text-dark">
+                    <section className="card border-0 mt-3 CardBook_card">
+                      <section
+                        className="card-header text-center text-lg-start bg-white p-0 border-0"
+                        style={{
+                          backgroundImage:
+                            'url("https://buku.kemdikbud.go.id/assets/image/home/ellipse-2.png")',
+                          backgroundRepeat: "no-repeat",
+                          backgroundPosition: "center bottom",
+                        }}
+                      >
+                        <img
+                          src="https://static.buku.kemdikbud.go.id/content/thumbnail/Cover_Kelas_XI_B_Indonesia_BS.png"
+                          alt="Bahasa Indonesia Kelas XI"
+                          className="CardBook_img-size"
+                        />
+                      </section>
+                      <section className="card-body px-5 px-lg-0 py-2">
+                        <span className="badge rounded-pill bg-success mt-2">
+                          Audio
+                        </span>
+                        <span className="badge rounded-pill bg-secondary mt-2 ms-1">
+                          SMA/MA/SMK/MAK
+                        </span>
+                        <section className="my-2">
+                          Bahasa Indonesia Kelas XI
+                        </section>
                       </section>
                     </section>
-                  </section>
-                </a>
+                  </a>
+                </section>
               </section>
             </section>
           </section>
-        </section>)}
+        )}
 
         <section
           className="py-2"
@@ -878,7 +880,7 @@ const Home = () => {
       </main>
       <Footer />
     </>
-  )
+  );
 };
 
 export default Home;
