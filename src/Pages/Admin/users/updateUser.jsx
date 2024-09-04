@@ -1,4 +1,4 @@
-import { useNavigate, useParams } from "react-router-dom";
+import { Link, useNavigate, useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
 import axios from "axios";
 import { Formik, Form, Field, ErrorMessage } from "formik";
@@ -11,6 +11,8 @@ import errorMessage from "../../../Component/errorMessage";
 import { useDispatch, useSelector } from "react-redux";
 import { getUsersById, updateUser } from "../../../lib/redux/api/userAdmin";
 import { getNewAccessToken } from "../../../lib/redux/api/auth";
+import AdminLayout from "../adminLayout";
+import { ArrowLeft } from "../forumQuiz/forumDetail";
 
 const SiswaForm = () => (
   <>
@@ -117,90 +119,106 @@ const UpdateUser = () => {
   }
 
   return (
-    <Formik
-      enableReinitialize
-      initialValues={{
-        id: user.id,
-        nama: user.nama,
-        email: user.email,
-        username: user.username || "",
-        kelas: user.kelas || "",
-        sekolah: user.sekolah || "",
-        role: user.role,
-        password: "",
-        confirmPassword: "",
-      }}
-      validationSchema={validationSchema}
-      validateOnChange={false}
-      validateOnBlur={false}
-      onSubmit={(values, { setSubmitting }) => {
-        submit(values, id, navigate);
-        // submit(values)
-        setSubmitting(false);
-      }}
-    >
-      {({ values, setFieldValue }) => (
-        <Form>
-          <label htmlFor="nama">Nama</label>
-          <Field type="text" name="nama" />
-          <ErrorMessage name="nama" render={errorMessage} />
-
-          <label htmlFor="username">username</label>
-          <Field type="text" name="username" />
-          <ErrorMessage name="username" render={errorMessage} />
-
-          <label htmlFor="email">Email</label>
-          <Field type="email" name="email" disabled />
-          <ErrorMessage name="email" render={errorMessage} />
-
-          <label htmlFor="role">role</label>
-          <Field
-            as="select"
-            name="role"
-            onChange={(e) => {
-              setFieldValue("role", e.target.value);
-              if (e.target.value === "SISWA") {
-                setIsSiswa(true);
-                setIsGuru(false);
-              } else if (e.target.value === "GURU") {
-                setIsGuru(true);
-                setIsSiswa(false);
-              } else {
-                setIsGuru(false);
-                setIsSiswa(false);
+    <AdminLayout>
+      <section>
+      <div className="d-flex justify-content-between align-items-center p-0">
+            <Link
+              to={"/admin/users"}
+              className={
+                "d-flex align-items-center  gap-2 text-decoration-none fs-5 text-black "
               }
+            >
+              <ArrowLeft size={24} /> Back To Users
+            </Link>
+          </div>
+        <div>
+          <Formik
+            enableReinitialize
+            initialValues={{
+              id: user.id,
+              nama: user.nama,
+              email: user.email,
+              username: user.username || "",
+              kelas: user.kelas || "",
+              sekolah: user.sekolah || "",
+              role: user.role,
+              password: "",
+              confirmPassword: "",
+            }}
+            validationSchema={validationSchema}
+            validateOnChange={false}
+            validateOnBlur={false}
+            onSubmit={(values, { setSubmitting }) => {
+              submit(values, id, navigate);
+              // submit(values)
+              setSubmitting(false);
             }}
           >
-            <option value="SISWA">SISWA</option>
-            <option value="GURU">GURU</option>
-            <option value="UMUM">UMUM</option>
-          </Field>
-          <ErrorMessage name="role" render={errorMessage} />
+            {({ values, setFieldValue }) => (
+              <Form>
+                <label htmlFor="nama">Nama</label>
+                <Field type="text" name="nama" />
+                <ErrorMessage name="nama" render={errorMessage} />
 
-          {isSiswa && <SiswaForm />}
-          {isGuru && <GuruForm />}
+                <label htmlFor="username">username</label>
+                <Field type="text" name="username" />
+                <ErrorMessage name="username" render={errorMessage} />
 
-          <input
-            type="checkbox"
-            onChange={() => {
-              setIsChangePass(!isChangePass);
-              if (!isChangePass) {
-                setFieldValue("password", "");
-                setFieldValue("confirmPassword", "");
-              } else {
-                setFieldValue("password", undefined);
-                setFieldValue("confirmPassword", undefined);
-              }
-            }}
-            checked={isChangePass}
-          />
+                <label htmlFor="email">Email</label>
+                <Field type="email" name="email" disabled />
+                <ErrorMessage name="email" render={errorMessage} />
 
-          {isChangePass && <IsChangePass />}
+                <label htmlFor="role">role</label>
+                <Field
+                  as="select"
+                  name="role"
+                  onChange={(e) => {
+                    setFieldValue("role", e.target.value);
+                    if (e.target.value === "SISWA") {
+                      setIsSiswa(true);
+                      setIsGuru(false);
+                    } else if (e.target.value === "GURU") {
+                      setIsGuru(true);
+                      setIsSiswa(false);
+                    } else {
+                      setIsGuru(false);
+                      setIsSiswa(false);
+                    }
+                  }}
+                >
+                  <option value="SISWA">SISWA</option>
+                  <option value="GURU">GURU</option>
+                  <option value="UMUM">UMUM</option>
+                </Field>
+                <ErrorMessage name="role" render={errorMessage} />
 
-          <button type="submit">Submit</button>
-        </Form>
-      )}
-    </Formik>
+                {isSiswa && <SiswaForm />}
+                {isGuru && <GuruForm />}
+
+                <input
+                  type="checkbox"
+                  onChange={() => {
+                    setIsChangePass(!isChangePass);
+                    if (!isChangePass) {
+                      setFieldValue("password", "");
+                      setFieldValue("confirmPassword", "");
+                    } else {
+                      setFieldValue("password", undefined);
+                      setFieldValue("confirmPassword", undefined);
+                    }
+                  }}
+                  checked={isChangePass}
+                />
+
+                {isChangePass && <IsChangePass />}
+
+                <button type="submit">Submit</button>
+              </Form>
+            )}
+          </Formik>
+        </div>
+      </section>
+    </AdminLayout>
   );
 };
 

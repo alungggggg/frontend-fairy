@@ -174,6 +174,7 @@ const addUser = () => {
                       <Field
                         as="select"
                         name="role"
+                        className="form-select"
                         onChange={(e) => {
                           setFieldValue("role", e.target.value);
                           // if (e.target.value === "SISWA") {
