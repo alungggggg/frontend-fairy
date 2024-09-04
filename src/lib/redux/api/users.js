@@ -25,7 +25,7 @@ export const getUserById = createAsyncThunk(
 const usersSlice = createSlice({
   name: "usersSlice",
   initialState: {
-    users: {},
+    user: {},
     isLoading: false,
     error: null,
   },
@@ -37,12 +37,12 @@ const usersSlice = createSlice({
       })
       .addCase(getUserById.fulfilled, (state, action) => {
         state.isLoading = false;
-        state.users = action.payload;
+        state.user = action.payload;
         state.error = action.error;
       })
       .addCase(getUserById.rejected, (state, action) => {
         state.isLoading = false;
-        state.users = [];
+        state.user = [];
         state.error = action.error.message;
       });
   },

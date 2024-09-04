@@ -3,16 +3,18 @@ import Pagination from "../../../Component/pagination";
 import { useEffect, useState } from "react";
 import AdminLayout from "../adminLayout";
 import { useDispatch, useSelector } from "react-redux";
-import { getAllDongeng } from "../../../lib/redux/api/dongeng";
+import { deleteDongeng, getAllDongeng } from "../../../lib/redux/api/dongeng";
 import Loading from "../../../Component/loading";
 import { PlusIcon } from "../forumQuiz";
 import { DeleteIcon, EditIcon } from "../bankSoal/pilihanGanda";
 import { getNewAccessToken } from "../../../lib/redux/api/auth";
 import { useNavigate } from "react-router-dom";
+import ModalDongeng from "./modalDongeng";
+import Swal from "sweetalert2";
 
 const dongeng = () => {
   const [currentPage, setCurrentPage] = useState(1);
-  const [itemsPerPage] = useState(10);
+  const [itemsPerPage] = useState(4);
   const [items, setItems] = useState([]);
   const [searchTerm, setSearchTerm] = useState("");
 
@@ -52,6 +54,39 @@ const dongeng = () => {
 
   const paginate = (pageNumber) => setCurrentPage(pageNumber);
 
+  function handleDeleteDongeng(id) {
+    Swal.fire({
+      title: "Are you sure?",
+      text: "You won't be able to revert this!",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "Yes, delete it!",
+    }).then((result) => {
+      if (result.isConfirmed) {
+        const handleDelete = async () => {
+          var res = await dispatch(deleteDongeng(id));
+          if (res.error) {
+            if (res.error.message === "401") {
+              console.log("getting new access token");
+              await dispatch(getNewAccessToken());
+              return handleDelete();
+            }
+          }
+          dispatch(getAllDongeng());
+          Swal.fire({
+            title: "Deleted!",
+            text: "Your file has been deleted.",
+            icon: "success",
+          });
+        };
+
+        handleDelete();
+      }
+    });
+  }
+
   return (
     <AdminLayout>
       {isLoading ? (
@@ -84,7 +119,7 @@ const dongeng = () => {
                 type="button"
                 className="btn btn-secondary d-flex align-items-center gap-1 lh-sm bg-white text-black fs-5"
                 onClick={() => {
-                  navigate("./add");
+                  document.getElementById("showModalDongeng").click();
                 }}
               >
                 <PlusIcon size={24} />
@@ -115,13 +150,12 @@ const dongeng = () => {
                     <tr
                       className="align-middle"
                       key={i}
-                      onClick={() => navigate(`./update/${item.id}`)}
                       style={{ cursor: "pointer" }}
                     >
                       <td width={50}>{i + 1}</td>
-                      <td width={150}>
+                      <td width={125}>
                         <div>
-                          <img src={item?.cover} className="w-100" />
+                          <img src={item?.cover} className="w-75" />
                         </div>
                       </td>
                       <td>{item?.title || ``}</td>
@@ -129,7 +163,11 @@ const dongeng = () => {
                         <button type="button" className="btn btn-primary me-1">
                           <EditIcon size={18} />
                         </button>
-                        <button type="button" className="btn btn-danger">
+                        <button
+                          type="button"
+                          className="btn btn-danger"
+                          onClick={() => handleDeleteDongeng(item.id)}
+                        >
                           <DeleteIcon size={18} />
                         </button>
                       </td>
@@ -147,6 +185,7 @@ const dongeng = () => {
           </section>
         </div>
       )}
+      <ModalDongeng />
     </AdminLayout>
   );
 };

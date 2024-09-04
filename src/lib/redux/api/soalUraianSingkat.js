@@ -1,5 +1,6 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import fairyApi from "../../axios";
+import { AxiosError } from "axios";
 
 export const getSoalUraianSingkat = createAsyncThunk(
   "soalUraianSingkat/getSoalUraianSingkat",
@@ -9,6 +10,8 @@ export const getSoalUraianSingkat = createAsyncThunk(
       if (response) {
         return response.data;
       }
+
+      throw new Error();
     } catch (error) {
       if (error instanceof AxiosError) {
         throw error.response ? error.response.status : error.message;
@@ -93,8 +96,10 @@ const uraianSingkatSlice = createSlice({
         state.isLoading = true;
       })
       .addCase(getSoalUraianSingkat.rejected, (state, action) => {
-        state.isLoading = false;
-        state.error = action.error.message;
+        if (state.error !== "401") {
+          state.isLoading = false;
+        }
+        state.error = action.error;
       })
       .addCase(deleteSoalUraianSingkat.fulfilled, (state, action) => {
         state.isLoading = false;

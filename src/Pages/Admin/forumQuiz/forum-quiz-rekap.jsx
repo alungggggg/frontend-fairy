@@ -5,6 +5,7 @@ import { getRekapNilaiByIdForum } from "../../../lib/redux/api/rekapNilai";
 import { Link, useParams } from "react-router-dom";
 import { PlusIcon } from ".";
 import jsPDF from "jspdf"; // Add this import
+import "jspdf-autotable";
 import { ArrowLeft } from "./forumDetail";
 import { getNewAccessToken } from "../../../lib/redux/api/auth";
 
@@ -12,6 +13,8 @@ const RekapNilai = () => {
   const { id } = useParams();
   const dispatch = useDispatch();
   const { rekapNilai } = useSelector((state) => state.rekapNilai);
+
+  // console.log(rekapNilai);
 
   const tableHead = ["No", "Nama", "Asal Sekolah", "Nilai"];
 
@@ -31,20 +34,23 @@ const RekapNilai = () => {
   }, [id]);
 
   function converToPdf() {
-    console.log("p");
-    // const doc = new jsPDF();
+    const doc = new jsPDF();
+    const tableData = rekapNilai.map((row, index) => [
+      index + 1, // Assuming `row.no` should be a sequential number
+      row?.user?.nama || "undefined",
+      row?.user?.sekolah || "undefined",
+      row.nilai
+    ]);
+  
+    const tableHeaders = tableHead.map((header) => header);
 
-    // // Set initial Y position for content
-    // let y = 10;
+    doc.text("Rekap Nilai Forum Quiz", 15, 10);
+    doc.autoTable({
+      head: [tableHeaders],
+      body: tableData,
+    });
 
-    // // Loop through the array and add content to the PDF
-    // rekapNilai?.forEach((row) => {
-    //   doc.text(row.join(", "), 10, y);
-    //   y += 10; // Move Y position for next row
-    // });
-
-    // // Save the PDF
-    // doc.save("array_data.pdf");
+    doc.save("array_data.pdf");
   }
   return (
     <AdminLayout>

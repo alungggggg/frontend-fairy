@@ -97,7 +97,9 @@ const pilganSlice = createSlice({
         state.soalPilgan = action.payload;
       })
       .addCase(getSoalPilgan.rejected, (state, action) => {
-        state.isLoading = false;
+        if (action.error.message !== "401") {
+          state.isLoading = false;
+        }
         state.error = action.error.message;
         state.soalPilgan = []
       })
@@ -112,7 +114,9 @@ const pilganSlice = createSlice({
         );
       })
       .addCase(deleteSoalPilgan.rejected, (state, action) => {
-        state.isLoading = false;
+        if (action.error.message !== "401") {
+          state.isLoading = false;
+        }
         state.error = action.error.message;
         state.soalPilgan = []
       })
@@ -125,7 +129,9 @@ const pilganSlice = createSlice({
         // getSoalPilgan();
       })
       .addCase(addSoalPilgan.rejected, (state, action) => {
-        state.isLoading = false;
+        if (action.error.message !== "401") {
+          state.isLoading = false;
+        }
         state.error = action.error.message;
       })
       .addCase(addSoalPilgan.pending, (state) => {
@@ -137,7 +143,9 @@ const pilganSlice = createSlice({
         // getSoalPilgan();
       })
       .addCase(editSoalPilgan.rejected, (state, action) => {
-        state.isLoading = false;
+        if (action.error.message !== "401") {
+          state.isLoading = false;
+        }
         state.error = action.error.message;
         state.soalPilgan = []
       })

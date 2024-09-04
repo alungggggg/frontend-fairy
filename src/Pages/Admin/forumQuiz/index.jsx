@@ -7,9 +7,13 @@ import { useNavigate, useParams } from "react-router-dom";
 import Loading from "../../../Component/loading";
 import { getNewAccessToken } from "../../../lib/redux/api/auth";
 import { getAllDongeng } from "../../../lib/redux/api/dongeng";
+import Pagination from "../../../Component/pagination";
 
 const ForumQuiz = () => {
   const [search, setSearch] = useState();
+  const [currentPage, setCurrentPage] = useState(1);
+  const [itemsPerPage] = useState(10);
+  const paginate = (pageNumber) => setCurrentPage(pageNumber);
 
   const tableHead = [
     "No",
@@ -44,7 +48,7 @@ const ForumQuiz = () => {
     getDataQuiz();
   }, []);
 
-  let displayedForum = forumQuiz?.filter((forum) => {
+  let filteredItems = forumQuiz?.filter((forum) => {
     return search
       ? forum.judul.toLowerCase().includes(search.toLowerCase()) ||
           forum.dongeng.title.toLowerCase().includes(search.toLowerCase()) ||
@@ -52,6 +56,12 @@ const ForumQuiz = () => {
           forum.token.toLowerCase().includes(search.toLowerCase())
       : forum;
   });
+
+  
+
+  const indexOfLastItem = currentPage * itemsPerPage;
+  const indexOfFirstItem = indexOfLastItem - itemsPerPage;
+  const displayedForum = filteredItems.slice(indexOfFirstItem, indexOfLastItem);
 
   return (
     <AdminLayout>
@@ -124,6 +134,12 @@ const ForumQuiz = () => {
               </table>
             </section>
           </section>
+          <Pagination
+            itemsPerPage={itemsPerPage}
+            totalItems={filteredItems.length}
+            className={"mt-4"}
+            paginate={paginate}
+          />
         </div>
       )}
       <ModalForumQuiz />

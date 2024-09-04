@@ -46,19 +46,36 @@ const ForumQuizDetail = () => {
   }, []);
 
   async function handelDeleteQuiz() {
-    if (window.confirm("Are you sure?")) {
-      var res = await dispatch(deleteForumQuiz(id));
-      console.log(res);
-      if (res.error) {
-        if (res.error.message === "401") {
-          console.log("getting acces token");
-          await dispatch(getNewAccessToken());
-          return handelDeleteQuiz();
-        }
+    Swal.fire({
+      title: "Are you sure?",
+      text: "You won't be able to revert this!",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "Yes, delete it!",
+    }).then((result) => {
+      if (result.isConfirmed) {
+        const handleDelete = async () => {
+          var res = await dispatch(deleteForumQuiz(id));
+          if (res.error) {
+            if (res.error.message === "401") {
+              console.log("getting acces token");
+              await dispatch(getNewAccessToken());
+              return handleDelete();
+            }
+          }
+          Swal.fire({
+            title: "Deleted!",
+            text: "Forum Quiz has been deleted.",
+            icon: "success",
+          });
+          return navigate("/admin/forum-quiz");
+        };
+
+        handleDelete();
       }
-      Swal.fire("Success", "Forum Quiz has been deleted", "success");
-      return navigate("/admin/forum-quiz");
-    }
+    });
   }
   return (
     <AdminLayout>
@@ -219,7 +236,7 @@ export const ArrowLeft = ({ size = 16 }) => {
       viewBox="0 0 16 16"
     >
       <path
-        fill-rule="evenodd"
+        fillRule="evenodd"
         d="M15 8a.5.5 0 0 0-.5-.5H2.707l3.147-3.146a.5.5 0 1 0-.708-.708l-4 4a.5.5 0 0 0 0 .708l4 4a.5.5 0 0 0 .708-.708L2.707 8.5H14.5A.5.5 0 0 0 15 8"
       />
     </svg>

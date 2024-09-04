@@ -84,6 +84,25 @@ export const addDongeng = createAsyncThunk(
   }
 );
 
+export const deleteDongeng = createAsyncThunk(
+  "dongeng/deleteDongeng",
+  async (payload) => {
+    try {
+      const response = await fairyApi.delete(`/dongeng/${payload}`);
+      if (response) {
+        return response.data;
+      }
+
+      throw new Error();
+    } catch (error) {
+      if (error instanceof AxiosError) {
+        throw error.response ? error.response.status : error.message;
+      }
+      throw error;
+    }
+  }
+)
+
 const dongengSlice = createSlice({
   name: "dongeng",
   initialState: {
@@ -100,7 +119,9 @@ const dongengSlice = createSlice({
         state.dongeng = action.payload;
       })
       .addCase(getAllDongeng.rejected, (state, action) => {
-        state.isLoading = false;
+        if (action.error.message !== "401") {
+          state.isLoading = false;
+        }
         state.error = action.error.message;
         state.dongeng = [];
       })
@@ -116,7 +137,9 @@ const dongengSlice = createSlice({
         state.error = null;
       })
       .addCase(updateDongeng.rejected, (state, action) => {
-        state.isLoading = false;
+        if (action.error.message !== "401") {
+          state.isLoading = false;
+        }
         state.dongeng = [];
         state.error = action.error.message;
       })
@@ -129,7 +152,9 @@ const dongengSlice = createSlice({
         state.error = null;
       })
       .addCase(getDongengById.rejected, (state, action) => {
-        state.isLoading = false;
+        if (action.error.message !== "401") {
+          state.isLoading = false;
+        }
         state.dongeng = [];
         state.error = action.error.message;
       })
@@ -137,7 +162,9 @@ const dongengSlice = createSlice({
         state.isLoading = true;
       })
       .addCase(addDongeng.rejected, (state, action) => {
-        state.isLoading = false;
+        if (action.error.message !== "401") {
+          state.isLoading = false;
+        }
         state.error = action.error.message;
       })
       .addCase(addDongeng.fulfilled, (state, action) => {
