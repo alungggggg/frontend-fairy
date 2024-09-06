@@ -1,7 +1,35 @@
 import { getCookie } from "cookies-next";
+import { LogoutIcon } from "../Admin/adminLayout";
+import { useDispatch, useSelector } from "react-redux";
+import { getUserById } from "../../lib/redux/api/users";
+import { getNewAccessToken, signOut } from "../../lib/redux/api/auth";
+import { useEffect } from "react";
 
 const Header = () => {
+  const id = getCookie("userID");
+  const dispatch = useDispatch();
+
+  async function getDataUser() {
+    const res = await dispatch(getUserById(id));
+    if (res.error) {
+      if (res.error.message === "401") {
+        console.log("getting new access token");
+        await dispatch(getNewAccessToken());
+        return getDataUser();
+      }
+    }
+  }
+  async function handleLogout() {
+    await dispatch(signOut());
+  }
+
+  useEffect(() => {
+    if (id) {
+      getDataUser();
+    }
+  }, []);
   const token = getCookie("refreshToken");
+  const { user } = useSelector((state) => state.user);
 
   return (
     <>
@@ -53,7 +81,7 @@ const Header = () => {
                     Petunjuk
                   </a>
                   <ul
-                    className="dropdown-menu px-2"
+                    className="dropdown-menu dropdown-menu-end px-2"
                     aria-labelledby="dropdownCatalogue"
                   >
                     <li>
@@ -88,10 +116,73 @@ const Header = () => {
                     </li>
                   </ul>
                 </li>
-                <li className="nav-item mx-1">
-                  <a href="/test" className="nav-link">
-                    Profil
+                <li className={`nav-item dropdown mx-1 ${token ? "" : "d-none"}`}>
+                  <a
+                    href="#"
+                    className="d-flex align-items-center text-white text-decoration-none dropdown-toggle"
+                    id="dropdownUser1"
+                    data-bs-toggle="dropdown"
+                    aria-expanded="false"
+                  >
+                    <img
+                      src="https://th.bing.com/th/id/OIP.oVIyTk_GGnAj3YzNXppdpQAAAA?w=189&h=189&c=7&r=0&o=5&pid=1.7"
+                      alt="hugenerd"
+                      width="40"
+                      height="40"
+                      className="rounded-circle"
+                    />
                   </a>
+                  <ul className="dropdown-menu dropdown-menu-end text-small shadow mt-3">
+                    <div>
+                      <p className="dropdown-item m-0 text-capitalize">
+                        {user?.role || "undefined"}
+                      </p>
+                      <hr className="my-2" />
+                    </div>
+                    {user.role === "siswa" ? (
+                      <li>
+                        <a
+                          className="dropdown-item d-flex justify-content-between align-items-center"
+                          style={{ cursor: "pointer" }}
+                        >
+                          Profile
+                        </a>
+                      </li>
+                    ) : (
+                      ""
+                    )}
+                    {user.role === "admin" || user.role === "guru" ? (
+                      <li>
+                        <a
+                          className="dropdown-item d-flex justify-content-between align-items-center"
+                          style={{ cursor: "pointer" }}
+                          href="/admin"
+                        >
+                          Databases
+                        </a>
+                      </li>
+                    ) : user.role === "siswa" ? (
+                      <li>
+                        <a
+                          className="dropdown-item d-flex justify-content-between align-items-center"
+                          style={{ cursor: "pointer" }}
+                          href="/quiz"
+                        >
+                          Quiz
+                        </a>
+                      </li>
+                    ) : null}
+                    <li>
+                      <a
+                        className="dropdown-item d-flex justify-content-between align-items-center"
+                        style={{ cursor: "pointer" }}
+                        onClick={() => handleLogout()}
+                      >
+                        Sign out
+                        <LogoutIcon />
+                      </a>
+                    </li>
+                  </ul>
                 </li>
               </ul>
               <ul
