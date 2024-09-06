@@ -181,12 +181,12 @@ const PilihanGanda = () => {
                       <td>{item?.opsi_4 || ""}</td>
                       <td>{item?.jawaban || ""}</td>
                       <td
-                        className="d-flex gap-2 justify-content-end"
+                        className=""
                         style={{ maxWidth: "120px" }}
                       >
                         <button
                           type="button"
-                          className="btn btn-primary "
+                          className="btn btn-primary me-1"
                           onClick={() => {
                             document
                               .getElementById("showModalAddSoalPilgan")
