@@ -4,6 +4,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { getUserById } from "../../lib/redux/api/users";
 import { getNewAccessToken, signOut } from "../../lib/redux/api/auth";
 import { useEffect } from "react";
+import { Link } from "react-router-dom";
 
 const Header = () => {
   const id = getCookie("userID");
@@ -36,7 +37,7 @@ const Header = () => {
       <header className="sticky-top fixed-top">
         <nav className="navbar navbar-expand-lg navbar-dark bg-night">
           <section className="container">
-            <a href="/" className="navbar-brand d-flex align-items-center">
+            <Link to={"/"} className="navbar-brand d-flex align-items-center">
               <img
                 src="https://buku.kemdikbud.go.id/assets/image/logo-sibi.png"
                 height={50}
@@ -46,7 +47,7 @@ const Header = () => {
                 <section>Sistem Informasi</section>
                 <section className="fw-bold">Perbukuan Indonesia</section>
               </section>
-            </a>
+            </Link>
             <button
               className="navbar-toggler"
               type="button"
@@ -61,64 +62,66 @@ const Header = () => {
             <section className="collapse navbar-collapse" id="navbarNav">
               <ul className="navbar-nav ms-auto">
                 <li className="nav-item mx-1">
-                  <a href="/" className="nav-link fw-bold">
+                  <Link to={"/"} className="nav-link fw-bold">
                     Beranda
-                  </a>
+                  </Link>
                 </li>
                 <li className="nav-item dropdown mx-1">
-                  <a href="/katalog" className="nav-link" role="button">
+                  <Link to={"/katalog"} className="nav-link" role="button">
                     Katalog Buku
-                  </a>
+                  </Link>
                 </li>
                 <li className="nav-item dropdown mx-1">
-                  <a
-                    href="/petunjuk"
+                  <Link
+                    to={"/petunjuk"}
                     className="nav-link dropdown-toggle dropdown-mobile"
                     role="button"
                     data-bs-toggle="dropdown"
                     aria-expanded="false"
                   >
                     Petunjuk
-                  </a>
+                  </Link>
                   <ul
                     className="dropdown-menu dropdown-menu-end px-2"
                     aria-labelledby="dropdownCatalogue"
                   >
                     <li>
-                      <a href="/petunjuk" className="dropdown-item p-2">
+                      <Link to={"/petunjuk"} className="dropdown-item p-2">
                         <img
                           src="https://buku.kemdikbud.go.id/assets/image/home/Group%2020.png"
                           width={30}
                           alt=""
                         />
                         <span className="ms-2 my-auto">untuk Siswa</span>
-                      </a>
+                      </Link>
                     </li>
                     <li>
-                      <a href="/petunjuk" className="dropdown-item p-2">
+                      <Link to="/petunjuk" className="dropdown-item p-2">
                         <img
                           src="https://buku.kemdikbud.go.id/assets/image/home/Group%2021.png"
                           width={30}
                           alt=""
                         />
                         <span className="ms-2 my-auto">untuk Guru</span>
-                      </a>
+                      </Link>
                     </li>
                     <li>
-                      <a href="/petunjuk" className="dropdown-item p-2">
+                      <Link to="/petunjuk" className="dropdown-item p-2">
                         <img
                           src="https://buku.kemdikbud.go.id/assets/image/home/Group%2022.png"
                           width={30}
                           alt=""
                         />
                         <span className="ms-2 my-auto">untuk Orang Tua</span>
-                      </a>
+                      </Link>
                     </li>
                   </ul>
                 </li>
-                <li className={`nav-item dropdown mx-1 ${token ? "" : "d-none"}`}>
-                  <a
-                    href="#"
+                <li
+                  className={`nav-item dropdown mx-1 ${token ? "" : "d-none"} mt-4 mt-lg-0`}
+                >
+                  <Link
+                    to="#"
                     className="d-flex align-items-center text-white text-decoration-none dropdown-toggle"
                     id="dropdownUser1"
                     data-bs-toggle="dropdown"
@@ -131,7 +134,7 @@ const Header = () => {
                       height="40"
                       className="rounded-circle"
                     />
-                  </a>
+                  </Link>
                   <ul className="dropdown-menu dropdown-menu-end text-small shadow mt-3">
                     <div>
                       <p className="dropdown-item m-0 text-capitalize">
@@ -141,35 +144,36 @@ const Header = () => {
                     </div>
                     {user.role === "siswa" ? (
                       <li>
-                        <a
+                        <Link
+                          to={"/profile"}
                           className="dropdown-item d-flex justify-content-between align-items-center"
                           style={{ cursor: "pointer" }}
                         >
                           Profile
-                        </a>
+                        </Link>
                       </li>
                     ) : (
                       ""
                     )}
                     {user.role === "admin" || user.role === "guru" ? (
                       <li>
-                        <a
+                        <Link
                           className="dropdown-item d-flex justify-content-between align-items-center"
                           style={{ cursor: "pointer" }}
-                          href="/admin"
+                          to="/admin"
                         >
                           Databases
-                        </a>
+                        </Link>
                       </li>
                     ) : user.role === "siswa" ? (
                       <li>
-                        <a
+                        <Link
                           className="dropdown-item d-flex justify-content-between align-items-center"
                           style={{ cursor: "pointer" }}
-                          href="/quiz"
+                          to={"/quiz"}
                         >
                           Quiz
-                        </a>
+                        </Link>
                       </li>
                     ) : null}
                     <li>
