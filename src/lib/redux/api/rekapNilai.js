@@ -78,6 +78,25 @@ export const getForumQuizByUserId = createAsyncThunk(
   }
 );
 
+export const getRekapById = createAsyncThunk(
+  "rekapNilai/getRekapById",
+  async (payload) => {
+    try {
+      const response = await fairyApi.get(`/get-rekap-quiz/${payload}`);
+      if (response) {
+        return response.data;
+      }
+
+      throw new Error();
+    } catch (error) {
+      if (error instanceof AxiosError) {
+        throw error.response ? error.response.status : error.message;
+      }
+      throw error;
+    }
+  }
+);
+
 const rekapNilaiSlice = createSlice({
   name: "rekapNilai",
   initialState: {
@@ -140,6 +159,21 @@ const rekapNilaiSlice = createSlice({
         state.error = null;
       })
       .addCase(getForumQuizByUserId.rejected, (state, action) => {
+        if (!action.error.message === "401") {
+          state.isLoading = false;
+        }
+        state.error = action.error.message;
+      })
+      .addCase(getRekapById.pending, (state) => {
+        state.isLoading = true;
+      })
+      .addCase(getRekapById.fulfilled, (state, action) => {
+        // console.log(action.payload);
+        state.rekapNilai = [action.payload];
+        state.isLoading = false;
+        state.error = null;
+      })
+      .addCase(getRekapById.rejected, (state, action) => {
         if (!action.error.message === "401") {
           state.isLoading = false;
         }

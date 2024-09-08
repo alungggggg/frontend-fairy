@@ -42,7 +42,7 @@ const usersSlice = createSlice({
       })
       .addCase(getUserById.rejected, (state, action) => {
         state.isLoading = false;
-        state.user = [];
+        // state.user = [];
         state.error = action.error.message;
       });
   },

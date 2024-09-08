@@ -54,7 +54,7 @@ const AdminLayout = ({ children }) => {
     getDataUsers();
   }, []);
 
-  if (!refresh_token) return <Navigate to={"/login"} />;
+  if (!refresh_token || !users_id) return <Navigate to={"/login"} />;
 
   return (
     <div className="container-fluid">
