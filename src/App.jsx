@@ -14,6 +14,8 @@ import RekapNilai from "./Pages/Admin/forumQuiz/forum-quiz-rekap";
 import ForumQuizSoal from "./Pages/Admin/forumQuiz/forum-quiz-soal";
 import AddDongeng from "./Pages/Admin/dongeng/addDongeng";
 
+import Write from "./Pages/Services/Siswa/write";
+
 function App() {
   return (
     <>
@@ -29,6 +31,8 @@ function App() {
           <Route path="/Petunjuk/umum" element={<kernel.petunjukGuru />} />
           <Route path="/dongeng/detail/:id" element={<kernel.detail />} />
           <Route path="/dongeng/read/:id" element={<kernel.dongengView />} />
+
+          <Route path="/dongeng/write" element={<Write />} />
 
           <Route path="/login" element={<kernel.login />} />
           <Route path="/register" element={<kernel.register />} />
