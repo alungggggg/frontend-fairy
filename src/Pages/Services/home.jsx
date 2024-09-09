@@ -1,9 +1,12 @@
 import Header from "../template/header";
 import CountUp from "./Component/countUp";
 import Footer from "../template/footer";
-import { getCookies } from "cookies-next";
+import { getCookie, getCookies } from "cookies-next";
 import fairyApi from "../../lib/axios";
 import { useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { getNewAccessToken } from "../../lib/redux/api/auth";
+import { getUserById } from "../../lib/redux/api/users";
 
 const PopularBook = async () => {
   const { data } = await fairyApi.get("/popular");
