@@ -23,7 +23,7 @@ import profile from "./Services/profile";
 import updateProfile from "./Services/updateProfile";
 import err404 from "./Services/404";
 
-import quiz from "./Services/Siswa/quiz";
+import quiz from "./Services/Siswa/quiz/quiz";
 import { Profiler } from "react";
 
 export default {

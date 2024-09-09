@@ -3,7 +3,7 @@ import fairyApi from "../../axios";
 import { AxiosError } from "axios";
 
 export const getUserById = createAsyncThunk(
-  "user/getUsersById",
+  "user/getUserById",
   async (paylaod) => {
     try {
       const response = await fairyApi.get(`users/${paylaod}`);
@@ -42,7 +42,7 @@ const usersSlice = createSlice({
       })
       .addCase(getUserById.rejected, (state, action) => {
         state.isLoading = false;
-        state.user = [];
+        // state.user = [];
         state.error = action.error.message;
       });
   },

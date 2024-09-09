@@ -54,7 +54,7 @@ const AdminLayout = ({ children }) => {
     getDataUsers();
   }, []);
 
-  if (!refresh_token) return <Navigate to={"/login"} />;
+  if (!refresh_token || !users_id) return <Navigate to={"/login"} />;
 
   return (
     <div className="container-fluid">
@@ -78,7 +78,7 @@ const AdminLayout = ({ children }) => {
         <div className="dropdown">
           <a
             href="#"
-            className="d-flex align-items-center text-white text-decoration-none dropdown-toggle"
+            className="d-flex align-items-center text-white text-decoration-none dropdown-toggle "
             id="dropdownUser1"
             data-bs-toggle="dropdown"
             aria-expanded="false"

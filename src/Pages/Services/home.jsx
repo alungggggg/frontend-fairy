@@ -55,7 +55,7 @@ const Home = () => {
       <Header />
       <main className="">
         <section className="bg-night position-relative jumbotron">
-          <section className="container-xxl">
+          <section className="container">
             <section className="row">
               <section className="col-lg-6 order-last order-md-first my-5 my-md-auto">
                 <h1 className="jumbo-title text-white fw-bold">
@@ -113,7 +113,7 @@ const Home = () => {
           </section>
           <img
             src="https://buku.kemdikbud.go.id/assets/image/home/aset%20home%20night.png"
-            className="d-none d-lg-block position-absolute"
+            className="d-none d-lg-block position-absolute "
             style={{ zIndex: 1, left: "45%", bottom: "3%" }}
             alt="jumbotron"
           />

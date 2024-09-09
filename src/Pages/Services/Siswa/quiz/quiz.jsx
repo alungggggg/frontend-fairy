@@ -1,9 +1,9 @@
-import Header from "../../template/header";
-import Footer from "../../template/footer";
+import Header from "../../../template/header";
+import Footer from "../../../template/footer";
 import { useState, useEffect } from "react";
 import Swal from "sweetalert2";
 import { useNavigate, useLocation } from "react-router-dom";
-import { confirmSwal } from "../../../Component/alert";
+import { confirmSwal } from "../../../../Component/alert";
 
 const quiz = () => {
   const location = useLocation();

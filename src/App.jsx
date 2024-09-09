@@ -13,6 +13,8 @@ import ForumQuizDetail from "./Pages/Admin/forumQuiz/forumDetail";
 import RekapNilai from "./Pages/Admin/forumQuiz/forum-quiz-rekap";
 import ForumQuizSoal from "./Pages/Admin/forumQuiz/forum-quiz-soal";
 import AddDongeng from "./Pages/Admin/dongeng/addDongeng";
+import QuizList from "./Pages/Services/Siswa/quiz";
+import Quiz_2 from "./Pages/Services/Siswa/quiz/quiz_2";
 
 function App() {
   return (
@@ -37,7 +39,10 @@ function App() {
           <Route path="/verify" element={<kernel.verify />} />
           {/* <Route path="/forgot-password" element={<kernel.logout />} /> */}
 
-          <Route path="/quiz" element={<kernel.quiz />} />
+          <Route path="/quiz">
+            <Route index element={<QuizList />} />
+            <Route path=":id" element={<Quiz_2 />} />
+          </Route>
 
           <Route path="/test" element={<ProfileTest />} />
 
