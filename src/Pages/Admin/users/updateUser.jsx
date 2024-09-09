@@ -16,34 +16,83 @@ import { ArrowLeft } from "../forumQuiz/forumDetail";
 
 const SiswaForm = () => (
   <>
-    <label htmlFor="kelas">kelas</label>
-    <Field type="text" name="kelas" />
-    <ErrorMessage name="kelas" render={errorMessage} />
+    <section className="form-group my-4">
+      <label className="form-label fw-bold" htmlFor="kelas">
+        KELAS
+      </label>
+      <section className="input-group">
+        <Field
+          name="kelas"
+          type="text"
+          className="form-control"
+          placeholder="Masukan Kelas"
+        />
+      </section>
+      <ErrorMessage name="kelas" render={errorMessage} />
+    </section>
 
-    <label htmlFor="sekolah">sekolah</label>
-    <Field type="text" name="sekolah" />
-    <ErrorMessage name="sekolah" render={errorMessage} />
+    <section className="form-group my-4">
+      <label className="form-label fw-bold" htmlFor="sekolah">
+        SEKOLAH
+      </label>
+      <section className="input-group">
+        <Field
+          name="sekolah"
+          type="text"
+          className="form-control"
+          placeholder="Masukan Sekolah"
+        />
+      </section>
+      <ErrorMessage name="sekolah" render={errorMessage} />
+    </section>
   </>
 );
 
 const GuruForm = () => (
   <>
-    <label htmlFor="sekolah">sekolah</label>
-    <Field type="text" name="sekolah" />
-    <ErrorMessage name="sekolah" render={errorMessage} />
+    <section className="form-group my-4">
+      <label className="form-label fw-bold" htmlFor="sekolah">
+        SEKOLAH
+      </label>
+      <section className="input-group">
+        <Field
+          name="sekolah"
+          type="text"
+          className="form-control"
+          placeholder="Masukan Sekolah"
+        />
+      </section>
+      <ErrorMessage name="sekolah" render={errorMessage} />
+    </section>
   </>
 );
 
 const IsChangePass = () => (
   <>
-    <Field name="password" type="password" placeholder="Password" />
-    <ErrorMessage name="password" render={errorMessage} />
-    <Field
-      name="confirmPassword"
-      type="password"
-      placeholder="Confirm Password"
-    />
-    <ErrorMessage name="confirmPassword" render={errorMessage} />
+    <section className="form-group my-4">
+      <label className="form-label fw-bold">PASSWORD</label>
+      <section className="input-group">
+        <Field
+          name="password"
+          type="password"
+          className="form-control"
+          placeholder="Masukan Kata Sandi"
+        />
+      </section>
+      <ErrorMessage name="password" render={errorMessage} />
+    </section>
+    <section className="form-group my-4">
+      <label className="form-label fw-bold">KELAS</label>
+      <section className="input-group">
+        <Field
+          name="confirmPassword"
+          type="password"
+          className="form-control"
+          placeholder="Masukan Ulang Kata Sandi"
+        />
+      </section>
+      <ErrorMessage name="confirmPassword" render={errorMessage} />
+    </section>
   </>
 );
 
@@ -121,101 +170,144 @@ const UpdateUser = () => {
   return (
     <AdminLayout>
       <section>
-      <div className="d-flex justify-content-between align-items-center p-0">
-            <Link
-              to={"/admin/users"}
-              className={
-                "d-flex align-items-center  gap-2 text-decoration-none fs-5 text-black "
-              }
-            >
-              <ArrowLeft size={24} /> Back To Users
-            </Link>
-          </div>
-        <div>
-          <Formik
-            enableReinitialize
-            initialValues={{
-              id: user.id,
-              nama: user.nama,
-              email: user.email,
-              username: user.username || "",
-              kelas: user.kelas || "",
-              sekolah: user.sekolah || "",
-              role: user.role,
-              password: "",
-              confirmPassword: "",
-            }}
-            validationSchema={validationSchema}
-            validateOnChange={false}
-            validateOnBlur={false}
-            onSubmit={(values, { setSubmitting }) => {
-              submit(values, id, navigate);
-              // submit(values)
-              setSubmitting(false);
-            }}
+        <div className="d-flex justify-content-between align-items-center p-0">
+          <Link
+            to={"/admin/users"}
+            className={
+              "d-flex align-items-center  gap-2 text-decoration-none fs-5 text-black "
+            }
           >
-            {({ values, setFieldValue }) => (
-              <Form>
-                <label htmlFor="nama">Nama</label>
-                <Field type="text" name="nama" />
-                <ErrorMessage name="nama" render={errorMessage} />
+            <ArrowLeft size={24} /> Back To Users
+          </Link>
+        </div>
+        <div className="container">
+          <section className="row justify-content-center pt-2 pt-md-5 p-3 p-md-0">
+            <section className="col-lg-5">
+              <h2 className="text-blue mt-4 mt-md-0">Update</h2>
+              <section className="card mt-2 shadow">
+                <section className="card-body p-4">
+                  <Formik
+                    enableReinitialize
+                    initialValues={{
+                      id: user.id,
+                      nama: user.nama,
+                      email: user.email,
+                      username: user.username || "",
+                      kelas: user.kelas || "",
+                      sekolah: user.sekolah || "",
+                      role: user.role,
+                      password: "",
+                      confirmPassword: "",
+                    }}
+                    validationSchema={validationSchema}
+                    validateOnChange={false}
+                    validateOnBlur={false}
+                    onSubmit={(values, { setSubmitting }) => {
+                      submit(values, id, navigate);
+                      // submit(values)
+                      setSubmitting(false);
+                    }}
+                  >
+                    <Form>
+                      <section className="form-group">
+                        <label className="form-label fw-bold">NAMA</label>
+                        <Field
+                          type="text"
+                          name="nama"
+                          className="form-control"
+                          placeholder="Masukan Nama"
+                        />
+                        <ErrorMessage name="nama" render={errorMessage} />
+                      </section>
+                      <section className="form-group my-4">
+                        <label className="form-label fw-bold">USERNAME</label>
+                        <section className="input-group">
+                          <Field
+                            name="username"
+                            type="text"
+                            className="form-control"
+                            placeholder="Masukan Username"
+                          />
+                        </section>
+                        <ErrorMessage name="username" render={errorMessage} />
+                      </section>
+                      <section className="form-group my-4">
+                        <label className="form-label fw-bold">EMAIL</label>
+                        <section className="input-group">
+                          <Field
+                            name="email"
+                            type="email"
+                            className="form-control"
+                            placeholder="Masukan Email"
+                          />
+                        </section>
+                        <ErrorMessage name="email" render={errorMessage} />
+                      </section>
+                      <section className="form-group my-4">
+                        <label className="form-label fw-bold">ROLE</label>
 
-                <label htmlFor="username">username</label>
-                <Field type="text" name="username" />
-                <ErrorMessage name="username" render={errorMessage} />
+                        <Field
+                          as="select"
+                          name="role"
+                          className="form-select"
+                          onChange={(e) => {
+                            setFieldValue("role", e.target.value);
+                            if (e.target.value === "SISWA") {
+                              setIsSiswa(true);
+                              setIsGuru(false);
+                            } else if (e.target.value === "GURU") {
+                              setIsGuru(true);
+                              setIsSiswa(false);
+                            } else {
+                              setIsGuru(false);
+                              setIsSiswa(false);
+                            }
+                          }}
+                        >
+                          <option value="SISWA">SISWA</option>
+                          <option value="GURU">GURU</option>
+                          <option value="UMUM">UMUM</option>
+                        </Field>
+                        <ErrorMessage name="role" render={errorMessage} />
+                      </section>
+                      {isSiswa && <SiswaForm />}
+                      {isGuru && <GuruForm />}
 
-                <label htmlFor="email">Email</label>
-                <Field type="email" name="email" disabled />
-                <ErrorMessage name="email" render={errorMessage} />
+                      <label className="form-label fw-bold me-2">
+                        GANTI KATA SANDI
+                      </label>
+                      <input
+                        type="checkbox"
+                        onChange={() => {
+                          setIsChangePass(!isChangePass);
+                          if (!isChangePass) {
+                            setFieldValue("password", "");
+                            setFieldValue("confirmPassword", "");
+                          } else {
+                            setFieldValue("password", undefined);
+                            setFieldValue("confirmPassword", undefined);
+                          }
+                        }}
+                        checked={isChangePass}
+                      />
 
-                <label htmlFor="role">role</label>
-                <Field
-                  as="select"
-                  name="role"
-                  onChange={(e) => {
-                    setFieldValue("role", e.target.value);
-                    if (e.target.value === "SISWA") {
-                      setIsSiswa(true);
-                      setIsGuru(false);
-                    } else if (e.target.value === "GURU") {
-                      setIsGuru(true);
-                      setIsSiswa(false);
-                    } else {
-                      setIsGuru(false);
-                      setIsSiswa(false);
-                    }
-                  }}
-                >
-                  <option value="SISWA">SISWA</option>
-                  <option value="GURU">GURU</option>
-                  <option value="UMUM">UMUM</option>
-                </Field>
-                <ErrorMessage name="role" render={errorMessage} />
+                      {isChangePass && <IsChangePass />}
 
-                {isSiswa && <SiswaForm />}
-                {isGuru && <GuruForm />}
-
-                <input
-                  type="checkbox"
-                  onChange={() => {
-                    setIsChangePass(!isChangePass);
-                    if (!isChangePass) {
-                      setFieldValue("password", "");
-                      setFieldValue("confirmPassword", "");
-                    } else {
-                      setFieldValue("password", undefined);
-                      setFieldValue("confirmPassword", undefined);
-                    }
-                  }}
-                  checked={isChangePass}
-                />
-
-                {isChangePass && <IsChangePass />}
-
-                <button type="submit">Submit</button>
-              </Form>
-            )}
-          </Formik>
+                      <section className="form-group d-grid gap-2 mt-3">
+                        <button
+                          type="submit"
+                          className="btn btn-orange py-2 text-white"
+                        >
+                          Update
+                        </button>
+                      </section>
+                    </Form>
+                  </Formik>
+                </section>
+              </section>
+            </section>
+          </section>
+          {/*  */}
         </div>
       </section>
     </AdminLayout>
