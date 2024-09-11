@@ -59,12 +59,12 @@ const Home = () => {
             <section className="row">
               <section className="col-lg-6 order-last order-md-first my-5 my-md-auto">
                 <h1 className="jumbo-title text-white fw-bold">
-                  Buku untuk semua
+                  Cerita Panji Kediri
                 </h1>
                 {/* <p class="lead text-white">  */}
                 <section className="d-inline-flex flex-column">
                   <span className="text-white">
-                    Akses di manapun, kapanpun, Baca buku yuk!
+                    Akses di manapun, kapanpun, Baca dongeng yuk!
                   </span>
                   <span className="mtmin d-none d-md-block">
                     <img
@@ -211,9 +211,9 @@ const Home = () => {
             <section className="row align-items-center">
               <section className="col-lg-6">
                 <h3 className="fw-bold">
-                  Buku&nbsp;
+                  Dongeng&nbsp;
                   <section className="d-inline-flex flex-column">
-                    <span>Terpopuler</span>
+                    <span>terpopuler</span>
                     <span className="mtmin">
                       <img
                         src="https://buku.kemdikbud.go.id/assets/image/home/line-populer.png"
@@ -223,7 +223,7 @@ const Home = () => {
                   </section>
                 </h3>
                 <p className="">
-                  Jelajahi buku populer dari pusat perbukuan resmi
+                  Jelajahi dongeng populer dari pusat perbukuan resmi
                 </p>
               </section>
               <section className="col-lg-6 text-end">
@@ -271,7 +271,7 @@ const Home = () => {
             </section>
           </section>
         </section>
-        <section
+        {/* <section
           className="py-2"
           style={{
             backgroundColor: "#fcf1e7",
@@ -401,7 +401,7 @@ const Home = () => {
               </section>
             </section>
           </section>
-        </section>
+        </section> */}
         {getCookies("token").token && (
           <section className="py-5 bg-white">
             <section className="container-lg p-3">
@@ -575,7 +575,7 @@ const Home = () => {
         >
           <section className="container p-3">
             <h3 className="fw-bold">
-              Buku&nbsp;
+              Cerita&nbsp;
               <section className="d-inline-flex flex-column">
                 <span>untuk semua</span>
                 <span className="mtmin">
@@ -587,7 +587,9 @@ const Home = () => {
                 </span>
               </section>
             </h3>
-            <p className="mtmin text-acces">Temukan buku sesuai kebutuhanmu</p>
+            <p className="mtmin text-acces">
+              Temukan cerita sesuai kebutuhanmu
+            </p>
             <section className="row">
               <section className="col-lg-4">
                 <section
@@ -611,9 +613,9 @@ const Home = () => {
                           Siswa
                         </section>
                         <p className="card-text text-muted">
-                          Belajar lebih asik dengan buku kemendikbud
+                          Belajar lebih asik dengan cerita panji kediri
                         </p>
-                        <a href="">
+                        <a href="/katalog">
                           <small className="text-primary fw-bold">
                             Lihat selengkapnya →
                           </small>
@@ -645,9 +647,9 @@ const Home = () => {
                           Guru
                         </section>
                         <p className="card-text text-muted">
-                          Dapatkan akses buku untuk bahan ajar di kelas
+                          Dapatkan akses cerita untuk bahan ajar di kelas
                         </p>
-                        <a href="">
+                        <a href="/katalog">
                           <small className="text-primary fw-bold">
                             Lihat selengkapnya →
                           </small>
@@ -676,12 +678,12 @@ const Home = () => {
                           className="fw-bold mb-1"
                           style={{ fontSize: "1.1rem" }}
                         >
-                          Orang tua
+                          Umum
                         </section>
                         <p className="card-text text-muted">
                           Bantu tingkatkan belajar anak
                         </p>
-                        <a href="" className="">
+                        <a href="/katalog" className="">
                           <small className="text-primary fw-bold">
                             Lihat selengkapnya →
                           </small>
@@ -720,7 +722,7 @@ const Home = () => {
                           aria-expanded="false"
                           aria-controls="flush-collapse1"
                         >
-                          Apa itu buku kemendikbudristek?
+                          Apa itu buku Cerita Panji Kediri
                         </button>
                       </h2>
                       <section
@@ -730,10 +732,9 @@ const Home = () => {
                         data-bs-parent="accordion-flushex"
                       >
                         <section className="accordion-body">
-                          Buku-buku yang dikembangkan dan diterbitkan oleh
-                          unit-unit kerja di Kementerian Pendidikan, Kebudayaan,
-                          Riset dan Teknologi untuk kebutuhan siswa, guru, atau
-                          masyarakat Indonesia.
+                          Dongeng yang dikembangkan dan diterbitkan oleh tim
+                          peneliti Universitas Nusantara PGRI Kediri yang di
+                          danai oleh DRTPM.
                         </section>
                       </section>
                     </section>
@@ -751,7 +752,7 @@ const Home = () => {
                           aria-expanded="false"
                           aria-controls="flush-collapse2"
                         >
-                          Bagaimana cara mendaftar di SIBI?
+                          Bagaimana cara mendaftar di Panji Kediri?
                         </button>
                       </h2>
                       <section
@@ -761,43 +762,14 @@ const Home = () => {
                         data-bs-parent="accordion-flushex"
                       >
                         <section className="accordion-body">
-                          Silahkan klik Daftar di bagian pojok kanan atas, lalu
+                          Silahkan klik Masuk di bagian pojok kanan atas, lalu
                           isi formulir dengan lengkap menggunakan data
                           sebenarnya. Lalu klik tombol Daftar di bagian bawah.
                           Proses pendaftaran selesai.
                         </section>
                       </section>
                     </section>
-                    <section
-                      className="accordion-item mb-2 border-0 bg-night text-white"
-                      style={{ backgroundColor: "#6686b7" }}
-                    >
-                      <h2 className="accordion-header" id="flushHd2">
-                        <button
-                          className="accordion-button collapsed ps-1 bg-night text-white"
-                          style={{ backgroundColor: "#6686b7" }}
-                          type="button"
-                          data-bs-toggle="collapse"
-                          data-bs-target="#flush-collapse3"
-                          aria-expanded="false"
-                          aria-controls="flush-collapse3"
-                        >
-                          Siapakah pelaku perbukuan?
-                        </button>
-                      </h2>
-                      <section
-                        id="flush-collapse3"
-                        className="accordion-collapse collapse"
-                        aria-labelledby="flushHd3"
-                        data-bs-parent="accordion-flushex"
-                      >
-                        <section className="accordion-body">
-                          Pelaku perbukuan terdiri atas Penulis, Penerjemah,
-                          Penyadur, Editor, Desainer, Ilustrator, Pencetak,
-                          Pengembang Buku Elektronik, Penerbit, dan Toko Buku.
-                        </section>
-                      </section>
-                    </section>
+
                     <section
                       className="accordion-item mb-2 border-0 bg-night text-white"
                       style={{ backgroundColor: "#6686b7" }}
@@ -823,8 +795,8 @@ const Home = () => {
                         data-bs-parent="accordion-flushex"
                       >
                         <section className="accordion-body">
-                          Panduan Sibi Sering Ditanyakan Karena mungkin email
-                          kamu tidak aktif, salah memasukan email ketika
+                          Panduan Panji Kediri Sering Ditanyakan Karena mungkin
+                          email kamu tidak aktif, salah memasukan email ketika
                           mendaftar, atau mungkin masuk ke folder promosi atau
                           spam di email kamu.
                         </section>
@@ -844,7 +816,8 @@ const Home = () => {
                           aria-expanded="false"
                           aria-controls="flush-collapse5"
                         >
-                          Apakah saya boleh mencetak buku yang ada di SIBI?
+                          Apakah saya boleh mencetak buku yang ada di Panji
+                          Kediri?
                         </button>
                       </h2>
                       <section
@@ -854,13 +827,10 @@ const Home = () => {
                         data-bs-parent="accordion-flushex"
                       >
                         <section className="accordion-body">
-                          Buku yang diunggah di SIBI merupakan buku yang
-                          diterbitkan oleh Pemerintah Indonesia, sehingga
-                          masyarakat Indonesia diizinkan memanfaatkan buku ini
-                          termasuk mengunduh dan mencetaknya. Namun, jika akan
-                          diperjual belikan, dilarang menjual lebih dari harga
-                          eceran tertinggi (HET) yang tertera di sampul belakang
-                          buku.
+                          Buku yang diunggah di Panji Kediri merupakan buku yang
+                          diterbitkan oleh Universitas Nusantara PGRI Kediri,
+                          sehingga masyarakat Indonesia diizinkan memanfaatkan
+                          buku ini.
                         </section>
                       </section>
                     </section>

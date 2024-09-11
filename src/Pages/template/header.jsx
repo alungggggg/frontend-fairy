@@ -31,11 +31,11 @@ const Header = () => {
   }, []);
   const token = getCookie("refreshToken");
   const { user } = useSelector((state) => state.user);
-  const [role, setRole] = useState("")
+  const [role, setRole] = useState("");
 
   useEffect(() => {
-    setRole(user?.role || "")
-  }, [user])
+    setRole(user?.role || "");
+  }, [user]);
 
   return (
     <>
@@ -44,13 +44,16 @@ const Header = () => {
           <section className="container">
             <Link to={"/"} className="navbar-brand d-flex align-items-center">
               <img
-                src="https://buku.kemdikbud.go.id/assets/image/logo-sibi.png"
+                src="https://logobagus.com/wp-content/uploads/2024/01/logo_unp_kediri-768x769.png"
                 height={50}
                 alt="Logo"
               />
-              <section className="navbar-dark" style={{ fontSize: "0.95rem" }}>
-                <section>Sistem Informasi</section>
-                <section className="fw-bold">Perbukuan Indonesia</section>
+              <section
+                className="navbar-dark ms-2"
+                style={{ fontSize: "0.95rem" }}
+              >
+                <section>Dongeng Nusantara</section>
+                <section className="fw-bold">Panji Kediri</section>
               </section>
             </Link>
             <button
@@ -123,7 +126,9 @@ const Header = () => {
                   </ul>
                 </li>
                 <li
-                  className={`nav-item dropdown mx-1 ${token ? "" : "d-none"} mt-4 mt-lg-0`}
+                  className={`nav-item dropdown mx-1 ${
+                    token ? "" : "d-none"
+                  } mt-4 mt-lg-0`}
                 >
                   <Link
                     to="#"
@@ -160,7 +165,8 @@ const Header = () => {
                     ) : (
                       ""
                     )}
-                    {role.toLowerCase() === "admin" || role.toLowerCase() === "guru" ? (
+                    {role.toLowerCase() === "admin" ||
+                    role.toLowerCase() === "guru" ? (
                       <li>
                         <Link
                           className="dropdown-item d-flex justify-content-between align-items-center"
@@ -195,8 +201,9 @@ const Header = () => {
                 </li>
               </ul>
               <ul
-                className={`navbar-nav mb-2 mb-lg-0 text-center text-xl-start ${token ? "d-none" : ""
-                  }`}
+                className={`navbar-nav mb-2 mb-lg-0 text-center text-xl-start ${
+                  token ? "d-none" : ""
+                }`}
               >
                 <li className="nav-item ms-3 pt-1">
                   <a href="/login" className="btn btn-sm btn-outline-light">
