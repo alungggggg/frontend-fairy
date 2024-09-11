@@ -31,11 +31,11 @@ const Header = () => {
   }, []);
   const token = getCookie("refreshToken");
   const { user } = useSelector((state) => state.user);
-  const [role, setRole] = useState("")
+  const [role, setRole] = useState("");
 
   useEffect(() => {
-    setRole(user?.role || "")
-  }, [user])
+    setRole(user?.role || "");
+  }, [user]);
 
   return (
     <>
@@ -48,7 +48,10 @@ const Header = () => {
                 height={50}
                 alt="Logo"
               />
-              <section className="navbar-dark" style={{ fontSize: "0.95rem" }}>
+              <section
+                className="navbar-dark ms-2"
+                style={{ fontSize: "0.95rem" }}
+              >
                 <section>Dongeng Nusantara</section>
                 <section className="fw-bold">Panji Kediri</section>
               </section>
@@ -162,7 +165,8 @@ const Header = () => {
                     ) : (
                       ""
                     )}
-                    {role.toLowerCase() === "admin" || role.toLowerCase() === "guru" ? (
+                    {role.toLowerCase() === "admin" ||
+                    role.toLowerCase() === "guru" ? (
                       <li>
                         <Link
                           className="dropdown-item d-flex justify-content-between align-items-center"
@@ -197,8 +201,9 @@ const Header = () => {
                 </li>
               </ul>
               <ul
-                className={`navbar-nav mb-2 mb-lg-0 text-center text-xl-start ${token ? "d-none" : ""
-                  }`}
+                className={`navbar-nav mb-2 mb-lg-0 text-center text-xl-start ${
+                  token ? "d-none" : ""
+                }`}
               >
                 <li className="nav-item ms-3 pt-1">
                   <a href="/login" className="btn btn-sm btn-outline-light">

@@ -59,12 +59,12 @@ const Home = () => {
             <section className="row">
               <section className="col-lg-6 order-last order-md-first my-5 my-md-auto">
                 <h1 className="jumbo-title text-white fw-bold">
-                  Buku untuk semua
+                  Cerita Panji Kediri
                 </h1>
                 {/* <p class="lead text-white">  */}
                 <section className="d-inline-flex flex-column">
                   <span className="text-white">
-                    Akses di manapun, kapanpun, Baca buku yuk!
+                    Akses di manapun, kapanpun, Baca dongeng yuk!
                   </span>
                   <span className="mtmin d-none d-md-block">
                     <img
@@ -211,9 +211,9 @@ const Home = () => {
             <section className="row align-items-center">
               <section className="col-lg-6">
                 <h3 className="fw-bold">
-                  Buku&nbsp;
+                  Dongeng&nbsp;
                   <section className="d-inline-flex flex-column">
-                    <span>Terpopuler</span>
+                    <span>terpopuler</span>
                     <span className="mtmin">
                       <img
                         src="https://buku.kemdikbud.go.id/assets/image/home/line-populer.png"
@@ -223,7 +223,7 @@ const Home = () => {
                   </section>
                 </h3>
                 <p className="">
-                  Jelajahi buku populer dari pusat perbukuan resmi
+                  Jelajahi dongeng populer dari pusat perbukuan resmi
                 </p>
               </section>
               <section className="col-lg-6 text-end">
@@ -271,7 +271,7 @@ const Home = () => {
             </section>
           </section>
         </section>
-        <section
+        {/* <section
           className="py-2"
           style={{
             backgroundColor: "#fcf1e7",
@@ -401,7 +401,7 @@ const Home = () => {
               </section>
             </section>
           </section>
-        </section>
+        </section> */}
         {getCookies("token").token && (
           <section className="py-5 bg-white">
             <section className="container-lg p-3">
@@ -575,7 +575,7 @@ const Home = () => {
         >
           <section className="container p-3">
             <h3 className="fw-bold">
-              Buku&nbsp;
+              Cerita&nbsp;
               <section className="d-inline-flex flex-column">
                 <span>untuk semua</span>
                 <span className="mtmin">
@@ -587,7 +587,9 @@ const Home = () => {
                 </span>
               </section>
             </h3>
-            <p className="mtmin text-acces">Temukan buku sesuai kebutuhanmu</p>
+            <p className="mtmin text-acces">
+              Temukan cerita sesuai kebutuhanmu
+            </p>
             <section className="row">
               <section className="col-lg-4">
                 <section
@@ -611,9 +613,9 @@ const Home = () => {
                           Siswa
                         </section>
                         <p className="card-text text-muted">
-                          Belajar lebih asik dengan buku kemendikbud
+                          Belajar lebih asik dengan cerita panji kediri
                         </p>
-                        <a href="">
+                        <a href="/katalog">
                           <small className="text-primary fw-bold">
                             Lihat selengkapnya →
                           </small>
@@ -645,9 +647,9 @@ const Home = () => {
                           Guru
                         </section>
                         <p className="card-text text-muted">
-                          Dapatkan akses buku untuk bahan ajar di kelas
+                          Dapatkan akses cerita untuk bahan ajar di kelas
                         </p>
-                        <a href="">
+                        <a href="/katalog">
                           <small className="text-primary fw-bold">
                             Lihat selengkapnya →
                           </small>
@@ -676,12 +678,12 @@ const Home = () => {
                           className="fw-bold mb-1"
                           style={{ fontSize: "1.1rem" }}
                         >
-                          Orang tua
+                          Umum
                         </section>
                         <p className="card-text text-muted">
                           Bantu tingkatkan belajar anak
                         </p>
-                        <a href="" className="">
+                        <a href="/katalog" className="">
                           <small className="text-primary fw-bold">
                             Lihat selengkapnya →
                           </small>
