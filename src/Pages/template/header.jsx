@@ -3,7 +3,7 @@ import { LogoutIcon } from "../Admin/adminLayout";
 import { useDispatch, useSelector } from "react-redux";
 import { getUserById } from "../../lib/redux/api/users";
 import { getNewAccessToken, signOut } from "../../lib/redux/api/auth";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 
 const Header = () => {
@@ -31,6 +31,11 @@ const Header = () => {
   }, []);
   const token = getCookie("refreshToken");
   const { user } = useSelector((state) => state.user);
+  const [role, setRole] = useState("")
+
+  useEffect(() => {
+    setRole(user?.role || "")
+  }, [user])
 
   return (
     <>
@@ -140,11 +145,11 @@ const Header = () => {
                   <ul className="dropdown-menu dropdown-menu-end text-small shadow mt-3">
                     <div>
                       <p className="dropdown-item m-0 text-capitalize">
-                        {user?.role || "undefined"}
+                        {role.toLocaleLowerCase() || "undefined"}
                       </p>
                       <hr className="my-2" />
                     </div>
-                    {user.role === "siswa" ? (
+                    {role.toLocaleLowerCase() === "siswa" ? (
                       <li>
                         <Link
                           to={"/profile"}
@@ -157,7 +162,7 @@ const Header = () => {
                     ) : (
                       ""
                     )}
-                    {user.role === "admin" || user.role === "guru" ? (
+                    {role.toLowerCase() === "admin" || role.toLowerCase() === "guru" ? (
                       <li>
                         <Link
                           className="dropdown-item d-flex justify-content-between align-items-center"
@@ -167,7 +172,7 @@ const Header = () => {
                           Databases
                         </Link>
                       </li>
-                    ) : user.role === "siswa" ? (
+                    ) : role.toLocaleLowerCase() === "siswa" ? (
                       <li>
                         <Link
                           className="dropdown-item d-flex justify-content-between align-items-center"
@@ -192,9 +197,8 @@ const Header = () => {
                 </li>
               </ul>
               <ul
-                className={`navbar-nav mb-2 mb-lg-0 text-center text-xl-start ${
-                  token ? "d-none" : ""
-                }`}
+                className={`navbar-nav mb-2 mb-lg-0 text-center text-xl-start ${token ? "d-none" : ""
+                  }`}
               >
                 <li className="nav-item ms-3 pt-1">
                   <a href="/login" className="btn btn-sm btn-outline-light">
