@@ -720,7 +720,7 @@ const Home = () => {
                           aria-expanded="false"
                           aria-controls="flush-collapse1"
                         >
-                          Apa itu buku kemendikbudristek?
+                          Apa itu buku Cerita Panji Kediri
                         </button>
                       </h2>
                       <section
@@ -730,10 +730,9 @@ const Home = () => {
                         data-bs-parent="accordion-flushex"
                       >
                         <section className="accordion-body">
-                          Buku-buku yang dikembangkan dan diterbitkan oleh
-                          unit-unit kerja di Kementerian Pendidikan, Kebudayaan,
-                          Riset dan Teknologi untuk kebutuhan siswa, guru, atau
-                          masyarakat Indonesia.
+                          Dongeng yang dikembangkan dan diterbitkan oleh tim
+                          peneliti Universitas Nusantara PGRI Kediri yang di
+                          danai oleh DRTPM.
                         </section>
                       </section>
                     </section>
@@ -751,7 +750,7 @@ const Home = () => {
                           aria-expanded="false"
                           aria-controls="flush-collapse2"
                         >
-                          Bagaimana cara mendaftar di SIBI?
+                          Bagaimana cara mendaftar di Panji Kediri?
                         </button>
                       </h2>
                       <section
@@ -761,43 +760,14 @@ const Home = () => {
                         data-bs-parent="accordion-flushex"
                       >
                         <section className="accordion-body">
-                          Silahkan klik Daftar di bagian pojok kanan atas, lalu
+                          Silahkan klik Masuk di bagian pojok kanan atas, lalu
                           isi formulir dengan lengkap menggunakan data
                           sebenarnya. Lalu klik tombol Daftar di bagian bawah.
                           Proses pendaftaran selesai.
                         </section>
                       </section>
                     </section>
-                    <section
-                      className="accordion-item mb-2 border-0 bg-night text-white"
-                      style={{ backgroundColor: "#6686b7" }}
-                    >
-                      <h2 className="accordion-header" id="flushHd2">
-                        <button
-                          className="accordion-button collapsed ps-1 bg-night text-white"
-                          style={{ backgroundColor: "#6686b7" }}
-                          type="button"
-                          data-bs-toggle="collapse"
-                          data-bs-target="#flush-collapse3"
-                          aria-expanded="false"
-                          aria-controls="flush-collapse3"
-                        >
-                          Siapakah pelaku perbukuan?
-                        </button>
-                      </h2>
-                      <section
-                        id="flush-collapse3"
-                        className="accordion-collapse collapse"
-                        aria-labelledby="flushHd3"
-                        data-bs-parent="accordion-flushex"
-                      >
-                        <section className="accordion-body">
-                          Pelaku perbukuan terdiri atas Penulis, Penerjemah,
-                          Penyadur, Editor, Desainer, Ilustrator, Pencetak,
-                          Pengembang Buku Elektronik, Penerbit, dan Toko Buku.
-                        </section>
-                      </section>
-                    </section>
+
                     <section
                       className="accordion-item mb-2 border-0 bg-night text-white"
                       style={{ backgroundColor: "#6686b7" }}
@@ -823,8 +793,8 @@ const Home = () => {
                         data-bs-parent="accordion-flushex"
                       >
                         <section className="accordion-body">
-                          Panduan Sibi Sering Ditanyakan Karena mungkin email
-                          kamu tidak aktif, salah memasukan email ketika
+                          Panduan Panji Kediri Sering Ditanyakan Karena mungkin
+                          email kamu tidak aktif, salah memasukan email ketika
                           mendaftar, atau mungkin masuk ke folder promosi atau
                           spam di email kamu.
                         </section>
@@ -844,7 +814,8 @@ const Home = () => {
                           aria-expanded="false"
                           aria-controls="flush-collapse5"
                         >
-                          Apakah saya boleh mencetak buku yang ada di SIBI?
+                          Apakah saya boleh mencetak buku yang ada di Panji
+                          Kediri?
                         </button>
                       </h2>
                       <section
@@ -854,13 +825,10 @@ const Home = () => {
                         data-bs-parent="accordion-flushex"
                       >
                         <section className="accordion-body">
-                          Buku yang diunggah di SIBI merupakan buku yang
-                          diterbitkan oleh Pemerintah Indonesia, sehingga
-                          masyarakat Indonesia diizinkan memanfaatkan buku ini
-                          termasuk mengunduh dan mencetaknya. Namun, jika akan
-                          diperjual belikan, dilarang menjual lebih dari harga
-                          eceran tertinggi (HET) yang tertera di sampul belakang
-                          buku.
+                          Buku yang diunggah di Panji Kediri merupakan buku yang
+                          diterbitkan oleh Universitas Nusantara PGRI Kediri,
+                          sehingga masyarakat Indonesia diizinkan memanfaatkan
+                          buku ini.
                         </section>
                       </section>
                     </section>

@@ -39,13 +39,13 @@ const Header = () => {
           <section className="container">
             <Link to={"/"} className="navbar-brand d-flex align-items-center">
               <img
-                src="https://buku.kemdikbud.go.id/assets/image/logo-sibi.png"
+                src="https://logobagus.com/wp-content/uploads/2024/01/logo_unp_kediri-768x769.png"
                 height={50}
                 alt="Logo"
               />
               <section className="navbar-dark" style={{ fontSize: "0.95rem" }}>
-                <section>Sistem Informasi</section>
-                <section className="fw-bold">Perbukuan Indonesia</section>
+                <section>Dongeng Nusantara</section>
+                <section className="fw-bold">Panji Kediri</section>
               </section>
             </Link>
             <button
@@ -118,7 +118,9 @@ const Header = () => {
                   </ul>
                 </li>
                 <li
-                  className={`nav-item dropdown mx-1 ${token ? "" : "d-none"} mt-4 mt-lg-0`}
+                  className={`nav-item dropdown mx-1 ${
+                    token ? "" : "d-none"
+                  } mt-4 mt-lg-0`}
                 >
                   <Link
                     to="#"
