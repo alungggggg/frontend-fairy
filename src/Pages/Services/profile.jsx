@@ -30,21 +30,61 @@ const profile = () => {
   }, []);
 
   return (
-    <UserLayout>
-      nama : {data.nama} <br />
-      username : {data?.username} <br />
-      email : {data?.email} <br />
-      role : {data.role} <br />
-      {data.role == "SISWA" ? (
-        <>
-          Kelas : {data?.kelas} <br />
-          sekolah : {data?.sekolah} <br />
-        </>
-      ) : (
-        ""
-      )}
-      <a href="/profile/update">update Profile</a>
-    </UserLayout>
+    <>
+      <UserLayout>
+        <section className="container mt-5 mb-5">
+          <section className="row">
+            <section className="col-4 bg-primary-subtle"></section>
+            <section className="col-8 p-0 bg-white">
+              <p className="text-center border-bottom border-secondary-subtle fw-bold p-2">
+                Information
+              </p>
+              <section className="row text-center ">
+                <section className="col-6 p-0">
+                  <p className="fw-bold mb-0">Nama</p>
+                  <p className="text-body-secondary">{data.nama}</p>
+                </section>
+                <section className="col-6">
+                  <p className="fw-bold mb-0">Username</p>
+                  <p className="text-body-secondary">{data?.username}</p>
+                </section>
+              </section>
+              <section className="row text-center ">
+                <section className="col-6">
+                  <p className="fw-bold mb-0">Email</p>
+                  <p className="text-body-secondary">{data?.email}</p>
+                </section>
+                <section className="col-6">
+                  <p className="fw-bold mb-0">Role</p>
+                  <p className="text-body-secondary">{data.role}</p>
+                </section>
+              </section>
+              {data.role == "siswa" ? (
+                <>
+                  <section className="row text-center border-bottom border-secondary-subtle">
+                    <section className="col-6">
+                      <p className="fw-bold mb-0">Kelas</p>
+                      <p className="text-body-secondary">{data?.kelas}</p>
+                    </section>
+                    <section className="col-6">
+                      <p className="fw-bold mb-0">Sekolah</p>
+                      <p className="text-body-secondary">{data.sekolah}</p>
+                    </section>
+                  </section>
+                </>
+              ) : (
+                ""
+              )}
+              <section className="p-3">
+                <a href="/profile/update" className="btn btn-orange text-white">
+                  Update Profile
+                </a>
+              </section>
+            </section>
+          </section>
+        </section>
+      </UserLayout>
+    </>
   );
 };
 export default profile;
