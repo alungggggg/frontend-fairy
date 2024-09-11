@@ -1,9 +1,10 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { getUserById } from "../../lib/redux/api/users";
 import { getCookie } from "cookies-next";
 import { getNewAccessToken } from "../../lib/redux/api/auth";
 import UserLayout from "./Component/userLayout";
+import { Link } from "react-router-dom";
 
 const profile = () => {
   const dispatch = useDispatch();
@@ -22,6 +23,12 @@ const profile = () => {
       }
     }
   }
+
+  const [role, setRole] = useState("")
+
+  useEffect(() => {
+    setRole(data?.role || "")
+  }, [data])
 
   useEffect(() => {
     if (userID) {
@@ -42,7 +49,7 @@ const profile = () => {
               <section className="row text-center ">
                 <section className="col-6 p-0">
                   <p className="fw-bold mb-0">Nama</p>
-                  <p className="text-body-secondary">{data.nama}</p>
+                  <p className="text-body-secondary">{data?.nama}</p>
                 </section>
                 <section className="col-6">
                   <p className="fw-bold mb-0">Username</p>
@@ -56,10 +63,10 @@ const profile = () => {
                 </section>
                 <section className="col-6">
                   <p className="fw-bold mb-0">Role</p>
-                  <p className="text-body-secondary">{data.role}</p>
+                  <p className="text-body-secondary text-capitalize">{role}</p>
                 </section>
               </section>
-              {data.role == "siswa" ? (
+              {role.toLowerCase() == "siswa" ? (
                 <>
                   <section className="row text-center border-bottom border-secondary-subtle">
                     <section className="col-6">
@@ -76,9 +83,9 @@ const profile = () => {
                 ""
               )}
               <section className="p-3">
-                <a href="/profile/update" className="btn btn-orange text-white">
+                <Link to={"/profile/update"} className="btn btn-orange text-white">
                   Update Profile
-                </a>
+                </Link>
               </section>
             </section>
           </section>

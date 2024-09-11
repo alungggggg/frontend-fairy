@@ -8,8 +8,9 @@ import { useNavigate } from "react-router-dom";
 import { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { getNewAccessToken } from "../../lib/redux/api/auth";
-import { getUserById } from "../../lib/redux/api/users";
+import { getUserById, updateUserProfile } from "../../lib/redux/api/users";
 import UserLayout from "./Component/userLayout";
+import Swal from 'sweetalert2'
 
 const schema = Yup.object().shape({
   nama: Yup.string()
@@ -34,39 +35,59 @@ const schema = Yup.object().shape({
 //     }
 //   );
 
-const submit = async (values, token, Navigate) => {
-  try {
-    // api/profile/update
-    const p = await axios.post(
-      `http://localhost:5000/api/profile/update/${token}`,
-      values
-    );
-    if (p.status == 200) {
-      Navigate("/profile");
-    }
-  } catch (error) {
-    console.log(error.message);
-  }
-};
+
 const updateProfile = () => {
   const Navigate = useNavigate();
   const dispatch = useDispatch();
   const userID = getCookies("userID");
   const { user: data } = useSelector((state) => state.user);
+  const navigate = useNavigate()
+
+  const getProfile = async () => {
+    const result = await dispatch(getUserById(userID));
+    if (result.error) {
+      if (result.error.message === "401") {
+        console.log("get new access token");
+        await dispatch(getNewAccessToken());
+        return getProfile();
+      }
+    }
+  }
 
   useEffect(() => {
-    const getProfile = async () => {
-      const result = await dispatch(getUserById(userID));
-      if (result.error) {
-        if (result.error.message === "401") {
-          console.log("get new access token");
-          await dispatch(getNewAccessToken());
-          return getProfile();
-        }
-      }
-    };
     getProfile();
   }, []);
+
+  const [role, setRole] = useState("")
+  useEffect(() => {
+    setRole(data?.role || "")
+  }, [data])
+
+  const submit = async (values) => {
+    const res = await dispatch(updateUserProfile(values))
+
+    console.log(res.error);
+
+    if (res.error) {
+      if (res.error.message === "401") {
+        console.log("get new access token");
+        await dispatch(getNewAccessToken());
+        return submit(values);
+      }
+    }
+
+    Swal.fire({
+      title: "Success",
+      text: "Profile has been updated!",
+      icon: "success"
+    });
+
+    return navigate("/profile")
+
+
+
+
+  };
 
   return (
     <UserLayout>
@@ -78,17 +99,18 @@ const updateProfile = () => {
               <Formik
                 enableReinitialize
                 initialValues={{
-                  nama: data.nama || "",
-                  username: data.username || "",
-                  email: data.email || "",
-                  kelas: data.kelas || "",
-                  sekolah: data.sekolah || "",
+                  id: data?.id || "",
+                  nama: data?.nama || "",
+                  username: data?.username || "",
+                  email: data?.email || "",
+                  kelas: data?.kelas || "",
+                  sekolah: data?.sekolah || "",
                 }}
                 validationSchema={schema}
                 validateOnChange={false}
                 validateOnBlur={false}
                 onSubmit={(values, { setSubmitting, errors }) => {
-                  submit(values, token, Navigate);
+                  submit(values);
                 }}
               >
                 <Form>
@@ -112,6 +134,7 @@ const updateProfile = () => {
                         type="text"
                         className="form-control"
                         placeholder="Masukan username"
+                        disabled={true}
                       />
                     </section>
                     <ErrorMessage name="username" render={errorMessage} />
@@ -126,11 +149,12 @@ const updateProfile = () => {
                         type="text"
                         className="form-control"
                         placeholder="Masukan email"
+                        disabled={true}
                       />
                     </section>
                     <ErrorMessage name="email" renders={errorMessage} />
                   </section>
-                  {data.role == "siswa" ? (
+                  {role.toLowerCase() == "siswa" ? (
                     <>
                       <section className="form-group my-4">
                         <label className="form-label fw-bold float-start">

@@ -22,6 +22,27 @@ export const getUserById = createAsyncThunk(
   }
 );
 
+export const updateUserProfile = createAsyncThunk(
+  "user/updateUserProfile",
+  async (payload) => {
+    try {
+      const res = await fairyApi.post(`/profile/update/${payload.id}`, payload)
+
+      if (res.data) {
+        return res.data
+      }
+
+      throw new Error()
+    } catch (error) {
+      if (error instanceof AxiosError) {
+        throw error.response ? error.response.status : error.message
+      }
+
+      throw error
+    }
+  }
+)
+
 const usersSlice = createSlice({
   name: "usersSlice",
   initialState: {
@@ -44,7 +65,19 @@ const usersSlice = createSlice({
         state.isLoading = false;
         // state.user = [];
         state.error = action.error.message;
-      });
+      })
+      .addCase(updateUserProfile.pending, (state) => {
+        state.isLoading = true
+      })
+      .addCase(updateUserProfile.rejected, (state, action) => {
+        state.error = action.error.message
+        state.isLoading = false
+      })
+      .addCase(updateUserProfile.fulfilled, (state, action) => {
+        state.user = action.paylaod
+        state.error = null
+        state.isLoading = false
+      })
   },
 });
 
