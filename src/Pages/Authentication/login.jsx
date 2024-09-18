@@ -2,7 +2,7 @@ import * as Yup from "yup";
 import swal from "../../Component/alert";
 import { Formik, Form, Field, ErrorMessage } from "formik";
 import { useEffect } from "react";
-import { useLocation } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { signIn } from "../../lib/redux/api/auth";
 import errorMessage from "../../Component/errorMessage";
@@ -108,12 +108,12 @@ const login = () => {
                         KATA SANDI
                       </label>
                       <label className="form-label float-end">
-                        <a
-                          href="/forgot-password"
+                        <Link
+                          to={"/forgot-password"}
                           className="text-blue text-decoration-none"
                         >
                           LUPA KATA SANDI?
-                        </a>
+                        </Link>
                       </label>
                     </section>
                     <section className="input-group">
@@ -138,21 +138,21 @@ const login = () => {
                     <section className="my-2">Atau</section>
                     <p className="mb-0">
                       Belum punya akun?
-                      <a
-                        href="/register"
+                      <Link
+                        to={"/register"}
                         className="text-decoration-none text-blue"
                       >
                         Daftar disini
-                      </a>
+                      </Link>
                     </p>
                     <p className="mb-0">
                       Lupa kata sandi?
-                      <a
-                        href="/forgot-password"
+                      <Link
+                        to={"/forgot-password"}
                         className="text-decoration-none text-blue"
                       >
                         Klik disini
-                      </a>
+                      </Link>
                     </p>
                   </section>
                 </Form>

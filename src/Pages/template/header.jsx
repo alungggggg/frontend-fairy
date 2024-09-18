@@ -188,14 +188,14 @@ const Header = () => {
                       </li>
                     ) : null}
                     <li>
-                      <a
+                      <Link
                         className="dropdown-item d-flex justify-content-between align-items-center"
                         style={{ cursor: "pointer" }}
                         onClick={() => handleLogout()}
                       >
                         Sign out
                         <LogoutIcon />
-                      </a>
+                      </Link>
                     </li>
                   </ul>
                 </li>
@@ -206,9 +206,9 @@ const Header = () => {
                 }`}
               >
                 <li className="nav-item ms-3 pt-1">
-                  <a href="/login" className="btn btn-sm btn-outline-light">
+                  <Link to={"/login"} className="btn btn-sm btn-outline-light">
                     Masuk
-                  </a>
+                  </Link>
                 </li>
               </ul>
             </section>

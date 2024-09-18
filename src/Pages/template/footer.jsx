@@ -1,3 +1,5 @@
+import { Link } from "react-router-dom";
+
 const Footer = () => {
   return (
     <>
@@ -24,29 +26,29 @@ const Footer = () => {
               <ul className="nav flex-column">
                 <section className="row">
                   <section className="col-md-6">
-                    <a
-                      href="/"
+                    <Link
+                      to={"/"}
                       className="nav-link text-white"
                       aria-current="page"
                     >
                       Beranda
-                    </a>
-                    <a href="/katalog" className="nav-link text-white">
+                    </Link>
+                    <Link to={"/katalog"} className="nav-link text-white">
                       Katalog Dongeng
-                    </a>
-                    <a href="/profile" className="nav-link text-white">
-                      Profile
-                    </a>
-                  </section>
-                  <section className="col-md-6">
-                    <a
-                      href="/petunjuk"
+                    </Link>
+                    <Link
+                      to={"/petunjuk"}
                       className="nav-link text-white"
                       rel="noreferrer"
                     >
                       Petunjuk
-                    </a>
+                    </Link>
                   </section>
+                  {/* <section className="col-md-6">
+                    <Link to={"/profile"} className="nav-link text-white">
+                      Profile
+                    </Link>
+                  </section> */}
                 </section>
               </ul>
             </section>
@@ -65,7 +67,7 @@ const Footer = () => {
                 </svg>
                 Jalan K. H. Achmad Dahlan 76 Mojoroto Kota Kediri
               </p>
-              <a href="" className="text-white text-decoration-none">
+              <Link to={""} className="text-white text-decoration-none">
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
                   width={16}
@@ -80,9 +82,9 @@ const Footer = () => {
                   />
                 </svg>
                 0856-3402-402
-              </a>
+              </Link>
               <br />
-              <a href="" className="text-white text-decoration-none">
+              <Link to={""} className="text-white text-decoration-none">
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
                   width={16}
@@ -94,7 +96,7 @@ const Footer = () => {
                   <path d="M.05 3.555A2 2 0 0 1 2 2h12a2 2 0 0 1 1.95 1.555L8 8.414zM0 4.697v7.104l5.803-3.558zM6.761 8.83l-6.57 4.027A2 2 0 0 0 2 14h12a2 2 0 0 0 1.808-1.144l-6.57-4.027L8 9.586zm3.436-.586L16 11.801V4.697z" />
                 </svg>
                 encil@unpkediri.ac.id
-              </a>
+              </Link>
             </section>
           </section>
           <section className="row">
@@ -105,7 +107,7 @@ const Footer = () => {
               </p>
             </section>
             <section className="col text-end">
-              <a href="#" className="btn btn-warning rounded">
+              <Link to={"#"} className="btn btn-warning rounded">
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
                   width={16}
@@ -116,7 +118,7 @@ const Footer = () => {
                 >
                   <path d="M16 8A8 8 0 1 0 0 8a8 8 0 0 0 16 0m-7.5 3.5a.5.5 0 0 1-1 0V5.707L5.354 7.854a.5.5 0 1 1-.708-.708l3-3a.5.5 0 0 1 .708 0l3 3a.5.5 0 0 1-.708.708L8.5 5.707z" />
                 </svg>
-              </a>
+              </Link>
             </section>
           </section>
         </section>

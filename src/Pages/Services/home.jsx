@@ -7,6 +7,7 @@ import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { getNewAccessToken } from "../../lib/redux/api/auth";
 import { getUserById } from "../../lib/redux/api/users";
+import { Link } from "react-router-dom";
 
 const PopularBook = async () => {
   const { data } = await fairyApi.get("/popular");
@@ -227,16 +228,16 @@ const Home = () => {
                 </p>
               </section>
               <section className="col-lg-6 text-end">
-                <a href="/katalog" className="btn btn-sm btn-outline-primary">
+                <Link to={"/katalog"} className="btn btn-sm btn-outline-primary">
                   Lihat semua buku
-                </a>
+                </Link>
               </section>
             </section>
             <section className="row mt-4">
               {populer.map((book) => (
                 <section className="col-lg-3 my-2" key={book.id}>
-                  <a
-                    href={"dongeng/detail/" + book.id}
+                  <Link
+                    to={"dongeng/detail/" + book.id}
                     className="text-decoration-none text-dark"
                   >
                     <section className="card border-0 mt-3 CardBook_card">
@@ -265,7 +266,7 @@ const Home = () => {
                         <section className="my-2">{book.title}</section>
                       </section>
                     </section>
-                  </a>
+                  </Link>
                 </section>
               ))}
             </section>
@@ -424,14 +425,14 @@ const Home = () => {
                   </p>
                 </section>
                 <section className="col-lg-6 text-end">
-                  <a href="#" className="btn btn-sm btn-outline-primary">
+                  <Link to={"#"} className="btn btn-sm btn-outline-primary">
                     Lihat semua buku audio
-                  </a>
+                  </Link>
                 </section>
               </section>
               <section className="row mt-4">
                 <section className="col-lg-3 my-2">
-                  <a href="#" className="text-decoration-none text-dark">
+                  <Link to={"#"} className="text-decoration-none text-dark">
                     <section className="card border-0 mt-3 CardBook_card">
                       <section
                         className="card-header text-center text-lg-start bg-white p-0 border-0"
@@ -460,10 +461,10 @@ const Home = () => {
                         </section>
                       </section>
                     </section>
-                  </a>
+                  </Link>
                 </section>
                 <section className="col-lg-3 my-2">
-                  <a href="#" className="text-decoration-none text-dark">
+                  <Link to={"#"} className="text-decoration-none text-dark">
                     <section className="card border-0 mt-3 CardBook_card">
                       <section
                         className="card-header text-center text-lg-start bg-white p-0 border-0"
@@ -492,10 +493,10 @@ const Home = () => {
                         </section>
                       </section>
                     </section>
-                  </a>
+                  </Link>
                 </section>
                 <section className="col-lg-3 my-2">
-                  <a href="#" className="text-decoration-none text-dark">
+                  <Link to={"#"} className="text-decoration-none text-dark">
                     <section className="card border-0 mt-3 CardBook_card">
                       <section
                         className="card-header text-center text-lg-start bg-white p-0 border-0"
@@ -524,10 +525,10 @@ const Home = () => {
                         </section>
                       </section>
                     </section>
-                  </a>
+                  </Link>
                 </section>
                 <section className="col-lg-3 my-2">
-                  <a href="#" className="text-decoration-none text-dark">
+                  <Link to={"#"} className="text-decoration-none text-dark">
                     <section className="card border-0 mt-3 CardBook_card">
                       <section
                         className="card-header text-center text-lg-start bg-white p-0 border-0"
@@ -556,7 +557,7 @@ const Home = () => {
                         </section>
                       </section>
                     </section>
-                  </a>
+                  </Link>
                 </section>
               </section>
             </section>
@@ -615,11 +616,11 @@ const Home = () => {
                         <p className="card-text text-muted">
                           Belajar lebih asik dengan cerita panji kediri
                         </p>
-                        <a href="/katalog">
+                        <Link to={"/katalog"}>
                           <small className="text-primary fw-bold">
                             Lihat selengkapnya →
                           </small>
-                        </a>
+                        </Link>
                       </section>
                     </section>
                   </section>
@@ -649,11 +650,11 @@ const Home = () => {
                         <p className="card-text text-muted">
                           Dapatkan akses cerita untuk bahan ajar di kelas
                         </p>
-                        <a href="/katalog">
+                        <Link to={"/katalog"}>
                           <small className="text-primary fw-bold">
                             Lihat selengkapnya →
                           </small>
-                        </a>
+                        </Link>
                       </section>
                     </section>
                   </section>
@@ -683,11 +684,11 @@ const Home = () => {
                         <p className="card-text text-muted">
                           Bantu tingkatkan belajar anak
                         </p>
-                        <a href="/katalog" className="">
+                        <Link to={"/katalog"} className="">
                           <small className="text-primary fw-bold">
                             Lihat selengkapnya →
                           </small>
-                        </a>
+                        </Link>
                       </section>
                     </section>
                   </section>
@@ -834,9 +835,9 @@ const Home = () => {
                         </section>
                       </section>
                     </section>
-                    <a href="#" className="btn my-5 btn-outline-light">
+                    <Link to={"#"} className="btn my-5 btn-outline-light">
                       Lihat semua pertanyaan
-                    </a>
+                    </Link>
                   </section>
                 </section>
               </section>

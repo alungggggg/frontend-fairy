@@ -1,5 +1,6 @@
 import Header from "../template/header";
 import Footer from "../template/footer";
+import { Link } from "react-router-dom";
 
 const Petunjuk = () => {
   return (
@@ -145,7 +146,7 @@ const Petunjuk = () => {
         >
           <section className="container p-3 text-center">
             <h1 className="text-blue fw-bold mb-3">Jelajahi buku sekarang</h1>
-            <a href="/katalog" className="btn btn-orange text-white">
+            <Link to={"/katalog"} className="btn btn-orange text-white">
               Buka katalog buku
               <svg
                 xmlns="http://www.w3.org/2000/svg"
@@ -160,7 +161,7 @@ const Petunjuk = () => {
                   d="M4.646 1.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1 0 .708l-6 6a.5.5 0 0 1-.708-.708L10.293 8 4.646 2.354a.5.5 0 0 1 0-.708"
                 />
               </svg>
-            </a>
+            </Link>
           </section>
         </section>
         <section

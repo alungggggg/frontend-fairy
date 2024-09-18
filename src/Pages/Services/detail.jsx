@@ -1,7 +1,7 @@
 import Template from "../template/template";
 import { useState, useEffect, useRef } from "react";
 import axios from "axios";
-import { useNavigate, useParams } from "react-router-dom";
+import { Link, useNavigate, useParams } from "react-router-dom";
 
 
 const getData = async (id) => {
@@ -41,31 +41,31 @@ const Detail = () => {
                 <nav>
                   <ol className="breadcrumb">
                     <li className="breadcrumb-item">
-                      <a href="/" className="text-decoration-none text-blue">
+                      <Link to={"/"} className="text-decoration-none text-blue">
                         Beranda
-                      </a>
+                      </Link>
                     </li>
                     <li className="breadcrumb-item">
-                      <a
-                        href="/katalog"
+                      <Link
+                        to={"/katalog"}
                         className="text-decoration-none text-blue"
                       >
                         Katalog
-                      </a>
+                      </Link>
                     </li>
                     <li className="breadcrumb-item">
-                      <a
-                        href="/katalog"
+                      <Link
+                        to={"/katalog"}
                         className="text-decoration-none text-blue"
                       >
                         Buku Teks Kurikulum Merdeka
-                      </a>
+                      </Link>
                     </li>
 
                     <li className="breadcrumb-item active" aria-current="page">
-                      <a href="/" className="text-decoration-none text-blue">
+                      <Link to={"/"} className="text-decoration-none text-blue">
                         {detail.title}
-                      </a>
+                      </Link>
                     </li>
                   </ol>
                 </nav>
@@ -146,7 +146,7 @@ const Detail = () => {
                 <h4>Rekomendasi buku lainya</h4>
                 <section className="row my-3">
                   <section className="col-lg-3 my-2">
-                    <a href="/" className="text-decoration-none text-dark">
+                    <Link to={"/"} className="text-decoration-none text-dark">
                       <section className="card border-0 mt-3 Cardbook_card">
                         <section
                           className="card-header text-center text-lg-start bg-white p-0 border-0"
@@ -176,10 +176,10 @@ const Detail = () => {
                           </section>
                         </section>
                       </section>
-                    </a>
+                    </Link>
                   </section>
                   <section className="col-lg-3 my-2">
-                    <a href="/" className="text-decoration-none text-dark">
+                    <Link to={"/"} className="text-decoration-none text-dark">
                       <section className="card border-0 mt-3 Cardbook_card">
                         <section
                           className="card-header text-center text-lg-start bg-white p-0 border-0"
@@ -209,10 +209,10 @@ const Detail = () => {
                           </section>
                         </section>
                       </section>
-                    </a>
+                    </Link>
                   </section>
                   <section className="col-lg-3 my-2">
-                    <a href="/" className="text-decoration-none text-dark">
+                    <Link to={"/"} className="text-decoration-none text-dark">
                       <section className="card border-0 mt-3 Cardbook_card">
                         <section
                           className="card-header text-center text-lg-start bg-white p-0 border-0"
@@ -242,10 +242,10 @@ const Detail = () => {
                           </section>
                         </section>
                       </section>
-                    </a>
+                    </Link>
                   </section>
                   <section className="col-lg-3 my-2">
-                    <a href="/" className="text-decoration-none text-dark">
+                    <Link to={"/"} className="text-decoration-none text-dark">
                       <section className="card border-0 mt-3 Cardbook_card">
                         <section
                           className="card-header text-center text-lg-start bg-white p-0 border-0"
@@ -275,7 +275,7 @@ const Detail = () => {
                           </section>
                         </section>
                       </section>
-                    </a>
+                    </Link>
                   </section>
                 </section>
               </section>

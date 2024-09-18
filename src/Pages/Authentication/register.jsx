@@ -1,4 +1,4 @@
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import schema from "../../../validation/userValidate";
 import { Formik, Form, Field, ErrorMessage } from "formik";
 import errorMessage from "../../Component/errorMessage";
@@ -147,9 +147,9 @@ const register = () => {
                 <section className="form-group text-center mt-4">
                   <p>
                     Sudah punya akun?
-                    <a href="/login" className="text-decoration-none text-blue">
+                    <Link to={"/login"} className="text-decoration-none text-blue">
                       Masuk disini
-                    </a>
+                    </Link>
                   </p>
                 </section>
               </section>

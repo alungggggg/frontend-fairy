@@ -5,7 +5,7 @@ import { pdfjs, Document, Page } from "react-pdf";
 import Header from "../template/header";
 import Footer from "../template/footer";
 import axios from "axios";
-import { useParams } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 
 pdfjs.GlobalWorkerOptions.workerSrc = new URL(
   "pdfjs-dist/build/pdf.worker.min.mjs",
@@ -142,9 +142,9 @@ const dongeng = () => {
               <p className="">
                 Ayo mulai menulis ulang cerita di atas dengan cara Anda sendiri!
               </p>
-              <a href="/dongeng/write" className="btn btn-orange text-white">
+              <Link to={"/dongeng/write"} className="btn btn-orange text-white">
                 Mulai Menulis
-              </a>
+              </Link>
             </section>
           </section>
           {/* <section className="card mt-5">
