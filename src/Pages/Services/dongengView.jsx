@@ -115,7 +115,7 @@ const dongeng = () => {
                 type="button"
                 data-bs-target="#carouselExample"
                 data-bs-slide="prev"
-                onClick={() => book.current.pageFlip().flipPrev()}
+                // onClick={() => book.current.pageFlip().flipPrev()}
               >
                 <span
                   className="carousel-control-prev-icon bg-dark"
@@ -128,7 +128,7 @@ const dongeng = () => {
                 type="button"
                 data-bs-target="#carouselExample"
                 data-bs-slide="next"
-                onClick={() => book.current.pageFlip().flipNext()}
+                // onClick={() => book.current.pageFlip().flipNext()}
               >
                 <span
                   className="carousel-control-next-icon bg-dark"
