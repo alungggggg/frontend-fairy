@@ -1,3 +1,5 @@
+import { Link } from "react-router-dom";
+
 const itemList = ({ items }) => {
   if (items.length == 0) {
     return (
@@ -24,8 +26,8 @@ const itemList = ({ items }) => {
     <>
       {items.map((item) => (
         <section className="col-lg-4 my-2" key={item.id}>
-          <a
-            href={`/dongeng/detail/${item.id}`}
+          <Link
+            to={`/dongeng/detail/${item.id}`}
             className="text-decoration-none text-dark"
           >
             <section className="card border-0 mt-3 CardBook_card">
@@ -53,7 +55,7 @@ const itemList = ({ items }) => {
                 <section className="my-2">{item.title}</section>
               </section>
             </section>
-          </a>
+          </Link>
         </section>
       ))}
     </>

@@ -1,23 +1,23 @@
 import Header from "../template/header";
 import Footer from "../template/footer";
 import { useState, useEffect } from "react";
-import ItemList from "./Component/itemList"
-import Pagination from "../../Component/pagination"
+import ItemList from "./Component/itemList";
+import Pagination from "../../Component/pagination";
 import axios from "axios";
 
 const Katalog = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const [itemsPerPage] = useState(10);
   const [items, setItems] = useState([]);
-  const [searchTerm, setSearchTerm] = useState('');
+  const [searchTerm, setSearchTerm] = useState("");
 
   useEffect(() => {
     const fetchDongeng = async () => {
       const response = await axios.get("http://localhost:5000/api/dongeng");
-      setItems(response.data)
-    }
+      setItems(response.data);
+    };
 
-    fetchDongeng()
+    fetchDongeng();
   }, []);
 
   const handleSearch = (event) => {
@@ -26,7 +26,7 @@ const Katalog = () => {
   };
 
   // Filter items berdasarkan pencarian
-  const filteredItems = items.filter(item =>
+  const filteredItems = items.filter((item) =>
     item.title.toLowerCase().includes(searchTerm.toLowerCase())
   );
 
@@ -34,19 +34,18 @@ const Katalog = () => {
   const indexOfFirstItem = indexOfLastItem - itemsPerPage;
   const currentItems = filteredItems.slice(indexOfFirstItem, indexOfLastItem);
 
-  const paginate = pageNumber => setCurrentPage(pageNumber);
+  const paginate = (pageNumber) => setCurrentPage(pageNumber);
 
   return (
     <>
       <Header />
       <main>
-        <section className="bg-hero k-hero">
-        </section>
+        <section className="bg-hero k-hero"></section>
         <section className="bg-white">
           <section className="container px-3 py-5">
             <section className="justify-content-center">
               <section className="text-muted text-end mb-3">
-                Buku Teks Kurikulum Merdeka
+                <p>Cerita Panji Kediri</p>
               </section>
               <section>
                 <section className="position-relative">
@@ -70,7 +69,11 @@ const Katalog = () => {
                       aria-label="Cari buku disini"
                       onChange={handleSearch}
                     />
-                    <button className="btn btn-orange text-white" type="button" onClick={handleSearch}>
+                    <button
+                      className="btn btn-orange text-white"
+                      type="button"
+                      onClick={handleSearch}
+                    >
                       Cari
                     </button>
                   </section>
