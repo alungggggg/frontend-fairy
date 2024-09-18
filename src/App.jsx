@@ -1,5 +1,10 @@
 import "./App.css";
-import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import {
+  BrowserRouter as Router,
+  Routes,
+  Route,
+  HashRouter,
+} from "react-router-dom";
 import kernel from "./Pages/kernel";
 import Test from "./Pages/test";
 import ProfileTest from "./Pages/profile";
@@ -21,7 +26,7 @@ import Write from "./Pages/Services/Siswa/write";
 function App() {
   return (
     <>
-      <Router>
+      <HashRouter>
         <Routes>
           <Route path="/" element={<kernel.home />} />
           <Route path="/profile" element={<kernel.profile />} />
@@ -79,7 +84,7 @@ function App() {
 
           <Route path="*" element={<kernel.err404 />} />
         </Routes>
-      </Router>
+      </HashRouter>
     </>
   );
 }
