@@ -96,8 +96,8 @@ const dongeng = () => {
             </section>
             <section className="card-body">
               <Document
-                file={file}
-                // file="http://localhost:5000/pdf/IMG-20240722-WA0008 (1).pdf"
+                // file={file}
+                file="https://srv1092-files.hstgr.io/be6ac0f5b5453591/files/public_html/1.pdf"
                 onLoadSuccess={onDocumentLoadSuccess}
               >
                 <HTMLFlipBook
