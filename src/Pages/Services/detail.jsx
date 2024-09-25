@@ -11,14 +11,14 @@ const rekomendasiBuku = [
 ];
 
 const getData = async (id) => {
-  const response = await axios.get(`http://localhost:5000/api/dongeng/${id}`);
+  const response = await axios.get(`https://test-backend-pink.vercel.app/api/dongeng/${id}`);
   return response.data;
 };
 
 const sumview = async (id) => {
   try {
     const response = await axios.get(
-      `http://localhost:5000/api/dongengview/${id}`
+      `https://test-backend-pink.vercel.app/api/dongengview/${id}`
     );
     return response.data;
   } catch (error) {

@@ -21,7 +21,7 @@ const dongeng = () => {
     const getFile = async () => {
       try {
         const Response = await axios.get(
-          `http://localhost:5000/api/dongeng/${id}`
+          `https://test-backend-pink.vercel.app/api/dongeng/${id}`
         );
         setFile(Response.data.PdfPath);
       } catch (error) {
