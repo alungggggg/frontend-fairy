@@ -3,11 +3,15 @@ import { useState, useEffect, useRef } from "react";
 import axios from "axios";
 import { Link, useNavigate, useParams } from "react-router-dom";
 
+const rekomendasiBuku = [
+  {
+    title: "Panduan Guru: Belajar dan Bermain Berbasis Buku",
+    cover: "https://static.buku.kemdikbud.go.id/content/image/coverteks/coverkurikulum21/Belajar_dan_Bermain_Berbasis_Buku_BG_Paud_Cover.png",
+  },
+];
 
 const getData = async (id) => {
-  const response = await axios.get(
-    `http://localhost:5000/api/dongeng/${id}`
-  );
+  const response = await axios.get(`http://localhost:5000/api/dongeng/${id}`);
   return response.data;
 };
 
@@ -20,50 +24,50 @@ const sumview = async (id) => {
   } catch (error) {
     console.log(error.message);
   }
-}
+};
 
 const Detail = () => {
-  const navigate = useNavigate()
+  const navigate = useNavigate();
   const { id } = useParams();
   const [detail, setDetail] = useState([]);
 
   useEffect(() => {
-    getData(id).then((res) => setDetail(res))
-    sumview(id).then((res) => { })
+    getData(id).then((res) => setDetail(res));
+    sumview(id).then((res) => {});
   }, []);
   return (
     <>
       <Template
         content={
-          <main>
-            <section className="pt-3 bg-white">
+          <main className="bg-secondary-light">
+            <section className="pt-3 ">
               <section className="container p-3">
                 <nav>
                   <ol className="breadcrumb">
                     <li className="breadcrumb-item">
-                      <Link to={"/"} className="text-decoration-none text-blue">
+                      <Link
+                        to={"/"}
+                        className="text-decoration-none "
+                        style={{ color: "#d8a25e" }}
+                      >
                         Beranda
                       </Link>
                     </li>
                     <li className="breadcrumb-item">
                       <Link
                         to={"/katalog"}
-                        className="text-decoration-none text-blue"
+                        className="text-decoration-none "
+                        style={{ color: "#d8a25e" }}
                       >
                         Katalog
                       </Link>
                     </li>
-                    <li className="breadcrumb-item">
-                      <Link
-                        to={"/katalog"}
-                        className="text-decoration-none text-blue"
-                      >
-                        Buku Teks Kurikulum Merdeka
-                      </Link>
-                    </li>
-
                     <li className="breadcrumb-item active" aria-current="page">
-                      <Link to={"/"} className="text-decoration-none text-blue">
+                      <Link
+                        to={"/"}
+                        className="text-decoration-none "
+                        style={{ color: "#d8a25e" }}
+                      >
                         {detail.title}
                       </Link>
                     </li>
@@ -71,28 +75,40 @@ const Detail = () => {
                 </nav>
               </section>
             </section>
-            <section className="bg-white">
-              <section className="container p-4">
+            <section className="">
+              <section className="container">
                 <section
-                  className="row p-3 mb-5"
+                  className="row p-5 rounded shadow"
                   style={{
                     backgroundImage:
                       "url(https://buku.kemdikbud.go.id/assets/image/catalog/Background.png)",
                     backgroundRepeat: "no-repeat",
                     backgroundPosition: "100%",
                     backgroundSize: "cover",
-                    borderRadius: "15px",
+                    // borderRadius: "10px",
+                    backgroundColor: "rgba(216, 162, 94 , 0.2)",
                   }}
                 >
-                  <section className="col-lg-3 text-center d-flex align-items-center justify-content-center">
-                    <img src={detail.cover} className="hero-detail" alt="" />
-                  </section>
-                  <section className="col-lg-9 pt-5 pt-md-0">
-                    <button className="btn btn-sm rounded-pill btn-outline-danger">
+                  <section className="col-lg-3 text-center d-flex align-items-center justify-content-center position-relative">
+                    <img
+                      src={detail.cover}
+                      className="hero-detail img-fluid"
+                      alt=""
+                      style={{ height: "100%", width: "100%" }}
+                    ></img>
+                    <button
+                      className="btn btn-sm btn-danger position-absolute"
+                      style={{ top: "10px", left: "10px" }}
+                    >
                       Buku PDF
                     </button>
+                  </section>
+                  <section className="col-lg-9 pt-5 pt-md-0">
                     <h3 className="my-3">{detail.title}</h3>
-                    <button className="btn btn-sm btn-outline-primary py-2 mt-2" onClick={() => navigate(`/dongeng/read/${id}`)}>
+                    <button
+                      className="btn btn-sm btn-outline-primary py-2 mt-2"
+                      onClick={() => navigate(`/dongeng/read/${id}`)}
+                    >
                       <svg
                         xmlns="http://www.w3.org/2000/svg"
                         width="16"
@@ -110,7 +126,7 @@ const Detail = () => {
                     </button>
                     <section className="row align-items-center mb-3 mt-4">
                       <section className="col-6 col-lg-2">
-                        <span>DETAIL BUKU</span>
+                        <span>DETAIL DONGENG</span>
                       </section>
                       <section className="col-5 col-lg-10 p-0">
                         <hr />
@@ -119,20 +135,16 @@ const Detail = () => {
                     <section className="row">
                       <section className="col-lg-2 mb-2 mb-md-0">
                         <section>Penerbit</section>
-                        <small className="text-muted">Pusat Perbukuan</small>
-                      </section>
-                      <section className="col-lg-3 mb-2 mb-md-0">
-                        <section>ISBN</section>
-                        <small className="text-muted">978-623-118-102-2</small>
+                        <small className="text-muted">-</small>
                       </section>
                       <section className="col-lg-2 mb-2 mb-md-0">
                         <section>Edisi</section>
-                        <small className="text-muted"></small>
+                        <small className="text-muted">2024</small>
                       </section>
                       <section className="col-lg-3 mb-2 mb-md-0">
                         <section>Penulis</section>
                         <small className="text-muted">
-                          Dyah M. Sulistyati, I Wayan Wijania, Sri Wahyaningsih
+                          Universias Nusantara PGRI Kediri
                         </small>
                       </section>
                     </section>
@@ -141,142 +153,53 @@ const Detail = () => {
               </section>
             </section>
 
-            <section className="py-5 bg-white">
-              <section className="container p-3">
+            <section className="py-5">
+              <section className="container">
                 <h4>Rekomendasi buku lainya</h4>
                 <section className="row my-3">
-                  <section className="col-lg-3 my-2">
-                    <Link to={"/"} className="text-decoration-none text-dark">
-                      <section className="card border-0 mt-3 Cardbook_card">
+                  {rekomendasiBuku.map((book) => (
+                    <section className="col-lg-3 col-6 my-2" key={book.id}>
+                      <Link
+                        to={"dongeng/detail/" + book.id}
+                        className="text-decoration-none text-dark position-relative"
+                      >
                         <section
-                          className="card-header text-center text-lg-start bg-white p-0 border-0"
-                          style={{
-                            backgroundImage:
-                              "url(https://buku.kemdikbud.go.id/assets/image/home/ellipse-3.png)",
-                            backgroundRepeat: "no-repeat",
-                            backgroundPosition: "center bottom",
-                          }}
+                          className="card border-1 mt-3 CardBook_card rounded shadow"
+                          style={{ minHeight: "200px" }}
                         >
-                          <img
-                            src="https://static.buku.kemdikbud.go.id/content/image/coverteks/coverkurikulum21/Belajar_dan_Bermain_Berbasis_Buku_BG_Paud_Cover.png"
-                            alt=""
-                            className="CardBook_img"
-                          />
-                        </section>
-                        <section className="card-body px-5 px-lg-0 py-2">
-                          <span className="badge rounded-pill bg-danger mt-2">
-                            PDF
-                          </span>
-                          <span className="badge rounded-pill bg-secondary mt-2 ms-1">
-                            Paud
-                          </span>
-                          <section className="my-2">
-                            Panduan Guru: Belajar dan Bermain Berbasis Buku
-                            (Edisi Revisi)
+                          <section className="card-header text-center text-lg-start bg-white p-0 border-0">
+                            <img
+                              src={book.cover}
+                              alt={book.title}
+                              className="img-fluid rounded-0"
+                            />
                           </section>
                         </section>
-                      </section>
-                    </Link>
-                  </section>
-                  <section className="col-lg-3 my-2">
-                    <Link to={"/"} className="text-decoration-none text-dark">
-                      <section className="card border-0 mt-3 Cardbook_card">
                         <section
-                          className="card-header text-center text-lg-start bg-white p-0 border-0"
-                          style={{
-                            backgroundImage:
-                              "url(https://buku.kemdikbud.go.id/assets/image/home/ellipse-3.png)",
-                            backgroundRepeat: "no-repeat",
-                            backgroundPosition: "center bottom",
-                          }}
+                          className="position-absolute d-flex flex-column gap-2"
+                          style={{ top: "30px", left: "-2px" }}
                         >
-                          <img
-                            src="https://static.buku.kemdikbud.go.id/content/image/coverteks/coverkurikulum21/Belajar_dan_Bermain_Berbasis_Buku_BG_Paud_Cover.png"
-                            alt=""
-                            className="CardBook_img"
-                          />
-                        </section>
-                        <section className="card-body px-5 px-lg-0 py-2">
-                          <span className="badge rounded-pill bg-danger mt-2">
+                          <span
+                            className="badge rounded bg-danger"
+                            style={{ width: "50px" }}
+                          >
                             PDF
                           </span>
-                          <span className="badge rounded-pill bg-secondary mt-2 ms-1">
-                            Paud
+                          <span className="badge rounded bg-secondary">
+                            SMA/MA/SMK/MAK
                           </span>
-                          <section className="my-2">
-                            Panduan Guru: Belajar dan Bermain Berbasis Buku
-                            (Edisi Revisi)
-                          </section>
                         </section>
-                      </section>
-                    </Link>
-                  </section>
-                  <section className="col-lg-3 my-2">
-                    <Link to={"/"} className="text-decoration-none text-dark">
-                      <section className="card border-0 mt-3 Cardbook_card">
                         <section
-                          className="card-header text-center text-lg-start bg-white p-0 border-0"
-                          style={{
-                            backgroundImage:
-                              "url(https://buku.kemdikbud.go.id/assets/image/home/ellipse-3.png)",
-                            backgroundRepeat: "no-repeat",
-                            backgroundPosition: "center bottom",
-                          }}
+                          className="w-100 text-center px-5 px-lg-0 position-absolute bottom-0"
+                          style={{ backgroundColor: "rgba(216, 162, 94, 0.7)" }}
                         >
-                          <img
-                            src="https://static.buku.kemdikbud.go.id/content/image/coverteks/coverkurikulum21/Belajar_dan_Bermain_Berbasis_Buku_BG_Paud_Cover.png"
-                            alt=""
-                            className="CardBook_img"
-                          />
-                        </section>
-                        <section className="card-body px-5 px-lg-0 py-2">
-                          <span className="badge rounded-pill bg-danger mt-2">
-                            PDF
-                          </span>
-                          <span className="badge rounded-pill bg-secondary mt-2 ms-1">
-                            Paud
-                          </span>
-                          <section className="my-2">
-                            Panduan Guru: Belajar dan Bermain Berbasis Buku
-                            (Edisi Revisi)
+                          <section className="fs-6 my-1 text-white">
+                            {book.title}
                           </section>
                         </section>
-                      </section>
-                    </Link>
-                  </section>
-                  <section className="col-lg-3 my-2">
-                    <Link to={"/"} className="text-decoration-none text-dark">
-                      <section className="card border-0 mt-3 Cardbook_card">
-                        <section
-                          className="card-header text-center text-lg-start bg-white p-0 border-0"
-                          style={{
-                            backgroundImage:
-                              "url(https://buku.kemdikbud.go.id/assets/image/home/ellipse-3.png)",
-                            backgroundRepeat: "no-repeat",
-                            backgroundPosition: "center bottom",
-                          }}
-                        >
-                          <img
-                            src="https://static.buku.kemdikbud.go.id/content/image/coverteks/coverkurikulum21/Belajar_dan_Bermain_Berbasis_Buku_BG_Paud_Cover.png"
-                            alt=""
-                            className="CardBook_img"
-                          />
-                        </section>
-                        <section className="card-body px-5 px-lg-0 py-2">
-                          <span className="badge rounded-pill bg-danger mt-2">
-                            PDF
-                          </span>
-                          <span className="badge rounded-pill bg-secondary mt-2 ms-1">
-                            Paud
-                          </span>
-                          <section className="my-2">
-                            Panduan Guru: Belajar dan Bermain Berbasis Buku
-                            (Edisi Revisi)
-                          </section>
-                        </section>
-                      </section>
-                    </Link>
-                  </section>
+                      </Link>
+                    </section>
+                  ))}
                 </section>
               </section>
             </section>

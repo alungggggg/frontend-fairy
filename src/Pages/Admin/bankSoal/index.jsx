@@ -27,7 +27,7 @@ const BankSoal = () => {
               to={"./uraian-panjang"}
               className="card-body text-decoration-none p-4"
             >
-              Uraian Panjang
+              Menulis Dongeng
             </Link>
           </div>
         </div>

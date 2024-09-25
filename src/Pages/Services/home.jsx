@@ -8,6 +8,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { getNewAccessToken } from "../../lib/redux/api/auth";
 import { getUserById } from "../../lib/redux/api/users";
 import { Link } from "react-router-dom";
+import modelAI from "../../lib/AI";
 
 const PopularBook = async () => {
   const { data } = await fairyApi.get("/popular");
@@ -51,23 +52,40 @@ const Home = () => {
     set();
   }, []);
 
+  const [quotes , setQuotes] = useState("")
+
+  async function generateAI () {
+    const promp = "buat satu kalimat motivasi pendek dengan tema dongeng"
+    const result = await modelAI.generateContent(promp)
+    const speech = new SpeechSynthesisUtterance(result.response.text())
+    speech.lang = "ID"
+    window.speechSynthesis.speak(speech)
+    setQuotes(result.response.text());
+  }
+
   return (
     <>
       <Header />
-      <main className="">
-        <section className="bg-night position-relative jumbotron">
+      <main className="bg-secondary-light">
+        <section className="bg-secondary-light position-relative py-5 mb-5">
           <section className="container">
             <section className="row">
-              <section className="col-lg-6 order-last order-md-first my-5 my-md-auto">
-                <h1 className="jumbo-title text-white fw-bold">
+              <section className="col-lg-6 order-last order-lg-first my-lg-auto">
+                <h1
+                  className="jumbo-title text-white fw-bold text-center text-lg-start pt-3 pt-lg-0"
+                  style={{ fontSize: "44px" }}
+                >
                   Cerita Panji Kediri
                 </h1>
                 {/* <p class="lead text-white">  */}
-                <section className="d-inline-flex flex-column">
-                  <span className="text-white">
+                <section className="d-flex flex-column position-relative">
+                  <p className="text-white text-center text-lg-start w-100">
                     Akses di manapun, kapanpun, Baca dongeng yuk!
-                  </span>
-                  <span className="mtmin d-none d-md-block">
+                  </p>
+                  <span
+                    className="mtmin d-none d-lg-block position-absolute"
+                    style={{ bottom: "5px", left: "0%" }}
+                  >
                     <img
                       src="https://buku.kemdikbud.go.id/assets/image/home/line-title.png"
                       alt="line-title"
@@ -76,7 +94,7 @@ const Home = () => {
                 </section>
                 {/* </p> */}
                 <section className="input-group shadow mt-5">
-                  <span className="input-group-text bg-white border-0">
+                  {/* <span className="input-group-text bg-white border-0">
                     <svg
                       xmlns="http://www.w3.org/2000/svg"
                       width={16}
@@ -87,17 +105,18 @@ const Home = () => {
                     >
                       <path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001q.044.06.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1 1 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0" />
                     </svg>
-                  </span>
+                  </span> */}
                   <input
                     type="text"
-                    className="form-control py-3 border-0 px-1"
-                    placeholder="Cari buku disini"
+                    className="form-control p-3 border-0 fw-light text-gray"
+                    placeholder="Klik untuk mendapat quote...."
                     aria-label="Cari buku disini"
+                    value={quotes}
+                    
                   />
-
-                  <section className="bg-white my-auto" style={{ padding: 9 }}>
+                  <section className="bg-white my-auto" style={{ padding: 9 }} onClick={generateAI}>
                     <button className="btn btn-orange text-white" type="button">
-                      Cari
+                      Quotes
                     </button>
                   </section>
                 </section>
@@ -105,28 +124,21 @@ const Home = () => {
               </section>
               <section className="col-lg-6">
                 <img
-                  src="https://buku.kemdikbud.go.id/assets/image/home/aset%20home%20night.png"
-                  className="w-100 d-block d-lg-none"
+                  src="COVER_CERITA_PANJI_POPULER-1-removebg-preview.png"
+                  className="w-100"
                   alt=""
                 />
               </section>
             </section>
           </section>
-          <img
+          {/* <img
             src="https://buku.kemdikbud.go.id/assets/image/home/aset%20home%20night.png"
             className="d-none d-lg-block position-absolute "
             style={{ zIndex: 1, left: "45%", bottom: "3%" }}
             alt="jumbotron"
-          />
+          /> */}
         </section>
-        <section
-          className="p-4 mt-5 container-fluid"
-          style={{
-            backgroundImage:
-              'url("https://buku.kemdikbud.go.id/assets/image/background/bg-stats.png")',
-            backgroundPosition: "center center",
-          }}
-        >
+        <section className="p-4 container-fluid bg-primary">
           <section className="row text-center justify-content-start justify-content-lg-center">
             <section className="col-6 col-lg-2">
               <section className="position-relative">
@@ -144,20 +156,6 @@ const Home = () => {
               </section>
               <p className="text-white">Kali buku dibaca</p>
             </section>
-            {/* <section className="col-6 col-lg-2">
-              <section className="position-relative">
-                <section className="position-relative" style={{ zIndex: 100 }}>
-                  <span className="text-white fs-1 fw-bold">5.139.718</span>
-                </section>
-                <img
-                  src="https://buku.kemdikbud.go.id/assets/image/home/line-stats.png"
-                  className="position-absolute mx-auto"
-                  style={{ zIndex: 1, bottom: "5%", left: "16%", width: "65%" }}
-                  alt=""
-                />
-              </section>
-              <p className="text-white">Kali buku diunduh</p>
-            </section> */}
             <section className="col-6 col-lg-2">
               <section className="position-relative">
                 <section className="position-relative" style={{ zIndex: 100 }}>
@@ -174,21 +172,6 @@ const Home = () => {
               </section>
               <p className="text-white">Buku tersedia</p>
             </section>
-            {/* <PopularBook /> */}
-            {/* <section className="col-6 col-lg-2">
-              <section className="position-relative">
-                <section className="position-relative" style={{ zIndex: 100 }}>
-                  <span className="text-white fs-1 fw-bold">5.139.718</span>
-                </section>
-                <img
-                  src="https://buku.kemdikbud.go.id/assets/image/home/line-stats.png"
-                  className="position-absolute mx-auto"
-                  style={{ zIndex: 1, bottom: "5%", left: "16%", width: "65%" }}
-                  alt=""
-                />
-              </section>
-              <p className="text-white">Buku lulus penilaian</p>
-            </section> */}
             <section className="col-6 col-lg-2">
               <section className="position-relative">
                 <section className="position-relative" style={{ zIndex: 100 }}>
@@ -207,7 +190,12 @@ const Home = () => {
             </section>
           </section>
         </section>
-        <section className="py-5 bg-white">
+        <section
+          className="py-5"
+          style={{
+            background: "linear-gradient(0deg ,#EEDF7A -30%, #FFFFFF 70%)",
+          }}
+        >
           <section className="container-lg p-3">
             <section className="row align-items-center">
               <section className="col-lg-6">
@@ -228,42 +216,44 @@ const Home = () => {
                 </p>
               </section>
               <section className="col-lg-6 text-end">
-                <Link to={"/katalog"} className="btn btn-sm btn-outline-primary">
+                <Link
+                  to={"/katalog"}
+                  className="btn btn-lg bg-secondary text-white"
+                >
                   Lihat semua buku
                 </Link>
               </section>
             </section>
             <section className="row mt-4">
               {populer.map((book) => (
-                <section className="col-lg-3 my-2" key={book.id}>
+                <section className="col-lg-3 col-6 my-2" key={book.id}>
                   <Link
                     to={"dongeng/detail/" + book.id}
-                    className="text-decoration-none text-dark"
+                    className="text-decoration-none text-dark position-relative"
                   >
-                    <section className="card border-0 mt-3 CardBook_card">
-                      <section
-                        className="card-header text-center text-lg-start bg-white p-0 border-0"
-                        style={{
-                          backgroundImage:
-                            'url("https://buku.kemdikbud.go.id/assets/image/home/ellipse-2.png")',
-                          backgroundRepeat: "no-repeat",
-                          backgroundPosition: "center bottom",
-                        }}
-                      >
+                    <section className="card border-1 mt-3 CardBook_card rounded shadow" style={{minHeight: "200px"}}>
+                      <section className="card-header text-center text-lg-start bg-white p-0 border-0">
                         <img
                           src={book.cover}
                           alt={book.title}
-                          className="CardBook_img"
+                          className="img-fluid rounded-0"
                         />
                       </section>
-                      <section className="card-body px-5 px-lg-0 py-2">
-                        <span className="badge rounded-pill bg-danger mt-2">
-                          PDF
-                        </span>
-                        <span className="badge rounded-pill bg-secondary mt-2 ms-1">
-                          SMA/MA/SMK/MAK
-                        </span>
-                        <section className="my-2">{book.title}</section>
+                    </section>
+                    <section className="position-absolute d-flex flex-column gap-2" style={{top: "30px", left: "-2px"}}>
+                      <span className="badge rounded bg-danger" style={{width:"50px"}}>
+                        PDF
+                      </span>
+                      <span className="badge rounded bg-secondary">
+                        SMA/MA/SMK/MAK
+                      </span>
+                    </section>
+                    <section
+                      className="w-100 text-center px-5 px-lg-0 position-absolute bottom-0"
+                      style={{ backgroundColor: "rgba(216, 162, 94, 0.7)" }}
+                    >
+                      <section className="fs-6 my-1 text-white">
+                        {book.title}
                       </section>
                     </section>
                   </Link>
@@ -272,139 +262,8 @@ const Home = () => {
             </section>
           </section>
         </section>
-        {/* <section
-          className="py-2"
-          style={{
-            backgroundColor: "#fcf1e7",
-            backgroundImage:
-              "url(https://buku.kemdikbud.go.id/assets/image/home/bg-access-book.png)",
-            backgroundRepeat: "no-repeat",
-            backgroundSize: "100%",
-          }}
-        >
-          <section className="container p-3">
-            <h3 className="fw-bold">
-              Akses buku&nbsp;
-              <section className="d-inline-flex flex-column">
-                <span>Lebih Mudah</span>
-                <span className="mtmin">
-                  <img
-                    src="https://buku.kemdikbud.go.id/assets/image/home/line-access-book.png"
-                    className="line-access w-100"
-                    alt="Line title"
-                  />
-                </span>
-              </section>
-            </h3>
-            <p className="mtmin text-acces">Temukan buku sesuai kebutuhanmu</p>
-            <section className="row">
-              <section className="col-lg-4">
-                <section
-                  className="card mb-3 p-2 shadow"
-                  style={{ height: "90%" }}
-                >
-                  <section className="row g-0">
-                    <section className="col-md-3 text-center ps-lg-2">
-                      <img
-                        src="https://buku.kemdikbud.go.id/assets/image/home/Group%2079.png"
-                        className="img-fluid rounded-start mt-3"
-                        alt="..."
-                      />
-                    </section>
-                    <section className="col-md-9">
-                      <section className="card-body px-3">
-                        <section
-                          className="fw-bold mb-1"
-                          style={{ fontSize: "1.1rem" }}
-                        >
-                          Buku Teks Kurikulum Merdeka
-                        </section>
-                        <p className="card-text text-muted">
-                          Buku teks pelajaran terbitan tahun 2021
-                        </p>
-                        <a href="">
-                          <small className="text-primary fw-bold">
-                            Lihat selengkapnya →
-                          </small>
-                        </a>
-                      </section>
-                    </section>
-                  </section>
-                </section>
-              </section>
-              <section className="col-lg-4">
-                <section
-                  className="card mb-3 p-2 shadow"
-                  style={{ height: "90%" }}
-                >
-                  <section className="row g-0">
-                    <section className="col-md-3 text-center ps-lg-2">
-                      <img
-                        src="https://buku.kemdikbud.go.id/assets/image/home/Group%2076.png"
-                        className="img-fluid rounded-start mt-3"
-                        alt="..."
-                      />
-                    </section>
-                    <section className="col-md-9">
-                      <section className="card-body px-3">
-                        <section
-                          className="fw-bold mb-1"
-                          style={{ fontSize: "1.1rem" }}
-                        >
-                          Buku Teks K-13
-                        </section>
-                        <p className="card-text text-muted">
-                          Buku teks pelajaran terbitan tahun 2021
-                        </p>
-                        <a href="">
-                          <small className="text-primary fw-bold">
-                            Lihat selengkapnya →
-                          </small>
-                        </a>
-                      </section>
-                    </section>
-                  </section>
-                </section>
-              </section>
-              <section className="col-lg-4">
-                <section
-                  className="card mb-3 p-2 shadow"
-                  style={{ height: "90%" }}
-                >
-                  <section className="row g-0">
-                    <section className="col-md-3 text-center ps-lg-2">
-                      <img
-                        src="https://buku.kemdikbud.go.id/assets/image/home/Group%2080.png"
-                        className="img-fluid rounded-start mt-3"
-                        alt="..."
-                      />
-                    </section>
-                    <section className="col-md-9">
-                      <section className="card-body px-3">
-                        <section
-                          className="fw-bold mb-1"
-                          style={{ fontSize: "1.1rem" }}
-                        >
-                          Buku Non Teks
-                        </section>
-                        <p className="card-text text-muted">
-                          Buku umum sebagai pelengkap belajarmu
-                        </p>
-                        <a href="" className="">
-                          <small className="text-primary fw-bold">
-                            Lihat selengkapnya →
-                          </small>
-                        </a>
-                      </section>
-                    </section>
-                  </section>
-                </section>
-              </section>
-            </section>
-          </section>
-        </section> */}
-        {getCookies("token").token && (
-          <section className="py-5 bg-white">
+        {getCookies("accessToken") && (
+          <section className="py-5 bg-white d-none">
             <section className="container-lg p-3">
               <section className="row align-items-center">
                 <section className="col-lg-6">
@@ -565,15 +424,17 @@ const Home = () => {
         )}
 
         <section
-          className="py-2"
-          style={{
-            backgroundColor: "#e9f7fe",
-            backgroundImage:
-              "url(https://buku.kemdikbud.go.id/assets/image/home/bg-book-for-all.png)",
-            backgroundRepeat: "no-repeat",
-            backgroundSize: "100%",
-          }}
+          className="py-2 position-relative"
+          // style={{
+          //   backgroundColor: "#e9f7fe",
+          //   backgroundImage:
+          //     "url(https://buku.kemdikbud.go.id/assets/image/home/bg-book-for-all.png)",
+          //   backgroundRepeat: "no-repeat",
+          //   backgroundSize: "100%",
+          //   // backgroundBlendMode: "lighten",
+          // }}
         >
+          <img src="https://buku.kemdikbud.go.id/assets/image/home/bg-book-for-all.png" className="w-100 position-absolute top-0 d-none d-lg-block" style={{height:"100%"}}/>
           <section className="container p-3">
             <h3 className="fw-bold">
               Cerita&nbsp;
@@ -697,11 +558,11 @@ const Home = () => {
             </section>
           </section>
         </section>
-        <section className="bg-night">
-          <section className="container-fluid">
-            <section className="row align-items-end">
-              <section className="col-lg-7 p-3">
-                <section className="m-auto faq">
+        <section className="bg-primary">
+          <section className="container">
+            <section className="row">
+              <section className="col-lg-7 py-5">
+                <section className="">
                   <h4 className="fw-bold text-white">
                     Pertanyaan yang sering ditanyakan
                   </h4>
@@ -710,13 +571,11 @@ const Home = () => {
                     id="accordion-flushex"
                   >
                     <section
-                      className="accordion-item mb-2 border-0 bg-night text-white"
-                      style={{ backgroundColor: "#6686b7" }}
+                      className="accordion-item mb-2 border-0 bg-primary text-white"
                     >
                       <h2 className="accordion-header" id="flushHd1">
                         <button
-                          className="accordion-button collapsed ps-1 bg-night text-white"
-                          style={{ backgroundColor: "#6686b7" }}
+                          className="accordion-button collapsed ps-1 bg-primary text-white"
                           type="button"
                           data-bs-toggle="collapse"
                           data-bs-target="#flush-collapse1"
@@ -740,12 +599,12 @@ const Home = () => {
                       </section>
                     </section>
                     <section
-                      className="accordion-item mb-2 border-0 bg-night text-white"
+                      className="accordion-item mb-2 border-0 bg-primary text-white"
                       style={{ backgroundColor: "#6686b7" }}
                     >
                       <h2 className="accordion-header" id="flushHd2">
                         <button
-                          className="accordion-button collapsed ps-1 bg-night text-white"
+                          className="accordion-button collapsed ps-1 bg-primary text-white"
                           style={{ backgroundColor: "#6686b7" }}
                           type="button"
                           data-bs-toggle="collapse"
@@ -772,12 +631,12 @@ const Home = () => {
                     </section>
 
                     <section
-                      className="accordion-item mb-2 border-0 bg-night text-white"
+                      className="accordion-item mb-2 border-0 bg-primary text-white"
                       style={{ backgroundColor: "#6686b7" }}
                     >
                       <h2 className="accordion-header" id="flushHd4">
                         <button
-                          className="accordion-button collapsed ps-1 bg-night text-white"
+                          className="accordion-button collapsed ps-1 bg-primary text-white"
                           style={{ backgroundColor: "#6686b7" }}
                           type="button"
                           data-bs-toggle="collapse"
@@ -804,12 +663,12 @@ const Home = () => {
                       </section>
                     </section>
                     <section
-                      className="accordion-item mb-2 border-0 bg-night text-white"
+                      className="accordion-item mb-2 border-0 bg-primary text-white"
                       style={{ backgroundColor: "#6686b7" }}
                     >
                       <h2 className="accordion-header" id="flushHd5">
                         <button
-                          className="accordion-button collapsed ps-1 bg-night text-white"
+                          className="accordion-button collapsed ps-1 bg-primary text-white"
                           style={{ backgroundColor: "#6686b7" }}
                           type="button"
                           data-bs-toggle="collapse"
@@ -835,17 +694,18 @@ const Home = () => {
                         </section>
                       </section>
                     </section>
-                    <Link to={"#"} className="btn my-5 btn-outline-light">
+                    {/* <Link to={"#"} className="btn my-5 btn-outline-light">
                       Lihat semua pertanyaan
-                    </Link>
+                    </Link> */}
                   </section>
                 </section>
               </section>
-              <section className="col-lg-5">
+              <section className="col-lg-5 position-relative d-none d-lg-block">
                 <img
                   src="https://buku.kemdikbud.go.id/assets/image/home/faq-night.png"
-                  className="w-100 m-faq"
+                  className="w-100 m-faq position-absolute bottom-0"
                   alt=""
+                  style={{zIndex: 0}}
                 />
               </section>
             </section>

@@ -2,6 +2,7 @@ import { useDispatch, useSelector } from "react-redux";
 import AdminLayout from "../../adminLayout";
 import { useEffect, useState } from "react";
 import {
+  addSoalUraianPanjang,
   deleteSoalUraianPanjang,
   getSoalUraianPanjang,
 } from "../../../../lib/redux/api/soalUraianPanjang";
@@ -15,11 +16,13 @@ import { getNewAccessToken } from "../../../../lib/redux/api/auth";
 import Swal from "sweetalert2";
 
 const UraianPanjang = () => {
-  const tableHead = ["No", "Soal", "Judul Dongeng", "Jawaban", ""];
+  const tableHead = ["No", "Soal", "Judul Dongeng", ""];
 
   const { soalUraianPanjang, isLoading } = useSelector(
     (state) => state.soalUraianPanjang
   );
+
+  // console.log(soalUraianPanjang);
 
   const [action, setAction] = useState("add");
   const [idEdit, setIdEdit] = useState(null);
@@ -120,6 +123,7 @@ const UraianPanjang = () => {
                 Clear
               </button>
             </div>
+            {/* add */}
             <div className="col d-flex justify-content-end">
               <button
                 type="button"
@@ -133,6 +137,7 @@ const UraianPanjang = () => {
                 Add
               </button>
             </div>
+            {/* add */}
           </div>
           <section className="card-body p-0">
             <section className="table-responsive">
@@ -158,12 +163,12 @@ const UraianPanjang = () => {
                       <td>{i + 1}</td>
                       <td>{item?.soal}</td>
                       <td>{item?.dongeng?.title || ""}</td>
-                      <td>{item?.jawaban}</td>
+                      {/* <td>{item?.jawaban}</td> */}
                       <td
                         className="d-flex gap-2 justify-content-end"
                         style={{ maxWidth: "120px" }}
                       >
-                        <button
+                        {/* <button
                           type="button"
                           className="btn btn-primary"
                           onClick={() => {
@@ -175,7 +180,7 @@ const UraianPanjang = () => {
                           }}
                         >
                           <EditIcon size={18} />
-                        </button>
+                        </button> */}
                         <button
                           type="button"
                           className="btn btn-danger"

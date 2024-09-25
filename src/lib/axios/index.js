@@ -2,7 +2,7 @@ import axios from "axios";
 import { getCookies } from "cookies-next";
 
 const fairyApi = axios.create({
-  baseURL: "http://localhost:5000/api",
+  baseURL: "https://test-backend-pink.vercel.app/api",
   headers: {
     "Content-Type": "application/json",
   },

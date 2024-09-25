@@ -38,8 +38,11 @@ const QuizList = () => {
 
   return (
     <UserLayout>
-      <div style={{ minHeight: "100vh" }}>
-        <section className="container h-100 my-5 bg-white rounded-2 py-3">
+      <div
+        style={{ minHeight: "calc(100vh - 76px)" }}
+        className="bg-secondary-light d-flex"
+      >
+        <section className="container h-100 bg-white rounded-2 mt-5 p-4 shadow  mx-1 mx-sm-auto">
           <div className="mb-4">
             <div className="d-flex align-items-center justify-content-between">
               <div>
@@ -78,35 +81,50 @@ const QuizList = () => {
                 <thead>
                   <tr>
                     <th scope="col">No</th>
-                    <th scope="col">Judul Quiz</th>
-                    <th scope="col">Topik Quiz</th>
-                    <th scope="col">Nilai</th>
+                    <th scope="col">Judul</th>
+                    <th scope="col">Topik</th>
                     <th scope="col">Status</th>
                   </tr>
                 </thead>
                 <tbody>
-                  {quizList?.map((item, index) => (
-                    <tr key={item.id}>
-                      <th scope="row">{index + 1}</th>
-                      <td>{item?.forumQuiz?.judul || "undefined"}</td>
-                      <td>{item?.forumQuiz?.dongeng?.title || "undefined"}</td>
-                      <td>{item.nilai || 0}</td>
-                      <td>
-                        {item.nilai
-                          ? "Selesai"
-                          : new Date(item?.forumQuiz?.access_date) > date
-                          ? "Belum Dibuka"
-                          : new Date(item?.forumQuiz?.expired_date) < date
-                          ? "Telah Expired"
-                          : "Belum Selesai"}
-                      </td>
-                      <td>
-                        <Link to={`/quiz/${item?.id}`}>
-                          Kerjakan
-                        </Link>
-                      </td>
-                    </tr>
-                  ))}
+                  {quizList?.map((item, index) => {
+                    var status = item.nilai
+                      ? "Selesai"
+                      : new Date(item?.forumQuiz?.access_date) > date
+                      ? "Belum Dibuka"
+                      : new Date(item?.forumQuiz?.expired_date) < date
+                      ? "Telah Expired"
+                      : "Belum Selesai";
+                    return (
+                      <tr key={item.id} className="align-middle">
+                        <th scope="row">{index + 1}</th>
+                        <td>{item?.forumQuiz?.judul || "undefined"}</td>
+                        <td>
+                          {item?.forumQuiz?.dongeng?.title || "undefined"}
+                        </td>
+                        <td>{status}</td>
+                        <td>
+                          {status === "Selesai" ? (
+                            <Link
+                              to={`/quiz/${item?.id}`}
+                              className={`btn btn-success w-100`}
+                            >
+                              Hasil
+                            </Link>
+                          ) : (
+                            <Link
+                              to={`/quiz/${item?.id}`}
+                              className={`btn btn-primary bg-secondary w-100 ${
+                                status === "Belum Selesai" ? "" : "disabled"
+                              }`}
+                            >
+                              Kerjakan
+                            </Link>
+                          )}
+                        </td>
+                      </tr>
+                    );
+                  })}
                 </tbody>
               </table>
               {quizList?.length === 0 && (

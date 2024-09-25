@@ -91,8 +91,8 @@ const updateProfile = () => {
 
   return (
     <UserLayout>
-      <section className="row justify-content-center pt-2 pt-md-5 p-3 p-md-0 login">
-        <section className="col-lg-5">
+      <section className="d-flex justify-content-center align-items-center login" style={{minHeight : "calc(100vh - 76px)"}}>
+        <section className="login-item">
           <h2 className="text-blue mt-4 mt-md-0">Update Profil</h2>
           <section className="card mt-2 shadow">
             <section className="card-body p-4">

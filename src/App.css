@@ -4,6 +4,32 @@
     box-sizing: border-box;
 }
 
+.page-item {
+    border: #d8a25e 1px !important;
+}
+.page-item.active .page-link {
+    background-color: #d8a25e !important;
+    border-color: rgb(216, 162, 94) !important;
+}
+.page-link{
+    
+    color: #d8a25e !important;
+}
+
+/* bg-color */
+.bg-primary {
+    background-color: #A04747 !important;
+}
+.bg-black {
+    background-color: #343131 !important;
+}
+.bg-secondary {
+    background-color: #d8a25e !important;
+}
+.bg-secondary-light {
+    background-color: #EEDF7A !important;
+}
+
 /* 
 Header
 */
@@ -151,11 +177,23 @@ Login
 
 .login, .register {
     background: url(https://buku.kemdikbud.go.id/static/media/background.3fb5f6000e35b298ef5c.png);
-    width: 100.8%;
+    width: 100%;
     background-color: #e5f8ff!important;
     background-position: bottom;
     background-repeat: no-repeat;
     padding-bottom: 80px!important;
+}
+
+@media  only screen and (min-width: 700px) {
+    .login-item {
+        width: 50%;
+    }
+    
+}
+@media screen and (max-width: 700px) {
+    .login-item {
+        width: 100%;
+    }
 }
 
 /* 

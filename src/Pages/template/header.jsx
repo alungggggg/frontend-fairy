@@ -40,7 +40,7 @@ const Header = () => {
   return (
     <>
       <header className="sticky-top fixed-top">
-        <nav className="navbar navbar-expand-lg navbar-dark bg-night">
+        <nav className="navbar navbar-expand-lg navbar-dark bg-secondary">
           <section className="container">
             <Link to={"/"} className="navbar-brand d-flex align-items-center">
               <img
@@ -76,7 +76,7 @@ const Header = () => {
                 </li>
                 <li className="nav-item dropdown mx-1">
                   <Link to={"/katalog"} className="nav-link" role="button">
-                    Katalog Buku
+                    Daftar Dongeng
                   </Link>
                 </li>
                 <li className="nav-item dropdown mx-1">
@@ -128,7 +128,7 @@ const Header = () => {
                 <li
                   className={`nav-item dropdown mx-1 ${
                     token ? "" : "d-none"
-                  } mt-4 mt-lg-0`}
+                  } my-4 my-lg-0 `}
                 >
                   <Link
                     to="#"
@@ -189,7 +189,7 @@ const Header = () => {
                     ) : null}
                     <li>
                       <Link
-                        className="dropdown-item d-flex justify-content-between align-items-center"
+                        className="dropdown-item d-flex justify-content-between align-items-center text-danger fw-semibold"
                         style={{ cursor: "pointer" }}
                         onClick={() => handleLogout()}
                       >
@@ -201,13 +201,18 @@ const Header = () => {
                 </li>
               </ul>
               <ul
-                className={`navbar-nav mb-2 mb-lg-0 text-center text-xl-start ${
+                className={`nav-item navbar-nav mb-2 mb-lg-0 text-center text-xl-start ${
                   token ? "d-none" : ""
                 }`}
               >
-                <li className="nav-item ms-3 pt-1">
-                  <Link to={"/login"} className="btn btn-sm btn-outline-light">
-                    Masuk
+                <li className="nav-item ms-lg-3 ms-0 pt-lg-0 pt-4 text-start">
+                  <Link
+                    to={"/login"}
+                    className="btn btn-sm btn-outline-light "
+                  >
+                    <div className="d-flex align-items-center gap-2">
+                      Masuk <SignInIcon size={24} />
+                    </div>
                   </Link>
                 </li>
               </ul>
@@ -220,3 +225,25 @@ const Header = () => {
 };
 
 export default Header;
+
+export const SignInIcon = ({ size = 16 }) => {
+  return (
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      width={size}
+      height={size}
+      fill="currentColor"
+      class="bi bi-box-arrow-in-left"
+      viewBox="0 0 16 16"
+    >
+      <path
+        fill-rule="evenodd"
+        d="M10 3.5a.5.5 0 0 0-.5-.5h-8a.5.5 0 0 0-.5.5v9a.5.5 0 0 0 .5.5h8a.5.5 0 0 0 .5-.5v-2a.5.5 0 0 1 1 0v2A1.5 1.5 0 0 1 9.5 14h-8A1.5 1.5 0 0 1 0 12.5v-9A1.5 1.5 0 0 1 1.5 2h8A1.5 1.5 0 0 1 11 3.5v2a.5.5 0 0 1-1 0z"
+      />
+      <path
+        fill-rule="evenodd"
+        d="M4.146 8.354a.5.5 0 0 1 0-.708l3-3a.5.5 0 1 1 .708.708L5.707 7.5H14.5a.5.5 0 0 1 0 1H5.707l2.147 2.146a.5.5 0 0 1-.708.708z"
+      />
+    </svg>
+  );
+};

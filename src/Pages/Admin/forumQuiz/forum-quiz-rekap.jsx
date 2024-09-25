@@ -14,7 +14,7 @@ const RekapNilai = () => {
   const dispatch = useDispatch();
   const { rekapNilai } = useSelector((state) => state.rekapNilai);
 
-  // console.log(rekapNilai);
+  var sekolah = rekapNilai[0]?.forumQuiz.sekolah
 
   const tableHead = ["No", "Nama", "Asal Sekolah", "Nilai"];
 
@@ -44,8 +44,10 @@ const RekapNilai = () => {
   
     const tableHeaders = tableHead.map((header) => header);
 
-    doc.text("Rekap Nilai Forum Quiz", 15, 10);
+    doc.text("Rekap Nilai Forum Quiz", 15, 15);
+    doc.text(`Sekolah : ${sekolah}` , 15 , 25)
     doc.autoTable({
+      startY: 30,
       head: [tableHeaders],
       body: tableData,
     });

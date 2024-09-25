@@ -57,7 +57,7 @@ const AdminLayout = ({ children }) => {
   if (!refresh_token || !users_id) return <Navigate to={"/login"} />;
 
   return (
-    <div className="container-fluid">
+    <div className="container-fluid bg-night">
       <div className="d-flex flex-column justify-content-between flex-md-row align-items-center text-light px-sm-2 px-0 py-4 bg-night gap-4">
         <Link
           to={"/"}

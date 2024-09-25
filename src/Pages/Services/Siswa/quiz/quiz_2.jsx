@@ -10,6 +10,7 @@ import {
   updateNilaiForum,
 } from "../../../../lib/redux/api/rekapNilai";
 import { getCookie } from "cookies-next";
+import Loading from "../../../../Component/loading";
 
 const QuizSoal = ({
   soal,
@@ -40,83 +41,9 @@ const QuizSoal = ({
   return (
     <section className="container mt-5 mb-5">
       <section className="row">
-        <section className="col-3">
-          <section className="card p-4">
-            <section className="card-header fw-medium">Navigasi Soal</section>
-            <section className="card-body pt-2 pb-0">
-              <p className="mb-0">Soal Pilihan Ganda</p>
-              <section className="card-body row-soal px-0">
-                {soal
-                  .filter((soal) => soal.jenis === "pilgan")
-                  .map((soal, index) => (
-                    <section
-                      className={`card d-flex align-items-center justify-content-center border-2 ${
-                        soal.index === displayedSoal[0]?.index
-                          ? "bg-night text-white"
-                          : soal.jawaban_user
-                          ? "bg-success text-white"
-                          : ""
-                      }`}
-                      style={{ cursor: "pointer" }}
-                      key={index}
-                      onClick={() => setIndexSoalDisplayed(soal.index)}
-                    >
-                      <p className="my-auto p-2 fw-semibold">{soal.index}</p>
-                    </section>
-                  ))}
-              </section>
-            </section>
-            <section className="card-body pt-2 pb-0">
-              <p className="mb-0">Soal Uraian Singkat</p>
-              <section className="card-body row-soal px-0">
-                {soal
-                  .filter((soal) => soal.jenis === "uraianSingkat")
-                  .map((soal, index) => (
-                    <section
-                      className={`card d-flex align-items-center justify-content-center border-2 ${
-                        soal.index === displayedSoal[0]?.index
-                          ? "bg-night text-white"
-                          : soal.jawaban_user
-                          ? "bg-success text-white"
-                          : ""
-                      }`}
-                      style={{ cursor: "pointer" }}
-                      key={index}
-                      onClick={() => setIndexSoalDisplayed(soal.index)}
-                    >
-                      <p className="my-auto p-2 fw-semibold">{soal.index}</p>
-                    </section>
-                  ))}
-              </section>
-            </section>
-            <section className="card-body pt-2 pb-0">
-              <p className="mb-0">Soal Pilihan Ganda</p>
-              <section className="card-body row-soal px-0">
-                {soal
-                  .filter((soal) => soal.jenis === "uraianPanjang")
-                  .map((soal, index) => (
-                    <section
-                      className={`card d-flex align-items-center justify-content-center border-2 ${
-                        soal.index === displayedSoal[0]?.index
-                          ? "bg-night text-white"
-                          : soal.jawaban_user
-                          ? "bg-success text-white"
-                          : ""
-                      }`}
-                      style={{ cursor: "pointer" }}
-                      key={index}
-                      onClick={() => setIndexSoalDisplayed(soal.index)}
-                    >
-                      <p className="my-auto p-2 fw-semibold">{soal.index}</p>
-                    </section>
-                  ))}
-              </section>
-            </section>
-          </section>
-        </section>
-        <section className="col-9">
-          <section className="card p-4">
-            <section className="card-body p-0">
+        <section className="col-xl-9">
+          <section className="card p-4" style={{ minHeight: "70vh" }}>
+            <section className="card-body p-0 position-relative">
               <div className="">
                 <div className="d-flex justify-content-between align-items-center py-2">
                   <p className="m-0">
@@ -152,30 +79,30 @@ const QuizSoal = ({
                     type="text"
                     className="form-control"
                     placeholder="Masukkan Jawaban Anda"
-                    rows={5}
+                    rows={18}
                     onChange={handleInputQuiz}
                     value={displayedSoal[0]?.jawaban_user}
                   />
                 </div>
               )}
-              <div className="w-100 d-flex justify-content-between mt-4">
+              <div className="w-100 d-flex justify-content-between mt-4 position-absolute bottom-0">
                 <button
-                  className={`btn btn-outline-dark ${
+                  className={`btn bg-secondary-light text-white ${
                     displayedSoal[0]?.index === 1 ? "disabled" : ""
                   }`}
                   onClick={() => setIndexSoalDisplayed((prev) => prev - 1)}
                 >
-                  Prev
+                  Kembali
                 </button>
                 <button
-                  className={`btn btn-outline-dark ${
+                  className={`btn bg-primary text-white ${
                     displayedSoal[0]?.index === soal.length
                       ? "disabled d-none"
                       : ""
                   }`}
                   onClick={() => setIndexSoalDisplayed((prev) => prev + 1)}
                 >
-                  Next
+                  Lanjut
                 </button>
                 {displayedSoal[0]?.index === soal.length ? (
                   <button
@@ -191,6 +118,88 @@ const QuizSoal = ({
             </section>
           </section>
         </section>
+        <section className="col-xl-3">
+          <section className="card p-4 mt-3 mt-xl-0">
+            <section className="card-header fw-medium bg-secondary-light text-white">
+              Navigasi Soal
+            </section>
+            <section className="card-body pt-2 pb-0 border position-relative mt-4">
+              <p className="mb-0 position-absolute" style={{ top: "-13px" }}>
+                Soal Pilihan Ganda
+              </p>
+              <section className="card-body row-soal px-0">
+                {soal
+                  .filter((soal) => soal.jenis === "pilgan")
+                  .map((soal, index) => (
+                    <section
+                      className={`card d-flex align-items-center justify-content-center border-2 ${
+                        soal.index === displayedSoal[0]?.index
+                          ? "bg-primary text-white"
+                          : soal.jawaban_user
+                          ? "bg-secondary text-white"
+                          : ""
+                      }`}
+                      style={{ cursor: "pointer" }}
+                      key={index}
+                      onClick={() => setIndexSoalDisplayed(soal.index)}
+                    >
+                      <p className="my-auto p-2 fw-semibold">{soal.index}</p>
+                    </section>
+                  ))}
+              </section>
+            </section>
+            <section className="card-body pt-2 pb-0 border position-relative mt-4">
+              <p className="mb-0 position-absolute" style={{ top: "-13px" }}>
+                Soal Uraian Singkat
+              </p>
+              <section className="card-body row-soal px-0">
+                {soal
+                  .filter((soal) => soal.jenis === "uraianSingkat")
+                  .map((soal, index) => (
+                    <section
+                      className={`card d-flex align-items-center justify-content-center border-2 ${
+                        soal.index === displayedSoal[0]?.index
+                          ? "bg-primary text-white"
+                          : soal.jawaban_user
+                          ? "bg-secondary text-white"
+                          : ""
+                      }`}
+                      style={{ cursor: "pointer" }}
+                      key={index}
+                      onClick={() => setIndexSoalDisplayed(soal.index)}
+                    >
+                      <p className="my-auto p-2 fw-semibold">{soal.index}</p>
+                    </section>
+                  ))}
+              </section>
+            </section>
+            <section className="card-body pt-2 pb-0 border position-relative mt-4">
+              <p className="mb-0 position-absolute" style={{ top: "-13px" }}>
+                Soal Pilihan Ganda
+              </p>
+              <section className="card-body row-soal px-0">
+                {soal
+                  .filter((soal) => soal.jenis === "uraianPanjang")
+                  .map((soal, index) => (
+                    <section
+                      className={`card d-flex align-items-center justify-content-center border-2 ${
+                        soal.index === displayedSoal[0]?.index
+                          ? "bg-primary text-white"
+                          : soal.jawaban_user
+                          ? "bg-secondary text-white"
+                          : ""
+                      }`}
+                      style={{ cursor: "pointer" }}
+                      key={index}
+                      onClick={() => setIndexSoalDisplayed(soal.index)}
+                    >
+                      <p className="my-auto p-2 fw-semibold">{soal.index}</p>
+                    </section>
+                  ))}
+              </section>
+            </section>
+          </section>
+        </section>
       </section>
     </section>
   );
@@ -198,7 +207,7 @@ const QuizSoal = ({
 
 const QuizPreparation = ({ soal, setIndexSoalDisplayed, setTimer }) => {
   return (
-    <main className="container my-lg-5 my-2 bg-white rounded-0 rounded-md-2">
+    <main className="container my-lg-5 my-2 bg-white rounded-0 rounded-md-2 shadow mx-1 mx-md-auto">
       <section className="p-4">
         <h1 className="text-dark">Aturan</h1>
         <p className="text-dark mt-4 mb-4">
@@ -214,7 +223,7 @@ const QuizPreparation = ({ soal, setIndexSoalDisplayed, setTimer }) => {
             <p className="text-dark">- Syarat nilai kelulusan 80</p>
           </li>
           <li className="">
-            <p className="text-dark">- Durasi quiz: 20 menit</p>
+            <p className="text-dark">- Durasi quiz: 60 menit</p>
           </li>
         </ul>
         <p className="text-dark">
@@ -226,7 +235,7 @@ const QuizPreparation = ({ soal, setIndexSoalDisplayed, setTimer }) => {
           <button
             className="btn btn-lg btn-primary mt-4"
             onClick={() => {
-              setTimer(60 * 20);
+              setTimer(60 * 60);
               setIndexSoalDisplayed(1);
             }}
           >
@@ -240,12 +249,19 @@ const QuizPreparation = ({ soal, setIndexSoalDisplayed, setTimer }) => {
 
 const QuizResult = ({ nilai }) => {
   return (
-    <main className="container my-lg-5 my-2 bg-white rounded-0 rounded-md-2">
-      <section className="p-4">
+    <main className="container my-lg-5 my-2 bg-white rounded-0 rounded-md-2 shadow mx-1 mx-lg-0">
+      <section className="p-4 d-flex flex-column align-items-center justify-content-center gap-4">
         <h1 className="text-dark">Hasil Quiz</h1>
-        <p>nilai : {nilai}</p>
+        <div
+          className={`rounded-circle d-flex align-items-center justify-content-center ${
+            nilai >= 80 ? "bg-success text-white" : "bg-danger text-white"
+          }`}
+          style={{ height: "100px", width: "100px" }}
+        >
+          {nilai}
+        </div>
         <Link to={"/quiz"} className="btn btn-primary">
-          Kembali ke halaman Quiz
+          Kembali ke Quiz
         </Link>
       </section>
     </main>
@@ -357,6 +373,7 @@ const Quiz_2 = () => {
     return (nilai / soal.length) * 100;
   }
 
+  //penilaian menulis ulang dongeng
   function getNilaiUraianPanjang(soal) {
     let nilai = 0;
     let spreadedAnswer = [];
@@ -371,10 +388,7 @@ const Quiz_2 = () => {
       let nilai_perNomor = 0;
 
       hasil.jawaban.forEach((jawaban) => {
-        // console.log("Checking:", jawaban);
-        // console.log("Against:", hasil.jawaban_user);
         if (hasil.jawaban_user.toLowerCase().includes(jawaban.toLowerCase())) {
-          // console.log(hasil.jawaban_user, jawaban);
           nilai_perNomor += 1;
         }
       });
@@ -385,6 +399,7 @@ const Quiz_2 = () => {
 
     return nilai / spreadedAnswer.length;
   }
+  //penilaian menulis ulang dongeng - end
 
   async function uploadNilai() {
     let nilaiPilgan = getNilaiPilgan(
@@ -393,11 +408,11 @@ const Quiz_2 = () => {
     let nilaiUrianSingkat = getNilaiUraianSingkat(
       soal.filter((soal) => soal.jenis === "uraianSingkat")
     );
-    let nilaiUraianPanjang = getNilaiUraianPanjang(
-      soal.filter((soal) => soal.jenis === "uraianPanjang")
-    );
+    // let nilaiUraianPanjang = getNilaiUraianPanjang(
+    //   soal.filter((soal) => soal.jenis === "uraianPanjang")
+    // );
 
-    var nilai = (nilaiPilgan + nilaiUrianSingkat + nilaiUraianPanjang) / 3;
+    var nilai = (nilaiPilgan + nilaiUrianSingkat) / 2;
 
     const res = await dispatch(
       updateNilaiForum({
@@ -464,24 +479,31 @@ const Quiz_2 = () => {
 
   return (
     <UserLayout>
-      {nilai > 0 ? (
-        <QuizResult nilai={nilai} />
-      ) : indexSoalDisplayed === 0 ? (
-        <QuizPreparation
-          soal={soal}
-          setIndexSoalDisplayed={setIndexSoalDisplayed}
-          setTimer={setTimer}
-        />
-      ) : (
-        <QuizSoal
-          soal={soal}
-          setSoal={setSoal}
-          setIndexSoalDisplayed={setIndexSoalDisplayed}
-          displayedSoal={disPlayedSoal}
-          handleSubmitQuiz={handleSubmitQuiz}
-          timer={timer}
-        />
-      )}
+      <div
+        style={{ minHeight: "calc(100vh - 76px)" }}
+        className="d-flex align-items-center justify-content-center bg-secondary-light"
+      >
+        {isLoading ? (
+          <Loading />
+        ) : nilai > 0 ? (
+          <QuizResult nilai={nilai} />
+        ) : indexSoalDisplayed === 0 ? (
+          <QuizPreparation
+            soal={soal}
+            setIndexSoalDisplayed={setIndexSoalDisplayed}
+            setTimer={setTimer}
+          />
+        ) : (
+          <QuizSoal
+            soal={soal}
+            setSoal={setSoal}
+            setIndexSoalDisplayed={setIndexSoalDisplayed}
+            displayedSoal={disPlayedSoal}
+            handleSubmitQuiz={handleSubmitQuiz}
+            timer={timer}
+          />
+        )}
+      </div>
     </UserLayout>
   );
 };
@@ -503,7 +525,7 @@ const QuizQisplayPilgan = ({ displayedSoal, soal, setSoal }) => {
     <div className="my-4">
       <p className="fs-4">{displayedSoal[0]?.soal}</p>
       <div className="mt-3 fs-5 d-flex flex-column gap-2">
-        <div className="form-check">
+        <label className="form-check">
           <input
             type="radio"
             className="form-check-input"
@@ -515,9 +537,9 @@ const QuizQisplayPilgan = ({ displayedSoal, soal, setSoal }) => {
               displayedSoal[0]?.opsi_1
             }
           />
-          <label className="form-check-label">{displayedSoal[0]?.opsi_1}</label>
-        </div>
-        <div className="form-check">
+          <span className="form-check-label">{displayedSoal[0]?.opsi_1}</span>
+        </label>
+        <label className="form-check">
           <input
             type="radio"
             className="form-check-input"
@@ -529,9 +551,9 @@ const QuizQisplayPilgan = ({ displayedSoal, soal, setSoal }) => {
               displayedSoal[0]?.opsi_2
             }
           />
-          <label className="form-check-label">{displayedSoal[0]?.opsi_2}</label>
-        </div>
-        <div className="form-check">
+          <span className="form-check-label">{displayedSoal[0]?.opsi_2}</span>
+        </label>
+        <label className="form-check">
           <input
             type="radio"
             className="form-check-input"
@@ -543,9 +565,9 @@ const QuizQisplayPilgan = ({ displayedSoal, soal, setSoal }) => {
               displayedSoal[0]?.opsi_3
             }
           />
-          <label className="form-check-label">{displayedSoal[0]?.opsi_3}</label>
-        </div>
-        <div className="form-check">
+          <span className="form-check-label">{displayedSoal[0]?.opsi_3}</span>
+        </label>
+        <label className="form-check">
           <input
             type="radio"
             className="form-check-input"
@@ -557,8 +579,8 @@ const QuizQisplayPilgan = ({ displayedSoal, soal, setSoal }) => {
               displayedSoal[0]?.opsi_4
             }
           />
-          <label className="form-check-label">{displayedSoal[0]?.opsi_4}</label>
-        </div>
+          <span className="form-check-label">{displayedSoal[0]?.opsi_4}</span>
+        </label>
       </div>
     </div>
   );

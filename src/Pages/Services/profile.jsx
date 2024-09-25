@@ -39,7 +39,7 @@ const profile = () => {
   return (
     <>
       <UserLayout>
-        <section className="container mt-5 mb-5">
+        <section className="container mt-5 mb-5" style={{minHeight : "calc(100vh - 76px)"}}>
           <section className="row p-3">
             <section className="col-sm-12 col-md-4 bg-secondary-subtle d-flex justify-content-center align-items-center">
               <img

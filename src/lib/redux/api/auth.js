@@ -43,7 +43,7 @@ export const getValidationCode = createAsyncThunk(
   async (email) => {
     try {
       const response = await axios.post(
-        "http://localhost:5000/api/forgot-password",
+        "https://test-backend-pink.vercel.app/api/forgot-password",
         { email }
       );
       if (response.data) {
@@ -124,7 +124,7 @@ const authSlice = createSlice({
         deleteCookie("accessToken");
         deleteCookie("refreshToken");
         deleteCookie("userID");
-        window.location.replace("/login");
+        window.location.replace("/");
       })
       .addCase(getValidationCode.pending, (state) => {
         state.isLoading = true;
