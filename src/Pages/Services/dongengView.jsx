@@ -17,19 +17,21 @@ const dongeng = () => {
   const { id } = useParams();
   const [file, setFile] = useState("");
 
+  // console.log(file);
+
   useEffect(() => {
     const getFile = async () => {
       try {
         const Response = await axios.get(
           `https://test-backend-pink.vercel.app/api/dongeng/${id}`
         );
+        console.log(Response.data);
         setFile(Response.data.PdfPath);
       } catch (error) {
         console.log(error.message);
       }
     };
     getFile();
-    console.log(file);
   }, []);
 
   const [numPages, setNumPages] = useState(null);
