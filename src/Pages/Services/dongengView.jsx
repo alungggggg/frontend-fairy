@@ -36,28 +36,36 @@ const dongeng = () => {
     getFile();
   }, []);
 
-  const [numPages, setNumPages] = useState(null);
+  const [pages, setPages] = useState([]);
 
-  function onDocumentLoadSuccess({ numPages }) {
-    setNumPages(numPages);
-  }
+  useEffect(() => {
+    const loadPdf = async () => {
+      const loadingTask = pdfjs.getDocument(file);
+      const pdf = await loadingTask.promise;
+      const numPages = pdf.numPages;
+      const loadedPages = [];
 
-  function pagesList() {
-    var pages = [];
-    for (var i = 1; i <= numPages; i++) {
-      pages.push(
-        <div key={i}>
-          <Page
-            width={500}
-            pageNumber={i}
-            renderAnnotationLayer={false}
-            renderTextLayer={false}
-          />
-        </div>
-      );
+      for (let pageNumber = 1; pageNumber <= numPages; pageNumber++) {
+        const page = await pdf.getPage(pageNumber);
+        const viewport = page.getViewport({ scale: 1 });
+        const canvas = document.createElement("canvas");
+        const context = canvas.getContext("2d");
+        canvas.height = viewport.height;
+        canvas.width = viewport.width;
+
+        // Render PDF page into canvas context
+        await page.render({ canvasContext: context, viewport: viewport })
+          .promise;
+        loadedPages.push(canvas.toDataURL()); // Store the canvas as an image
+      }
+
+      setPages(loadedPages);
+    };
+
+    if (file) {
+      loadPdf();
     }
-    return pages;
-  }
+  }, [file]);
 
   return (
     <>
@@ -98,7 +106,10 @@ const dongeng = () => {
                 Fullscreen
               </button>
             </section>
-            <section className="card-body d-flex justify-content-center align-items-center" style={{ minHeight: "500px" }}>
+            <section
+              className="card-body d-flex justify-content-center align-items-center"
+              style={{ minHeight: "500px" }}
+            >
               {file ? (
                 // <iframe
                 //   src={file}
@@ -106,18 +117,25 @@ const dongeng = () => {
                 //   height="100%"
                 //   style={{ border: "none" }}
                 // ></iframe>
-                <Document file={file} onLoadSuccess={onDocumentLoadSuccess}>
-                  <HTMLFlipBook
-                    ref={book}
-                    showCover={true}
-                    width={500}
-                    height={500}
-                    usePortrait={false}
-                  >
-                    {pagesList()}
-                  </HTMLFlipBook>
-                </Document>
+                <HTMLFlipBook
+                  ref={book}
+                  showCover={true}
+                  width={500}
+                  height={500}
+                  usePortrait={false}
+                >
+                  {pages.map((page, index) => (
+                    <img
+                      key={index}
+                      src={page}
+                      alt={`Page ${index + 1}`}
+                      className="bg-danger w-50 h-100"
+                    />
+                  ))}
+                </HTMLFlipBook>
               ) : (
+                // <Document file={file} onLoadSuccess={onDocumentLoadSuccess}>
+                // </Document>
                 <div className="d-flex justify-content-center align-items-center ">
                   <Loading />
                 </div>
