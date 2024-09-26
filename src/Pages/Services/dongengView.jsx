@@ -34,6 +34,8 @@ const dongeng = () => {
     getFile();
   }, []);
 
+  console.log(file);
+
   const [numPages, setNumPages] = useState(null);
 
   function onDocumentLoadSuccess({ numPages }) {
@@ -97,21 +99,24 @@ const dongeng = () => {
               </button>
             </section>
             <section className="card-body">
-              <Document
-                file={file}
-                // file="https://srv1092-files.hstgr.io/be6ac0f5b5453591/files/public_html/1.pdf"
-                onLoadSuccess={onDocumentLoadSuccess}
-              >
-                <HTMLFlipBook
-                  ref={book}
-                  showCover={true}
-                  width={500}
-                  height={500}
-                  usePortrait={false}
+              {file ? (
+                <Document
+                  file={file}
+                  onLoadSuccess={onDocumentLoadSuccess}
                 >
-                  {pagesList()}
-                </HTMLFlipBook>
-              </Document>
+                  <HTMLFlipBook
+                    ref={book}
+                    showCover={true}
+                    width={500}
+                    height={500}
+                    usePortrait={false}
+                  >
+                    {pagesList()}
+                  </HTMLFlipBook>
+                </Document>
+              ) : (
+                <p>Loading...</p>
+              )}
               <button
                 className="carousel-control-prev"
                 type="button"
