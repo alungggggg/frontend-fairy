@@ -6,6 +6,7 @@ import Header from "../template/header";
 import Footer from "../template/footer";
 import axios from "axios";
 import { Link, useParams } from "react-router-dom";
+import Loading from "../../Component/loading";
 
 pdfjs.GlobalWorkerOptions.workerSrc = new URL(
   "pdfjs-dist/build/pdf.worker.min.mjs",
@@ -27,14 +28,13 @@ const dongeng = () => {
         );
         console.log(Response.data);
         setFile(Response.data.PdfPath);
+        // setFile("");
       } catch (error) {
         console.log(error.message);
       }
     };
     getFile();
   }, []);
-
-  console.log(file);
 
   const [numPages, setNumPages] = useState(null);
 
@@ -98,37 +98,36 @@ const dongeng = () => {
                 Fullscreen
               </button>
             </section>
-            <section className="card-body">
+            <section className="card-body d-flex justify-content-center align-items-center" style={{ minHeight: "500px" }}>
               {file ? (
-                <iframe
-                  src={file}
-                  width="100%"
-                  height="100%"
-                  style={{ border: "none" }}
-                ></iframe>
-                // <Document
-                //   file={file}
-                //   onLoadSuccess={onDocumentLoadSuccess}
-                // >
-                //   <HTMLFlipBook
-                //     ref={book}
-                //     showCover={true}
-                //     width={500}
-                //     height={500}
-                //     usePortrait={false}
-                //   >
-                //     {pagesList()}
-                //   </HTMLFlipBook>
-                // </Document>
+                // <iframe
+                //   src={file}
+                //   width="100%"
+                //   height="100%"
+                //   style={{ border: "none" }}
+                // ></iframe>
+                <Document file={file} onLoadSuccess={onDocumentLoadSuccess}>
+                  <HTMLFlipBook
+                    ref={book}
+                    showCover={true}
+                    width={500}
+                    height={500}
+                    usePortrait={false}
+                  >
+                    {pagesList()}
+                  </HTMLFlipBook>
+                </Document>
               ) : (
-                <p>Loading...</p>
+                <div className="d-flex justify-content-center align-items-center ">
+                  <Loading />
+                </div>
               )}
               <button
                 className="carousel-control-prev"
                 type="button"
                 data-bs-target="#carouselExample"
                 data-bs-slide="prev"
-                // onClick={() => book.current.pageFlip().flipPrev()}
+                onClick={() => book?.current?.pageFlip()?.flipPrev() || ""}
               >
                 <span
                   className="carousel-control-prev-icon bg-dark"
@@ -141,7 +140,7 @@ const dongeng = () => {
                 type="button"
                 data-bs-target="#carouselExample"
                 data-bs-slide="next"
-                // onClick={() => book.current.pageFlip().flipNext()}
+                onClick={() => book?.current?.pageFlip()?.flipNext() || ""}
               >
                 <span
                   className="carousel-control-next-icon bg-dark"
@@ -151,14 +150,14 @@ const dongeng = () => {
               </button>
               {/* <section className="ms-5"></section> */}
             </section>
-            <section className="card-footer text-center p-3">
+            {/* <section className="card-footer text-center p-3">
               <p className="">
                 Ayo mulai menulis ulang cerita di atas dengan cara Anda sendiri!
               </p>
               <Link to={"/dongeng/write"} className="btn btn-orange text-white">
                 Mulai Menulis
               </Link>
-            </section>
+            </section> */}
           </section>
           {/* <section className="card mt-5">
             <section className="card-title border-bottom z-1">
