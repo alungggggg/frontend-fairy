@@ -100,20 +100,26 @@ const dongeng = () => {
             </section>
             <section className="card-body">
               {file ? (
-                <Document
-                  file={file}
-                  onLoadSuccess={onDocumentLoadSuccess}
-                >
-                  <HTMLFlipBook
-                    ref={book}
-                    showCover={true}
-                    width={500}
-                    height={500}
-                    usePortrait={false}
-                  >
-                    {pagesList()}
-                  </HTMLFlipBook>
-                </Document>
+                <iframe
+                  src={file}
+                  width="100%"
+                  height="100%"
+                  style={{ border: "none" }}
+                ></iframe>
+                // <Document
+                //   file={file}
+                //   onLoadSuccess={onDocumentLoadSuccess}
+                // >
+                //   <HTMLFlipBook
+                //     ref={book}
+                //     showCover={true}
+                //     width={500}
+                //     height={500}
+                //     usePortrait={false}
+                //   >
+                //     {pagesList()}
+                //   </HTMLFlipBook>
+                // </Document>
               ) : (
                 <p>Loading...</p>
               )}
