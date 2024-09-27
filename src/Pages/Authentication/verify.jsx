@@ -3,7 +3,7 @@ import { useLocation } from "react-router-dom";
 
 const verified = async (token) => {
     // console.log(token);
-    return await axios.get(`http://localhost:5000/api/verify?token=${token}`)
+    return await axios.get(`https://test-backend-pink.vercel.app/api/verify?token=${token}`)
 }
 
 const verify = () => {

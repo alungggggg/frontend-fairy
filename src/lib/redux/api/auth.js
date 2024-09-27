@@ -7,7 +7,7 @@ import fairyApi from "../../axios";
 export const signIn = createAsyncThunk("auth/login", async (user) => {
   const { credential, password } = user;
   try {
-    const response = await axios.post("http://localhost:5000/api/login", {
+    const response = await axios.post("https://test-backend-pink.vercel.app/api/login", {
       credential,
       password,
     });
@@ -27,7 +27,7 @@ export const signIn = createAsyncThunk("auth/login", async (user) => {
 
 export const signOut = createAsyncThunk("auth/logout", async () => {
   try {
-    await axios.post("http://localhost:5000/api/logout", {
+    await axios.post("https://test-backend-pink.vercel.app/api/logout", {
       refreshToken: getCookie("refreshToken"),
     });
   } catch (error) {

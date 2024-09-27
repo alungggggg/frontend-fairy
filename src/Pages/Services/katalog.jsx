@@ -15,7 +15,7 @@ const Katalog = () => {
   useEffect(() => {
     const fetchDongeng = async () => {
       setIsLoading(true);
-      const response = await axios.get("http://localhost:5000/api/dongeng");
+      const response = await axios.get("https://test-backend-pink.vercel.app/api/dongeng");
       setItems(response.data);
       setIsLoading(false);
     };

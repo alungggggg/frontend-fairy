@@ -51,7 +51,7 @@ const login = () => {
   }, []);
 
   const dispatch = useDispatch();
-  const { error } = useSelector((state) => state.auth);
+  const { error, isLoading } = useSelector((state) => state.auth);
 
   const submit = async ({ credential, password }) => {
     console.log(credential, password);
@@ -69,7 +69,10 @@ const login = () => {
 
   return (
     <AuthTemplate>
-      <section className="d-flex align-items-center justify-content-center login" style={{minHeight:"calc(100vh - 76px)"}}>
+      <section
+        className="d-flex align-items-center justify-content-center login"
+        style={{ minHeight: "calc(100vh - 76px)" }}
+      >
         <section className="login-item mx-1">
           {/* <h2 className="text-blue mt-md-0">Masuk</h2> */}
           <section className="card mt-2 shadow">
@@ -93,7 +96,9 @@ const login = () => {
               >
                 <Form>
                   <section className="form-group">
-                    <label className="form-label fw-bold">EMAIL OR USERNAME</label>
+                    <label className="form-label fw-bold">
+                      EMAIL OR USERNAME
+                    </label>
                     <Field
                       type="text"
                       name="credential"
@@ -130,8 +135,18 @@ const login = () => {
                     <button
                       type="submit"
                       className="btn btn-orange py-2 text-white"
+                      style={{ height: "60px" }}
                     >
-                      Masuk
+                      {isLoading ? (
+                        <div
+                          className="spinner-border text-light"
+                          role="status"
+                        >
+                          <span className="visually-hidden">Loading...</span>
+                        </div>
+                      ) : (
+                        "Masuk"
+                      )}
                     </button>
                   </section>
                   <section className="form-group text-center mt-4">

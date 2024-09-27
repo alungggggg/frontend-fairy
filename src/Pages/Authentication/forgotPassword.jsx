@@ -9,7 +9,7 @@ import AuthTemplate from "./authTemplate";
 import axios from "axios";
 
 const isValidToken = async (token) => {
-  return await axios.get(`http://localhost:5000/api/isvalidtoken/${token}`);
+  return await axios.get(`https://test-backend-pink.vercel.app/api/isvalidtoken/${token}`);
 };
 
 const getCodeSchema = Yup.object({
@@ -102,7 +102,7 @@ const forgotPassword = () => {
         if ((await isValidToken(token)).data.status === true) {
           console.log(
             await axios.post(
-              `http://localhost:5000/api/forgot-password/${token}`,
+              `https://test-backend-pink.vercel.app/api/forgot-password/${token}`,
               { newPassword: values.newPassword }
             )
           );
