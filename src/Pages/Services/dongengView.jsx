@@ -8,10 +8,10 @@ import axios from "axios";
 import { Link, useParams } from "react-router-dom";
 import Loading from "../../Component/loading";
 
-pdfjs.GlobalWorkerOptions.workerSrc = new URL(
-  "pdfjs-dist/legacy/build/pdf.worker.min.mjs",
-  import.meta.url
-).toString();
+// pdfjs.GlobalWorkerOptions.workerSrc = new URL(
+//   "pdfjs-dist/legacy/build/pdf.worker.min.mjs",
+//   import.meta.url
+// ).toString();
 
 const dongeng = () => {
   const book = useRef();
@@ -27,7 +27,7 @@ const dongeng = () => {
           `https://test-backend-pink.vercel.app/api/dongeng/${id}`
         );
         console.log(Response.data);
-        setFile(Response.data.PdfPath);
+        setFile("ANDE ANDE LUMUT.pdf");
         // setFile("");
       } catch (error) {
         console.log(error.message);
@@ -42,22 +42,22 @@ const dongeng = () => {
     setNumPages(numPages);
   }
 
-  function pagesList() {
-    var pages = [];
-    for (var i = 1; i <= numPages; i++) {
-      pages.push(
-        <div key={i}>
-          <Page
-            width={500}
-            pageNumber={i}
-            renderAnnotationLayer={false}
-            renderTextLayer={false}
-          />
-        </div>
-      );
-    }
-    return pages;
-  }
+  // function pagesList() {
+  //   var pages = [];
+  //   for (var i = 1; i <= numPages; i++) {
+  //     pages.push(
+  //       <div key={i}>
+  //         <Page
+  //           width={500}
+  //           pageNumber={i}
+  //           renderAnnotationLayer={false}
+  //           renderTextLayer={false}
+  //         />
+  //       </div>
+  //     );
+  //   }
+  //   return pages;
+  // }
 
   return (
     <>
@@ -98,7 +98,10 @@ const dongeng = () => {
                 Fullscreen
               </button>
             </section>
-            <section className="card-body d-flex justify-content-center align-items-center" style={{ minHeight: "500px" }}>
+            <section
+              className="card-body d-flex justify-content-center align-items-center"
+              style={{ minHeight: "500px" }}
+            >
               {file ? (
                 // <iframe
                 //   src={file}
@@ -106,23 +109,65 @@ const dongeng = () => {
                 //   height="100%"
                 //   style={{ border: "none" }}
                 // ></iframe>
-                <Document file={file} onLoadSuccess={onDocumentLoadSuccess}>
-                  <HTMLFlipBook
-                    ref={book}
-                    showCover={true}
-                    width={500}
-                    height={500}
-                    usePortrait={false}
-                  >
-                    {pagesList()}
-                  </HTMLFlipBook>
-                </Document>
+                // <Document file={file} onLoadSuccess={onDocumentLoadSuccess}>
+                //   <HTMLFlipBook
+                //     ref={book}
+                //     showCover={true}
+                //     width={500}
+                //     height={500}
+                //     usePortrait={false}
+                //   >
+                //     {pagesList()}
+                //   </HTMLFlipBook>
+                // </Document>
+                // <iframe
+                //   src={file}
+                //   type="application/pdf"
+                //   frameBorder="0"
+                //   scrolling="auto"
+                //   height="500px"
+                //   width="100%"
+                // ></iframe>
+                // <div
+                //   style={{
+                //     position: "relative",
+                //     paddingTop: "max(60%,324px)",
+                //     width: "100%",
+                //     height: 0,
+                //   }}
+                // >
+                //   <iframe
+                //     style={{
+                //       position: "absolute",
+                //       border: "none",
+                //       width: "100%",
+                //       height: "500px",
+                //       left: 0,
+                //       top: 0,
+                //     }}
+                //     src="https://online.fliphtml5.com/uhhhs/xfai/"
+                //     seamless="seamless"
+                //     scrolling="no"
+                //     frameBorder={0}
+                //     allowTransparency="true"
+                //     allowFullScreen="true"
+                //   />
+                // </div>
+                <iframe
+                  src="https://www.flipbookpdf.net/web/site/6c12e7ce9d30de8f518b55adfaf49de2e8b2da67202410.pdf.html"
+                  width="900"
+                  height="637"
+                  frameBorder="0"
+                  webkitAllowFullScreen
+                  mozallowfullscreen
+                  allowFullScreen
+                ></iframe>
               ) : (
                 <div className="d-flex justify-content-center align-items-center ">
                   <Loading />
                 </div>
               )}
-              <button
+              {/* <button
                 className="carousel-control-prev"
                 type="button"
                 data-bs-target="#carouselExample"
@@ -147,7 +192,7 @@ const dongeng = () => {
                   aria-hidden="true"
                 ></span>
                 <span className="visually-hidden">Next</span>
-              </button>
+              </button> */}
               {/* <section className="ms-5"></section> */}
             </section>
             {/* <section className="card-footer text-center p-3">
