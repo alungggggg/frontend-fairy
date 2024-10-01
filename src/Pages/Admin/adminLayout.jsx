@@ -1,4 +1,10 @@
-import { Link, Navigate, NavLink, useLocation, useNavigate } from "react-router-dom";
+import {
+  Link,
+  Navigate,
+  NavLink,
+  useLocation,
+  useNavigate,
+} from "react-router-dom";
 import Header from "../template/header";
 import Sidebar from "./Component/sidebar";
 import { useEffect, useState } from "react";
@@ -59,20 +65,15 @@ const AdminLayout = ({ children }) => {
   return (
     <div className="container-fluid bg-night">
       <div className="d-flex flex-column justify-content-between flex-md-row align-items-center text-light px-sm-2 px-0 py-4 bg-night gap-4">
-        <Link
-          to={"/"}
-          className="navbar-brand d-flex align-items-center"
-        >
-          <div style={{ minWidth: "50px" }}>
-            <img
-              src="https://buku.kemdikbud.go.id/assets/image/logo-sibi.png"
-              height={50}
-              alt="Logo"
-            />
-          </div>
-          <section className="navbar-dark" style={{ fontSize: "0.95rem" }}>
-            <section>Sistem Informasi</section>
-            <section className="fw-bold">Perbukuan Indonesia</section>
+        <Link to={"/"} className="navbar-brand d-flex align-items-center">
+          <img
+            src="https://logobagus.com/wp-content/uploads/2024/01/logo_unp_kediri-768x769.png"
+            height={50}
+            alt="Logo"
+          />
+          <section className="navbar-dark ms-2" style={{ fontSize: "0.95rem" }}>
+            <section>Dongeng Nusantara</section>
+            <section className="fw-bold">Panji Kediri</section>
           </section>
         </Link>
         <div className="dropdown">
