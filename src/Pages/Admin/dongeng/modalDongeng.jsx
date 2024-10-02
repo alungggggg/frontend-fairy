@@ -1,5 +1,7 @@
 import * as Yup from "yup";
 import AddDongeng from "./addDongeng";
+import { useParams } from "react-router-dom";
+import UpdateDongeng from "./updateDongeng";
 
 export const dongengSchema = Yup.object({
   title: Yup.string()
@@ -7,14 +9,19 @@ export const dongengSchema = Yup.object({
     .min(1, "Title must be at least 1 character")
     .max(100, "Title must be at most 100 characters")
     .matches(/^[a-zA-Z0-9 ]*$/, "Title must be alphanumeric"),
-  pdf: Yup.mixed()
-    .required("PDF file is required")
-    .test("fileType", "File must be a PDF", (value) => {
-      return value && value.type === "application/pdf";
+  cover: Yup.mixed()
+    .required("Gambar wajib diunggah")
+    .test("fileSize", "Ukuran gambar terlalu besar", (value) => {
+      return value && value.size <= 2 * 1024 * 1024; // Maksimal 2 MB
     })
-    .test("fileExtension", "File must have a .pdf extension", (value) => {
-      return value && value.name.toString().toLowerCase().endsWith(".pdf");
+    .test("fileType", "Format gambar tidak didukung", (value) => {
+      return (
+        value && ["image/jpeg", "image/png", "image/gif"].includes(value.type)
+      );
     }),
+  pdfURL: Yup.string()
+    .required("URL wajib diisi")
+    .url("Format URL tidak valid"),
 });
 
 function ModalLayout({ children }) {
@@ -46,6 +53,11 @@ function ModalLayout({ children }) {
 }
 
 const ModalDongeng = () => {
+  const hash = window.location.hash; // Get the hash part of the URL
+  const params = new URLSearchParams(hash.split("?")[1]); // Extract the query parameters from the hash
+  const id_dongeng = params.get("id_dongeng");
+  console.log(id_dongeng);
+
   return (
     <ModalLayout>
       <AddDongeng />
