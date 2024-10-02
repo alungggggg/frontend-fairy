@@ -18,14 +18,16 @@ const uraianSingkatPanjang = Yup.object().shape({
 const AddSoalUraianPanjang = () => {
   const dispatch = useDispatch();
   const { dongeng } = useSelector((state) => state.dongeng) || [];
-  const { soalUraianPanjang } = useSelector((state) => state.soalUraianPanjang);
+  const { soalUraianPanjang , isLoading } = useSelector((state) => state.soalUraianPanjang);
 
   async function handleAddSoalUraianPanjang(value) {
     const selectedDongeng = dongeng.find(
       (d) => d.id === parseInt(value.idDongeng)
     );
 
-    var isSoalAlreadyCreated = soalUraianPanjang.find((soal) => soal.idDongeng === parseInt(value.idDongeng));
+    var isSoalAlreadyCreated = soalUraianPanjang.find(
+      (soal) => soal.idDongeng === parseInt(value.idDongeng)
+    );
 
     if (isSoalAlreadyCreated) {
       document.getElementById("showModalUraianPanjang").click();
@@ -34,13 +36,13 @@ const AddSoalUraianPanjang = () => {
         text: "Quiz telah ada !!",
         icon: "error",
       });
-      return null
+      return null;
     }
 
     var value = {
       soal: `Tulis kembali dongeng ${selectedDongeng.title} dengan bahasamu sendiri !!`,
       idDongeng: value.idDongeng,
-      jawaban: "",
+      jawaban: value.jawaban,
     };
 
     var res = await dispatch(addSoalUraianPanjang(value));
@@ -105,14 +107,7 @@ const AddSoalUraianPanjang = () => {
                     <label htmlFor="idDongeng" className="form-label">
                       Judul Dongeng
                     </label>
-                    <Field
-                      as="select"
-                      name="idDongeng"
-                      className="form-select"
-                      // onChange={(e) => {
-                      //   setIdSelected(e.target.value)
-                      // }}
-                    >
+                    <Field as="select" name="idDongeng" className="form-select">
                       <option value="">Pilih Dongeng</option>
                       {dongeng
                         ? dongeng.map((dongeng) => (
@@ -127,22 +122,22 @@ const AddSoalUraianPanjang = () => {
                     ) : null}
                   </div>
 
-                  {/* <div className="mb-3">
+                  <div className="mb-3">
                     <label htmlFor="jawaban" className="form-label">
-                      Jawaban
+                      Kata Kunci
                     </label>
                     <Field
                       as="textarea"
                       name="jawaban"
                       className="form-control"
                       id="jawaban"
-                      placeholder="Masukan jawaban"
+                      placeholder='Masukan jawaban , contoh : "keterangan1,keterangan2,keterangan3,..."'
                       rows="4"
                     />
                     {errors.jawaban && touched.jawaban ? (
                       <div className="text-danger ">{errors.jawaban}</div>
                     ) : null}
-                  </div> */}
+                  </div>
                 </div>
 
                 <button
@@ -159,6 +154,7 @@ const AddSoalUraianPanjang = () => {
             type="button"
             className="btn btn-secondary"
             data-bs-dismiss="modal"
+            disabled={isLoading}
           >
             Close
           </button>
@@ -168,6 +164,7 @@ const AddSoalUraianPanjang = () => {
             onClick={() => {
               document.getElementById("btnSubmitAddSoalUraianPanjang").click();
             }}
+            disabled={isLoading}
           >
             Submit
           </button>

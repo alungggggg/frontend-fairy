@@ -6,9 +6,10 @@ import { forumQuizSchema } from "./modal";
 import { addForumQuiz, getForumQuiz } from "../../../lib/redux/api/forumQuiz";
 import Swal from "sweetalert2";
 import { getNewAccessToken } from "../../../lib/redux/api/auth";
+import { listSekolah } from "../../../lib/listSekolah";
 
 const AddForumQuiz = () => {
-  const sekolah = ["Sekolah 1", "Sekolah 2", "Sekolah 3"];
+  const sekolah = listSekolah
   const dispatch = useDispatch();
   const { dongeng } = useSelector((state) => state.dongeng);
   let { error } = useSelector((state) => state.forumQuiz);
@@ -108,8 +109,8 @@ const AddForumQuiz = () => {
                         Pilih Sekolah
                       </option>
                       {sekolah.map((item, i) => (
-                        <option key={i} value={item}>
-                          {item}
+                        <option key={i} value={item.nama}>
+                          {item.nama}
                         </option>
                       ))}
                     </Field>
