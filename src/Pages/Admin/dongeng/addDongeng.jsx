@@ -47,16 +47,15 @@ const AddDongeng = () => {
         </div>
         <div className="modal-body">
           <Formik
-            initialValues={{ title: "", cover: "", pdfURL: "" }}
+            initialValues={{ pdf: null }}
             validationSchema={dongengSchema}
             validateOnChange={false}
             validateOnBlur={false}
-            onSubmit={(values, { setSubmitting, validate }) => {
-              validate(values);
+            onSubmit={(values, { setSubmitting }) => {
               post(values);
             }}
           >
-            {({ setFieldValue, errors, touched }) => (
+            {({ setFieldValue, errors, touched, isSubmitting }) => (
               <Form>
                 <section className="form-group">
                   <label className="form-label fw-bold me-2">Title</label>
@@ -75,15 +74,15 @@ const AddDongeng = () => {
                 <section className="form-group my-4">
                   <input
                     type="file"
-                    name="cover"
+                    name="pdf"
                     className="form-control"
                     onChange={(event) => {
-                      setFieldValue("cover", event.target.files[0]);
+                      setFieldValue("pdf", event.target.files[0]);
                       console.log(event.target.files[0]);
                     }}
                   />
-                  {errors.cover && touched.cover ? (
-                    <div className="text-danger">{errors.cover}</div>
+                  {errors.pdf && touched.pdf ? (
+                    <div className="text-danger">{errors.pdf}</div>
                   ) : null}
                 </section>
                 <section className="form-group my-4">
@@ -105,7 +104,7 @@ const AddDongeng = () => {
                 <section className="form-group d-grid gap-2 mt-3">
                   <button
                     type="submit"
-                    id="submitAddDongeng2"
+                    id="submitAddDongeng"
                     className="d-none"
                   >
                     Submit
@@ -127,7 +126,7 @@ const AddDongeng = () => {
             type="button"
             className="btn btn-primary"
             onClick={() => {
-              document.getElementById("submitAddDongeng2").click();
+              document.getElementById("submitAddDongeng").click();
             }}
           >
             Submit

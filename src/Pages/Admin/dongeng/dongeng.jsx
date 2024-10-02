@@ -162,14 +162,7 @@ const dongeng = () => {
                       <td>{item?.pdfURL}</td>
                       <td>{item?.view}</td>
                       <td className="text-center" style={{ maxWidth: "100px" }}>
-                        <button
-                          type="button"
-                          className="btn btn-primary me-1"
-                          onClick={() => {
-                            navigate(`/admin/dongeng?id_dongeng=${item?.id}`);
-                            document.getElementById("showModalDongeng").click();
-                          }}
-                        >
+                        <button type="button" className="btn btn-primary me-1">
                           <EditIcon size={18} />
                         </button>
                         <button
