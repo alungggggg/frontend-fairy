@@ -48,7 +48,7 @@ function ModalLayout({ children }) {
 const ModalDongeng = () => {
   return (
     <ModalLayout>
-      <AddDongeng/>
+      <AddDongeng />
     </ModalLayout>
   );
 };
