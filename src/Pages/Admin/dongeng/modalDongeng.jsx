@@ -7,16 +7,13 @@ export const dongengSchema = Yup.object({
     .min(1, "Title must be at least 1 character")
     .max(100, "Title must be at most 100 characters")
     .matches(/^[a-zA-Z0-9 ]*$/, "Title must be alphanumeric"),
-  pdfURL: Yup.mixed()
-    .mixed()
-    .required("Gambar wajib diunggah")
-    .test("fileSize", "Ukuran gambar terlalu besar", (value) => {
-      return value && value.size <= 2 * 1024 * 1024; // Maksimal 2 MB
+  pdf: Yup.mixed()
+    .required("PDF file is required")
+    .test("fileType", "File must be a PDF", (value) => {
+      return value && value.type === "application/pdf";
     })
-    .test("fileType", "Format gambar tidak didukung", (value) => {
-      return (
-        value && ["image/jpeg", "image/png", "image/gif"].includes(value.type)
-      );
+    .test("fileExtension", "File must have a .pdf extension", (value) => {
+      return value && value.name.toString().toLowerCase().endsWith(".pdf");
     }),
 });
 
