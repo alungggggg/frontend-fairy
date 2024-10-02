@@ -11,19 +11,24 @@ import { useDispatch } from "react-redux";
 import { addUsers } from "../../../lib/redux/api/userAdmin";
 import Swal from "sweetalert2";
 import { getNewAccessToken } from "../../../lib/redux/api/auth";
+import { listSekolah } from "../../../lib/listSekolah";
 
 const SiswaForm = () => (
   <>
     <div className="form-group mb-3">
-      <label htmlFor="" className="form-label fw-bold">
+      <label htmlFor="sekolah" className="form-label">
         SEKOLAH
       </label>
-      <Field
-        type="text"
-        name="sekolah"
-        className="form-control"
-        placeholder="Masukan nama lengkap"
-      />
+      <Field as="select" className="form-select" id="sekolah" name="sekolah">
+        <option value="" disabled>
+          Pilih Sekolah
+        </option>
+        {listSekolah.map((item, i) => (
+          <option key={i} value={item.nama}>
+            {item.nama}
+          </option>
+        ))}
+      </Field>
       <ErrorMessage name="sekolah" render={errorMessage} />
     </div>
 
@@ -45,15 +50,19 @@ const SiswaForm = () => (
 const GuruForm = () => (
   <>
     <div className="form-group mb-3">
-      <label htmlFor="" className="form-label fw-bold">
+      <label htmlFor="sekolah" className="form-label">
         SEKOLAH
       </label>
-      <Field
-        type="text"
-        name="sekolah"
-        className="form-control"
-        placeholder="Masukan nama lengkap"
-      />
+      <Field as="select" className="form-select" id="sekolah" name="sekolah">
+        <option value="" disabled>
+          Pilih Sekolah
+        </option>
+        {listSekolah.map((item, i) => (
+          <option key={i} value={item.nama}>
+            {item.nama}
+          </option>
+        ))}
+      </Field>
       <ErrorMessage name="sekolah" render={errorMessage} />
     </div>
   </>

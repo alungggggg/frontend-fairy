@@ -18,7 +18,7 @@ const uraianPanjangSchema = Yup.object().shape({
 const EditSoalUraianPanjang = ({ id }) => {
   const dispatch = useDispatch();
   const { dongeng } = useSelector((state) => state.dongeng);
-  const { soalUraianPanjang } = useSelector((state) => state.soalUraianPanjang);
+  const { soalUraianPanjang , isLoading } = useSelector((state) => state.soalUraianPanjang);
 
   const [soal, setSoal] = useState({});
 
@@ -85,6 +85,7 @@ const EditSoalUraianPanjang = ({ id }) => {
                       id="soal"
                       placeholder="Masukan soal"
                       rows="4"
+                      disabled
                     />
                     {errors.soal && touched.soal ? (
                       <div className="text-danger ">{errors.soal}</div>
@@ -95,7 +96,7 @@ const EditSoalUraianPanjang = ({ id }) => {
                     <label htmlFor="idDongeng" className="form-label">
                       Judul Dongeng
                     </label>
-                    <Field as="select" name="idDongeng" className="form-select">
+                    <Field as="select" name="idDongeng" className="form-select" disabled>
                       <option value="">Pilih Dongeng</option>
                       {dongeng.map((dongeng) => (
                         <option key={dongeng.id} value={dongeng.id}>
@@ -110,7 +111,7 @@ const EditSoalUraianPanjang = ({ id }) => {
 
                   <div className="mb-3">
                     <label htmlFor="jawaban" className="form-label">
-                      Jawaban
+                      Kata Kunci
                     </label>
                     <Field
                       as="textarea"
@@ -140,6 +141,7 @@ const EditSoalUraianPanjang = ({ id }) => {
             type="button"
             className="btn btn-secondary"
             data-bs-dismiss="modal"
+            disabled={isLoading}
           >
             Close
           </button>
@@ -149,6 +151,7 @@ const EditSoalUraianPanjang = ({ id }) => {
             onClick={() => {
               document.getElementById("btnSubmitEditSoalUraianPanjang").click();
             }}
+            disabled={isLoading}
           >
             Submit
           </button>

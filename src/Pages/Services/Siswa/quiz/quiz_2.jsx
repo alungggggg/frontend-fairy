@@ -408,11 +408,11 @@ const Quiz_2 = () => {
     let nilaiUrianSingkat = getNilaiUraianSingkat(
       soal.filter((soal) => soal.jenis === "uraianSingkat")
     );
-    // let nilaiUraianPanjang = getNilaiUraianPanjang(
-    //   soal.filter((soal) => soal.jenis === "uraianPanjang")
-    // );
+    let nilaiUraianPanjang = getNilaiUraianPanjang(
+      soal.filter((soal) => soal.jenis === "uraianPanjang")
+    );
 
-    var nilai = (nilaiPilgan + nilaiUrianSingkat) / 2;
+    var nilai = (nilaiPilgan + nilaiUrianSingkat + nilaiUraianPanjang) / 3;
 
     const res = await dispatch(
       updateNilaiForum({

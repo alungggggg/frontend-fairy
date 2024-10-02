@@ -7,6 +7,7 @@ import { useEffect } from "react";
 import { getAllDongeng } from "../../../lib/redux/api/dongeng";
 import Swal from "sweetalert2";
 import { getNewAccessToken } from "../../../lib/redux/api/auth";
+import { listSekolah } from "../../../lib/listSekolah";
 
 function ModalLayout({ childern }) {
   return (
@@ -138,11 +139,20 @@ const ModalEditBody = () => {
                   Sekolah
                 </label>
                 <Field
-                  type="text"
-                  className="form-control"
+                  as="select"
+                  className="form-select"
                   id="sekolah"
                   name="sekolah"
-                />
+                >
+                  <option value="" disabled>
+                    Pilih Sekolah
+                  </option>
+                  {listSekolah.map((item, i) => (
+                    <option key={i} value={item.nama}>
+                      {item.nama}
+                    </option>
+                  ))}
+                </Field>
               </div>
               <div className="mb-3">
                 <label htmlFor="access_date" className="form-label">
