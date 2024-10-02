@@ -159,6 +159,8 @@ const dongeng = () => {
                         </div>
                       </td>
                       <td>{item?.title || ``}</td>
+                      <td>{item?.pdfURL}</td>
+                      <td>{item?.view}</td>
                       <td className="text-center" style={{ maxWidth: "100px" }}>
                         <button type="button" className="btn btn-primary me-1">
                           <EditIcon size={18} />

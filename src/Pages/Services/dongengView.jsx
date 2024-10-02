@@ -1,11 +1,9 @@
 import "react-pdf/dist/esm/Page/AnnotationLayer.css";
 import { useEffect, useRef, useState } from "react";
-import HTMLFlipBook from "react-pageflip";
-import { pdfjs, Document, Page } from "react-pdf";
 import Header from "../template/header";
 import Footer from "../template/footer";
 import axios from "axios";
-import { Link, useParams } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import Loading from "../../Component/loading";
 
 // pdfjs.GlobalWorkerOptions.workerSrc = new URL(
@@ -14,7 +12,7 @@ import Loading from "../../Component/loading";
 // ).toString();
 
 const dongeng = () => {
-  const book = useRef();
+  // const book = useRef();
   const { id } = useParams();
   const [file, setFile] = useState("");
 
@@ -26,9 +24,7 @@ const dongeng = () => {
         const Response = await axios.get(
           `https://test-backend-pink.vercel.app/api/dongeng/${id}`
         );
-        console.log(Response.data);
-        setFile("ANDE ANDE LUMUT.pdf");
-        // setFile("");
+        setFile(Response.data);
       } catch (error) {
         console.log(error.message);
       }
@@ -41,6 +37,8 @@ const dongeng = () => {
   function onDocumentLoadSuccess({ numPages }) {
     setNumPages(numPages);
   }
+
+  // axios.get("");
 
   // function pagesList() {
   //   var pages = [];
@@ -66,37 +64,9 @@ const dongeng = () => {
         <section className="container mt-3 mb-3" id="container">
           <section className="card">
             <section className="card-title border-bottom z-1">
-              <h1 className="fw-bold fs-5 p-2 m-0 float-left m-2">Judul</h1>
-              <button
-                className="btn btn-succes border-black fw-bold float-right p-2 m-2"
-                onClick={() => {
-                  let container = document.getElementById("container");
-                  if (container.requestFullscreen) {
-                    container.requestFullscreen();
-                  } else if (container.mozRequestFullScreen) {
-                    // Firefox
-                    container.mozRequestFullScreen();
-                  } else if (container.webkitRequestFullscreen) {
-                    // Chrome, Safari and Opera
-                    container.webkitRequestFullscreen();
-                  } else if (container.msRequestFullscreen) {
-                    // IE/Edge
-                    container.msRequestFullscreen();
-                  }
-                }}
-              >
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  width="16"
-                  height="16"
-                  fill="currentColor"
-                  className="bi bi-fullscreen me-1 mb-1"
-                  viewBox="0 0 16 16"
-                >
-                  <path d="M1.5 1a.5.5 0 0 0-.5.5v4a.5.5 0 0 1-1 0v-4A1.5 1.5 0 0 1 1.5 0h4a.5.5 0 0 1 0 1zM10 .5a.5.5 0 0 1 .5-.5h4A1.5 1.5 0 0 1 16 1.5v4a.5.5 0 0 1-1 0v-4a.5.5 0 0 0-.5-.5h-4a.5.5 0 0 1-.5-.5M.5 10a.5.5 0 0 1 .5.5v4a.5.5 0 0 0 .5.5h4a.5.5 0 0 1 0 1h-4A1.5 1.5 0 0 1 0 14.5v-4a.5.5 0 0 1 .5-.5m15 0a.5.5 0 0 1 .5.5v4a1.5 1.5 0 0 1-1.5 1.5h-4a.5.5 0 0 1 0-1h4a.5.5 0 0 0 .5-.5v-4a.5.5 0 0 1 .5-.5" />
-                </svg>
-                Fullscreen
-              </button>
+              <h1 className="fw-bold fs-5 p-2 m-0 float-left m-2">
+                {file.title}
+              </h1>
             </section>
             <section
               className="card-body d-flex justify-content-center align-items-center"
@@ -154,7 +124,7 @@ const dongeng = () => {
                 //   />
                 // </div>
                 <iframe
-                  src="https://www.flipbookpdf.net/web/site/6c12e7ce9d30de8f518b55adfaf49de2e8b2da67202410.pdf.html"
+                  src={file.pdfURL}
                   width="900"
                   height="637"
                   frameBorder="0"

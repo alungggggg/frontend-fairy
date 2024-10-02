@@ -1,10 +1,10 @@
-import React from "react";
+// import React from "react";
 import { Formik, Form, Field } from "formik";
 import * as Yup from "yup";
 import { useDispatch, useSelector } from "react-redux";
 import { addDongeng, getAllDongeng } from "../../../lib/redux/api/dongeng";
-import AdminLayout from "../adminLayout";
-import { Link } from "react-router-dom";
+// import AdminLayout from "../adminLayout";
+// import { Link } from "react-router-dom";
 import { getNewAccessToken } from "../../../lib/redux/api/auth";
 import Swal from "sweetalert2";
 import { dongengSchema } from "./modalDongeng";
@@ -83,6 +83,22 @@ const AddDongeng = () => {
                   />
                   {errors.pdf && touched.pdf ? (
                     <div className="text-danger">{errors.pdf}</div>
+                  ) : null}
+                </section>
+                <section className="form-group my-4">
+                  <label className="form-label fw-bold me-2">
+                    Flipbook Url
+                  </label>
+                  <input
+                    type="text"
+                    name="pdfURL"
+                    className="form-control"
+                    onChange={(event) => {
+                      setFieldValue("pdfURL", event.target.value);
+                    }}
+                  />
+                  {errors.pdfURL && touched.pdfURL ? (
+                    <div className="text-danger">{errors.pdfURL}</div>
                   ) : null}
                 </section>
                 <section className="form-group d-grid gap-2 mt-3">
