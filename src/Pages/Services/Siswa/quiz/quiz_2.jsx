@@ -405,7 +405,7 @@ const Quiz_2 = () => {
     let nilaiPilgan = getNilaiPilgan(
       soal.filter((soal) => soal.jenis === "pilgan")
     );
-    let nilaiUrianSingkat = getNilaiUraianSingkat(
+    let nilaiUrianSingkat = getNilaiUraianPanjang(
       soal.filter((soal) => soal.jenis === "uraianSingkat")
     );
     let nilaiUraianPanjang = getNilaiUraianPanjang(
@@ -413,6 +413,8 @@ const Quiz_2 = () => {
     );
 
     var nilai = (nilaiPilgan + nilaiUrianSingkat + nilaiUraianPanjang) / 3;
+
+    console.log(`nilai pilgan : ${nilaiPilgan} , Nilai Uraian : ${nilaiUrianSingkat} , nilai menulis : ${nilaiUraianPanjang}` );
 
     const res = await dispatch(
       updateNilaiForum({
