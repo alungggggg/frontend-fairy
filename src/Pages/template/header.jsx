@@ -81,50 +81,9 @@ const Header = () => {
                   </Link>
                 </li>
                 <li className="nav-item dropdown mx-1">
-                  <Link
-                    to={"/petunjuk"}
-                    className="nav-link dropdown-toggle dropdown-mobile"
-                    role="button"
-                    data-bs-toggle="dropdown"
-                    aria-expanded="false"
-                  >
+                  <Link to={"/petunjuk"} className="nav-link">
                     Petunjuk
                   </Link>
-                  <ul
-                    className="dropdown-menu dropdown-menu-end px-2"
-                    aria-labelledby="dropdownCatalogue"
-                  >
-                    <li>
-                      <Link to={"/petunjuk"} className="dropdown-item p-2">
-                        <img
-                          src="https://buku.kemdikbud.go.id/assets/image/home/Group%2020.png"
-                          width={30}
-                          alt=""
-                        />
-                        <span className="ms-2 my-auto">untuk Siswa</span>
-                      </Link>
-                    </li>
-                    <li>
-                      <Link to="/petunjuk" className="dropdown-item p-2">
-                        <img
-                          src="https://buku.kemdikbud.go.id/assets/image/home/Group%2021.png"
-                          width={30}
-                          alt=""
-                        />
-                        <span className="ms-2 my-auto">untuk Guru</span>
-                      </Link>
-                    </li>
-                    <li>
-                      <Link to="/petunjuk" className="dropdown-item p-2">
-                        <img
-                          src="https://buku.kemdikbud.go.id/assets/image/home/Group%2022.png"
-                          width={30}
-                          alt=""
-                        />
-                        <span className="ms-2 my-auto">untuk Orang Tua</span>
-                      </Link>
-                    </li>
-                  </ul>
                 </li>
                 <li
                   className={`nav-item dropdown mx-1 ${
@@ -207,10 +166,7 @@ const Header = () => {
                 }`}
               >
                 <li className="nav-item ms-lg-3 ms-0 pt-lg-0 pt-4 text-start">
-                  <Link
-                    to={"/login"}
-                    className="btn btn-sm btn-outline-light "
-                  >
+                  <Link to={"/login"} className="btn btn-sm btn-outline-light ">
                     <div className="d-flex align-items-center gap-2">
                       Masuk <SignInIcon size={24} />
                     </div>

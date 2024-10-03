@@ -52,14 +52,14 @@ const Home = () => {
     set();
   }, []);
 
-  const [quotes , setQuotes] = useState("")
+  const [quotes, setQuotes] = useState("");
 
-  async function generateAI () {
-    const promp = "buat satu kalimat motivasi pendek dengan tema dongeng"
-    const result = await modelAI.generateContent(promp)
-    const speech = new SpeechSynthesisUtterance(result.response.text())
-    speech.lang = "ID"
-    window.speechSynthesis.speak(speech)
+  async function generateAI() {
+    const promp = "buat satu kalimat motivasi pendek dengan tema dongeng";
+    const result = await modelAI.generateContent(promp);
+    const speech = new SpeechSynthesisUtterance(result.response.text());
+    speech.lang = "ID";
+    window.speechSynthesis.speak(speech);
     setQuotes(result.response.text());
   }
 
@@ -112,9 +112,12 @@ const Home = () => {
                     placeholder="Klik untuk mendapat quote...."
                     aria-label="Cari buku disini"
                     value={quotes}
-                    
                   />
-                  <section className="bg-white my-auto" style={{ padding: 9 }} onClick={generateAI}>
+                  <section
+                    className="bg-white my-auto"
+                    style={{ padding: 9 }}
+                    onClick={generateAI}
+                  >
                     <button className="btn btn-orange text-white" type="button">
                       Quotes
                     </button>
@@ -231,7 +234,10 @@ const Home = () => {
                     to={"dongeng/detail/" + book.id}
                     className="text-decoration-none text-dark position-relative"
                   >
-                    <section className="card border-1 mt-3 CardBook_card rounded shadow" style={{minHeight: "200px"}}>
+                    <section
+                      className="card border-1 mt-3 CardBook_card rounded shadow"
+                      style={{ minHeight: "200px" }}
+                    >
                       <section className="card-header text-center text-lg-start bg-white p-0 border-0">
                         <img
                           src={book.cover}
@@ -240,8 +246,14 @@ const Home = () => {
                         />
                       </section>
                     </section>
-                    <section className="position-absolute d-flex flex-column gap-2" style={{top: "30px", left: "-2px"}}>
-                      <span className="badge rounded bg-danger" style={{width:"50px"}}>
+                    <section
+                      className="position-absolute d-flex flex-column gap-2"
+                      style={{ top: "30px", left: "-2px" }}
+                    >
+                      <span
+                        className="badge rounded bg-danger"
+                        style={{ width: "50px" }}
+                      >
                         PDF
                       </span>
                       <span className="badge rounded bg-secondary">
@@ -434,7 +446,11 @@ const Home = () => {
           //   // backgroundBlendMode: "lighten",
           // }}
         >
-          <img src="https://buku.kemdikbud.go.id/assets/image/home/bg-book-for-all.png" className="w-100 position-absolute top-0 d-none d-lg-block" style={{height:"100%"}}/>
+          <img
+            src="https://buku.kemdikbud.go.id/assets/image/home/bg-book-for-all.png"
+            className="w-100 position-absolute top-0 d-none d-lg-block"
+            style={{ height: "100%" }}
+          />
           <section className="container p-3">
             <h3 className="fw-bold">
               Cerita&nbsp;
@@ -570,9 +586,7 @@ const Home = () => {
                     className="accordion accordion-flush my-4"
                     id="accordion-flushex"
                   >
-                    <section
-                      className="accordion-item mb-2 border-0 bg-primary text-white"
-                    >
+                    <section className="accordion-item mb-2 border-0 bg-primary text-white">
                       <h2 className="accordion-header" id="flushHd1">
                         <button
                           className="accordion-button collapsed ps-1 bg-primary text-white"
@@ -703,9 +717,11 @@ const Home = () => {
               <section className="col-lg-5 position-relative d-none d-lg-block">
                 <img
                   src="https://buku.kemdikbud.go.id/assets/image/home/faq-night.png"
-                  className="w-100 m-faq position-absolute bottom-0"
+                  // src="/COVER-DEPAN-NEW.jpg"
+                  // src="/COVER_CERITA_PANJI_POPULER-1-removebg-preview.png"
+                  className="w-100 m-faq"
                   alt=""
-                  style={{zIndex: 0}}
+                  style={{ zIndex: 0 }}
                 />
               </section>
             </section>

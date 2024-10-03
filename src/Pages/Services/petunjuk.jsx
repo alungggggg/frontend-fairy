@@ -43,7 +43,7 @@ const Petunjuk = () => {
               <section className="col-lg-6 order-last order-md-first my-5 my-md-auto">
                 {/* <p class="lead fw-bold"> */}
                 <section className="d-inline-flex flex-column">
-                  <span className="fw-bold">BUKU UNTUK SISWA</span>
+                  <span className="fw-bold">DONGENG UNTUK SISWA</span>
                   <span className="mtmin d-none d-md-block">
                     <img
                       src="https://buku.kemdikbud.go.id/assets/image/home/line-title.png"
@@ -60,7 +60,7 @@ const Petunjuk = () => {
                   </section>
                 </section>
                 <p className="lead mt-2 mt-lg-2x">
-                  Temukan buku pelajaran resmi kemendikbud di sini
+                  Temukan dongeng Panji Kediri di sini
                 </p>
               </section>
               <section className="col-lg-6 position-relative">
@@ -92,14 +92,13 @@ const Petunjuk = () => {
               </section>
               <section className="col-lg-6 ps-lg-5">
                 <h1 className="text-blue mb-3 fw-bold">
-                  Akses gratis Buku
+                  Akses gratis Dongeng
                   <br />
                   pelajaran resmi
                 </h1>
                 <p>
-                  Dapatkan akses buku teks pelajaran dan buku referensi untuk
-                  bahan belajar di sekolah dan di rumah langsung dari Pusat
-                  Perbukuan, Kemdikbud.
+                  Dapatkan akses Dongeng untuk bahan belajar di sekolah dan di
+                  rumah langsung dari Panji Kediri
                 </p>
               </section>
             </section>
@@ -111,18 +110,14 @@ const Petunjuk = () => {
                   daftar akun
                 </h1>
                 <p>
-                  Dengan mendaftar dan login di laman SIBI, adik-adik dapat
-                  turut serta melaporkan hal-hal yang terkait dengan buku
-                  seperti keunggulan atau kelemahan buku yang adik-adik baca.
+                  Dengan mendaftar dan login di laman Panji Kediri, adik-adik
+                  dapat turut serta melaporkan hal-hal yang terkait dengan
+                  dongeng seperti keunggulan atau kelemahan dongeng yang
+                  adik-adik baca.
                 </p>
                 <p>
-                  Dengan login pada platform laman SIBI, adik-adik dapat juga
-                  melihat riwayat baca dan unduhan buku.
-                </p>
-                <p>
-                  Di laman SIBI ini, adik-adik dapat ikut serta mengulas dan
-                  memberikan komentar pada buku, juga melihat ulasan dari
-                  teman-teman yang lainnya.
+                  Dengan login pada platform laman Panji Kediri, adik-adik dapat
+                  juga melihat riwayat Quiz.
                 </p>
               </section>
               <section className="col-lg-6 text-center">
@@ -143,21 +138,17 @@ const Petunjuk = () => {
               </section>
               <section className="col-lg-6 ps-lg-5">
                 <h1 className="text-blue mb-3 fw-bold">
-                  Beragam Buku
+                  Beragam Dongeng
                   <br />
                   untuk dicoba
                 </h1>
                 <p>
-                  Di laman SIBI ini, tersedia buku-buku dari kurikulum 2013
-                  (K-13), Kurikulum Merdeka, serta buku umum sebagai referensi
+                  Di laman Panji Kediri ini, tersedia dongeng sebagai referensi
                   adik-adik belajar.
                 </p>
+                <p>Belajar pun jadi lebih semangat dengan animasi flipbook.</p>
                 <p>
-                  Belajar pun jadi lebih semangat dengan video animasi,
-                  games/permainan, dan simulasi pada buku elektronik interaktif.
-                </p>
-                <p>
-                  Rasakan asiknya belajar melalui buku audio, belajar dengan
+                  Rasakan asiknya belajar melalui flipbook, belajar dengan
                   santai di rumah maupun di perjalanan.
                 </p>
               </section>
