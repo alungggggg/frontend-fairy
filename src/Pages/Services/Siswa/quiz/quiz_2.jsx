@@ -20,7 +20,20 @@ const QuizSoal = ({
   handleSubmitQuiz,
   timer,
 }) => {
+
+  const [wordLength , setWordLength] = useState(0)
+
+  function getWords(text) {
+    let splicedWord = text?.split(" ");
+    splicedWord = splicedWord.filter((w) => w !== "");
+
+    return splicedWord.length
+  }
   function handleInputQuiz(e) {
+    let jumlah_kata = getWords(e?.target?.value || " ")
+
+    setWordLength(jumlah_kata)
+
     setSoal((prevSoal) =>
       prevSoal.map((soal) =>
         soal.index === displayedSoal[0]?.index
@@ -61,7 +74,7 @@ const QuizSoal = ({
                 />
               )}
               {displayedSoal[0]?.jenis === "uraianSingkat" && (
-                <div className="my-3">
+                <div className="my-3 mb-5">
                   <p className="fs-4">{displayedSoal[0]?.soal}</p>
                   <input
                     type="text"
@@ -75,6 +88,9 @@ const QuizSoal = ({
               {displayedSoal[0]?.jenis === "uraianPanjang" && (
                 <div className="my-3">
                   <p className="fs-4">{displayedSoal[0]?.soal}</p>
+                  <div className="my-2 px-2">
+                    {wordLength} / 150
+                  </div>
                   <textarea
                     type="text"
                     className="form-control"
@@ -85,7 +101,7 @@ const QuizSoal = ({
                   />
                 </div>
               )}
-              <div className="w-100 d-flex justify-content-between mt-4 position-absolute bottom-0">
+              <div className="w-100 d-flex justify-content-between mt-5">
                 <button
                   className={`btn bg-secondary-light text-white ${
                     displayedSoal[0]?.index === 1 ? "disabled" : ""
@@ -106,8 +122,9 @@ const QuizSoal = ({
                 </button>
                 {displayedSoal[0]?.index === soal.length ? (
                   <button
-                    className="btn btn-success bg-night text-white"
+                    className={`btn text-white ${wordLength > 150 ? "btn-success" : "btn-disabled bg-danger"}`}
                     onClick={handleSubmitQuiz}
+                    disabled={wordLength > 150 ? false : true}
                   >
                     Submit
                   </button>
@@ -431,7 +448,7 @@ const Quiz_2 = () => {
       }
     }
 
-    setNilai(nilai);
+    setNilai(Math.round(nilai));
     Swal.fire({
       title: "Submitted!",
       text: "Your quiz has been submitted.",
