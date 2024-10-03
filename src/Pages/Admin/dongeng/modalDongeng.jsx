@@ -7,14 +7,25 @@ export const dongengSchema = Yup.object({
     .min(1, "Title must be at least 1 character")
     .max(100, "Title must be at most 100 characters")
     .matches(/^[a-zA-Z0-9 ]*$/, "Title must be alphanumeric"),
-  pdf: Yup.mixed()
-    .required("PDF file is required")
-    .test("fileType", "File must be a PDF", (value) => {
-      return value && value.type === "application/pdf";
-    })
-    .test("fileExtension", "File must have a .pdf extension", (value) => {
-      return value && value.name.toString().toLowerCase().endsWith(".pdf");
-    }),
+  cover: Yup.mixed()
+    .required("Gambar diperlukan")
+    .test(
+      "fileSize",
+      "Ukuran gambar harus kurang dari 2MB",
+      (value) => !value || (value && value.size <= 2000000)
+    )
+    .test(
+      "fileType",
+      "Format gambar tidak valid. Format yang diterima: jpg, png, jpeg",
+      (value) => {
+        return (
+          !value ||
+          (value &&
+            ["image/jpg", "image/jpeg", "image/png"].includes(value.type))
+        );
+      }
+    ),
+  pdfURL: Yup.string().required("URL diperlukan").url("Format URL tidak valid"),
 });
 
 function ModalLayout({ children }) {

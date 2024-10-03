@@ -70,6 +70,7 @@ export const addDongeng = createAsyncThunk(
           "Content-Type": "multipart/form-data", // Set the content type
         },
       });
+      
       if (response) {
         return response.data;
       }

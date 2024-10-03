@@ -13,16 +13,10 @@ const AddDongeng = () => {
   const dispatch = useDispatch();
 
   async function post(value) {
-    console.log("tets");
-    var file = value.pdf;
-    var title = value.title;
+    console.log(value);
+    // console.log("tets");
 
-    const res = await dispatch(
-      addDongeng({
-        title,
-        file,
-      })
-    );
+    const res = await dispatch(addDongeng(value));
 
     if (res.error) {
       if (res.error.message === "401") {
@@ -47,7 +41,7 @@ const AddDongeng = () => {
         </div>
         <div className="modal-body">
           <Formik
-            initialValues={{ pdf: null }}
+            initialValues={{ title: "", cover: "", pdfURL: "" }}
             validationSchema={dongengSchema}
             validateOnChange={false}
             validateOnBlur={false}
@@ -55,7 +49,7 @@ const AddDongeng = () => {
               post(values);
             }}
           >
-            {({ setFieldValue, errors, touched, isSubmitting }) => (
+            {({ setFieldValue, errors, touched }) => (
               <Form>
                 <section className="form-group">
                   <label className="form-label fw-bold me-2">Title</label>
@@ -74,15 +68,15 @@ const AddDongeng = () => {
                 <section className="form-group my-4">
                   <input
                     type="file"
-                    name="pdf"
+                    name="cover"
                     className="form-control"
                     onChange={(event) => {
-                      setFieldValue("pdf", event.target.files[0]);
+                      setFieldValue("cover", event.target.files[0]);
                       console.log(event.target.files[0]);
                     }}
                   />
-                  {errors.pdf && touched.pdf ? (
-                    <div className="text-danger">{errors.pdf}</div>
+                  {errors.cover && touched.cover ? (
+                    <div className="text-danger">{errors.cover}</div>
                   ) : null}
                 </section>
                 <section className="form-group my-4">
