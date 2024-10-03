@@ -1,8 +1,38 @@
 import Header from "../template/header";
 import Footer from "../template/footer";
 import { Link } from "react-router-dom";
+import { useEffect, useState } from "react";
+import CountUp from "./Component/countUp";
+import fairyApi from "../../lib/axios";
+
+const getVisitor = async () => {
+  const { data } = await fairyApi.get("/visited/get");
+  return data.visited;
+};
+
+const countBook = async () => {
+  const { data } = await fairyApi.get("/count/dongeng");
+  return data.row;
+};
+
+const countView = async () => {
+  const { data } = await fairyApi.get("/count/view");
+  return data.views;
+};
 
 const Petunjuk = () => {
+  const [countDongeng, setCountDongeng] = useState(0);
+  const [countViews, setCountViews] = useState(0);
+  const [visited, setVisited] = useState(0);
+
+  useEffect(() => {
+    const set = async () => {
+      setCountDongeng(await countBook());
+      setCountViews(await countView());
+      setVisited(await getVisitor());
+    };
+    set();
+  }, []);
   return (
     <>
       <Header />
@@ -164,132 +194,61 @@ const Petunjuk = () => {
             </Link>
           </section>
         </section>
-        <section
-          style={{
-            backgroundImage:
-              "url(https://buku.kemdikbud.go.id/assets/image/background/bg-2-stats.png)",
-            backgroundPosition: "center center",
-          }}
-        >
-          <section className="container p-4">
-            <section className="row text-center justify-content-start justify-content-lg-center">
-              <section className="col-6 col-lg-2">
-                <section className="position-relative">
-                  <section
-                    className="position-relative"
-                    style={{ zIndex: 100 }}
-                  >
-                    <span className="text-white fs-1 fw-bold">5.139.718</span>
-                  </section>
-                  <img
-                    src="https://buku.kemdikbud.go.id/assets/image/home/line-stats.png"
-                    className="position-absolute mx-auto"
-                    style={{
-                      zIndex: 1,
-                      bottom: "5%",
-                      left: "16%",
-                      width: "65%",
-                    }}
-                    alt=""
-                  />
+        <section className="p-4 container-fluid bg-primary">
+          <section className="row text-center justify-content-start justify-content-lg-center">
+            <section className="col-6 col-lg-2">
+              <section className="position-relative">
+                <section className="position-relative" style={{ zIndex: 100 }}>
+                  <span className="text-white fs-1 fw-bold">
+                    <CountUp start={0} end={countViews} duration={2000} />
+                  </span>
                 </section>
-                <p className="text-white">Kali buku dibaca</p>
+                <img
+                  src="https://buku.kemdikbud.go.id/assets/image/home/line-stats.png"
+                  className="position-absolute mx-auto"
+                  style={{ zIndex: 1, bottom: "5%", left: "16%", width: "65%" }}
+                  alt=""
+                />
               </section>
-              <section className="col-6 col-lg-2">
-                <section className="position-relative">
-                  <section
-                    className="position-relative"
-                    style={{ zIndex: 100 }}
-                  >
-                    <span className="text-white fs-1 fw-bold">5.139.718</span>
-                  </section>
-                  <img
-                    src="https://buku.kemdikbud.go.id/assets/image/home/line-stats.png"
-                    className="position-absolute mx-auto"
-                    style={{
-                      zIndex: 1,
-                      bottom: "5%",
-                      left: "16%",
-                      width: "65%",
-                    }}
-                    alt=""
-                  />
+              <p className="text-white">Kali buku dibaca</p>
+            </section>
+            <section className="col-6 col-lg-2">
+              <section className="position-relative">
+                <section className="position-relative" style={{ zIndex: 100 }}>
+                  <span className="text-white fs-1 fw-bold">
+                    <CountUp start={0} end={countDongeng} duration={2000} />
+                  </span>
                 </section>
-                <p className="text-white">Kali buku diunduh</p>
+                <img
+                  src="https://buku.kemdikbud.go.id/assets/image/home/line-stats.png"
+                  className="position-absolute mx-auto"
+                  style={{ zIndex: 1, bottom: "5%", left: "16%", width: "65%" }}
+                  alt=""
+                />
               </section>
-              <section className="col-6 col-lg-2">
-                <section className="position-relative">
-                  <section
-                    className="position-relative"
-                    style={{ zIndex: 100 }}
-                  >
-                    <span className="text-white fs-1 fw-bold">5.139.718</span>
-                  </section>
-                  <img
-                    src="https://buku.kemdikbud.go.id/assets/image/home/line-stats.png"
-                    className="position-absolute mx-auto"
-                    style={{
-                      zIndex: 1,
-                      bottom: "5%",
-                      left: "16%",
-                      width: "65%",
-                    }}
-                    alt=""
-                  />
+              <p className="text-white">Buku tersedia</p>
+            </section>
+            <section className="col-6 col-lg-2">
+              <section className="position-relative">
+                <section className="position-relative" style={{ zIndex: 100 }}>
+                  <span className="text-white fs-1 fw-bold">
+                    <CountUp start={0} end={visited} duration={2000} />
+                  </span>
                 </section>
-                <p className="text-white">Buku tersedia</p>
+                <img
+                  src="https://buku.kemdikbud.go.id/assets/image/home/line-stats.png"
+                  className="position-absolute mx-auto"
+                  style={{ zIndex: 1, bottom: "5%", left: "16%", width: "65%" }}
+                  alt=""
+                />
               </section>
-              <section className="col-6 col-lg-2">
-                <section className="position-relative">
-                  <section
-                    className="position-relative"
-                    style={{ zIndex: 100 }}
-                  >
-                    <span className="text-white fs-1 fw-bold">5.139.718</span>
-                  </section>
-                  <img
-                    src="https://buku.kemdikbud.go.id/assets/image/home/line-stats.png"
-                    className="position-absolute mx-auto"
-                    style={{
-                      zIndex: 1,
-                      bottom: "5%",
-                      left: "16%",
-                      width: "65%",
-                    }}
-                    alt=""
-                  />
-                </section>
-                <p className="text-white">Buku lulus penilaian</p>
-              </section>
-              <section className="col-6 col-lg-2">
-                <section className="position-relative">
-                  <section
-                    className="position-relative"
-                    style={{ zIndex: 100 }}
-                  >
-                    <span className="text-white fs-1 fw-bold">5.139.718</span>
-                  </section>
-                  <img
-                    src="https://buku.kemdikbud.go.id/assets/image/home/line-stats.png"
-                    className="position-absolute mx-auto"
-                    style={{
-                      zIndex: 1,
-                      bottom: "5%",
-                      left: "16%",
-                      width: "65%",
-                    }}
-                    alt=""
-                  />
-                </section>
-                <p className="text-white">Total kunjungan</p>
-              </section>
+              <p className="text-white">Total kunjungan</p>
             </section>
           </section>
         </section>
       </main>
       <Footer />
     </>
-
   );
 };
 
