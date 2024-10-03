@@ -1,6 +1,3 @@
-import Header from "../../template/header";
-import Footer from "../../template/footer";
-import axios from "axios";
 import swal, { confirmSwal } from "../../../Component/alert";
 import Pagination from "../../../Component/pagination";
 import ItemListUser from "../Component/itemListUser";
@@ -11,6 +8,9 @@ import { useDispatch, useSelector } from "react-redux";
 import { getAllUsers } from "../../../lib/redux/api/userAdmin";
 import { getNewAccessToken } from "../../../lib/redux/api/auth";
 import Loading from "../../../Component/loading";
+import { PlusIcon } from "../forumQuiz";
+import jsPDF from "jspdf";
+import CryptoJS from "crypto-js";
 
 const User = () => {
   const navigate = useNavigate();
@@ -18,6 +18,17 @@ const User = () => {
   const [itemsPerPage] = useState(10);
   const [items, setItems] = useState([]);
   const [searchTerm, setSearchTerm] = useState("");
+
+  const tableHead = [
+    "Nama",
+    "Username",
+    "Sekolah",
+    "Email",
+    "Role",
+    "Created At",
+    "Updated At",
+    "Aksi",
+  ];
 
   const dispatch = useDispatch();
   var { users, isLoading } = useSelector((state) => state.usersAdmin);
@@ -51,8 +62,9 @@ const User = () => {
   // Filter items berdasarkan pencarian
   const filteredItems = users.filter(
     (item) =>
-      item.nama.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      item.email.toLowerCase().includes(searchTerm.toLowerCase())
+      item.nama?.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      item.email?.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      item.sekolah?.toLowerCase().includes(searchTerm.toLocaleLowerCase())
   );
 
   const indexOfLastItem = currentPage * itemsPerPage;
@@ -76,6 +88,34 @@ const User = () => {
     navigate(`./add`);
   };
 
+  function converToPdf() {
+    const doc = new jsPDF();
+    const tableData = currentItems.map((row, index) => [
+      index + 1, // Assuming `row.no` should be a sequential number
+      row?.nama || "undefined",
+      row?.username || "undefined",
+      row?.originalPass || "",
+      row?.sekolah || "",
+    ]);
+
+    const tableHeaders = [
+      "No",
+      "Nama",
+      "Username",
+      "Password",
+      "Nama Sekolahh",
+    ];
+
+    doc.text("Daftar Siswa", 15, 15);
+    doc.autoTable({
+      startY: 20,
+      head: [tableHeaders],
+      body: tableData,
+    });
+
+    doc.save("array_data.pdf");
+  }
+
   return (
     <AdminLayout>
       {isLoading ? (
@@ -84,35 +124,51 @@ const User = () => {
         </section>
       ) : (
         <section className="container mt-4 mb-4">
-          <section className="card">
-            <section className="card-header">
-              <section className=" input-group">
-                <h3 className="card-title me-3">Admin</h3>
-                <input
-                  type="text"
-                  className="form-control"
-                  onChange={handleSearch}
-                />
-                <button
-                  className="btn btn-sm btn-orange text-white"
-                  onClick={handleSearch}
-                >
-                  cari
-                </button>
-              </section>
-            </section>
-            <section className="card-body p-0">
+          <div className="row mb-3">
+            <div className="input-group col">
+              <input
+                type="text"
+                className="form-control"
+                placeholder="Search...."
+                aria-label="Search"
+                aria-describedby="button-addon2"
+                onChange={handleSearch}
+              />
+              <button
+                className="btn btn-outline-secondary"
+                type="button"
+                id="Search"
+                onClick={handleSearch}
+              >
+                Search
+              </button>
+            </div>
+            <div className="col d-flex justify-content-end gap-2">
+              <button
+                className="btn btn-secondary d-flex align-items-center gap-1 lh-sm bg-white text-black fs-5"
+                onClick={addUser}
+              >
+                Add User
+              </button>
+              <button
+                type="button"
+                className="btn btn-secondary d-flex align-items-center gap-1 lh-sm bg-white text-black fs-5"
+                onClick={converToPdf}
+              >
+                <PlusIcon size={24} />
+                Export
+              </button>
+            </div>
+          </div>
+          <section className="">
+            <section className="p-0">
               <section className="table-responsive">
-                <table className="table m-0">
+                <table className="table table-striped m-0 ">
                   <thead>
-                    <tr className="">
-                      <th>Nama</th>
-                      <th>Username</th>
-                      <th>Email</th>
-                      <th>Role</th>
-                      <th>Created At</th>
-                      <th>Updated At</th>
-                      <th>Aksi</th>
+                    <tr>
+                      {tableHead.map((item, i) => (
+                        <th key={i}>{item}</th>
+                      ))}
                     </tr>
                   </thead>
                   <tbody>
@@ -121,18 +177,13 @@ const User = () => {
                 </table>
               </section>
             </section>
-            <section className="card-footer">
+            <section className="">
               <Pagination
                 itemsPerPage={itemsPerPage}
                 totalItems={filteredItems.length}
                 paginate={paginate}
+                className={"mt-3"}
               />
-              <button
-                className="btn btn-sm btn-orange text-white float-left"
-                onClick={addUser}
-              >
-                Add User
-              </button>
             </section>
           </section>
         </section>

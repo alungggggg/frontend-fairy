@@ -43,7 +43,7 @@ const ItemListUser = ({ items, getUser }) => {
             }
             await dispatch(getAllUsers());
           }
-          handleDelete()
+          handleDelete();
         }
       }
     );
@@ -83,6 +83,7 @@ const ItemListUser = ({ items, getUser }) => {
         <tr key={item.id}>
           <td>{item.nama}</td>
           <td>{item.username}</td>
+          <td>{item.sekolah}</td>
           <td>{item.email}</td>
           <td>{item.role}</td>
           <td>{new Date(item.createdAt).toLocaleString()}</td>

@@ -10,14 +10,14 @@ import { useDispatch, useSelector } from "react-redux";
 import { getNewAccessToken } from "../../lib/redux/api/auth";
 import { getUserById, updateUserProfile } from "../../lib/redux/api/users";
 import UserLayout from "./Component/userLayout";
-import Swal from 'sweetalert2'
+import Swal from "sweetalert2";
 
 const schema = Yup.object().shape({
   nama: Yup.string()
     .required("Nama harus diisi")
     .min(3, "Nama harus memiliki minimal 3 karakter")
     .max(50, "Nama tidak boleh lebih dari 50 karakter"),
-  email: Yup.string().email("Email tidak valid").required("Email harus diisi"),
+  // email: Yup.string().email("Email tidak valid").required("Email harus diisi"),
   kelas: Yup.string().matches(
     /^\d+[A-Z]?$/,
     "Kelas harus berupa angka, dan bisa diikuti oleh huruf besar (opsional)"
@@ -35,13 +35,12 @@ const schema = Yup.object().shape({
 //     }
 //   );
 
-
 const updateProfile = () => {
   const Navigate = useNavigate();
   const dispatch = useDispatch();
   const userID = getCookies("userID");
   const { user: data } = useSelector((state) => state.user);
-  const navigate = useNavigate()
+  const navigate = useNavigate();
 
   const getProfile = async () => {
     const result = await dispatch(getUserById(userID));
@@ -52,19 +51,19 @@ const updateProfile = () => {
         return getProfile();
       }
     }
-  }
+  };
 
   useEffect(() => {
     getProfile();
   }, []);
 
-  const [role, setRole] = useState("")
+  const [role, setRole] = useState("");
   useEffect(() => {
-    setRole(data?.role || "")
-  }, [data])
+    setRole(data?.role || "");
+  }, [data]);
 
   const submit = async (values) => {
-    const res = await dispatch(updateUserProfile(values))
+    const res = await dispatch(updateUserProfile(values));
 
     console.log(res.error);
 
@@ -79,19 +78,18 @@ const updateProfile = () => {
     Swal.fire({
       title: "Success",
       text: "Profile has been updated!",
-      icon: "success"
+      icon: "success",
     });
 
-    return navigate("/profile")
-
-
-
-
+    return navigate("/profile");
   };
 
   return (
     <UserLayout>
-      <section className="d-flex justify-content-center align-items-center login" style={{minHeight : "calc(100vh - 76px)"}}>
+      <section
+        className="d-flex justify-content-center align-items-center login"
+        style={{ minHeight: "calc(100vh - 76px)" }}
+      >
         <section className="login-item">
           <h2 className="text-blue mt-4 mt-md-0">Update Profil</h2>
           <section className="card mt-2 shadow">
