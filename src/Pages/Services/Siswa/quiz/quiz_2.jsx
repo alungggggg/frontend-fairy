@@ -405,7 +405,7 @@ const Quiz_2 = () => {
     let nilaiPilgan = getNilaiPilgan(
       soal.filter((soal) => soal.jenis === "pilgan")
     );
-    let nilaiUrianSingkat = getNilaiUraianSingkat(
+    let nilaiUrianSingkat = getNilaiUraianPanjang(
       soal.filter((soal) => soal.jenis === "uraianSingkat")
     );
     let nilaiUraianPanjang = getNilaiUraianPanjang(
