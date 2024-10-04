@@ -1,13 +1,22 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
+import { useEffect } from "react";
 
 const Pagination = ({ itemsPerPage, totalItems, paginate, className }) => {
-  const pageNumbers = [];
+  const [pageNumbers, setPageNumbers] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
 
-  for (let i = 1; i <= Math.ceil(totalItems / itemsPerPage); i++) {
-    pageNumbers.push(i);
-  }
+  useEffect(() => {
+    const pageNumbers = [];
+    for (let i = 1; i <= Math.ceil(totalItems / itemsPerPage); i++) {
+      pageNumbers.push(i);
+    }
+    setPageNumbers(pageNumbers);
+  }, [totalItems]);
+
+  useEffect(() => {
+    setCurrentPage(1);
+  }, [totalItems]);
 
   return (
     <nav>
@@ -33,7 +42,7 @@ const Pagination = ({ itemsPerPage, totalItems, paginate, className }) => {
           </>
         )}
         {pageNumbers.map((number) => {
-          if (currentPage === number) {
+          if (number === currentPage) {
             return (
               <li key={number} className="page-item">
                 <Link
@@ -41,13 +50,13 @@ const Pagination = ({ itemsPerPage, totalItems, paginate, className }) => {
                     setCurrentPage(number);
                     paginate(number);
                   }}
-                  className="page-link"
+                  className="page-link bg-primary text-white"
                 >
                   {number}
                 </Link>
               </li>
             );
-          } else if (currentPage - 1 === number || currentPage + 1 === number) {
+          } else if (number === currentPage - 1 || number === currentPage + 1) {
             return (
               <li key={number} className="page-item">
                 <Link

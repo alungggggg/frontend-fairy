@@ -139,9 +139,9 @@ const User = () => {
                 className="btn btn-outline-secondary"
                 type="button"
                 id="Search"
-                onClick={handleSearch}
+                onClick={()=>setSearchTerm("")}
               >
-                Search
+                Clear
               </button>
             </div>
             <div className="col d-flex justify-content-end gap-2">

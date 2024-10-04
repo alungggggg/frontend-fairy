@@ -14,6 +14,7 @@ import { DeleteIcon, EditIcon } from "../pilihanGanda";
 import { PlusIcon } from "../../forumQuiz";
 import { getNewAccessToken } from "../../../../lib/redux/api/auth";
 import Swal from "sweetalert2";
+import Pagination from "../../../../Component/pagination";
 
 const UraianPanjang = () => {
   const tableHead = ["No", "Soal", "Judul Dongeng", "Kata Kunci", ""];
@@ -80,6 +81,15 @@ const UraianPanjang = () => {
       : soal;
   });
 
+  const [itemsPerPage] = useState(5);
+  const [currentPage, setCurrentPage] = useState(1);
+
+  const indexOfLastItem = currentPage * itemsPerPage;
+  const indexOfFirstItem = indexOfLastItem - itemsPerPage;
+  const currentItems = displayedSoal.slice(indexOfFirstItem, indexOfLastItem);
+
+  const paginate = (pageNumber) => setCurrentPage(pageNumber);
+
   return (
     <AdminLayout>
       {isLoading ? (
@@ -110,6 +120,7 @@ const UraianPanjang = () => {
                 value={search}
                 onChange={(e) => {
                   setSearch(e.target.value);
+                  setCurrentPage(1);
                 }}
               />
               <button
@@ -158,7 +169,7 @@ const UraianPanjang = () => {
                   </tr>
                 </thead>
                 <tbody>
-                  {displayedSoal.map((item, i) => (
+                  {currentItems.map((item, i) => (
                     <tr key={i} className="align-middle">
                       <td>{i + 1}</td>
                       <td>{item?.soal}</td>
@@ -191,6 +202,14 @@ const UraianPanjang = () => {
                 </tbody>
               </table>
             </section>
+          </section>
+          <section className="">
+            <Pagination
+              itemsPerPage={itemsPerPage}
+              totalItems={displayedSoal.length}
+              paginate={paginate}
+              className={"mt-3"}
+            />
           </section>
         </div>
       )}
