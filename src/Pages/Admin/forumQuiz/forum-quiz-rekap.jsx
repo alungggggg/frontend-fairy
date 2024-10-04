@@ -76,7 +76,7 @@ const RekapNilai = () => {
 
     const tableHeaders = tableHead2.map((header) => header);
 
-    doc.text("Rekap Nilai Forum Quiz", 15, 15);
+    doc.text(`Rekap Nilai ${judul}`, 15, 15);
     doc.text(`Sekolah : ${sekolah}`, 15, 25);
     doc.autoTable({
       startY: 30,
