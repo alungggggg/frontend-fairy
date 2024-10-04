@@ -90,7 +90,7 @@ const User = () => {
 
   function converToPdf() {
     const doc = new jsPDF();
-    const tableData = currentItems.map((row, index) => [
+    const tableData = filteredItems.map((row, index) => [
       index + 1, // Assuming `row.no` should be a sequential number
       row?.nama || "undefined",
       row?.username || "undefined",

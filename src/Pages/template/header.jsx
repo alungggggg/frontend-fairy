@@ -108,7 +108,7 @@ const Header = () => {
                   <ul className="dropdown-menu dropdown-menu-end text-small shadow mt-3">
                     <div>
                       <p className="dropdown-item m-0 text-capitalize">
-                        {role.toLocaleLowerCase() || "undefined"}
+                        {role.toLocaleLowerCase() || ""}
                       </p>
                       <hr className="my-2" />
                     </div>

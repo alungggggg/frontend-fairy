@@ -1,6 +1,6 @@
 import { useDispatch, useSelector } from "react-redux";
 import AdminLayout from "../adminLayout";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { getRekapNilaiByIdForum } from "../../../lib/redux/api/rekapNilai";
 import { Link, useParams } from "react-router-dom";
 import { PlusIcon } from ".";
@@ -13,8 +13,10 @@ const RekapNilai = () => {
   const { id } = useParams();
   const dispatch = useDispatch();
   const { rekapNilai } = useSelector((state) => state.rekapNilai);
+  const [search, setSearch] = useState("");
+  const [filterNilai, setFilterNilai] = useState(1);
 
-  var sekolah = rekapNilai[0]?.forumQuiz.sekolah
+  var sekolah = rekapNilai[0]?.forumQuiz.sekolah;
 
   const tableHead = ["No", "Nama", "Asal Sekolah", "Nilai"];
 
@@ -33,19 +35,30 @@ const RekapNilai = () => {
     getRekap();
   }, [id]);
 
+  let displayedData = rekapNilai.filter((e) =>
+    e?.user?.nama?.toLocaleLowerCase().includes(search?.toLocaleLowerCase())
+  );
+  if (filterNilai == 1) {
+    displayedData = displayedData.filter((e) => e?.nilai >= 0);
+  } else if (filterNilai == 2) {
+    displayedData = displayedData.filter((e) => e?.nilai > 0);
+  } else if (filterNilai == 3) {
+    displayedData = displayedData.filter((e) => e?.nilai == 0);
+  }
+
   function converToPdf() {
     const doc = new jsPDF();
-    const tableData = rekapNilai.map((row, index) => [
+    const tableData = displayedData.map((row, index) => [
       index + 1, // Assuming `row.no` should be a sequential number
       row?.user?.nama || "undefined",
       row?.user?.sekolah || "undefined",
-      row.nilai
+      row.nilai,
     ]);
-  
+
     const tableHeaders = tableHead.map((header) => header);
 
     doc.text("Rekap Nilai Forum Quiz", 15, 15);
-    doc.text(`Sekolah : ${sekolah}` , 15 , 25)
+    doc.text(`Sekolah : ${sekolah}`, 15, 25);
     doc.autoTable({
       startY: 30,
       head: [tableHeaders],
@@ -77,14 +90,31 @@ const RekapNilai = () => {
               aria-label="Search"
               aria-describedby="button-addon2"
               onChange={(e) => setSearch(e.target.value)}
+              value={search}
             />
             <button
               className="btn btn-outline-secondary"
               type="button"
               id="Search"
+              onClick={() => setSearch("")}
             >
-              Search
+              Clear
             </button>
+          </div>
+          <div className="col-2">
+            <select
+              className="form-select"
+              aria-label="Default select example"
+              onChange={(e) => {
+                setFilterNilai(e.target.value);
+              }}
+            >
+              <option value={1} selected>
+                Semua
+              </option>
+              <option value={2}>Sudah Mengerjakan</option>
+              <option value={3}>Belum Mengerjakan</option>
+            </select>
           </div>
           <div className="col d-flex justify-content-end">
             <button
@@ -108,7 +138,7 @@ const RekapNilai = () => {
                 </tr>
               </thead>
               <tbody>
-                {rekapNilai?.map((item, i) => (
+                {displayedData?.map((item, i) => (
                   <tr key={i} style={{ cursor: "pointer" }}>
                     <td>{i + 1}</td>
                     <td>{item?.user?.nama || "undefined"}</td>

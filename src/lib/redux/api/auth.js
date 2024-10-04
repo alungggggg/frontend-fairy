@@ -3,6 +3,7 @@ import { createAsyncThunk } from "@reduxjs/toolkit";
 import axios, { AxiosError } from "axios";
 import { deleteCookie, getCookie, getCookies, setCookie } from "cookies-next";
 import fairyApi from "../../axios";
+import Swal from "sweetalert2";
 
 export const signIn = createAsyncThunk("auth/login", async (user) => {
   const { credential, password } = user;
@@ -13,6 +14,11 @@ export const signIn = createAsyncThunk("auth/login", async (user) => {
     });
     if (response.data.data.status) {
       console.log(response.data);
+      Swal.fire({
+        title: "Berhasil",
+        text: "Kamu telah login!",
+        icon: "success",
+      })
       return response.data;
     }
 

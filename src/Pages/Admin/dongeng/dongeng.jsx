@@ -18,7 +18,7 @@ const dongeng = () => {
   const [items, setItems] = useState([]);
   const [searchTerm, setSearchTerm] = useState("");
 
-  const tableHead = ["No", "Cover", "Tittle", ""];
+  const tableHead = ["No", "Cover", "Tittle", "PDF URL", "View", ""];
 
   const { dongeng, isLoading, error } = useSelector((state) => state.dongeng);
   const dispatch = useDispatch();
@@ -159,7 +159,7 @@ const dongeng = () => {
                         </div>
                       </td>
                       <td>{item?.title || ``}</td>
-                      <td>{item?.pdfURL}</td>
+                      <td>{item?.pdfURL.slice(0, 50)}</td>
                       <td>{item?.view}</td>
                       <td className="text-center" style={{ maxWidth: "100px" }}>
                         <button type="button" className="btn btn-primary me-1">

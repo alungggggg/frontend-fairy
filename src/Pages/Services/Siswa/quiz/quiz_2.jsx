@@ -20,19 +20,18 @@ const QuizSoal = ({
   handleSubmitQuiz,
   timer,
 }) => {
-
-  const [wordLength , setWordLength] = useState(0)
+  const [wordLength, setWordLength] = useState(0);
 
   function getWords(text) {
     let splicedWord = text?.split(" ");
     splicedWord = splicedWord.filter((w) => w !== "");
 
-    return splicedWord.length
+    return splicedWord.length;
   }
   function handleInputQuiz(e) {
-    let jumlah_kata = getWords(e?.target?.value || " ")
+    let jumlah_kata = getWords(e?.target?.value || " ");
 
-    setWordLength(jumlah_kata)
+    setWordLength(jumlah_kata);
 
     setSoal((prevSoal) =>
       prevSoal.map((soal) =>
@@ -88,9 +87,7 @@ const QuizSoal = ({
               {displayedSoal[0]?.jenis === "uraianPanjang" && (
                 <div className="my-3">
                   <p className="fs-4">{displayedSoal[0]?.soal}</p>
-                  <div className="my-2 px-2">
-                    {wordLength} / 150
-                  </div>
+                  <div className="my-2 px-2">{wordLength} / 150</div>
                   <textarea
                     type="text"
                     className="form-control"
@@ -122,7 +119,11 @@ const QuizSoal = ({
                 </button>
                 {displayedSoal[0]?.index === soal.length ? (
                   <button
-                    className={`btn text-white ${wordLength > 150 ? "btn-success" : "btn-disabled bg-danger"}`}
+                    className={`btn text-white ${
+                      wordLength > 150
+                        ? "btn-success"
+                        : "btn-disabled bg-danger"
+                    }`}
                     onClick={handleSubmitQuiz}
                     disabled={wordLength > 150 ? false : true}
                   >
@@ -269,14 +270,68 @@ const QuizResult = ({ nilai }) => {
     <main className="container my-lg-5 my-2 bg-white rounded-0 rounded-md-2 shadow mx-1 mx-lg-0">
       <section className="p-4 d-flex flex-column align-items-center justify-content-center gap-4">
         <h1 className="text-dark">Hasil Quiz</h1>
-        <div
-          className={`rounded-circle d-flex align-items-center justify-content-center ${
-            nilai >= 80 ? "bg-success text-white" : "bg-danger text-white"
+        <section className="row">
+          <section className="col-6 ">Nilai Total</section>
+          <section className="col-6">: {nilai.nilai}</section>
+          <section className="col-6 ">Nilai Pilihan Ganda </section>
+          <section className="col-6">: {nilai.nilaiPilihanGanda}</section>
+          <section className="col-6 ">Nilai Uraian </section>
+          <section className="col-6">: {nilai.nilaiUraian}</section>
+          <section className="col-6 ">Nilai Uraian Panjang </section>
+          <section className="col-6">: {nilai.nilaiMenulis}</section>
+        </section>
+        {/* <div
+          className={`rounded-circle d-flex flex-column align-items-center justify-content-center ${
+            nilai.nilai >= 80 ? "bg-success text-white" : "bg-danger text-white"
           }`}
           style={{ height: "100px", width: "100px" }}
         >
-          {nilai}
+          {nilai.nilai}
+          <p className="p-0 m-0 " style={{ fontSize: "12px" }}>
+            Nilai Total
+          </p>
         </div>
+        <div className="d-flex gap-2 align-items-center justify-content-center">
+          <div
+            className={`rounded-circle d-flex flex-column align-items-center justify-content-center ${
+              nilai.nilaiPilihanGanda >= 80
+                ? "bg-success text-white"
+                : "bg-danger text-white"
+            }`}
+            style={{ height: "100px", width: "100px" }}
+          >
+            {nilai.nilaiPilihanGanda}
+            <p className="p-0 m-0 " style={{ fontSize: "12px" }}>
+              Nilai Pilihan Ganda
+            </p>
+          </div>
+          <div
+            className={`rounded-circle d-flex flex-column align-items-center justify-content-center ${
+              nilai.nilaiUraian >= 80
+                ? "bg-success text-white"
+                : "bg-danger text-white"
+            }`}
+            style={{ height: "100px", width: "100px" }}
+          >
+            {nilai.nilaiUraian}
+            <p className="p-0 m-0 " style={{ fontSize: "12px" }}>
+              Nilai Uraian
+            </p>
+          </div>
+          <div
+            className={`rounded-circle d-flex flex-column align-items-center justify-content-center ${
+              nilai.nilaiMenulis >= 80
+                ? "bg-success text-white"
+                : "bg-danger text-white"
+            }`}
+            style={{ height: "100px", width: "100px" }}
+          >
+            {nilai.nilaiMenulis}
+            <p className="p-0 m-0 " style={{ fontSize: "12px" }}>
+              Nilai Menulis
+            </p>
+          </div>
+        </div> */}
         <Link to={"/quiz"} className="btn btn-primary">
           Kembali ke Quiz
         </Link>
@@ -297,10 +352,22 @@ const Quiz_2 = () => {
   const soalUraianPanjang = forumQuiz[0]?.dongeng?.soalUraianPanjangs;
 
   const [soal, setSoal] = useState([]);
-  const [nilai, setNilai] = useState(0);
+  const [nilai, setNilai] = useState({
+    nilai: 0,
+    nilaiPilihanGanda: 0,
+    nilaiUraian: 0,
+    nilaiMenulis: 0,
+  });
 
   useEffect(() => {
-    setNilai(rekapNilai?.nilai || 0);
+    if (rekapNilai) {
+      setNilai({
+        nilai: rekapNilai.nilai || 0,
+        nilaiPilihanGanda: rekapNilai.nilaiPilihanGanda || 0,
+        nilaiUraian: rekapNilai.nilaiUraian || 0,
+        nilaiMenulis: rekapNilai.nilaiMenulis || 0,
+      });
+    }
   }, [rekapNilai]);
 
   useEffect(() => {
@@ -431,12 +498,17 @@ const Quiz_2 = () => {
 
     var nilai = (nilaiPilgan + nilaiUrianSingkat + nilaiUraianPanjang) / 3;
 
-    console.log(`nilai pilgan : ${nilaiPilgan} , Nilai Uraian : ${nilaiUrianSingkat} , nilai menulis : ${nilaiUraianPanjang}` );
+    console.log(
+      `nilai pilgan : ${nilaiPilgan} , Nilai Uraian : ${nilaiUrianSingkat} , nilai menulis : ${nilaiUraianPanjang}`
+    );
 
     const res = await dispatch(
       updateNilaiForum({
         id,
         nilai,
+        nilaiPilihanGanda: nilaiPilgan,
+        nilaiUraian: nilaiUrianSingkat,
+        nilaiMenulis: nilaiUraianPanjang,
       })
     );
 
@@ -448,7 +520,12 @@ const Quiz_2 = () => {
       }
     }
 
-    setNilai(Math.round(nilai));
+    setNilai({
+      nilai: Math.round(nilai),
+      nilaiPilihanGanda: Math.round(nilaiPilgan),
+      nilaiUraian: Math.round(nilaiUrianSingkat),
+      nilaiMenulis: Math.round(nilaiUraianPanjang),
+    });
     Swal.fire({
       title: "Submitted!",
       text: "Your quiz has been submitted.",
@@ -504,7 +581,7 @@ const Quiz_2 = () => {
       >
         {isLoading ? (
           <Loading />
-        ) : nilai > 0 ? (
+        ) : nilai.nilai > 0 ? (
           <QuizResult nilai={nilai} />
         ) : indexSoalDisplayed === 0 ? (
           <QuizPreparation

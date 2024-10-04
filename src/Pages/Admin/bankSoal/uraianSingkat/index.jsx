@@ -133,7 +133,7 @@ const UraianSingkat = () => {
           </div>
           <section className="card-body p-0">
             <section className="table-responsive">
-              <table className="table table-striped m-0 ">
+              <table className="table table-striped m-0 w-100">
                 <thead>
                   <tr>
                     {tableHead.map((item, i) => {
@@ -144,22 +144,29 @@ const UraianSingkat = () => {
                           </th>
                         );
                       } else {
-                        return <th key={i}>{item}</th>;
+                        return (
+                          <th key={i} style={{ maxWidth: "100px" }}>
+                            {item}
+                          </th>
+                        );
                       }
                     })}
                   </tr>
                 </thead>
                 <tbody>
                   {displayedSoal.map((item, i) => (
-                    <tr key={i} className="align-middle">
+                    <tr
+                      key={i}
+                      className="align-middle bg-danger"
+                      style={{ height: "100%" }}
+                    >
                       <td>{i + 1}</td>
                       <td>{item?.soal}</td>
                       <td>{item.dongeng?.title || ""}</td>
-                      <td>{item?.jawaban}</td>
-                      <td
-                        className="d-flex gap-2 justify-content-end"
-                        style={{ maxWidth: "120px" }}
-                      >
+                      <td style={{ wordWrap: "break-word" }}>
+                        {item?.jawaban.slice(0, 30)}
+                      </td>
+                      <td className="">
                         <button
                           type="button"
                           className="btn btn-primary"
@@ -175,7 +182,7 @@ const UraianSingkat = () => {
                         </button>
                         <button
                           type="button"
-                          className="btn btn-danger"
+                          className="btn btn-danger ms-2"
                           onClick={() => handleDeleteSoalUraianSingkat(item.id)}
                         >
                           <DeleteIcon size={18} />

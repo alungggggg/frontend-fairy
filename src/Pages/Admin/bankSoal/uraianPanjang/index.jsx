@@ -16,7 +16,7 @@ import { getNewAccessToken } from "../../../../lib/redux/api/auth";
 import Swal from "sweetalert2";
 
 const UraianPanjang = () => {
-  const tableHead = ["No", "Soal", "Judul Dongeng","Kata Kunci", ""];
+  const tableHead = ["No", "Soal", "Judul Dongeng", "Kata Kunci", ""];
 
   const { soalUraianPanjang, isLoading } = useSelector(
     (state) => state.soalUraianPanjang
@@ -163,14 +163,11 @@ const UraianPanjang = () => {
                       <td>{i + 1}</td>
                       <td>{item?.soal}</td>
                       <td>{item?.dongeng?.title || ""}</td>
-                      <td>{item?.jawaban}</td>
-                      <td
-                        className="d-flex gap-2 justify-content-end"
-                        style={{ maxWidth: "120px" }}
-                      >
+                      <td>{item?.jawaban.slice(0, 30)}</td>
+                      <td className="" style={{ minWidth: "120px" }}>
                         <button
                           type="button"
-                          className="btn btn-primary"
+                          className="btn btn-primary me-2"
                           onClick={() => {
                             setAction("edit");
                             setIdEdit(item.id);

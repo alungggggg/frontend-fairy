@@ -1,6 +1,9 @@
 import { getCookie } from "cookies-next";
 import { useDispatch } from "react-redux";
-import { getForumQuizByUserId, joinForumQuiz } from "../../../../lib/redux/api/rekapNilai";
+import {
+  getForumQuizByUserId,
+  joinForumQuiz,
+} from "../../../../lib/redux/api/rekapNilai";
 import { useState } from "react";
 import { getNewAccessToken } from "../../../../lib/redux/api/auth";
 import Swal from "sweetalert2";
@@ -8,6 +11,7 @@ import Swal from "sweetalert2";
 const ModalJoinQuiz = () => {
   const dispatch = useDispatch();
   const userID = getCookie("userID");
+  const [isLoading, setIsLoading] = useState(false);
 
   const [token, setToken] = useState();
 
@@ -17,6 +21,7 @@ const ModalJoinQuiz = () => {
       token,
     };
 
+    setIsLoading(true);
     const res = await dispatch(joinForumQuiz(payload));
     if (res.error) {
       if (res.error.message === "unauthorized") {
@@ -37,6 +42,7 @@ const ModalJoinQuiz = () => {
         text: "Success Join Forum",
       });
     }
+    setIsLoading(false);
     document.getElementById("showModalJoinQuiz").click();
     await dispatch(getForumQuizByUserId(userID));
   }
@@ -79,6 +85,9 @@ const ModalJoinQuiz = () => {
                 className="form-control"
                 placeholder="Input Your Token"
                 onChange={(e) => setToken(e.target.value)}
+                onBlur={(e) => {
+                  e.target.value = "";
+                }}
               />
             </div>
             <div className="modal-footer">
@@ -86,6 +95,7 @@ const ModalJoinQuiz = () => {
                 type="button"
                 className="btn btn-secondary"
                 data-bs-dismiss="modal"
+                disabled={isLoading}
               >
                 Close
               </button>
@@ -93,7 +103,7 @@ const ModalJoinQuiz = () => {
                 type="button"
                 className="btn btn-primary"
                 onClick={handleJoinForum}
-                disabled={!token}
+                disabled={!token || isLoading}
               >
                 Join Quiz
               </button>
