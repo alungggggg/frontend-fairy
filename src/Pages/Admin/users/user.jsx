@@ -107,14 +107,14 @@ const User = () => {
     ];
     // p
 
-    doc.text("Daftar Siswa", 15, 15);
+    doc.text(`Daftar Siswa "${searchTerm}"`, 15, 15);
     doc.autoTable({
       startY: 20,
       head: [tableHeaders],
       body: tableData,
     });
 
-    doc.save("array_data.pdf");
+    doc.save(`data_users_${searchTerm}.pdf`);
   }
 
   return (
