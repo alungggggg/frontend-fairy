@@ -257,7 +257,7 @@ const Home = () => {
                         PDF
                       </span>
                       <span className="badge rounded bg-secondary">
-                        SMA/MA/SMK/MAK
+                        SMP/MTS
                       </span>
                     </section>
                     <section

@@ -268,17 +268,81 @@ const QuizPreparation = ({ soal, setIndexSoalDisplayed, setTimer }) => {
 const QuizResult = ({ nilai }) => {
   return (
     <main className="container my-lg-5 my-2 bg-white rounded-0 rounded-md-2 shadow mx-1 mx-lg-0">
-      <section className="p-4 d-flex flex-column align-items-center justify-content-center gap-4">
-        <h1 className="text-dark">Hasil Quiz</h1>
-        <section className="row">
-          <section className="col-6 ">Nilai Total</section>
-          <section className="col-6">: {nilai.nilai}</section>
-          <section className="col-6 ">Nilai Pilihan Ganda </section>
-          <section className="col-6">: {nilai.nilaiPilihanGanda}</section>
-          <section className="col-6 ">Nilai Uraian </section>
-          <section className="col-6">: {nilai.nilaiUraian}</section>
-          <section className="col-6 ">Nilai Uraian Panjang </section>
-          <section className="col-6">: {nilai.nilaiMenulis}</section>
+      <section className="p-4">
+        <section className="card shadow mb-4">
+          <section className="card-header py-3">
+            <h5 className="m-0 fw-bold">Hasil Quiz</h5>
+          </section>
+          <section className="card-body">
+            <section>
+              <h4 className="small fw-bold">
+                Nilai Total <span className="float-right">{nilai.nilai}</span>
+              </h4>
+              <section className="progress mb-4">
+                <section
+                  className="progress-bar"
+                  role="progressbar"
+                  style={{ width: `${nilai.nilai}%` }}
+                  aria-valuenow={nilai.nilai}
+                  aria-valuemin={"0"}
+                  aria-valuemax={"100"}
+                ></section>
+              </section>
+            </section>
+            <section>
+              <h4 className="small fw-bold">
+                Nilai Pilihan Ganda{" "}
+                <span className="float-right">{nilai.nilaiPilihanGanda}</span>
+              </h4>
+              <section className="progress mb-4">
+                <section
+                  className="progress-bar"
+                  role="progressbar"
+                  style={{ width: `${nilai.nilaiPilihanGanda}%` }}
+                  aria-valuenow={nilai.nilaiPilihanGanda}
+                  aria-valuemin={"0"}
+                  aria-valuemax={"100"}
+                ></section>
+              </section>
+            </section>
+            <section>
+              <h4 className="small fw-bold">
+                Nilai Uraian{" "}
+                <span className="float-right">{nilai.nilaiUraian}</span>
+              </h4>
+              <section className="progress mb-4">
+                <section
+                  className="progress-bar"
+                  role="progressbar"
+                  style={{ width: `${nilai.nilaiUraian}%` }}
+                  aria-valuenow={nilai.nilaiUraian}
+                  aria-valuemin={"0"}
+                  aria-valuemax={"100"}
+                ></section>
+              </section>
+            </section>
+            <section>
+              <h4 className="small fw-bold">
+                Nilai Uraian Panjang{" "}
+                <span className="float-right">{nilai.nilaiMenulis}</span>
+              </h4>
+              <section className="progress mb-4">
+                <section
+                  className="progress-bar"
+                  role="progressbar"
+                  style={{ width: `${nilai.nilaiMenulis}%` }}
+                  aria-valuenow={nilai.nilaiMenulis}
+                  aria-valuemin={"0"}
+                  aria-valuemax={"100"}
+                ></section>
+              </section>
+            </section>
+          </section>
+          <section className="card-footer">
+            <Link to={"/quiz"} className="btn btn-sm btn-primary">
+              Kembali ke Quiz
+            </Link>
+          </section>
         </section>
         {/* <div
           className={`rounded-circle d-flex flex-column align-items-center justify-content-center ${
@@ -332,9 +396,6 @@ const QuizResult = ({ nilai }) => {
             </p>
           </div>
         </div> */}
-        <Link to={"/quiz"} className="btn btn-primary">
-          Kembali ke Quiz
-        </Link>
       </section>
     </main>
   );
