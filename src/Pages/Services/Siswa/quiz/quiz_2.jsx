@@ -22,6 +22,9 @@ const QuizSoal = ({
 }) => {
   const [wordLength, setWordLength] = useState(0);
 
+  
+
+
   function getWords(text) {
     let splicedWord = text?.split(" ");
     splicedWord = splicedWord.filter((w) => w !== "");
@@ -402,9 +405,11 @@ const QuizResult = ({ nilai }) => {
 };
 
 const Quiz_2 = () => {
-  const { id } = useParams();
+  const { id } = useParams()
+
   //   console.log(id_forum);
   const dispatch = useDispatch();
+  // const [answers, setAnswer] = useState(localStorage.getItem("quizAnswers"))
   const { forumQuiz, isLoading } = useSelector((state) => state.forumQuiz);
   const rekapNilai = useSelector((state) => state.rekapNilai.rekapNilai[0]);
 
@@ -454,8 +459,7 @@ const Quiz_2 = () => {
     ]);
   }, [soalPilgan, soalUraianSingkat, soalUraianPanjang]);
 
-  // console.log(soal);
-
+  
   async function getQuizData(id_forum) {
     const res = await dispatch(getForumQuizById(id_forum));
 
@@ -668,7 +672,30 @@ const Quiz_2 = () => {
 export default Quiz_2;
 
 const QuizQisplayPilgan = ({ displayedSoal, soal, setSoal }) => {
+  const getInitialAnswers = () => {
+    const savedAnswers = localStorage.getItem('quizAnswers');
+    return savedAnswers ? JSON.parse(savedAnswers) : {}; 
+  };
+
+  // State untuk menyimpan jawaban user yang sudah tersimpan di LocalStorage
+  const [answers, setAnswers] = useState(getInitialAnswers);
+
+  // Load jawaban dari LocalStorage ketika komponen pertama kali dimount
+  useEffect(() => {
+    const savedAnswers = localStorage.getItem('quizAnswers');
+    if (savedAnswers) {
+      setAnswers(JSON.parse(savedAnswers)); // Pastikan menggunakan JSON.parse
+    }
+  }, []);
+
+  // Simpan jawaban ke LocalStorage setiap kali `answers` berubah
+  useEffect(() => {
+    localStorage.setItem('quizAnswers', JSON.stringify(answers));
+  }, [answers]);
+
+  // Fungsi untuk meng-handle perubahan opsi jawaban
   function handleChangeOpsi(e) {
+    // Update jawaban di state soal
     setSoal((prevSoal) =>
       prevSoal.map((soal) =>
         soal.index === displayedSoal[0]?.index
@@ -676,9 +703,21 @@ const QuizQisplayPilgan = ({ displayedSoal, soal, setSoal }) => {
           : soal
       )
     );
-  }
+
+    // Update jawaban di localStorage menggunakan `answers` state
+    const setLocal = (questionId, answer) => {
+      setAnswers(prevAnswers => ({
+        ...prevAnswers,
+        [questionId]: answer,  // Perbarui jawaban untuk pertanyaan tertentu
+      }));
+    };
+
+    // Simpan jawaban user ke `localStorage` dan state `answers`
+    setLocal(displayedSoal[0].id, e.target.value);
+    }
 
   return (
+
     <div className="my-4">
       <p className="fs-4">{displayedSoal[0]?.soal}</p>
       <div className="mt-3 fs-5 d-flex flex-column gap-2">
@@ -740,5 +779,6 @@ const QuizQisplayPilgan = ({ displayedSoal, soal, setSoal }) => {
         </label>
       </div>
     </div>
+    
   );
 };

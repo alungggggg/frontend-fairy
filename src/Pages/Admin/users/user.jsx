@@ -107,14 +107,14 @@ const User = () => {
     ];
     // p
 
-    doc.text("Daftar Siswa", 15, 15);
+    doc.text(`Daftar Siswa "${searchTerm}"`, 15, 15);
     doc.autoTable({
       startY: 20,
       head: [tableHeaders],
       body: tableData,
     });
 
-    doc.save("array_data.pdf");
+    doc.save(`data_users_${searchTerm}.pdf`);
   }
 
   return (
@@ -139,9 +139,9 @@ const User = () => {
                 className="btn btn-outline-secondary"
                 type="button"
                 id="Search"
-                onClick={handleSearch}
+                onClick={()=>setSearchTerm("")}
               >
-                Search
+                Clear
               </button>
             </div>
             <div className="col d-flex justify-content-end gap-2">

@@ -17,8 +17,14 @@ const RekapNilai = () => {
   const [filterNilai, setFilterNilai] = useState(1);
 
   var sekolah = rekapNilai[0]?.forumQuiz.sekolah;
+  var judul = rekapNilai[0]?.forumQuiz.judul;
 
-  const tableHead = ["No", "Nama", "Asal Sekolah", "Nilai"];
+  const tableHead = [
+    "No",
+    "Nama",
+    "Asal Sekolah",
+    "Nilai Total",
+  ];
 
   useEffect(() => {
     async function getRekap() {
@@ -47,17 +53,30 @@ const RekapNilai = () => {
   }
 
   function converToPdf() {
+    const tableHead2 = [
+      "No",
+      "Nama",
+      "Asal Sekolah",
+      "Nilai Pilihan Ganda",
+      "Nilai Uraian",
+      "Nilai Menulis",
+      "Nilai Total",
+    ];
+
     const doc = new jsPDF();
     const tableData = displayedData.map((row, index) => [
       index + 1, // Assuming `row.no` should be a sequential number
       row?.user?.nama || "undefined",
       row?.user?.sekolah || "undefined",
+      row.nilaiPilihanGanda,
+      row.nilaiUraian,
+      row.nilaiMenulis,
       row.nilai,
     ]);
 
-    const tableHeaders = tableHead.map((header) => header);
+    const tableHeaders = tableHead2.map((header) => header);
 
-    doc.text("Rekap Nilai Forum Quiz", 15, 15);
+    doc.text(`Rekap Nilai ${judul}`, 15, 15);
     doc.text(`Sekolah : ${sekolah}`, 15, 25);
     doc.autoTable({
       startY: 30,
@@ -65,7 +84,7 @@ const RekapNilai = () => {
       body: tableData,
     });
 
-    doc.save("array_data.pdf");
+    doc.save(`rekap_nilai_quiz_${judul}_${sekolah}.pdf`);
   }
   return (
     <AdminLayout>

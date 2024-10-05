@@ -13,6 +13,7 @@ import { DeleteIcon, EditIcon } from "../pilihanGanda";
 import { PlusIcon } from "../../forumQuiz";
 import { getNewAccessToken } from "../../../../lib/redux/api/auth";
 import Swal from "sweetalert2";
+import Pagination from "../../../../Component/pagination";
 
 const UraianSingkat = () => {
   const tableHead = ["No", "Soal", "Judul Dongeng", "Jawaban", ""];
@@ -78,6 +79,15 @@ const UraianSingkat = () => {
     });
   }
 
+  const [itemsPerPage] = useState(5);
+  const [currentPage, setCurrentPage] = useState(1);
+
+  const indexOfLastItem = currentPage * itemsPerPage;
+  const indexOfFirstItem = indexOfLastItem - itemsPerPage;
+  const currentItems = displayedSoal.slice(indexOfFirstItem, indexOfLastItem);
+
+  const paginate = (pageNumber) => setCurrentPage(pageNumber);
+
   return (
     <AdminLayout>
       {isLoading ? (
@@ -106,7 +116,10 @@ const UraianSingkat = () => {
                 aria-label="Search"
                 aria-describedby="button-addon2"
                 value={search}
-                onChange={(e) => setSearch(e.target.value)}
+                onChange={(e) => {
+                  setSearch(e.target.value);
+                  setCurrentPage(1);
+                }}
               />
               <button
                 className="btn btn-outline-secondary"
@@ -154,7 +167,7 @@ const UraianSingkat = () => {
                   </tr>
                 </thead>
                 <tbody>
-                  {displayedSoal.map((item, i) => (
+                  {currentItems.map((item, i) => (
                     <tr
                       key={i}
                       className="align-middle bg-danger"
@@ -193,6 +206,14 @@ const UraianSingkat = () => {
                 </tbody>
               </table>
             </section>
+          </section>
+          <section className="">
+            <Pagination
+              itemsPerPage={itemsPerPage}
+              totalItems={displayedSoal.length}
+              paginate={paginate}
+              className={"mt-3"}
+            />
           </section>
         </div>
       )}

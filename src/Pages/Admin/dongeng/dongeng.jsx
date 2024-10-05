@@ -110,6 +110,7 @@ const dongeng = () => {
                 className="btn btn-outline-secondary"
                 type="button"
                 id="Search"
+                onClick={() => setSearchTerm("")}
               >
                 Clear
               </button>
