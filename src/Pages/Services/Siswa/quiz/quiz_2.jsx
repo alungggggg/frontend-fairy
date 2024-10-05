@@ -9,7 +9,7 @@ import {
   getRekapById,
   updateNilaiForum,
 } from "../../../../lib/redux/api/rekapNilai";
-import { getCookie } from "cookies-next";
+import { getCookie, setCookie } from "cookies-next";
 import Loading from "../../../../Component/loading";
 
 const QuizSoal = ({
@@ -19,11 +19,9 @@ const QuizSoal = ({
   setSoal,
   handleSubmitQuiz,
   timer,
+  handleQuizTemp,
 }) => {
   const [wordLength, setWordLength] = useState(0);
-
-  
-
 
   function getWords(text) {
     let splicedWord = text?.split(" ");
@@ -43,6 +41,8 @@ const QuizSoal = ({
           : soal
       )
     );
+
+    handleQuizTemp();
   }
 
   const formatTime = (time) => {
@@ -73,6 +73,7 @@ const QuizSoal = ({
                   displayedSoal={displayedSoal}
                   soal={soal}
                   setSoal={setSoal}
+                  handleQuizTemp={handleQuizTemp}
                 />
               )}
               {displayedSoal[0]?.jenis === "uraianSingkat" && (
@@ -84,6 +85,7 @@ const QuizSoal = ({
                     placeholder="Masukkan Jawaban Anda"
                     onChange={handleInputQuiz}
                     value={displayedSoal[0]?.jawaban_user}
+                    onPaste={(e) => e.preventDefault()}
                   />
                 </div>
               )}
@@ -98,6 +100,7 @@ const QuizSoal = ({
                     rows={18}
                     onChange={handleInputQuiz}
                     value={displayedSoal[0]?.jawaban_user}
+                    onPaste={(e) => e.preventDefault()}
                   />
                 </div>
               )}
@@ -405,9 +408,8 @@ const QuizResult = ({ nilai }) => {
 };
 
 const Quiz_2 = () => {
-  const { id } = useParams()
+  const { id } = useParams();
 
-  //   console.log(id_forum);
   const dispatch = useDispatch();
   // const [answers, setAnswer] = useState(localStorage.getItem("quizAnswers"))
   const { forumQuiz, isLoading } = useSelector((state) => state.forumQuiz);
@@ -459,7 +461,7 @@ const Quiz_2 = () => {
     ]);
   }, [soalPilgan, soalUraianSingkat, soalUraianPanjang]);
 
-  
+  // awasi
   async function getQuizData(id_forum) {
     const res = await dispatch(getForumQuizById(id_forum));
 
@@ -471,9 +473,19 @@ const Quiz_2 = () => {
       }
     }
   }
+  // awasi
+
+  let tempQuiz = localStorage.getItem("quizTemp");
+  tempQuiz = JSON.parse(tempQuiz);
 
   useEffect(() => {
-    if (rekapNilai?.id_Forum) {
+    if (tempQuiz?.id_forum == id) {
+      setSoal(tempQuiz.soal);
+      setTimer(tempQuiz.timer);
+      setIndexSoalDisplayed(tempQuiz.indexSoalDisplayed);
+    } else if (rekapNilai?.id_Forum) {
+      localStorage.removeItem("quizTemp");
+      // console.log("p");
       getQuizData(rekapNilai.id_Forum);
     }
   }, [rekapNilai]);
@@ -490,9 +502,22 @@ const Quiz_2 = () => {
     }
   }
 
+  function handleQuizTemp() {
+    let tempQuiz = {
+      id_forum: id || "",
+      timer: timer || "",
+      soal: soal || "",
+      indexSoalDisplayed: indexSoalDisplayed || 0,
+    };
+
+    let tempQuizSringify = JSON.stringify(tempQuiz);
+
+    localStorage.setItem("quizTemp", tempQuizSringify);
+  }
+
   useEffect(() => {
     getRekapNilai();
-  }, []);
+  }, [id]);
 
   const [indexSoalDisplayed, setIndexSoalDisplayed] = useState(0);
 
@@ -596,6 +621,8 @@ const Quiz_2 = () => {
       text: "Your quiz has been submitted.",
       icon: "success",
     });
+
+    localStorage.removeItem("quizAnswers");
   }
 
   function handleSubmitQuiz() {
@@ -662,6 +689,7 @@ const Quiz_2 = () => {
             displayedSoal={disPlayedSoal}
             handleSubmitQuiz={handleSubmitQuiz}
             timer={timer}
+            handleQuizTemp={handleQuizTemp}
           />
         )}
       </div>
@@ -671,10 +699,15 @@ const Quiz_2 = () => {
 
 export default Quiz_2;
 
-const QuizQisplayPilgan = ({ displayedSoal, soal, setSoal }) => {
+const QuizQisplayPilgan = ({
+  displayedSoal,
+  soal,
+  setSoal,
+  handleQuizTemp,
+}) => {
   const getInitialAnswers = () => {
-    const savedAnswers = localStorage.getItem('quizAnswers');
-    return savedAnswers ? JSON.parse(savedAnswers) : {}; 
+    const savedAnswers = localStorage.getItem("quizAnswers");
+    return savedAnswers ? JSON.parse(savedAnswers) : {};
   };
 
   // State untuk menyimpan jawaban user yang sudah tersimpan di LocalStorage
@@ -682,7 +715,7 @@ const QuizQisplayPilgan = ({ displayedSoal, soal, setSoal }) => {
 
   // Load jawaban dari LocalStorage ketika komponen pertama kali dimount
   useEffect(() => {
-    const savedAnswers = localStorage.getItem('quizAnswers');
+    const savedAnswers = localStorage.getItem("quizAnswers");
     if (savedAnswers) {
       setAnswers(JSON.parse(savedAnswers)); // Pastikan menggunakan JSON.parse
     }
@@ -690,7 +723,7 @@ const QuizQisplayPilgan = ({ displayedSoal, soal, setSoal }) => {
 
   // Simpan jawaban ke LocalStorage setiap kali `answers` berubah
   useEffect(() => {
-    localStorage.setItem('quizAnswers', JSON.stringify(answers));
+    localStorage.setItem("quizAnswers", JSON.stringify(answers));
   }, [answers]);
 
   // Fungsi untuk meng-handle perubahan opsi jawaban
@@ -704,20 +737,21 @@ const QuizQisplayPilgan = ({ displayedSoal, soal, setSoal }) => {
       )
     );
 
+    handleQuizTemp();
+
     // Update jawaban di localStorage menggunakan `answers` state
     const setLocal = (questionId, answer) => {
-      setAnswers(prevAnswers => ({
+      setAnswers((prevAnswers) => ({
         ...prevAnswers,
-        [questionId]: answer,  // Perbarui jawaban untuk pertanyaan tertentu
+        [questionId]: answer, // Perbarui jawaban untuk pertanyaan tertentu
       }));
     };
 
     // Simpan jawaban user ke `localStorage` dan state `answers`
     setLocal(displayedSoal[0].id, e.target.value);
-    }
+  }
 
   return (
-
     <div className="my-4">
       <p className="fs-4">{displayedSoal[0]?.soal}</p>
       <div className="mt-3 fs-5 d-flex flex-column gap-2">
@@ -779,6 +813,5 @@ const QuizQisplayPilgan = ({ displayedSoal, soal, setSoal }) => {
         </label>
       </div>
     </div>
-    
   );
 };
