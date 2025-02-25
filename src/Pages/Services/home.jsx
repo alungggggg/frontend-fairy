@@ -63,6 +63,28 @@ const Home = () => {
     setQuotes(result.response.text());
   }
 
+  // Berita
+  const berita = [
+    {
+      gambar: "",
+      judul: "Judul 1",
+      deskripsi:
+        "Lorem ipsum dolor sit amet consectetur adipisicing elit. Totam necessitatibus quia voluptatibus rerum iusto eius enim expedita, est aspernatur atque, harum amet pariatur fuga a! Cum dolore aliquid molestiae aut.",
+    },
+    {
+      gambar: "",
+      judul: "Judul 1",
+      deskripsi:
+        "Lorem ipsum dolor sit amet consectetur adipisicing elit. Totam necessitatibus quia voluptatibus rerum iusto eius enim expedita, est aspernatur atque, harum amet pariatur fuga a! Cum dolore aliquid molestiae aut.",
+    },
+    {
+      gambar: "",
+      judul: "Judul 1",
+      deskripsi:
+        "Lorem ipsum dolor sit amet consectetur adipisicing elit. Totam necessitatibus quia voluptatibus rerum iusto eius enim expedita, est aspernatur atque, harum amet pariatur fuga a! Cum dolore aliquid molestiae aut.",
+    },
+  ];
+
   return (
     <>
       <Header />
@@ -435,17 +457,7 @@ const Home = () => {
           </section>
         )}
 
-        <section
-          className="py-2 position-relative"
-          // style={{
-          //   backgroundColor: "#e9f7fe",
-          //   backgroundImage:
-          //     "url(https://buku.kemdikbud.go.id/assets/image/home/bg-book-for-all.png)",
-          //   backgroundRepeat: "no-repeat",
-          //   backgroundSize: "100%",
-          //   // backgroundBlendMode: "lighten",
-          // }}
-        >
+        <section className="py-2 position-relative">
           <img
             src="https://buku.kemdikbud.go.id/assets/image/home/bg-book-for-all.png"
             className="w-100 position-absolute top-0 d-none d-lg-block"
@@ -574,6 +586,61 @@ const Home = () => {
             </section>
           </section>
         </section>
+
+        {/* Berita */}
+        <section className="py-2 position-relative w">
+          <section className="container p-3">
+            <section className="row align-items-center">
+              <section className="col-lg-6">
+                <h3 className="fw-bold">
+                  Berita&nbsp;
+                  <section className="d-inline-flex flex-column">
+                    <span>untuk semua</span>
+                    <span className="mtmin">
+                      <img
+                        src="https://buku.kemdikbud.go.id/assets/image/home/line-populer.png"
+                        alt="Line title"
+                      />
+                    </span>
+                  </section>
+                </h3>
+                <p className="">Temukan berita sesuai kebutuhanmu</p>
+              </section>
+              <section className="col-lg-6 text-end">
+                <Link
+                  to={"/Berita"}
+                  className="btn btn-lg bg-secondary text-white"
+                >
+                  Lihat semua berita
+                </Link>
+              </section>
+            </section>
+
+            <section className="row">
+              {berita.map((item, index) => (
+                <section className="col-lg-4" key={index}>
+                  <section className="card mb-3 shadow">
+                    <div>
+                      <img
+                        src={item.gambar || "https://placehold.co/100"}
+                        className="card-img-top img-fluid"
+                        alt={item.judul}
+                      />
+                      <div className="card-body">
+                        <h1 className="text-center">{item.judul}</h1>
+                        <p className="card-text text-truncate">
+                          {item.deskripsi}
+                        </p>
+                      </div>
+                    </div>
+                  </section>
+                </section>
+              ))}
+            </section>
+          </section>
+        </section>
+        {/* Berita */}
+
         <section className="bg-primary">
           <section className="container">
             <section className="row">
