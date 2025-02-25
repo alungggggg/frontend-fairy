@@ -2,6 +2,7 @@ import Template from "../template/template";
 import { useState, useEffect, useRef } from "react";
 import axios from "axios";
 import { Link, useNavigate, useParams } from "react-router-dom";
+import fairyApi from "../../lib/axios";
 
 const rekomendasiBuku = [
   {
@@ -11,14 +12,13 @@ const rekomendasiBuku = [
 ];
 
 const getData = async (id) => {
-  const response = await axios.get(`https://test-backend-pink.vercel.app/api/dongeng/${id}`);
+  const response = await fairyApi.get(`/dongeng/${id}`);
   return response.data;
 };
 
 const sumview = async (id) => {
   try {
-    const response = await axios.get(
-      `https://test-backend-pink.vercel.app/api/dongengview/${id}`
+    const response = await fairyApi.get(`/dongengview/${id}`
     );
     return response.data;
   } catch (error) {

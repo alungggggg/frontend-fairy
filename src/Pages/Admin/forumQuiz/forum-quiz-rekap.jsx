@@ -16,8 +16,8 @@ const RekapNilai = () => {
   const [search, setSearch] = useState("");
   const [filterNilai, setFilterNilai] = useState(1);
 
-  var sekolah = rekapNilai[0]?.forumQuiz.sekolah;
-  var judul = rekapNilai[0]?.forumQuiz.judul;
+  var sekolah = rekapNilai[0]?.forum.sekolah;
+  var judul = rekapNilai[0]?.forum.judul;
 
   const tableHead = [
     "No",
@@ -42,7 +42,7 @@ const RekapNilai = () => {
   }, [id]);
 
   let displayedData = rekapNilai.filter((e) =>
-    e?.user?.nama?.toLocaleLowerCase().includes(search?.toLocaleLowerCase())
+    e?.user[0]?.nama?.toLocaleLowerCase().includes(search?.toLocaleLowerCase())
   );
   if (filterNilai == 1) {
     displayedData = displayedData.filter((e) => e?.nilai >= 0);
@@ -66,8 +66,8 @@ const RekapNilai = () => {
     const doc = new jsPDF();
     const tableData = displayedData.map((row, index) => [
       index + 1, // Assuming `row.no` should be a sequential number
-      row?.user?.nama || "undefined",
-      row?.user?.sekolah || "undefined",
+      row?.user[0]?.nama || "undefined",
+      row?.user[0]?.sekolah || "undefined",
       row.nilaiPilihanGanda,
       row.nilaiUraian,
       row.nilaiMenulis,
@@ -160,8 +160,8 @@ const RekapNilai = () => {
                 {displayedData?.map((item, i) => (
                   <tr key={i} style={{ cursor: "pointer" }}>
                     <td>{i + 1}</td>
-                    <td>{item?.user?.nama || "undefined"}</td>
-                    <td>{item?.user?.sekolah || "undefined"}</td>
+                    <td>{item?.user[0]?.nama || "undefined"}</td>
+                    <td>{item?.user[0]?.sekolah || "undefined"}</td>
                     <td>{item?.nilai || 0}</td>
                   </tr>
                 ))}

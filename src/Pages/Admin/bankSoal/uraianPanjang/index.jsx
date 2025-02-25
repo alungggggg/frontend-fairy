@@ -23,8 +23,6 @@ const UraianPanjang = () => {
     (state) => state.soalUraianPanjang
   );
 
-  // console.log(soalUraianPanjang);
-
   const [action, setAction] = useState("add");
   const [idEdit, setIdEdit] = useState(null);
   const [search, setSearch] = useState("");
@@ -173,7 +171,7 @@ const UraianPanjang = () => {
                     <tr key={i} className="align-middle">
                       <td>{i + 1}</td>
                       <td>{item?.soal}</td>
-                      <td>{item?.dongeng?.title || ""}</td>
+                      <td>{item?.dongeng[0]?.title || ""}</td>
                       <td>{item?.jawaban.slice(0, 30)}</td>
                       <td className="" style={{ minWidth: "120px" }}>
                         <button

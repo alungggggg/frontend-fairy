@@ -4,6 +4,7 @@ import { useState, useEffect } from "react";
 import ItemList from "./Component/itemList";
 import Pagination from "../../Component/pagination";
 import axios from "axios";
+import fairyApi from "../../lib/axios";
 
 const Katalog = () => {
   const [currentPage, setCurrentPage] = useState(1);
@@ -15,7 +16,7 @@ const Katalog = () => {
   useEffect(() => {
     const fetchDongeng = async () => {
       setIsLoading(true);
-      const response = await axios.get("https://test-backend-pink.vercel.app/api/dongeng");
+      const response = await fairyApi.get("/dongeng")
       setItems(response.data);
       setIsLoading(false);
     };
@@ -32,7 +33,7 @@ const Katalog = () => {
   const filteredItems = items.filter((item) =>
     item.title.toLowerCase().includes(searchTerm.toLowerCase())
   );
-
+  
   const indexOfLastItem = currentPage * itemsPerPage;
   const indexOfFirstItem = indexOfLastItem - itemsPerPage;
   const currentItems = filteredItems.slice(indexOfFirstItem, indexOfLastItem);

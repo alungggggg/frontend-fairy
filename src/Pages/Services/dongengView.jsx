@@ -5,6 +5,7 @@ import Footer from "../template/footer";
 import axios from "axios";
 import { useParams } from "react-router-dom";
 import Loading from "../../Component/loading";
+import fairyApi from "../../lib/axios";
 
 // pdfjs.GlobalWorkerOptions.workerSrc = new URL(
 //   "pdfjs-dist/legacy/build/pdf.worker.min.mjs",
@@ -21,9 +22,7 @@ const dongeng = () => {
   useEffect(() => {
     const getFile = async () => {
       try {
-        const Response = await axios.get(
-          `https://test-backend-pink.vercel.app/api/dongeng/${id}`
-        );
+        const Response = await fairyApi.get(`/dongeng/${id}`);
         setFile(Response.data);
       } catch (error) {
         console.log(error.message);

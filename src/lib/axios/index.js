@@ -2,9 +2,10 @@ import axios from "axios";
 import { getCookies } from "cookies-next";
 
 const fairyApi = axios.create({
-  baseURL: "https://test-backend-pink.vercel.app/api",
+  baseURL: import.meta.env.VITE_API_DEV,
   headers: {
     "Content-Type": "application/json",
+    // "Accept" : "application/json",
   },
 });
 

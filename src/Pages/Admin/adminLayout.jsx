@@ -28,6 +28,11 @@ const AdminLayout = ({ children }) => {
       path: "/admin/forum-quiz",
       icon: <MortorboardIcon size={24} />,
     },
+    {
+      name: "Berita",
+      path: "/admin/berita",
+      icon: <MortorboardIcon size={24} />,
+    },
   ];
 
   const dispatch = useDispatch();
@@ -41,26 +46,26 @@ const AdminLayout = ({ children }) => {
   const navigate = useNavigate();
 
   const { user } = useSelector((state) => state.user);
-  useEffect(() => {
-    async function getDataUsers() {
-      var res = await dispatch(getUserById(users_id));
-      if (res.error) {
-        if (res.error.message === "401") {
-          console.log("get new access token");
-          dispatch(getNewAccessToken());
-          return getDataUsers();
-        }
-      }
-      const { role } = res?.payload;
-      if (role !== "admin" && role !== "guru") {
-        return navigate("/");
-      }
-    }
+  // useEffect(() => {
+  //   async function getDataUsers() {
+  //     var res = await dispatch(getUserById(users_id));
+  //     if (res.error) {
+  //       if (res.error.message === "401") {
+  //         console.log("get new access token");
+  //         dispatch(getNewAccessToken());
+  //         return getDataUsers();
+  //       }
+  //     }
+  //     const { role } = res?.payload;
+  //     if (role !== "admin" && role !== "guru") {
+  //       return navigate("/");
+  //     }
+  //   }
 
-    getDataUsers();
-  }, []);
+  //   getDataUsers();
+  // }, []);
 
-  if (!refresh_token || !users_id) return <Navigate to={"/login"} />;
+  // if (!refresh_token || !users_id) return <Navigate to={"/login"} />;
 
   return (
     <div className="container-fluid bg-night">

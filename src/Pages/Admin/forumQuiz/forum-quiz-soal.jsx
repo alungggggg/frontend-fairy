@@ -14,28 +14,39 @@ const ForumQuizSoal = () => {
 
   useEffect(() => {
     setSoal([]);
-    forumQuiz[0]?.dongeng.soalPilgans.map((item) => {
+    forumQuiz[0]?.dongeng[0]?.soal_pilgan.map((item) => {
       setSoal((prev) => [
         ...prev,
-        { ...item, type: "Pilihan Ganda", topik: forumQuiz[0]?.dongeng.title },
+        {
+          ...item,
+          type: "Pilihan Ganda",
+          topik: forumQuiz[0]?.dongeng[0]?.title,
+        },
       ]);
     });
 
-    forumQuiz[0]?.dongeng.soalUraianSingkats.map((item) => {
+    forumQuiz[0]?.dongeng[0].soal_uraian_singkat.map((item) => {
       setSoal((prev) => [
         ...prev,
-        { ...item, type: "Uraian Singkat", topik: forumQuiz[0]?.dongeng.title },
+        {
+          ...item,
+          type: "Uraian Singkat",
+          topik: forumQuiz[0]?.dongeng[0]?.title,
+        },
       ]);
     });
 
-    forumQuiz[0]?.dongeng.soalUraianPanjangs.map((item) => {
+    forumQuiz[0]?.dongeng[0]?.soal_uraian_panjang.map((item) => {
       setSoal((prev) => [
         ...prev,
-        { ...item, type: "Uraian Panjang", topik: forumQuiz[0]?.dongeng.title },
+        {
+          ...item,
+          type: "Uraian Panjang",
+          topik: forumQuiz[0]?.dongeng[0]?.title,
+        },
       ]);
     });
   }, []);
-
 
   return (
     <AdminLayout>
@@ -92,11 +103,11 @@ const ForumQuizSoal = () => {
               <tbody>
                 {soal?.map((item, i) => (
                   <tr key={i}>
-                    <td>{i + 1}</td>
-                    <td>{item.soal}</td>
-                    <td>{item.type}</td>
-                    <td>{item.topik}</td>
-                    <td>{item.jawaban}</td>
+                    <td style={{ width: "50px" }}>{i + 1}</td>
+                    <td style={{ width: "300px" }}>{item.soal}</td>
+                    <td style={{ width: "150px" }}>{item.type}</td>
+                    <td style={{ width: "200px" }}>{item.topik}</td>
+                    <td style={{ width: "250px" }}>{item.jawaban}</td>
                   </tr>
                 ))}
               </tbody>

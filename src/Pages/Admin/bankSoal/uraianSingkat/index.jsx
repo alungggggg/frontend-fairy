@@ -175,7 +175,7 @@ const UraianSingkat = () => {
                     >
                       <td>{i + 1}</td>
                       <td>{item?.soal}</td>
-                      <td>{item.dongeng?.title || ""}</td>
+                      <td>{item.dongeng[0]?.title || ""}</td>
                       <td style={{ wordWrap: "break-word" }}>
                         {item?.jawaban.slice(0, 30)}
                       </td>

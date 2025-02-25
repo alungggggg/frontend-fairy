@@ -22,6 +22,10 @@ import QuizList from "./Pages/Services/Siswa/quiz";
 import Quiz_2 from "./Pages/Services/Siswa/quiz/quiz_2";
 
 import Write from "./Pages/Services/Siswa/write";
+import Berita from "./Pages/Admin/berita/berita";
+import AddBerita from "./Pages/Admin/berita/addBerita";
+import DetailBerita from "./Pages/Admin/berita/detailBerita";
+import UpdateBerita from "./Pages/Admin/berita/updateBerita";
 
 function App() {
   return (
@@ -57,6 +61,13 @@ function App() {
 
           <Route path="/admin">
             <Route index element={<Dashboard />} />
+
+            <Route path="berita">
+              <Route index element={<Berita/>}/>
+              <Route path="add" element={<AddBerita/>}/>
+              <Route path="update/:id" element={<UpdateBerita/>}/>
+              <Route path=":id" element={<DetailBerita/>}/>
+            </Route>
 
             <Route path="bank-soal">
               <Route index element={<BankSoal />} />
