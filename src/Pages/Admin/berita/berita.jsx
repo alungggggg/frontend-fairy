@@ -6,32 +6,18 @@ import ItemListUser from "../Component/itemListUser";
 import { PlusIcon } from "../forumQuiz";
 import { Link } from "react-router-dom";
 import Swal from "sweetalert2";
+import { useDispatch, useSelector } from "react-redux";
+import { deleteNewsData, getNewsData } from "../../../lib/redux/api/news";
 
 const tableHead = ["No", "judul", "Gambar", "tanggal Dibuat", ""];
-const tempBerita = [
-  {
-    judul: "Lorem ipsum dolor sit",
-    gambar: "http://lorem-lorem",
-    tanggal: "10-12-2025",
-  },
-  {
-    judul: "Lorem ipsum dolor sit",
-    gambar: "http://lorem-lorem",
-    tanggal: "10-12-2025",
-  },
-  {
-    judul: "Lorem ipsum dolor sit",
-    gambar: "http://lorem-lorem",
-    tanggal: "10-12-2025",
-  },
-];
 
 const Berita = () => {
-  const [dataBerita, setDataBerita] = useState([]);
-  const [isLoading, setIsLoading] = useState(false);
   const [searchParam, setSearchParam] = useState("");
 
-  const searchData = tempBerita.filter((item) =>
+  const { data: dataBerita, isLoading } = useSelector((state) => state.news);
+  const dispatch = useDispatch();
+
+  const searchData = dataBerita?.filter((item) =>
     item.judul.toLowerCase().includes(searchParam.toLowerCase())
   );
 
@@ -48,12 +34,12 @@ const Berita = () => {
     });
   };
 
-  async function deleteBerita() {
+  async function deleteBerita(id) {
     confirmSwal("Peringatan", "Anda yakin ingin menghapus user ini?").then(
       async (result) => {
         if (result.isConfirmed) {
           async function handleDelete() {
-            console.log("hapus");
+            const res = await dispatch(deleteNewsData(id));
           }
           handleDelete();
         }
@@ -61,8 +47,22 @@ const Berita = () => {
     );
   }
 
+  async function getBerita() {
+    const res = await dispatch(getNewsData());
+  }
+
+  //pgination
+  const [itemsPerPage] = useState(5);
+  const [currentPage, setCurrentPage] = useState(1);
+  const indexOfLastItem = currentPage * itemsPerPage;
+  const indexOfFirstItem = indexOfLastItem - itemsPerPage;
+  const currentItems = searchData.slice(indexOfFirstItem, indexOfLastItem);
+
+  const paginate = (pageNumber) => setCurrentPage(pageNumber);
+  //pgination
+
   useEffect(() => {
-    setDataBerita(tempBerita);
+    getBerita();
   }, []);
   return (
     <AdminLayout>
@@ -80,13 +80,19 @@ const Berita = () => {
                 placeholder="Search...."
                 aria-label="Search"
                 aria-describedby="button-addon2"
-                onChange={(e) => setSearchParam(e.target.value)}
+                onChange={(e) => {
+                  setSearchParam(e.target.value);
+                  setCurrentPage(1);
+                }}
               />
               <button
                 className="btn btn-outline-secondary"
                 type="button"
                 id="Search"
-                onClick={() => setSearchParam("")}
+                onClick={() => {
+                  setSearchParam("");
+                  setCurrentPage(1);
+                }}
               >
                 Clear
               </button>
@@ -120,9 +126,9 @@ const Berita = () => {
                     </tr>
                   </thead>
                   <tbody>
-                    {searchData.map((item, i) => (
+                    {currentItems.map((item, i) => (
                       <tr key={i} className="align-middle">
-                        <td>{i + 1}</td>
+                        <td>{item.id}</td>
                         <td>{item.judul}</td>
                         <td>
                           <div>
@@ -136,7 +142,7 @@ const Berita = () => {
                             />
                           </div>
                         </td>
-                        <td>{item.tanggal}</td>
+                        <td>{item.created_at.split(" ")[0]}</td>
                         <td style={{ width: "200px" }}>
                           <Link
                             className="btn btn-sm btn-primary border"
@@ -150,7 +156,10 @@ const Berita = () => {
                           >
                             Update
                           </Link>
-                          <button className="btn btn-sm btn-danger border" onClick={deleteBerita}>
+                          <button
+                            className="btn btn-sm btn-danger border"
+                            onClick={() => deleteBerita(item?.id)}
+                          >
                             Hapus
                           </button>
                         </td>
@@ -162,9 +171,9 @@ const Berita = () => {
             </section>
             <section className="">
               <Pagination
-                itemsPerPage={4}
-                totalItems={dataBerita.length}
-                // paginate={paginate}
+                itemsPerPage={itemsPerPage}
+                totalItems={searchData.length}
+                paginate={paginate}
                 className={"mt-3"}
               />
             </section>

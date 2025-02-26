@@ -41,6 +41,13 @@ const Footer = () => {
                       Daftar Dongeng
                     </Link>
                     <Link
+                      to={"/berita"}
+                      className="nav-link text-white px-0"
+                      rel="noreferrer"
+                    >
+                      Berita
+                    </Link>
+                    <Link
                       to={"/petunjuk"}
                       className="nav-link text-white px-0"
                       rel="noreferrer"
@@ -132,7 +139,7 @@ const Footer = () => {
               </Link>
             </section>
           </section>
-        </section>
+        </section>``
       </footer>
     </>
   );

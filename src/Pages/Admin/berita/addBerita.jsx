@@ -1,20 +1,43 @@
-import { Field, Form, Formik } from "formik";
-import AdminLayout from "../adminLayout";
+import { useState } from "react";
+import { Formik, Form, Field } from "formik";
 import * as Yup from "yup";
+import { Link, useNavigate } from "react-router-dom";
+import AdminLayout from "../adminLayout";
 import { ArrowLeft } from "../forumQuiz/forumDetail";
-import { Link } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import { addNewsData } from "../../../lib/redux/api/news";
+import Loading from "../../../Component/loading";
 
 export const beritaSchema = Yup.object().shape({
-  judul: Yup.string().required("Judul is required"),
-  gambar: Yup.string().required("Gambar is required"),
-  deskripsi: Yup.string().required("Deskripsi is required"),
-  create_at: Yup.string().required("Tanggal dibuat is required"),
+  judul: Yup.string().required("Judul wajib diisi"),
+  gambar: Yup.mixed()
+    .required("Gambar wajib diupload")
+    .test("fileFormat", "Format gambar harus JPG, PNG, atau WebP", (file) => {
+      if (!file) return false; // Jika file tidak ada, return false
+      return ["image/jpeg", "image/png", "image/webp"].includes(file.type);
+    }),
+  deskripsi: Yup.string().required("Deskripsi wajib diisi"),
 });
 
 const AddBerita = () => {
+  const [preview, setPreview] = useState(null);
+
+  const dispatch = useDispatch();
+  const { isLoading } = useSelector((state) => state.news);
+  const navigate = useNavigate();
+
+  async function addDataBerita(data) {
+    const res = await dispatch(addNewsData(data));
+    if(res.payload){
+      navigate("/admin/berita")
+    }
+  }
   return (
     <AdminLayout>
-      <Link to={"../"}  className="d-flex align-items-center gap-2 text-dark text-decoration-none">
+      <Link
+        to={"../"}
+        className="d-flex align-items-center gap-2 text-dark text-decoration-none"
+      >
         <ArrowLeft />
         <p className="mb-0">Tambah Berita</p>
       </Link>
@@ -23,18 +46,18 @@ const AddBerita = () => {
         enableReinitialize
         initialValues={{
           judul: "",
-          gambar: "",
+          gambar: null,
           deskripsi: "",
-          create_at: "",
         }}
         validationSchema={beritaSchema}
         onSubmit={(values) => {
-          console.log(values);
+          addDataBerita(values);
         }}
       >
-        {({ errors, touched, values }) => (
+        {({ errors, touched, values, setFieldValue }) => (
           <Form className="row">
             <div className="col">
+              {/* Input Judul */}
               <div className="mb-3">
                 <label htmlFor="judul" className="form-label">
                   Judul Berita
@@ -51,21 +74,42 @@ const AddBerita = () => {
                 )}
               </div>
 
+              {/* Input Gambar */}
               <div className="mb-3">
                 <label htmlFor="gambar" className="form-label">
                   Gambar
                 </label>
-                <Field
+                <input
                   type="file"
                   name="gambar"
                   className="form-control"
                   id="gambar"
+                  accept="image/*"
+                  onChange={(event) => {
+                    const file = event.currentTarget.files[0];
+                    setFieldValue("gambar", file);
+                    setPreview(URL.createObjectURL(file));
+                  }}
                 />
                 {errors.gambar && touched.gambar && (
                   <div className="text-danger">{errors.gambar}</div>
                 )}
               </div>
 
+              {/* Preview Gambar */}
+              {preview && (
+                <div className="mb-3">
+                  <p>Preview Gambar:</p>
+                  <img
+                    src={preview}
+                    alt="Preview"
+                    className="img-thumbnail"
+                    width="200"
+                  />
+                </div>
+              )}
+
+              {/* Input Deskripsi */}
               <div className="mb-3">
                 <label htmlFor="deskripsi" className="form-label">
                   Deskripsi
@@ -83,22 +127,9 @@ const AddBerita = () => {
                 )}
               </div>
 
-              <div className="mb-3">
-                <label htmlFor="create_at" className="form-label">
-                  Tanggal Publish
-                </label>
-                <Field
-                  type="date"
-                  name="create_at"
-                  className="form-control"
-                  id="create_at"
-                />
-                {errors.create_at && touched.create_at && (
-                  <div className="text-danger">{errors.create_at}</div>
-                )}
-              </div>
-              <button type="submit" className="btn btn-primary mt-4">
-                Submit
+              {/* Tombol Submit */}
+              <button type="submit" className={`btn btn-primary mt-4 ${isLoading ? "btn-disabled" : ""}`} disabled={isLoading}>
+                submit
               </button>
             </div>
           </Form>

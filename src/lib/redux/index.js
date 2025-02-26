@@ -8,6 +8,7 @@ import dongengSlice from "./api/dongeng";
 import rekapNilaiSlice from "./api/rekapNilai";
 import usersSlice from "./api/users";
 import userAdminSlice from "./api/userAdmin";
+import newsSlice from "./api/news";
 
 export const store = configureStore({
   reducer: {
@@ -20,5 +21,6 @@ export const store = configureStore({
     rekapNilai: rekapNilaiSlice,
     user: usersSlice,
     usersAdmin: userAdminSlice,
+    news : newsSlice
   },
 });
