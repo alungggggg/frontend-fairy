@@ -40,6 +40,19 @@ const Berita = () => {
         if (result.isConfirmed) {
           async function handleDelete() {
             const res = await dispatch(deleteNewsData(id));
+            if (res.payload) {
+              Swal.fire({
+                title: "Delete Success",
+                icon: "success",
+              });
+            }else{
+              Swal.fire({
+                title: "Delete Failed",
+                icon: "error",
+              });
+
+            }
+            getBerita();
           }
           handleDelete();
         }
@@ -133,11 +146,11 @@ const Berita = () => {
                         <td>
                           <div>
                             <img
-                              src="https://placehold.co/600x400"
+                              src={import.meta.env.VITE_IMG_URL+"/"+item.gambar}
                               style={{
                                 width: "100px",
                                 height: "50px",
-                                objectFit: "cover",
+                                objectFit: "contain",
                               }}
                             />
                           </div>

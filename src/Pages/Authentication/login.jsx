@@ -1,12 +1,13 @@
 import * as Yup from "yup";
 import swal from "../../Component/alert";
 import { Formik, Form, Field, ErrorMessage } from "formik";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { Link, useLocation } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { signIn } from "../../lib/redux/api/auth";
 import errorMessage from "../../Component/errorMessage";
 import AuthTemplate from "./authTemplate";
+import fairyApi from "../../lib/axios";
 
 // const isEmailUnique = async (email) => {
 //   try {

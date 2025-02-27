@@ -7,6 +7,7 @@ import { ArrowLeft } from "../forumQuiz/forumDetail";
 import { useDispatch, useSelector } from "react-redux";
 import { addNewsData } from "../../../lib/redux/api/news";
 import Loading from "../../../Component/loading";
+import Swal from "sweetalert2";
 
 export const beritaSchema = Yup.object().shape({
   judul: Yup.string().required("Judul wajib diisi"),
@@ -21,16 +22,24 @@ export const beritaSchema = Yup.object().shape({
 
 const AddBerita = () => {
   const [preview, setPreview] = useState(null);
-
   const dispatch = useDispatch();
   const { isLoading } = useSelector((state) => state.news);
   const navigate = useNavigate();
 
   async function addDataBerita(data) {
     const res = await dispatch(addNewsData(data));
-    if(res.payload){
-      navigate("/admin/berita")
+    if(!res.error){
+      Swal.fire({
+        title: "Add Success",
+        icon: "success",
+      });
+    }else{
+      Swal.fire({
+        title: "Delete Failed",
+        icon: "error",
+      });
     }
+    navigate("/admin/berita")
   }
   return (
     <AdminLayout>

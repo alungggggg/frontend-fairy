@@ -41,20 +41,64 @@ export const addNewsData = createAsyncThunk(
     }
   }
 );
+export const updateNewsData = createAsyncThunk(
+  "updateNews",
+  async (newsData, { rejectWithValue }) => {
+    try {
+      const formData = new FormData();
+      formData.append("judul", newsData.judul);
+      formData.append("gambar", newsData.gambar);
+      formData.append("description", newsData.deskripsi);
+
+      console.log(newsData);
+
+      const response = await fairyApi.post(
+        `/news?id=${newsData.id}&_method=PATCH`,
+        formData,
+        {
+          headers: {
+            "Content-Type": "multipart/form-data",
+          },
+        }
+      );
+      if (response.data) {
+        return response.data;
+      }
+      throw new Error("Failed to update a data");
+    } catch (error) {
+      return rejectWithValue(error.response?.data || "Terjadi kesalahan");
+    }
+  }
+);
 
 export const deleteNewsData = createAsyncThunk(
   "deleteNews",
   async (id, { rejectWithValue }) => {
     try {
-      const res = await fairyApi.delete(`/news`, {
-        id,
-      });
+      const res = await fairyApi.delete(`/news?id=${id}`);
 
       if (res.data) {
         return res.data;
       }
 
       throw new Error("Failed to delete a data");
+    } catch (error) {
+      return rejectWithValue(error.message);
+    }
+  }
+);
+
+export const getNewsDatabyId = createAsyncThunk(
+  "getNewsById",
+  async (id, { rejectWithValue }) => {
+    try {
+      const res = await fairyApi.get(`/news?id=${id}`);
+
+      if (res.data) {
+        return res.data;
+      }
+
+      throw new Error("Failed to get a data");
     } catch (error) {
       return rejectWithValue(error.message);
     }
@@ -99,6 +143,19 @@ const newsSlice = createSlice({
         state.isLoading = false;
         state.error = action?.payload || "";
       })
+      .addCase(updateNewsData.pending, (state) => {
+        state.isLoading = true;
+        state.data = [];
+      })
+      .addCase(updateNewsData.fulfilled, (state, action) => {
+        state.isLoading = false;
+        // state.data = action.payload;
+        state.error = "";
+      })
+      .addCase(updateNewsData.rejected, (state, action) => {
+        state.isLoading = false;
+        state.error = action?.payload || "";
+      })
       .addCase(deleteNewsData.pending, (state) => {
         state.isLoading = true;
         state.data = [];
@@ -109,6 +166,19 @@ const newsSlice = createSlice({
         state.error = "";
       })
       .addCase(deleteNewsData.rejected, (state, action) => {
+        state.isLoading = false;
+        state.error = action?.payload || "";
+      })
+      .addCase(getNewsDatabyId.pending, (state) => {
+        state.isLoading = true;
+        state.data = [];
+      })
+      .addCase(getNewsDatabyId.fulfilled, (state, action) => {
+        state.isLoading = false;
+        state.data = [action.payload];
+        state.error = "";
+      })
+      .addCase(getNewsDatabyId.rejected, (state, action) => {
         state.isLoading = false;
         state.error = action?.payload || "";
       });

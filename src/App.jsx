@@ -37,7 +37,7 @@ function App() {
           <Route path="/profile/update" element={<kernel.updateProfile />} />
           <Route path="/katalog" element={<kernel.katalog />} />
           <Route path="/berita" element={<kernel.Berita />} />
-          <Route path="/detail-berita" element={<kernel.DetailBerita />} />
+          <Route path="/berita/:id" element={<kernel.DetailBerita />} />
 
           <Route path="/Petunjuk" element={<kernel.petunjuk />} />
           <Route path="/Petunjuk/siswa" element={<kernel.petunjukSiswa />} />

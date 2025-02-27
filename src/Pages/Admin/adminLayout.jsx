@@ -6,7 +6,7 @@ import {
   useNavigate,
 } from "react-router-dom";
 import Header from "../template/header";
-import Sidebar from "./Component/sidebar";
+import Sidebar, { NewsPaperIcon } from "./Component/sidebar";
 import { useEffect, useState } from "react";
 import { getCookie } from "cookies-next";
 import { useDispatch, useSelector } from "react-redux";
@@ -31,7 +31,7 @@ const AdminLayout = ({ children }) => {
     {
       name: "Berita",
       path: "/admin/berita",
-      icon: <MortorboardIcon size={24} />,
+      icon: <NewsPaperIcon size={24} />,
     },
   ];
 

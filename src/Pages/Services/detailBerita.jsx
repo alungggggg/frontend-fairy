@@ -1,68 +1,93 @@
 import Header from "../template/header";
 import Footer from "../template/footer";
+import { useParams } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import { getNewsDatabyId } from "../../lib/redux/api/news";
+import { useEffect, useState } from "react";
+import fairyApi from "../../lib/axios";
+import Loading from "../../Component/loading";
 
 const DetailBerita = () => {
+  const { isLoading, data: dataBerita } = useSelector((state) => state.news);
+  const dispatch = useDispatch();
+  const { id } = useParams();
+
+  const [rekomendasiBerita, setRekomendasiBerita] = useState();
+
+  async function getRekomenBerita() {
+    const res = await fairyApi.get("/news");
+    setRekomendasiBerita(res.data);
+  }
+
+  useEffect(() => {
+    getRekomenBerita();
+  });
+
+  useEffect(() => {
+    async function handleGetDataBeritaById() {
+      const res = await dispatch(getNewsDatabyId(id));
+    }
+
+    handleGetDataBeritaById();
+  }, []);
+
   return (
     <>
       <Header></Header>
-      <div className="container">
-        <div className="row my-5">
-          <div className="col-lg-8">
-            <div>
-              <img
-                src="https://placehold.co/400"
-                className="img-fluid w-100 rounded"
-                style={{ maxHeight: "500px", objectFit: "cover" }}
-                alt=""
-              />
-              <h1 className="text-center">Judul Berita</h1>
-              <p>
-                Lorem ipsum dolor, sit amet consectetur adipisicing elit.
-                Doloribus, aliquid cumque cum perferendis voluptas officia
-                minima. Ipsum delectus corrupti dolore nemo, ut officia cumque,
-                pariatur officiis odio quo laboriosam praesentium? Excepturi, ab
-                sit distinctio eaque nam, sint provident eos, eius dolore illo a
-                cumque? Officiis praesentium reprehenderit voluptatibus beatae
-                dolorum ullam, nesciunt aliquid asperiores consequuntur quam ab
-                quidem veritatis aspernatur? Consequatur facilis totam et
-                praesentium corporis laboriosam aliquid alias accusamus
-                necessitatibus dicta. Ea quisquam, aliquam sunt necessitatibus
-                rerum ducimus aperiam quidem architecto, id aliquid, odit nisi
-                soluta quibusdam quos officia. Iusto, atque nemo. Vero pariatur
-                eos quod iste praesentium nesciunt, excepturi voluptas,
-                architecto doloribus dolore enim ex qui et recusandae magni
-                assumenda illo. Libero, pariatur? Voluptas nemo nam aspernatur
-                accusantium.
-              </p>
+      <div className="container my-5">
+        {isLoading ? (
+          <section
+            className="d-flex align-items-center justify-content-center w-full"
+            style={{ height: "80vh" }}
+          >
+            <Loading />
+          </section>
+        ) : (
+          <div className="row gy-5">
+            <div className="col-lg-8">
+              <div>
+                <img
+                  src={
+                    import.meta.env.VITE_IMG_URL + "/" + dataBerita[0]?.gambar
+                  }
+                  className="img-fluid w-100 rounded"
+                  style={{ height: "300px", objectFit: "contain" }}
+                  alt=""
+                />
+                <h1 className="text-center">{dataBerita[0]?.judul}</h1>
+                <p>{dataBerita[0]?.description}</p>
+              </div>
             </div>
+            <div className="col-lg-4 card shadow">
+  {rekomendasiBerita?.map((item, i) => (
+    <div className="d-flex my-3 align-items-center" key={i}>
+      <div 
+        style={{
+          width: "80px",  // Lebar tetap
+          height: "80px", // Tinggi tetap, memastikan rasio 1:1
+          flexShrink: 0,  // Mencegah perubahan ukuran gambar saat responsif
+        }}
+      >
+        <img
+          src={import.meta.env.VITE_IMG_URL + "/" + item.gambar}
+          style={{
+            width: "100%",  
+            height: "100%",  
+            objectFit: "contain", // Memastikan gambar terisi penuh tanpa distorsi
+            borderRadius: "8px", // Opsional, agar lebih estetik
+          }}
+          alt={item?.judul || ""}
+        />
+      </div>
+      <div className="ms-3">
+        <h4 className="m-0">{item?.judul || ""}</h4>
+      </div>
+    </div>
+  ))}
+</div>
+
           </div>
-          <div className="col-lg-4 card shadow">
-            <div className="d-flex my-3">
-              <img src="https://placehold.co/400" className="w-25" alt="" />
-              <div>
-                <h3 className="ms-2 items-center">
-                  Dani Ardiansyach sangat sangat ganteng
-                </h3>
-              </div>
-            </div>
-            <div className="d-flex my-3">
-              <img src="https://placehold.co/400" className="w-25" alt="" />
-              <div>
-                <h3 className="ms-2 items-center">
-                  Dani Ardiansyach sangat sangat ganteng
-                </h3>
-              </div>
-            </div>
-            <div className="d-flex my-3">
-              <img src="https://placehold.co/400" className="w-25" alt="" />
-              <div>
-                <h3 className="ms-2 items-center">
-                  Dani Ardiansyach sangat sangat ganteng
-                </h3>
-              </div>
-            </div>
-          </div>
-        </div>
+        )}
       </div>
       <Footer></Footer>
     </>

@@ -57,21 +57,25 @@ const Berita = () => {
 
                 <section className="row gy-4">
                   {berita.map((item, index) => (
-                    <section className="col-lg-4 d-flex" key={index}>
+                    <Link className="col-lg-4 d-flex" key={index} to={"./"+item.id}>
                       <section className="card shadow d-flex flex-column h-100 w-100">
                         <img
-                          src={"https://placehold.co/100"}
-                          className="card-img-top img-fluid"
+                          src={import.meta.env.VITE_IMG_URL+"/"+item.gambar}
+                          style={{
+                            width: "100%",
+                            height: "400px",
+                            objectFit: "contain",
+                          }}
                           alt={item.judul}
                         />
                         <div className="card-body d-flex flex-column flex-grow-1">
-                          <h3 className="text-center">{item.judul}</h3>
-                          <p className="card-text text-truncate flex-grow-1">
+                          <h3 className="text-center text-decoration-none">{item.judul}</h3>
+                          <p className="card-text text-truncate flex-grow-1 text-decoration-none">
                             {item?.description || ""}
                           </p>
                         </div>
                       </section>
-                    </section>
+                    </Link>
                   ))}
                 </section>
               </section>
