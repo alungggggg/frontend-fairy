@@ -72,8 +72,10 @@ const login = () => {
           icon: "warning",
         });
       } else {
-        setCookie("accessToken", res.payload.data.token);
-        setCookie("userID", res.payload.data.id, {});
+        setCookie("accessToken", res.payload.data.token, {
+          maxAge: 24 * 60 * 60,
+        });
+        setCookie("userID", res.payload.data.id, { maxAge: 24 * 60 * 60 });
         navigate("/");
       }
     } catch (err) {
