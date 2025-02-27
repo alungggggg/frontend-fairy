@@ -2,12 +2,14 @@ import * as Yup from "yup";
 import swal from "../../Component/alert";
 import { Formik, Form, Field, ErrorMessage } from "formik";
 import { useEffect, useState } from "react";
-import { Link, useLocation } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { signIn } from "../../lib/redux/api/auth";
 import errorMessage from "../../Component/errorMessage";
 import AuthTemplate from "./authTemplate";
 import fairyApi from "../../lib/axios";
+import Swal from "sweetalert2";
+import { setCookie } from "cookies-next";
 
 // const isEmailUnique = async (email) => {
 //   try {
@@ -52,6 +54,7 @@ const login = () => {
   }, []);
 
   const dispatch = useDispatch();
+  const navigate = useNavigate();
   const { error, isLoading } = useSelector((state) => state.auth);
 
   const submit = async ({ credential, password }) => {
@@ -62,7 +65,17 @@ const login = () => {
           password: password,
         })
       );
-      console.log(res);
+
+      if (!res.payload.data.email_verified_at) {
+        Swal.fire({
+          title: "Account is`t Activate",
+          icon: "warning",
+        });
+      } else {
+        setCookie("accessToken", res.payload.data.token);
+        setCookie("userID", res.payload.data.id, {});
+        navigate("/");
+      }
     } catch (err) {
       console.log(err.message);
     }

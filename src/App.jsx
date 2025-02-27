@@ -26,6 +26,7 @@ import Berita from "./Pages/Admin/berita/berita";
 import AddBerita from "./Pages/Admin/berita/addBerita";
 import DetailBerita from "./Pages/Admin/berita/detailBerita";
 import UpdateBerita from "./Pages/Admin/berita/updateBerita";
+import ForgotPasswordVerify from "./Pages/Authentication/forgotPasswordVerify";
 
 function App() {
   return (
@@ -52,7 +53,11 @@ function App() {
           <Route path="/register" element={<kernel.register />} />
           <Route path="/logout" element={<kernel.logout />} />
           <Route path="/forgot-password" element={<kernel.forgotPassword />} />
-          <Route path="/verify" element={<kernel.verify />} />
+          <Route
+            path="/forgot-password/:token"
+            element={<ForgotPasswordVerify />}
+          />
+          <Route path="/verify/:token" element={<kernel.verify />} />
           {/* <Route path="/forgot-password" element={<kernel.logout />} /> */}
 
           <Route path="/quiz">
@@ -66,10 +71,10 @@ function App() {
             <Route index element={<Dashboard />} />
 
             <Route path="berita">
-              <Route index element={<Berita/>}/>
-              <Route path="add" element={<AddBerita/>}/>
-              <Route path="update/:id" element={<UpdateBerita/>}/>
-              <Route path=":id" element={<DetailBerita/>}/>
+              <Route index element={<Berita />} />
+              <Route path="add" element={<AddBerita />} />
+              <Route path="update/:id" element={<UpdateBerita />} />
+              <Route path=":id" element={<DetailBerita />} />
             </Route>
 
             <Route path="bank-soal">

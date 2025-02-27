@@ -45,8 +45,8 @@ export const getValidationCode = createAsyncThunk(
   "auth/get-validation-code",
   async (email) => {
     try {
-      const response = await axios.post(
-        "https://test-backend-pink.vercel.app/api/forgot-password",
+      const response = await fairyApi.post(
+        "/forgot-password",
         { email }
       );
       if (response.data) {
@@ -108,13 +108,6 @@ const authSlice = createSlice({
         state.isLoading = false;
         state.user = {id : action.payload.data.id , name : action.payload.data.name};
         state.token = action.payload.data.token;
-        setCookie("accessToken", action.payload.data.token);
-        // setCookie("refreshToken", action.payload.token.refreshToken, {
-        //   maxAge: 7 * 24 * 60 * 60,
-        // });
-        setCookie("userID", action.payload.data.id, {
-          maxAge: 7 * 24 * 60 * 60,
-        });
       })
       .addCase(signIn.rejected, (state, action) => {
         state.status = false;

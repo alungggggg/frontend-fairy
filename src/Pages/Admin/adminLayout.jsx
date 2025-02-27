@@ -57,7 +57,6 @@ const AdminLayout = ({ children }) => {
           return navigate("/");
         }
       }
-      console.log(res)
       const { role } = res?.payload;
       if (role !== "admin" && role !== "guru") {
         return navigate("/");
@@ -72,7 +71,12 @@ const AdminLayout = ({ children }) => {
   return (
     <div className="container-fluid bg-night">
       {isLoading ? (
-        <section className="d-flex align-items-center justify-content-center w-100" style={{height : "100vh"}}><Loading/></section>
+        <section
+          className="d-flex align-items-center justify-content-center w-100"
+          style={{ height: "100vh" }}
+        >
+          <Loading />
+        </section>
       ) : (
         <>
           <div className="d-flex flex-column justify-content-between flex-md-row align-items-center text-light px-sm-2 px-0 py-4 bg-night gap-4">
@@ -99,7 +103,7 @@ const AdminLayout = ({ children }) => {
                 aria-expanded="false"
               >
                 <img
-                  src="https://th.bing.com/th/id/OIP.oVIyTk_GGnAj3YzNXppdpQAAAA?w=189&h=189&c=7&r=0&o=5&pid=1.7"
+                  src="./profile-alt.jpg"
                   alt="hugenerd"
                   width="50"
                   height="50"

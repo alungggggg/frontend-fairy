@@ -9,6 +9,7 @@ import { getNewAccessToken } from "../../lib/redux/api/auth";
 import { getUserById } from "../../lib/redux/api/users";
 import { Link } from "react-router-dom";
 import modelAI from "../../lib/AI";
+import { getNewsData } from "../../lib/redux/api/news";
 
 const PopularBook = async () => {
   const { data } = await fairyApi.get("/popular");
@@ -40,6 +41,16 @@ const Home = () => {
   const [countDongeng, setCountDongeng] = useState(0);
   const [countViews, setCountViews] = useState(0);
   const [visited, setVisited] = useState(0);
+  const dispatch = useDispatch();
+
+  const { data: dataBerita, isLoading } = useSelector((state) => state.news);
+
+  useEffect(() => {
+    async function getNews() {
+      dispatch(getNewsData());
+    }
+    getNews();
+  }, []);
 
   useEffect(() => {
     const set = async () => {
@@ -62,28 +73,6 @@ const Home = () => {
     window.speechSynthesis.speak(speech);
     setQuotes(result.response.text());
   }
-
-  // Berita
-  const berita = [
-    {
-      gambar: "",
-      judul: "Judul 1",
-      deskripsi:
-        "Lorem ipsum dolor sit amet consectetur adipisicing elit. Totam necessitatibus quia voluptatibus rerum iusto eius enim expedita, est aspernatur atque, harum amet pariatur fuga a! Cum dolore aliquid molestiae aut.",
-    },
-    {
-      gambar: "",
-      judul: "Judul 1",
-      deskripsi:
-        "Lorem ipsum dolor sit amet consectetur adipisicing elit. Totam necessitatibus quia voluptatibus rerum iusto eius enim expedita, est aspernatur atque, harum amet pariatur fuga a! Cum dolore aliquid molestiae aut.",
-    },
-    {
-      gambar: "",
-      judul: "Judul 1",
-      deskripsi:
-        "Lorem ipsum dolor sit amet consectetur adipisicing elit. Totam necessitatibus quia voluptatibus rerum iusto eius enim expedita, est aspernatur atque, harum amet pariatur fuga a! Cum dolore aliquid molestiae aut.",
-    },
-  ];
 
   return (
     <>
@@ -617,13 +606,24 @@ const Home = () => {
             </section>
 
             <section className="row">
-              {berita.map((item, index) => (
-                <section className="col-lg-4" key={index}>
+              {dataBerita.map((item, index) => (
+                <Link
+                  className="col-lg-4"
+                  key={index}
+                  to={`/berita/${item.id}`}
+                >
                   <section className="card mb-3 shadow">
                     <div>
                       <img
-                        src={item.gambar || "https://placehold.co/100"}
-                        className="card-img-top img-fluid"
+                        src={
+                          import.meta.env.VITE_IMG_URL + "/" + item?.gambar ||
+                          "https://placehold.co/100"
+                        }
+                        style={{
+                          width: "100%",
+                          height: "400px",
+                          objectFit: "contain",
+                        }}
                         alt={item.judul}
                       />
                       <div className="card-body">
@@ -634,7 +634,7 @@ const Home = () => {
                       </div>
                     </div>
                   </section>
-                </section>
+                </Link>
               ))}
             </section>
           </section>

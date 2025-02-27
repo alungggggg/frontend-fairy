@@ -102,7 +102,7 @@ const Header = () => {
                     aria-expanded="false"
                   >
                     <img
-                      src="https://th.bing.com/th/id/OIP.oVIyTk_GGnAj3YzNXppdpQAAAA?w=189&h=189&c=7&r=0&o=5&pid=1.7"
+                      src="./profile-alt.jpg"
                       alt="hugenerd"
                       width="40"
                       height="40"

@@ -13,9 +13,6 @@ const AddDongeng = () => {
   const dispatch = useDispatch();
 
   async function post(value) {
-    console.log(value);
-    // console.log("tets");
-
     const res = await dispatch(addDongeng(value));
 
     if (res.error) {
