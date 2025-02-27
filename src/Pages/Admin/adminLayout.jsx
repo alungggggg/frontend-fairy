@@ -12,6 +12,7 @@ import { getCookie } from "cookies-next";
 import { useDispatch, useSelector } from "react-redux";
 import { getUserById } from "../../lib/redux/api/users";
 import { getNewAccessToken, signOut } from "../../lib/redux/api/auth";
+import Loading from "../../Component/loading";
 
 const AdminLayout = ({ children }) => {
   const navList = [
@@ -41,86 +42,96 @@ const AdminLayout = ({ children }) => {
     await dispatch(signOut());
   }
 
-  const refresh_token = getCookie("refreshToken");
+  const accessToken = getCookie("accessToken");
   const users_id = getCookie("userID");
   const navigate = useNavigate();
+  const { isLoading } = useSelector((state) => state.user);
 
   const { user } = useSelector((state) => state.user);
-  // useEffect(() => {
-  //   async function getDataUsers() {
-  //     var res = await dispatch(getUserById(users_id));
-  //     if (res.error) {
-  //       if (res.error.message === "401") {
-  //         console.log("get new access token");
-  //         dispatch(getNewAccessToken());
-  //         return getDataUsers();
-  //       }
-  //     }
-  //     const { role } = res?.payload;
-  //     if (role !== "admin" && role !== "guru") {
-  //       return navigate("/");
-  //     }
-  //   }
+  useEffect(() => {
+    async function getDataUsers() {
+      var res = await dispatch(getUserById(users_id));
+      if (res.error) {
+        if (res.error.message === "401") {
+          console.log("get new access token");
+          return navigate("/");
+        }
+      }
+      console.log(res)
+      const { role } = res?.payload;
+      if (role !== "admin" && role !== "guru") {
+        return navigate("/");
+      }
+    }
 
-  //   getDataUsers();
-  // }, []);
+    getDataUsers();
+  }, []);
 
-  // if (!refresh_token || !users_id) return <Navigate to={"/login"} />;
+  if (!accessToken || !users_id) return <Navigate to={"/login"} />;
 
   return (
     <div className="container-fluid bg-night">
-      <div className="d-flex flex-column justify-content-between flex-md-row align-items-center text-light px-sm-2 px-0 py-4 bg-night gap-4">
-        <Link to={"/"} className="navbar-brand d-flex align-items-center">
-          <img
-            src="https://logobagus.com/wp-content/uploads/2024/01/logo_unp_kediri-768x769.png"
-            height={50}
-            alt="Logo"
-          />
-          <section className="navbar-dark ms-2" style={{ fontSize: "0.95rem" }}>
-            <section>Dongeng Nusantara</section>
-            <section className="fw-bold">Panji Kediri</section>
-          </section>
-        </Link>
-        <div className="dropdown">
-          <a
-            href="#"
-            className="d-flex align-items-center text-white text-decoration-none dropdown-toggle "
-            id="dropdownUser1"
-            data-bs-toggle="dropdown"
-            aria-expanded="false"
-          >
-            <img
-              src="https://th.bing.com/th/id/OIP.oVIyTk_GGnAj3YzNXppdpQAAAA?w=189&h=189&c=7&r=0&o=5&pid=1.7"
-              alt="hugenerd"
-              width="50"
-              height="50"
-              className="rounded-circle"
-            />
-          </a>
-          <ul className="dropdown-menu dropdown-menu-dark text-small shadow mt-3">
-            <div>
-              <p className="dropdown-item m-0 text-capitalize">
-                {user?.role || "undefined"}
-              </p>
-              <hr className="my-2" />
-            </div>
-            <li>
-              <a
-                className="dropdown-item d-flex justify-content-between align-items-center"
-                style={{ cursor: "pointer" }}
-                onClick={() => handleLogout()}
+      {isLoading ? (
+        <section className="d-flex align-items-center justify-content-center w-100" style={{height : "100vh"}}><Loading/></section>
+      ) : (
+        <>
+          <div className="d-flex flex-column justify-content-between flex-md-row align-items-center text-light px-sm-2 px-0 py-4 bg-night gap-4">
+            <Link to={"/"} className="navbar-brand d-flex align-items-center">
+              <img
+                src="https://logobagus.com/wp-content/uploads/2024/01/logo_unp_kediri-768x769.png"
+                height={50}
+                alt="Logo"
+              />
+              <section
+                className="navbar-dark ms-2"
+                style={{ fontSize: "0.95rem" }}
               >
-                Sign out
-                <LogoutIcon />
+                <section>Dongeng Nusantara</section>
+                <section className="fw-bold">Panji Kediri</section>
+              </section>
+            </Link>
+            <div className="dropdown">
+              <a
+                href="#"
+                className="d-flex align-items-center text-white text-decoration-none dropdown-toggle "
+                id="dropdownUser1"
+                data-bs-toggle="dropdown"
+                aria-expanded="false"
+              >
+                <img
+                  src="https://th.bing.com/th/id/OIP.oVIyTk_GGnAj3YzNXppdpQAAAA?w=189&h=189&c=7&r=0&o=5&pid=1.7"
+                  alt="hugenerd"
+                  width="50"
+                  height="50"
+                  className="rounded-circle"
+                />
               </a>
-            </li>
-          </ul>
-        </div>
-      </div>
-      <div className="row flex-nowrap">
-        <Sidebar navList={navList} />
-        <div className="col p-3 bg-light">{children}</div>
-      </div>
+              <ul className="dropdown-menu dropdown-menu-dark text-small shadow mt-3">
+                <div>
+                  <p className="dropdown-item m-0 text-capitalize">
+                    {user?.role || "undefined"}
+                  </p>
+                  <hr className="my-2" />
+                </div>
+                <li>
+                  <a
+                    className="dropdown-item d-flex justify-content-between align-items-center"
+                    style={{ cursor: "pointer" }}
+                    onClick={() => handleLogout()}
+                  >
+                    Sign out
+                    <LogoutIcon />
+                  </a>
+                </li>
+              </ul>
+            </div>
+          </div>
+          <div className="row flex-nowrap">
+            <Sidebar navList={navList} />
+            <div className="col p-3 bg-light">{children}</div>
+          </div>
+        </>
+      )}
     </div>
   );
 };

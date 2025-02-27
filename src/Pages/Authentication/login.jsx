@@ -55,14 +55,14 @@ const login = () => {
   const { error, isLoading } = useSelector((state) => state.auth);
 
   const submit = async ({ credential, password }) => {
-    console.log(credential, password);
     try {
-      dispatch(
+      const res = await dispatch(
         signIn({
           credential,
           password: password,
         })
       );
+      console.log(res);
     } catch (err) {
       console.log(err.message);
     }

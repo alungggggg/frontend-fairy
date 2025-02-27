@@ -5,22 +5,31 @@ import errorMessage from "../../Component/errorMessage";
 import AuthTemplate from "./authTemplate";
 import fairyApi from "../../lib/axios";
 import { useState } from "react";
+import { setCookie } from "cookies-next";
 
 const register = () => {
   const navigate = useNavigate();
   const [isLoading, setIsLoading] = useState(false);
 
-  const post = async ({ nama, username, email, password, confirmPassword }) => {
+  const post = async ({ nama, username, email, password, confirm_password }) => {
     setIsLoading(true);
     try {
-      await fairyApi.post("/register", {
+      const res = await fairyApi.post("/register", {
         nama,
         username,
         email,
         password,
-        confirmPassword,
+        confirm_password,
       });
       setIsLoading(false);
+      if(res.status == 200){
+        setCookie("accessToken", res.data.data.token)
+        setCookie("userID", res.data.data.id)
+
+        navigate("/login", {
+          state: { message: "Berhasil Register!", status: "success" },
+        });
+      }
     } catch (err) {
       console.log(err.message);
       setIsLoading(false);
@@ -37,7 +46,7 @@ const register = () => {
           username: "",
           email: "",
           password: "",
-          confirmPassword: "",
+          confirm_password: "",
         }}
         validationSchema={schema}
         validateOnChange={false}
@@ -45,9 +54,6 @@ const register = () => {
         onSubmit={(values, { setSubmitting }) => {
           post(values);
           setSubmitting(false);
-          navigate("/login", {
-            state: { message: "Berhasil Register!", status: "success" },
-          });
         }}
       >
         <section className="d-flex justify-content-center align-items-center register" style={{minHeight:"calc(100vh - 76px)"}}>
@@ -126,12 +132,12 @@ const register = () => {
                     </label>
                     <Field
                       type="password"
-                      name="confirmPassword"
+                      name="confirm_password"
                       className="form-control"
                       placeholder="Masukan ulang kata sandi"
                     />
                     <ErrorMessage
-                      name="confirmPassword"
+                      name="confirm_password"
                       render={errorMessage}
                     />
                   </section>

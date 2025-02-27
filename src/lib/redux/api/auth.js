@@ -5,37 +5,34 @@ import { deleteCookie, getCookie, getCookies, setCookie } from "cookies-next";
 import fairyApi from "../../axios";
 import Swal from "sweetalert2";
 
-export const signIn = createAsyncThunk("auth/login", async (user) => {
-  const { credential, password } = user;
-  try {
-    const response = await axios.post("https://test-backend-pink.vercel.app/api/login", {
-      credential,
-      password,
-    });
-    if (response.data.data.status) {
-      console.log(response.data);
-      Swal.fire({
-        title: "Berhasil",
-        text: "Kamu telah login!",
-        icon: "success",
-      })
-      return response.data;
-    }
+export const signIn = createAsyncThunk(
+  "auth/login",
+  async (user, { rejectWithValue }) => {
+    const { credential, password } = user;
+    try {
+      const response = await fairyApi.post("/login", {
+        credential,
+        password,
+      });
+      if (response.data) {
+        Swal.fire({
+          title: "Berhasil",
+          text: "Kamu telah login!",
+          icon: "success",
+        });
+        return response.data;
+      }
 
-    throw new Error("login failed");
-  } catch (error) {
-    if (error instanceof AxiosError) {
-      throw error.response ? error.response.status : error.message;
+      // throw new Error("login failed");
+    } catch (error) {
+      return rejectWithValue(error.message);
     }
-    throw error;
   }
-});
+);
 
-export const signOut = createAsyncThunk("auth/logout", async () => {
+export const signOut = createAsyncThunk("/logout", async () => {
   try {
-    await axios.post("https://test-backend-pink.vercel.app/api/logout", {
-      refreshToken: getCookie("refreshToken"),
-    });
+    await fairyApi.post("/logout");
   } catch (error) {
     if (error instanceof AxiosError) {
       throw error.response ? error.response.status : error.message;
@@ -109,12 +106,12 @@ const authSlice = createSlice({
       .addCase(signIn.fulfilled, (state, action) => {
         state.status = true;
         state.isLoading = false;
-        state.user = action.payload.data;
-        state.token = action.payload.token.accessToken;
-        setCookie("accessToken", action.payload.token.accessToken);
-        setCookie("refreshToken", action.payload.token.refreshToken, {
-          maxAge: 7 * 24 * 60 * 60,
-        });
+        state.user = {id : action.payload.data.id , name : action.payload.data.name};
+        state.token = action.payload.data.token;
+        setCookie("accessToken", action.payload.data.token);
+        // setCookie("refreshToken", action.payload.token.refreshToken, {
+        //   maxAge: 7 * 24 * 60 * 60,
+        // });
         setCookie("userID", action.payload.data.id, {
           maxAge: 7 * 24 * 60 * 60,
         });
@@ -128,7 +125,6 @@ const authSlice = createSlice({
         state.user = null;
         state.token = null;
         deleteCookie("accessToken");
-        deleteCookie("refreshToken");
         deleteCookie("userID");
         window.location.replace("/");
       })

@@ -15,14 +15,13 @@ const Header = () => {
     const res = await dispatch(getUserById(id));
     if (res.error) {
       if (res.error.message === "401") {
-        console.log("getting new access token");
-        await dispatch(getNewAccessToken());
-        return getDataUser();
+        console.log("need access");
       }
     }
   }
   async function handleLogout() {
-    await dispatch(signOut());
+    const res = await dispatch(signOut());
+    console.log(res);
   }
 
   useEffect(() => {
@@ -30,7 +29,7 @@ const Header = () => {
       getDataUser();
     }
   }, []);
-  const token = getCookie("refreshToken");
+  const token = getCookie("accessToken");
   const { user } = useSelector((state) => state.user);
   const [role, setRole] = useState("");
 

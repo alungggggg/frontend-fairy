@@ -36,7 +36,7 @@ export const defaultSchema = yup.object().shape({
       /(?=.*[!@#$%^&*(),.?":{}|<>])/,
       "Password must contain at least one special character"
     ),
-  confirmPassword: yup
+    confirm_password: yup
     .string()
     .oneOf(
       [yup.ref("password"), null],
@@ -71,7 +71,7 @@ export const updateSchemaWithPassword = () =>
         /(?=.*[!@#$%^&*(),.?":{}|<>])/,
         "Password must contain at least one special character"
       ),
-    confirmPassword: yup
+    confirm_password: yup
       .string()
       .oneOf(
         [yup.ref("password"), null],

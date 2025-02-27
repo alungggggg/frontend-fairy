@@ -12,7 +12,7 @@ const fairyApi = axios.create({
 fairyApi.interceptors.request.use((config) => {
   const { accessToken } = getCookies("accessToken");
   if (accessToken) {
-    config.headers["Authorization"] = `Bearer ${accessToken || ""}`;
+    config.headers["Authorization"] = `Bearer ${accessToken.split("%7C")[0]+"|"+accessToken.split("%7C")[1] || ""}`;
   }
   return config;
 });
