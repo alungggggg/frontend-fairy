@@ -606,36 +606,42 @@ const Home = () => {
             </section>
 
             <section className="row">
-              {dataBerita.map((item, index) => (
-                <Link
-                  className="col-lg-4"
-                  key={index}
-                  to={`/berita/${item.id}`}
-                >
-                  <section className="card mb-3 shadow">
-                    <div>
-                      <img
-                        src={
-                          import.meta.env.VITE_IMG_URL + "/" + item?.gambar ||
-                          "https://placehold.co/100"
-                        }
-                        style={{
-                          width: "100%",
-                          height: "400px",
-                          objectFit: "contain",
-                        }}
-                        alt={item.judul}
-                      />
-                      <div className="card-body">
-                        <h1 className="text-center">{item.judul}</h1>
-                        <p className="card-text text-truncate">
-                          {item.deskripsi}
-                        </p>
+              {dataBerita.length > 0 ? (
+                dataBerita.map((item, index) => (
+                  <Link
+                    className="col-lg-4"
+                    key={index}
+                    to={`/berita/${item.id}`}
+                  >
+                    <section className="card mb-3 shadow">
+                      <div>
+                        <img
+                          src={
+                            import.meta.env.VITE_IMG_URL + "/" + item?.gambar ||
+                            "https://placehold.co/100"
+                          }
+                          style={{
+                            width: "100%",
+                            height: "400px",
+                            objectFit: "contain",
+                          }}
+                          alt={item.judul}
+                        />
+                        <div className="card-body">
+                          <h1 className="text-center">{item.judul}</h1>
+                          <p className="card-text text-truncate">
+                            {item.deskripsi}
+                          </p>
+                        </div>
                       </div>
-                    </div>
-                  </section>
-                </Link>
-              ))}
+                    </section>
+                  </Link>
+                ))
+              ) : (
+                <h1 className="text-center w-100 card p-5 mt-2">
+                  Belum ada berita
+                </h1>
+              )}
             </section>
           </section>
         </section>
