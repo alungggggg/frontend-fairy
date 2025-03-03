@@ -31,10 +31,12 @@ const DetailBerita = () => {
     handleGetDataBeritaById();
   }, []);
 
+  console.log(dataBerita);
+
   return (
     <>
       <Header></Header>
-      {/* <div className="container my-5">
+      <div className="container my-5">
         {isLoading ? (
           <section
             className="d-flex align-items-center justify-content-center w-full"
@@ -79,77 +81,13 @@ const DetailBerita = () => {
                       alt={item?.judul || ""}
                     />
                   </div>
-                  <div 
-                  
-                  className="ms-3">
+                  <div className="ms-3">
                     <h4 className="m-0">{item?.judul || ""}</h4>
                   </div>
                 </div>
               ))}
             </div>
           </div>
-        )}
-      </div> */}
-      <div className="container my-5">
-        {isLoading ? (
-          <section
-            className="d-flex align-items-center justify-content-center w-full"
-            style={{ height: "80vh" }}
-          >
-            <Loading />
-          </section>
-        ) : dataBerita?.length > 0 ? (
-          <div className="row gy-5">
-            <div className="col-lg-8">
-              <div>
-                <img
-                  src={
-                    import.meta.env.VITE_IMG_URL + "/" + dataBerita[0]?.gambar
-                  }
-                  className="img-fluid w-100 rounded"
-                  style={{ height: "300px", objectFit: "contain" }}
-                  alt={dataBerita[0]?.judul || "Gambar tidak tersedia"}
-                />
-                <h1 className="text-center">{dataBerita[0]?.judul}</h1>
-                <p>{dataBerita[0]?.description}</p>
-              </div>
-            </div>
-            <div className="col-lg-4 card shadow">
-              {rekomendasiBerita?.length > 0 ? (
-                rekomendasiBerita.map((item, i) => (
-                  <div className="d-flex my-3 align-items-center" key={i}>
-                    <div
-                      style={{
-                        width: "80px",
-                        height: "80px",
-                        flexShrink: 0,
-                      }}
-                    >
-                      <img
-                        src={import.meta.env.VITE_IMG_URL + "/" + item.gambar}
-                        style={{
-                          width: "100%",
-                          height: "100%",
-                          objectFit: "contain",
-                          borderRadius: "8px",
-                        }}
-                        alt={item?.judul || "Gambar tidak tersedia"}
-                      />
-                    </div>
-                    <div className="ms-3">
-                      <h4 className="m-0">
-                        {item?.judul || "Judul tidak tersedia"}
-                      </h4>
-                    </div>
-                  </div>
-                ))
-              ) : (
-                <p className="text-center">Tidak ada rekomendasi berita</p>
-              )}
-            </div>
-          </div>
-        ) : (
-          <h1 className="text-center">Belum ada berita</h1>
         )}
       </div>
 
