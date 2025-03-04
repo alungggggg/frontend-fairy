@@ -10,7 +10,7 @@ const Footer = () => {
       >
         <section className="container py-5">
           <section className="row justify-content-between">
-            <section className="col-md-4 pe-md-5 d-flex flex-column gap-3">
+            <section className="col-lg-4 pe-md-5 d-flex flex-column gap-3">
               <div className="d-flex gap-3">
                 <img
                   src="https://logobagus.com/wp-content/uploads/2024/01/logo_unp_kediri-768x769.png"
@@ -20,6 +20,11 @@ const Footer = () => {
                 <img
                   src="https://bima.kemdikbud.go.id/static/media/logo_kemdikbud.bd55be3d.png"
                   width={60}
+                  alt=""
+                />
+                <img
+                  src="https://bima.kemdikbud.go.id/static/media/bima-dikti-white.4d3e0134.png"
+                  width={165}
                   alt=""
                 />
               </div>
@@ -33,7 +38,7 @@ const Footer = () => {
                 </small>
               </p>
             </section>
-            <section className="col-md-4 mt-4 mt-md-0">
+            <section className="col-lg-4 mt-4 mt-md-0">
               <h5 className="footer-title">Peta Situs</h5>
               <ul className="nav flex-column">
                 <section className="row">
@@ -71,7 +76,7 @@ const Footer = () => {
                 </section>
               </ul>
             </section>
-            <section className="col-md-4 mt-4 mt-md-0 d-flex flex-column gap-3">
+            <section className="col-lg-4 mt-4 mt-md-0 d-flex flex-column gap-3">
               <h5 className="footer-title">Kontak Kami</h5>
               <p className="text-white d-flex gap-1 align-items-center m-0">
                 <svg
