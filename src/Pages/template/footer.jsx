@@ -11,11 +11,19 @@ const Footer = () => {
         <section className="container py-5">
           <section className="row justify-content-between">
             <section className="col-md-4 pe-md-5 d-flex flex-column gap-3">
-              <img
-                src="https://logobagus.com/wp-content/uploads/2024/01/logo_unp_kediri-768x769.png"
-                width={60}
-                alt=""
-              />
+              <div className="d-flex gap-3">
+                <img
+                  src="https://logobagus.com/wp-content/uploads/2024/01/logo_unp_kediri-768x769.png"
+                  width={60}
+                  alt=""
+                />
+                <img
+                  src="https://bima.kemdikbud.go.id/static/media/logo_kemdikbud.bd55be3d.png"
+                  width={60}
+                  alt=""
+                />
+              </div>
+
               <p className="text-white m-0">
                 <strong className="p-0">Panji Kediri</strong>
               </p>
@@ -76,7 +84,7 @@ const Footer = () => {
                 >
                   <path d="M8 16s6-5.686 6-10A6 6 0 0 0 2 6c0 4.314 6 10 6 10m0-7a3 3 0 1 1 0-6 3 3 0 0 1 0 6" />
                 </svg>
-                <p className="m-0" style={{minWidth: "210px"}}>
+                <p className="m-0" style={{ minWidth: "210px" }}>
                   Jalan K. H. Achmad Dahlan 76 Mojoroto Kota Kediri
                 </p>
               </p>
@@ -139,7 +147,8 @@ const Footer = () => {
               </Link>
             </section>
           </section>
-        </section>``
+        </section>
+        ``
       </footer>
     </>
   );
