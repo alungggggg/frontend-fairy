@@ -2,6 +2,7 @@ import Header from "../template/header";
 import CountUp from "./Component/countUp";
 import Footer from "../template/footer";
 import { getCookie, getCookies } from "cookies-next";
+// import { getCookie } from "cookies-next"; 
 import fairyApi from "../../lib/axios";
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
@@ -14,6 +15,18 @@ import { getNewsData } from "../../lib/redux/api/news";
 const PopularBook = async () => {
   const { data } = await fairyApi.get("/popular");
   return data;
+};
+
+const recomender = async (accessToken, users_id) => {
+  try{
+    if (accessToken || users_id){
+      const { data } = await fairyApi.get("/recomend");
+      return data[0];
+    }
+  }catch(error){ 
+    console.log(error.response.status);
+  }
+  
 };
 
 const countBook = async () => {
@@ -36,11 +49,14 @@ const getVisitor = async () => {
 };
 
 const Home = () => {
-  // console.log()
+  const accessToken = getCookie("accessToken");
+  const users_id = getCookie("userID");
+  const { user } = useSelector((state) => state.user);
   const [populer, setPopuler] = useState([]);
   const [countDongeng, setCountDongeng] = useState(0);
   const [countViews, setCountViews] = useState(0);
   const [visited, setVisited] = useState(0);
+  const [recomend, setRecomend] = useState([]);
   const dispatch = useDispatch();
 
   const { data: dataBerita, isLoading } = useSelector((state) => state.news);
@@ -49,8 +65,10 @@ const Home = () => {
     async function getNews() {
       dispatch(getNewsData());
     }
+
     getNews();
   }, []);
+  // console.log(accessToken, users_id);
 
   useEffect(() => {
     const set = async () => {
@@ -58,6 +76,7 @@ const Home = () => {
       setCountDongeng(await countBook());
       setCountViews(await countView());
       setVisited(await getVisitor());
+      setRecomend( await recomender(accessToken, users_id));
       await newVisitor();
     };
     set();
@@ -283,6 +302,55 @@ const Home = () => {
                 </section>
               ))}
             </section>
+
+    {Object.keys(user).length != 0 && (
+      <section className="row mt-4">
+                  {recomend.map((book) => (
+                    <section className="col-lg-3 col-6 my-2" key={book.id}>
+                      <Link
+                        to={"dongeng/detail/" + book.id}
+                        className="text-decoration-none text-dark position-relative"
+                      >
+                        <section
+                          className="card border-1 mt-3 CardBook_card rounded shadow"
+                          style={{ minHeight: "200px" }}
+                        >
+                          <section className="card-header text-center text-lg-start bg-white p-0 border-0">
+                            <img
+                              src={book.cover}
+                              alt={book.title}
+                              className="img-fluid rounded-0"
+                            />
+                          </section>
+                        </section>
+                        <section
+                          className="position-absolute d-flex flex-column gap-2"
+                          style={{ top: "30px", left: "-2px" }}
+                        >
+                          <span
+                            className="badge rounded bg-danger"
+                            style={{ width: "50px" }}
+                          >
+                            PDF
+                          </span>
+                          <span className="badge rounded bg-secondary">
+                            SMP/MTS
+                          </span>
+                        </section>
+                        <section
+                          className="w-100 text-center px-5 px-lg-0 position-absolute bottom-0"
+                          style={{ backgroundColor: "rgba(216, 162, 94, 0.7)" }}
+                        >
+                          <section className="fs-6 my-1 text-white">
+                            {book.title}
+                          </section>
+                        </section>
+                      </Link>
+                    </section>
+                  ))}
+                </section>
+    )}
+            
           </section>
         </section>
         {getCookies("accessToken") && (

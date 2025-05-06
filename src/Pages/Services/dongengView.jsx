@@ -2,6 +2,7 @@ import "react-pdf/dist/esm/Page/AnnotationLayer.css";
 import { useEffect, useRef, useState } from "react";
 import Header from "../template/header";
 import Footer from "../template/footer";
+import { getCookie, getCookies } from "cookies-next";
 import axios from "axios";
 import { useParams } from "react-router-dom";
 import Loading from "../../Component/loading";
@@ -12,12 +13,19 @@ import fairyApi from "../../lib/axios";
 //   import.meta.url
 // ).toString();
 
+const setHistory = async (accessToken, users_id) => {
+  if(accessToken || users_id) {
+    return await fairyApi.post("/history/update");
+  }
+}
+
+
 const dongeng = () => {
-  // const book = useRef();
+  const accessToken = getCookie("accessToken");
+  const users_id = getCookie("userID");
+
   const { id } = useParams();
   const [file, setFile] = useState("");
-
-  // console.log(file);
 
   useEffect(() => {
     const getFile = async () => {
@@ -29,6 +37,7 @@ const dongeng = () => {
       }
     };
     getFile();
+    setHistory(accessToken, users_id);
   }, []);
 
   const [numPages, setNumPages] = useState(null);
@@ -37,24 +46,8 @@ const dongeng = () => {
     setNumPages(numPages);
   }
 
-  // axios.get("");
 
-  // function pagesList() {
-  //   var pages = [];
-  //   for (var i = 1; i <= numPages; i++) {
-  //     pages.push(
-  //       <div key={i}>
-  //         <Page
-  //           width={500}
-  //           pageNumber={i}
-  //           renderAnnotationLayer={false}
-  //           renderTextLayer={false}
-  //         />
-  //       </div>
-  //     );
-  //   }
-  //   return pages;
-  // }
+
 
   return (
     <>
