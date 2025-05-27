@@ -85,6 +85,11 @@ const Header = () => {
                   </Link>
                 </li>
                 <li className="nav-item dropdown mx-1">
+                  <Link to={"/edubaca"} className="nav-link">
+                    EduBaca
+                  </Link>
+                </li>
+                <li className="nav-item dropdown mx-1">
                   <Link to={"/petunjuk"} className="nav-link">
                     Petunjuk
                   </Link>

@@ -302,54 +302,68 @@ const Home = () => {
                 </section>
               ))}
             </section>
-
-    {Object.keys(user).length != 0 && (
-      <section className="row mt-4">
-                  {recomend.map((book) => (
-                    <section className="col-lg-3 col-6 my-2" key={book.id}>
-                      <Link
-                        to={"dongeng/detail/" + book.id}
-                        className="text-decoration-none text-dark position-relative"
-                      >
-                        <section
-                          className="card border-1 mt-3 CardBook_card rounded shadow"
-                          style={{ minHeight: "200px" }}
-                        >
-                          <section className="card-header text-center text-lg-start bg-white p-0 border-0">
-                            <img
-                              src={book.cover}
-                              alt={book.title}
-                              className="img-fluid rounded-0"
-                            />
-                          </section>
-                        </section>
-                        <section
-                          className="position-absolute d-flex flex-column gap-2"
-                          style={{ top: "30px", left: "-2px" }}
-                        >
-                          <span
-                            className="badge rounded bg-danger"
-                            style={{ width: "50px" }}
-                          >
-                            PDF
-                          </span>
-                          <span className="badge rounded bg-secondary">
-                            SMP/MTS
-                          </span>
-                        </section>
-                        <section
-                          className="w-100 text-center px-5 px-lg-0 position-absolute bottom-0"
-                          style={{ backgroundColor: "rgba(216, 162, 94, 0.7)" }}
-                        >
-                          <section className="fs-6 my-1 text-white">
-                            {book.title}
-                          </section>
-                        </section>
-                      </Link>
+            {(recomend) ? (<section className="row mt-4">
+            <h3 className="fw-bold">
+              Rekomendasi&nbsp;
+                  <section className="d-inline-flex flex-column">
+                    <span>Untukmu</span>
+                    <span className="mtmin">
+                      <img
+                        src="https://buku.kemdikbud.go.id/assets/image/home/line-populer.png"
+                        alt="Line title"
+                      />
+                    </span>
+                    
+                  </section>
+                </h3>
+                <p className="">
+                  Rekomendasi buku dongeng untukmu, yang sesuai dengan minatmu
+                </p>
+              {recomend.map((book) => (
+                <section className="col-lg-2 col-6 my-2" key={book.id}>
+                  <Link
+                    to={"dongeng/detail/" + book.id}
+                    className="text-decoration-none text-dark position-relative"
+                  >
+                    <section
+                      className="card border-1 mt-3 CardBook_card rounded shadow"
+                      style={{ minHeight: "200px" }}
+                    >
+                      <section className="card-header text-center text-lg-start bg-white p-0 border-0">
+                        <img
+                          src={book.cover}
+                          alt={book.title}
+                          className="img-fluid rounded-0"
+                        />
+                      </section>
                     </section>
-                  ))}
+                    <section
+                      className="position-absolute d-flex flex-column gap-2"
+                      style={{ top: "30px", left: "-2px" }}
+                    >
+                      <span
+                        className="badge rounded bg-danger"
+                        style={{ width: "50px" }}
+                      >
+                        PDF
+                      </span>
+                      <span className="badge rounded bg-secondary">
+                        SMP/MTS
+                      </span>
+                    </section>
+                    <section
+                      className="w-100 text-center px-5 px-lg-0 position-absolute bottom-0"
+                      style={{ backgroundColor: "rgba(216, 162, 94, 0.7)" }}
+                    >
+                      <section className="fs-6 my-1 text-white">
+                        {book.title}
+                      </section>
+                    </section>
+                  </Link>
                 </section>
-    )}
+              ))}
+            </section>) : ""}
+            
             
           </section>
         </section>

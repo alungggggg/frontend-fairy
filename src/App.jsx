@@ -27,6 +27,7 @@ import AddBerita from "./Pages/Admin/berita/addBerita";
 import DetailBerita from "./Pages/Admin/berita/detailBerita";
 import UpdateBerita from "./Pages/Admin/berita/updateBerita";
 import ForgotPasswordVerify from "./Pages/Authentication/forgotPasswordVerify";
+import EduBaca from "./Pages/edubaca";
 
 function App() {
   return (
@@ -100,6 +101,8 @@ function App() {
               <Route path=":id/soal" element={<ForumQuizSoal />} />
             </Route>
           </Route>
+
+          <Route path="/edubaca" element={<EduBaca/>} />
 
           <Route path="*" element={<kernel.err404 />} />
         </Routes>
