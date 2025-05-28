@@ -28,6 +28,8 @@ import DetailBerita from "./Pages/Admin/berita/detailBerita";
 import UpdateBerita from "./Pages/Admin/berita/updateBerita";
 import ForgotPasswordVerify from "./Pages/Authentication/forgotPasswordVerify";
 import EduBaca from "./Pages/edubaca";
+import EduBacaListBacaan from "./Pages/edubaca/eduBacaListBacaan";
+import ArtikelView from "./Pages/edubaca/ArtikelView.jsx";
 
 function App() {
   return (
@@ -102,7 +104,11 @@ function App() {
             </Route>
           </Route>
 
-          <Route path="/edubaca" element={<EduBaca/>} />
+          <Route path="edubaca">
+            <Route index element={<EduBaca />} />
+            <Route path="bacaan" element={<EduBacaListBacaan />} />
+            <Route path="bacaan/:id_artikel" element={<ArtikelView />} />
+          </Route>
 
           <Route path="*" element={<kernel.err404 />} />
         </Routes>
