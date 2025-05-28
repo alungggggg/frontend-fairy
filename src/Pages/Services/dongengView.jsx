@@ -13,19 +13,22 @@ import fairyApi from "../../lib/axios";
 //   import.meta.url
 // ).toString();
 
-const setHistory = async (accessToken, users_id) => {
-  if(accessToken || users_id) {
-    return await fairyApi.post("/history/update");
-  }
-}
+const Dongeng = () => {
+  // console.log(useParams().id);
 
-
-const dongeng = () => {
   const accessToken = getCookie("accessToken");
   const users_id = getCookie("userID");
 
   const { id } = useParams();
   const [file, setFile] = useState("");
+
+  const setHistory = async (accessToken, users_id) => {
+    if (accessToken || users_id) {
+      await fairyApi.post("/history/update", {
+        id_dongeng: id,
+      });
+    }
+  };
 
   useEffect(() => {
     const getFile = async () => {
@@ -45,9 +48,6 @@ const dongeng = () => {
   function onDocumentLoadSuccess({ numPages }) {
     setNumPages(numPages);
   }
-
-
-
 
   return (
     <>
@@ -202,4 +202,4 @@ const dongeng = () => {
     </>
   );
 };
-export default dongeng;
+export default Dongeng;

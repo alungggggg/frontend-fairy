@@ -28,6 +28,7 @@ import DetailBerita from "./Pages/Admin/berita/detailBerita";
 import UpdateBerita from "./Pages/Admin/berita/updateBerita";
 import ForgotPasswordVerify from "./Pages/Authentication/forgotPasswordVerify";
 import EduBaca from "./Pages/edubaca";
+import Dongeng from "./Pages/Services/dongengView";
 
 function App() {
   return (
@@ -46,7 +47,7 @@ function App() {
           <Route path="/Petunjuk/guru" element={<kernel.petunjukUmum />} />
           <Route path="/Petunjuk/umum" element={<kernel.petunjukGuru />} />
           <Route path="/dongeng/detail/:id" element={<kernel.detail />} />
-          <Route path="/dongeng/read/:id" element={<kernel.dongengView />} />
+          <Route path="/dongeng/read/:id" element={<Dongeng />} />
 
           <Route path="/dongeng/write" element={<Write />} />
 
