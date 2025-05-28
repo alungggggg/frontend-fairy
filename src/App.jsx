@@ -48,7 +48,7 @@ function App() {
           <Route path="/Petunjuk/guru" element={<kernel.petunjukUmum />} />
           <Route path="/Petunjuk/umum" element={<kernel.petunjukGuru />} />
           <Route path="/dongeng/detail/:id" element={<kernel.detail />} />
-          <Route path="/dongeng/read/:id" element={<kernel.dongengView />} />
+          <Route path="/dongeng/read/:id" element={<Dongeng />} />
 
           <Route path="/dongeng/write" element={<Write />} />
 
