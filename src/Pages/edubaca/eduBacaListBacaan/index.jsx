@@ -1,8 +1,29 @@
+import { useDispatch, useSelector } from "react-redux";
 import Footer from "../../template/footer";
 import Header from "../../template/header";
 import { Link } from "react-router-dom";
+import { useEffect, useState } from "react";
+import { getArtikelData } from "../../../lib/redux/api/artikelSlice";
 
 const EduBacaListBacaan = () => {
+  const { isLoading, data: artikelData } = useSelector(
+    (state) => state.artikel
+  );
+  const dispatch = useDispatch();
+
+  const [searchParams, setSearchParams] = useState("");
+
+  const filteredArtikelData = artikelData?.filter((item) =>
+    item.judul.toLowerCase().includes(searchParams.toLowerCase())
+  );
+
+  useEffect(() => {
+    async function handleGetArtikelData() {
+      await dispatch(getArtikelData());
+    }
+
+    handleGetArtikelData();
+  }, []);
   return (
     <section>
       <Header />
@@ -30,7 +51,7 @@ const EduBacaListBacaan = () => {
                 className="form-control py-3 border-start-0 border-end-0 px-2"
                 placeholder="Cari Bacaan disini"
                 aria-label="Cari Bacaan disini"
-                // onChange={handleSearch}
+                onChange={(e) => setSearchParams(e.target.value)}
               />
               <button
                 className="btn btn-orange text-white"
@@ -42,25 +63,38 @@ const EduBacaListBacaan = () => {
             </section>
 
             {/* list artikel */}
-            <section className="row row-cols-1 gy-3 gx-3 py-4">
-              {[1, 2, 3, 4, 5].map((_, index) => (
-                <div className="col">
-                  <div className="card">
-                    <div className="card-body">
-                      <h5 className="card-title">Judul Bacaan {index + 1}</h5>
-                      <p className="card-text">
-                        Deskripsi singkat tentang bacaan ini. Bacaan ini sangat
-                        menarik dan bermanfaat untuk meningkatkan kemampuan
-                        membaca.
-                      </p>
-                      <Link to={`${9090909}`} className="btn btn-primary">
-                        Baca Selengkapnya
-                      </Link>
+            {isLoading ? (
+              <div>Loading..</div>
+            ) : (
+              <section className="row row-cols-1 gy-3 gx-3 py-4">
+                {filteredArtikelData?.map((item, index) => (
+                  <div className="col" key={index}>
+                    <div className="card">
+                      <div className="card-body row">
+                        <div className="col-2">
+                          <img
+                            src={"https://placehold.co/600x400"}
+                            alt={item.judul || "Thumbnail Tidak Ditemukan"}
+                            className="img-fluid rounded"
+                          />
+                        </div>
+                        <div className="col align-self-center">
+                          <h5>{item.judul || "Judul Tidak Ditemukan"}</h5>
+                          <p>
+                            {item?.deskripsi || "Deskripsi Tidak Ditemukan"}
+                          </p>
+                          <div>
+                            <Link to={`${item.id}`} className="btn btn-primary">
+                              Baca Selengkapnya
+                            </Link>
+                          </div>
+                        </div>
+                      </div>
                     </div>
                   </div>
-                </div>
-              ))}
-            </section>
+                ))}
+              </section>
+            )}
             {/* list artikel */}
           </section>
         </div>

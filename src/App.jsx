@@ -30,6 +30,7 @@ import ForgotPasswordVerify from "./Pages/Authentication/forgotPasswordVerify";
 import EduBaca from "./Pages/edubaca";
 import EduBacaListBacaan from "./Pages/edubaca/eduBacaListBacaan";
 import ArtikelView from "./Pages/edubaca/ArtikelView.jsx";
+import Dongeng from "./Pages/Services/dongengView.jsx";
 
 function App() {
   return (
@@ -108,6 +109,7 @@ function App() {
             <Route index element={<EduBaca />} />
             <Route path="bacaan" element={<EduBacaListBacaan />} />
             <Route path="bacaan/:id_artikel" element={<ArtikelView />} />
+            <Route path="bacaan/:id_artikel/quiz" element={<ArtikelView />} />
           </Route>
 
           <Route path="*" element={<kernel.err404 />} />
