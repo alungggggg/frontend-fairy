@@ -10,6 +10,7 @@ import usersSlice from "./api/users";
 import userAdminSlice from "./api/userAdmin";
 import newsSlice from "./api/news";
 import artikelSlice from "./api/artikelSlice";
+import soalArtikelSlice from "./api/soalArtikelSlice";
 
 export const store = configureStore({
   reducer: {
@@ -24,5 +25,6 @@ export const store = configureStore({
     usersAdmin: userAdminSlice,
     news: newsSlice,
     artikel: artikelSlice,
+    soalArtikel: soalArtikelSlice,
   },
 });

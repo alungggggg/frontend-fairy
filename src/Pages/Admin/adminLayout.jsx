@@ -34,6 +34,11 @@ const AdminLayout = ({ children }) => {
       path: "/admin/berita",
       icon: <NewsPaperIcon size={24} />,
     },
+    {
+      name: "EduBaca",
+      path: "/admin/edubaca",
+      icon: <BookIcon size={24} />,
+    },
   ];
 
   const dispatch = useDispatch();
@@ -58,7 +63,7 @@ const AdminLayout = ({ children }) => {
         }
       }
       const { role } = res?.payload;
-      if (role !== "admin" && role !== "guru") {
+      if (role?.toUpperCase() !== "ADMIN" && role?.toUpperCase() !== "GURU") {
         return navigate("/");
       }
     }

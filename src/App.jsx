@@ -31,6 +31,11 @@ import EduBaca from "./Pages/edubaca";
 import EduBacaListBacaan from "./Pages/edubaca/eduBacaListBacaan";
 import ArtikelView from "./Pages/edubaca/ArtikelView.jsx";
 import Dongeng from "./Pages/Services/dongengView.jsx";
+import ArtikelEduBacaAdmin from "./Pages/Admin/eduBaca/artikel/index.jsx";
+import ArtikleDetailEduBacaAdmin from "./Pages/Admin/eduBaca/artikel/artikelDetail/index.jsx";
+import EduBacaAdmin from "./Pages/Admin/eduBaca/index.jsx";
+import SoalArtikelAdmin from "./Pages/Admin/eduBaca/soal/index.jsx";
+import RekapNilaiArtikel from "./Pages/Admin/eduBaca/rekapNilai/index.jsx";
 
 function App() {
   return (
@@ -102,6 +107,19 @@ function App() {
               <Route path=":id" element={<ForumQuizDetail />} />
               <Route path=":id/rekap" element={<RekapNilai />} />
               <Route path=":id/soal" element={<ForumQuizSoal />} />
+            </Route>
+
+            <Route path="edubaca">
+              <Route index element={<EduBacaAdmin />} />
+              <Route path="artikel">
+                <Route index element={<ArtikelEduBacaAdmin />} />
+                <Route
+                  path=":id_artikel"
+                  element={<ArtikleDetailEduBacaAdmin />}
+                />
+              </Route>
+              <Route path="soal" element={<SoalArtikelAdmin />} />
+              <Route path="rekap-nilai" element={<RekapNilaiArtikel />} />
             </Route>
           </Route>
 
