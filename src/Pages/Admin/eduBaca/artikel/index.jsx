@@ -44,7 +44,6 @@ const ArtikelEduBacaAdmin = () => {
   const [selectedData, setSelectedData] = useState(null);
   const [action, setAction] = useState("");
   // dialog state
-
   return (
     <AdminLayout>
       {isLoading ? (
@@ -117,7 +116,7 @@ const ArtikelEduBacaAdmin = () => {
                         <td>{item.judul}</td>
                         <td>
                           <img
-                            src={item.gambar}
+                            src={`${import.meta.env.VITE_IMG_URL_ARTIKEL}/${item.image}`}
                             alt={item.judul}
                             className="img-fluid"
                             style={{ width: "100px", height: "auto" }}

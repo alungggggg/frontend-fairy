@@ -25,8 +25,10 @@ const SoalArtikelAdmin = () => {
 
   // pagination and search state
   const [searchParam, setSearchParam] = useState("");
-  const searchData = soalArtikelData?.filter((item) =>
-    item.soal.toLowerCase().includes(searchParam.toLowerCase())
+  const searchData = soalArtikelData?.filter(
+    (item) =>
+      item.soal.toLowerCase().includes(searchParam.toLowerCase()) ||
+      item.artikel.judul.toLowerCase().includes(searchParam.toLowerCase())
   );
   const [itemsPerPage] = useState(5);
   const [currentPage, setCurrentPage] = useState(1);
@@ -107,7 +109,7 @@ const SoalArtikelAdmin = () => {
               <tr key={item.id}>
                 <td>{index + 1}</td>
                 <td>{item.soal}</td>
-                <td>{item?.id_artikel || "undefined"}</td>
+                <td>{item?.artikel?.judul || "undefined"}</td>
                 <td>{item?.jawaban || "undefined"}</td>
                 <td>{item?.score || "undefined"}</td>
                 <td className="d-flex gap-1" style={{ width: "220px" }}>

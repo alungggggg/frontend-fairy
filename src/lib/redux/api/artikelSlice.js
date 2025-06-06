@@ -81,7 +81,9 @@ export const editArtikelData = createAsyncThunk(
       const formData = new FormData();
       formData.append("artikel_link", data.artikel_link);
       formData.append("judul", data.judul);
-      // formData.append("gambar", data.gambar);
+      if (data.gambar) {
+        formData.append("gambar", data.gambar);
+      }
       formData.append("type", data.type);
       formData.append("deskripsi", data.deskripsi);
       formData.append("_method", "PATCH");

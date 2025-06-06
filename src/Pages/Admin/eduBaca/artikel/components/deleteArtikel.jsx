@@ -3,8 +3,6 @@ import { deleteArtikelData } from "../../../../../lib/redux/api/artikelSlice";
 import Swal from "sweetalert2";
 
 const DeleteArtikel = ({ onClose = () => {}, selectedData = {} }) => {
-  console.log("Selected Data for Deletion:", selectedData);
-
   const { isLoading } = useSelector((state) => state.artikel);
   const dispatch = useDispatch();
 

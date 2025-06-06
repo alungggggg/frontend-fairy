@@ -1,3 +1,5 @@
+import { Link } from "react-router-dom";
+
 const ActionList = () => {
   return (
     <div className="row row-cols-1 row-cols-md-2 gy-3 gx-3 gy-lg-4 gx-lg-4 mb-4">
@@ -24,11 +26,10 @@ const ActionList = () => {
           <p className="fs-6 fw-light p-0 m-0">Project Literasi</p>
         </button>
         <div className="collapse" id="collapseExample">
-          <div className="card card-body">
-            Some placeholder content for the collapse component. This panel is
-            hidden by default but revealed when the user activates the relevant
-            trigger.
-          </div>
+          <div className="card card-body d-flex flex-column gx-2">
+            <Link to={"bacaan?type=quiz"} className="">Membaca Intensive</Link>
+            <Link to={"bacaan?type=debat"}>Debat Artikel</Link>
+          </div> 
         </div>
       </div>
       <div className="col">

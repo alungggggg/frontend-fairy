@@ -4,7 +4,6 @@ import { artikelSchema } from "./addArtikel";
 import { Field, Form, Formik } from "formik";
 import Swal from "sweetalert2";
 
-
 const EditArtikel = ({ onClose = () => {}, selectedData = {} }) => {
   const { isLoading } = useSelector((state) => state.artikel);
   const dispatch = useDispatch();
@@ -15,7 +14,7 @@ const EditArtikel = ({ onClose = () => {}, selectedData = {} }) => {
         artikel_link: selectedData.artikel_link || "",
         judul: selectedData.judul || "",
         type: selectedData.type || "quiz",
-        // gambar: null,
+        gambar: null,
         deskripsi: selectedData.deskripsi || "",
       }}
       validationSchema={artikelSchema.omit("gambar")}
@@ -24,13 +23,13 @@ const EditArtikel = ({ onClose = () => {}, selectedData = {} }) => {
 
         if (editArtikelData.fulfilled.match(res)) {
           Swal.fire({
-            title: "Artikel Berhasil Ditambahkan",
+            title: "Artikel Berhasil Diedit",
             icon: "success",
           });
           onClose();
         } else {
           Swal.fire({
-            title: "Artikel Gagal Ditambahkan",
+            title: "Artikel Gagal Diedit",
             icon: "error",
           });
         }
@@ -65,8 +64,19 @@ const EditArtikel = ({ onClose = () => {}, selectedData = {} }) => {
               )}
             </div>
 
-            {/* <div className="mb-3">
+            <div className="mb-3">
               <label className="form-label">Gambar</label>
+              <br />
+              {selectedData?.image && !values.gambar ? (
+                <img
+                  src={`${import.meta.env.VITE_IMG_URL_ARTIKEL}/${selectedData.image}`}
+                  alt={selectedData.image}
+                  className="img-fluid mb-3"
+                  style={{ width: "100px", height: "auto" }}
+                />
+              ) : (
+                ""
+              )}
               <input
                 name="gambar"
                 type="file"
@@ -79,7 +89,7 @@ const EditArtikel = ({ onClose = () => {}, selectedData = {} }) => {
               {errors.gambar && touched.gambar && (
                 <div className="text-danger">{errors.gambar}</div>
               )}
-            </div> */}
+            </div>
 
             {/* select  */}
 

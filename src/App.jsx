@@ -36,6 +36,8 @@ import ArtikleDetailEduBacaAdmin from "./Pages/Admin/eduBaca/artikel/artikelDeta
 import EduBacaAdmin from "./Pages/Admin/eduBaca/index.jsx";
 import SoalArtikelAdmin from "./Pages/Admin/eduBaca/soal/index.jsx";
 import RekapNilaiArtikel from "./Pages/Admin/eduBaca/rekapNilai/index.jsx";
+import QuizArtikel from "./Pages/edubaca/quizArtikel.jsx/quizArtikel.jsx";
+import DetailRekapNilai from "./Pages/Admin/eduBaca/rekapNilai/detailRekapNilai/index.jsx";
 
 function App() {
   return (
@@ -119,7 +121,10 @@ function App() {
                 />
               </Route>
               <Route path="soal" element={<SoalArtikelAdmin />} />
-              <Route path="rekap-nilai" element={<RekapNilaiArtikel />} />
+              <Route path="rekap-nilai">
+                <Route index element={<RekapNilaiArtikel />} />
+                <Route path=":id_artikel" element={<DetailRekapNilai />} />
+              </Route>
             </Route>
           </Route>
 
@@ -127,7 +132,7 @@ function App() {
             <Route index element={<EduBaca />} />
             <Route path="bacaan" element={<EduBacaListBacaan />} />
             <Route path="bacaan/:id_artikel" element={<ArtikelView />} />
-            <Route path="bacaan/:id_artikel/quiz" element={<ArtikelView />} />
+            <Route path="bacaan/:id_artikel/quiz" element={<QuizArtikel />} />
           </Route>
 
           <Route path="*" element={<kernel.err404 />} />

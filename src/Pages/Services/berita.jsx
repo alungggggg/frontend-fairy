@@ -91,12 +91,17 @@ const Berita = () => {
               </section>
             </>
           ) : (
-            <h1
-              className="text-center"
-              style={{ marginTop: "200px", marginBottom: "200px" }}
+            <div
+              className=" d-flex align-items-center justify-content-center"
+              style={{ height: "80vh" }}
             >
-              Belum ada berita
-            </h1>
+              <h1
+                className="text-center"
+                style={{ marginTop: "200px", marginBottom: "200px" }}
+              >
+                Belum ada berita
+              </h1>
+            </div>
           )}
         </div>
       </div>
