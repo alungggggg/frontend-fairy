@@ -1,62 +1,33 @@
-import { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { useNavigate, useParams } from "react-router-dom";
 import Swal from "sweetalert2";
-
-const dummySoal = [
-  {
-    id: 1,
-    text: "Apa yang dimaksud dengan membaca kritis?",
-    options: [
-      "Membaca dengan cepat",
-      "Membaca tanpa memahami",
-      "Menganalisis dan mengevaluasi informasi",
-      "Membaca hanya untuk hiburan",
-    ],
-    correctAnswer: "Menganalisis dan mengevaluasi informasi",
-  },
-  {
-    id: 2,
-    text: "Mengapa penting untuk memahami konteks bacaan?",
-    options: [
-      "Agar bisa membaca lebih cepat",
-      "Untuk memahami makna dan tujuan penulis",
-      "Supaya bisa menghafal teks",
-      "Tidak penting, yang penting membaca saja",
-    ],
-    correctAnswer: "Untuk memahami makna dan tujuan penulis",
-  },
-  {
-    id: 3,
-    text: "Apa yang harus dilakukan jika menemukan informasi yang tidak jelas?",
-    options: [
-      "Mengabaikannya",
-      "Mencari sumber lain untuk verifikasi",
-      "Membaca lebih cepat",
-      "Tidak perlu melakukan apa-apa",
-    ],
-    correctAnswer: "Mencari sumber lain untuk verifikasi",
-  },
-  {
-    id: 4,
-    text: "Bagaimana cara meningkatkan kemampuan membaca kritis?",
-    options: [
-      "Membaca lebih banyak teks",
-      "Hanya membaca buku fiksi",
-      "Menghindari bacaan yang sulit",
-      "Tidak perlu meningkatkan, sudah cukup",
-    ],
-    correctAnswer: "Membaca lebih banyak teks",
-  },
-];
+import { getArtikelDataById } from "../../../lib/redux/api/artikelSlice";
+import { addRekapNillai } from "../../../lib/redux/api/rekapNilaiArtikelSlice";
+import { getCookies } from "cookies-next";
 
 const QuizArtikel = () => {
   const [currentIndex, setCurrentIndex] = useState(0);
   const [answers, setAnswers] = useState([]);
   const navigate = useNavigate();
+  const { userID } = getCookies("userID");
 
-  const currentQuestion = dummySoal[currentIndex];
+  const { id_artikel } = useParams();
+  const { data: artikelData, isLoading } = useSelector(
+    (state) => state.artikel
+  );
+  const { isLoading: loadingSubmit } = useSelector(
+    (state) => state.nilaiArtikel
+  );
+  const dispatch = useDispatch();
 
-  const currentAnswer = answers.find((a) => a.id_soal === currentQuestion.id);
+  useEffect(() => {
+    dispatch(getArtikelDataById(id_artikel));
+  }, [id_artikel]);
+
+  const soalList = artikelData[0]?.soal || [];
+  const currentQuestion = soalList[currentIndex];
+  const currentAnswer = answers.find((a) => a?.id_soal === currentQuestion?.id);
 
   const handleAnswerChange = (selectedOption) => {
     const newAnswer = {
@@ -71,7 +42,7 @@ const QuizArtikel = () => {
   };
 
   const handleNext = () => {
-    if (currentIndex < dummySoal.length - 1) {
+    if (currentIndex < soalList.length - 1) {
       setCurrentIndex(currentIndex + 1);
     }
   };
@@ -82,28 +53,53 @@ const QuizArtikel = () => {
     }
   };
 
-  const handleSubmit = () => {
-    const correctCount = dummySoal.filter((question) => {
+  const handleSubmit = async () => {
+    // Optional: bisa tambahkan logic pengecekan benar/salah jika opsi benar tersedia di data
+    const correctCount = soalList.reduce((total, question) => {
       const userAnswer = answers.find((a) => a.id_soal === question.id);
-      return userAnswer?.jawaban === question.correctAnswer;
-    }).length;
-
-    const total = dummySoal.length;
-    const resultScore = Math.round((correctCount / total) * 100);
-    console.log({ correctCount, total, resultScore });
-
-    Swal.fire({
-      title: "Quiz Selesai !!",
-      text: "Nilai sudah masuk kedalam rekap",
-      icon: "success",
-      allowOutsideClick: false,
-      showConfirmButton: true,
-    }).then((result) => {
-      if (result.isConfirmed) {
-        navigate("/edubaca");
+      if (userAnswer?.jawaban === question.jawaban) {
+        return total + (question.score || 0); // Tambah skor jika jawaban benar
       }
-    });
+      return total; // Tidak nambah kalau salah
+    }, 0);
+
+    
+    const res = await dispatch(
+      addRekapNillai({
+        id_user: userID,
+        id_artikel: id_artikel,
+        nilai: correctCount,
+      })
+    );
+    
+    if (addRekapNillai.fulfilled.match(res)) {
+      Swal.fire({
+        title: "Quiz Selesai !!",
+        text: "Jawaban Anda sudah direkam",
+        icon: "success",
+        allowOutsideClick: false,
+        showConfirmButton: true,
+      }).then((result) => {
+        if (result.isConfirmed) {
+          navigate("/edubaca");
+        }
+      });
+    } else {
+      Swal.fire({
+        title: "Gagal Submit !!",
+        text: "Coba Ulangi Lagi",
+        icon: "error",
+      });
+    }
   };
+
+  const opsiList = [
+    { key: "opsi_a", label: currentQuestion?.opsi_a },
+    { key: "opsi_b", label: currentQuestion?.opsi_b },
+    { key: "opsi_c", label: currentQuestion?.opsi_c },
+    { key: "opsi_d", label: currentQuestion?.opsi_d },
+    { key: "opsi_e", label: currentQuestion?.opsi_e },
+  ];
 
   return (
     <div
@@ -120,24 +116,30 @@ const QuizArtikel = () => {
           style={{ height: "calc(100vh - 75px)" }}
         >
           <div>
-            <h5 className="text-justify">{currentQuestion.text}</h5>
+            <h5 className="text-justify">{currentQuestion?.soal}</h5>
             <form className="mt-3">
-              {currentQuestion.options.map((option, idx) => (
-                <div className="form-check mb-2" key={idx}>
-                  <input
-                    className="form-check-input"
-                    type="radio"
-                    name={`answer-${currentQuestion.id}`}
-                    id={`option-${idx}`}
-                    value={option}
-                    checked={currentAnswer?.jawaban === option}
-                    onChange={() => handleAnswerChange(option)}
-                  />
-                  <label className="form-check-label" htmlFor={`option-${idx}`}>
-                    {option}
-                  </label>
-                </div>
-              ))}
+              {opsiList.map(
+                (opsi, index) =>
+                  opsi.label && (
+                    <div className="form-check mb-2" key={index}>
+                      <input
+                        className="form-check-input"
+                        type="radio"
+                        name={`answer-${currentQuestion?.id}`}
+                        id={`opsi-${opsi.key}`}
+                        value={opsi.label}
+                        checked={currentAnswer?.jawaban === opsi.label}
+                        onChange={() => handleAnswerChange(opsi.label)}
+                      />
+                      <label
+                        className="form-check-label"
+                        htmlFor={`opsi-${opsi.key}`}
+                      >
+                        {opsi.label}
+                      </label>
+                    </div>
+                  )
+              )}
             </form>
           </div>
 
@@ -146,11 +148,11 @@ const QuizArtikel = () => {
               className="btn btn-secondary"
               type="button"
               onClick={handlePrev}
-              disabled={currentIndex === 0}
+              disabled={currentIndex === 0 || loadingSubmit}
             >
               Prev
             </button>
-            {currentIndex < dummySoal.length - 1 ? (
+            {currentIndex < soalList.length - 1 ? (
               <button
                 className="btn btn-primary"
                 type="button"
@@ -163,6 +165,7 @@ const QuizArtikel = () => {
                 className="btn btn-success"
                 type="button"
                 onClick={handleSubmit}
+                disabled={loadingSubmit}
               >
                 Selesai
               </button>

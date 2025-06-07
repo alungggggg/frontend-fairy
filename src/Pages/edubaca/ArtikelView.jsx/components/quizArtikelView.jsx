@@ -1,10 +1,12 @@
+import { getCookies } from "cookies-next";
 import { useEffect, useState } from "react";
-import { useLocation, useNavigate } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import { useLocation, useNavigate, useParams } from "react-router-dom";
+import { getNilaiByArtikelAndUsers } from "../../../../lib/redux/api/rekapNilaiArtikelSlice";
 
 const QuizArtikelView = ({ artikelData }) => {
   const [showArtikel, setShowArtikel] = useState(false);
   const navigate = useNavigate();
-
   // countdown timer
   const [countdown, setCountdown] = useState(60);
   const [timer, setTimer] = useState(null);
@@ -64,8 +66,33 @@ const QuizArtikelView = ({ artikelData }) => {
 
     saveQuizProgress();
   }, [countdown]);
-
   //   Save quiz temp timer to localStorage
+
+  // check nilai
+  const dispatch = useDispatch();
+  const { id_artikel } = useParams();
+  const { isLoading } = useSelector((state) => state.nilaiArtikel);
+  const [isSubmited, setIsSubmitet] = useState(true);
+
+  useEffect(() => {
+    async function getNilaiArtikel() {
+      const { userID } = await getCookies("userID");
+      const response = await dispatch(
+        getNilaiByArtikelAndUsers({
+          id_user: userID,
+          id_artikel: id_artikel,
+        })
+      );
+      if (getNilaiByArtikelAndUsers.fulfilled.match(response)) {
+        setIsSubmitet(true);
+      } else {
+        setIsSubmitet(false);
+      }
+    }
+
+    getNilaiArtikel();
+  }, [id_artikel]);
+  // check nilai
   return (
     <div className="row gy-3 gx-3">
       <div className="col-lg-9">
@@ -119,9 +146,17 @@ const QuizArtikelView = ({ artikelData }) => {
                   setShowArtikel(true);
                   startCountdown(60 * 15);
                 }}
+                disabled={isLoading || isSubmited}
               >
                 Tampilkan Artikel
               </button>
+            )}
+            {isSubmited && !isLoading ? (
+              <p className="text-danger text-center m-0 fs-6 mt-3">
+                Sudah Mengerjakan !!
+              </p>
+            ) : (
+              ""
             )}
           </div>
         </div>

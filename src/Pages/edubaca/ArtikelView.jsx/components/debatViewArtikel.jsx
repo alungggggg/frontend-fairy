@@ -67,15 +67,16 @@ const DebatViewArtikel = ({ artikelData }) => {
       </div>
 
       <div>
-        {dummySoal?.map((item, index) => (
+        {artikelData?.soal?.map((item, index) => (
           <div key={index} className="card my-3">
             <div className="card-body">
               <h5 className="card-title">{item.soal}</h5>
               <ul className="list-group list-group-flush">
-                <li>A {item.jawaban[0].text}</li>
-                <li>B {item.jawaban[1].text}</li>
-                <li>C {item.jawaban[2].text}</li>
-                <li>D {item.jawaban[3].text}</li>
+                <li>A {item.opsi_a}</li>
+                <li>B {item.opsi_b}</li>
+                <li>C {item.opsi_c}</li>
+                <li>D {item.opsi_d}</li>
+                <li>E {item.opsi_e}</li>
               </ul>
             </div>
           </div>

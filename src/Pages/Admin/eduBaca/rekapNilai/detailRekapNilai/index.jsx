@@ -5,7 +5,11 @@ import { Link, useParams } from "react-router-dom";
 import { ArrowLeftIcon } from "../../soal";
 import { PlusIcon } from "../../../forumQuiz";
 import Pagination from "../../../../../Component/pagination";
-import { getRekapNilaiByIdArtikel } from "../../../../../lib/redux/api/rekapNilaiArtikelSlice";
+import {
+  deleteNilaiArtikel,
+  getRekapNilaiByIdArtikel,
+} from "../../../../../lib/redux/api/rekapNilaiArtikelSlice";
+import Swal from "sweetalert2";
 
 const DetailRekapNilai = () => {
   const { data: artikelNilaiData, isLoading } = useSelector(
@@ -14,11 +18,10 @@ const DetailRekapNilai = () => {
   const dispatch = useDispatch();
   const { id_artikel } = useParams();
 
+  async function handleGetRekapNilai() {
+    const res = await dispatch(getRekapNilaiByIdArtikel(id_artikel));
+  }
   useEffect(() => {
-    async function handleGetRekapNilai() {
-      const res = await dispatch(getRekapNilaiByIdArtikel(id_artikel));
-    }
-
     handleGetRekapNilai();
   }, [id_artikel]);
 
@@ -35,6 +38,47 @@ const DetailRekapNilai = () => {
 
   const paginate = (pageNumber) => setCurrentPage(pageNumber);
   // pagination and search state
+
+  // hapus handler
+  async function deleteNilai(data) {
+    const result = await Swal.fire({
+      title: "Hapus Nilai?",
+      text: "Apakah kamu yakin ingin menghapus nilai ini?",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#d33",
+      cancelButtonColor: "#3085d6",
+      confirmButtonText: "Ya, hapus!",
+      cancelButtonText: "Batal",
+      allowOutsideClick: false,
+      showLoaderOnConfirm: true, // ✅ Menampilkan loader
+      preConfirm: async () => {
+        const res = await dispatch(deleteNilaiArtikel(data));
+        if (deleteNilaiArtikel.fulfilled.match(res)) {
+          return res;
+        } else {
+          throw new Error("Gagal menghapus nilai");
+        }
+      },
+    })
+      .then((result) => {
+        handleGetRekapNilai();
+        if (result.isConfirmed) {
+          Swal.fire({
+            title: "Berhasil Hapus Nilai",
+            icon: "success",
+          });
+        }
+      })
+      .catch((error) => {
+        Swal.fire({
+          title: "Gagal Hapus Nilai",
+          text: error.message,
+          icon: "error",
+        });
+      });
+  }
+
   return (
     <AdminLayout>
       <section>
@@ -98,7 +142,12 @@ const DetailRekapNilai = () => {
                 <td>{item?.user?.sekolah || "undefined"}</td>
                 <td>{item?.nilai}</td>
                 <td className="d-flex gap-1" style={{ width: "100px" }}>
-                  <button className="btn btn-danger">Hapus</button>
+                  <button
+                    className="btn btn-danger"
+                    onClick={() => deleteNilai(item)}
+                  >
+                    Hapus
+                  </button>
                 </td>
               </tr>
             ))}

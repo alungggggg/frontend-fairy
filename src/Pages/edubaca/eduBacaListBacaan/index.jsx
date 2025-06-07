@@ -111,7 +111,7 @@ const EduBacaListBacaan = () => {
                             </div>
                           )}
                           <img
-                            src={"https://placehold.co/600x400"}
+                            src={`${import.meta.env.VITE_IMG_URL_ARTIKEL}/${item?.image}`}
                             alt={item.judul || "Thumbnail Tidak Ditemukan"}
                             className="img-fluid"
                           />

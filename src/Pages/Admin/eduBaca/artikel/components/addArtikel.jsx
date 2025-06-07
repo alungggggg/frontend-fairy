@@ -28,7 +28,7 @@ const AddArtikel = ({ onClose = () => {} }) => {
       initialValues={{
         artikel_link: "",
         judul: "",
-        type: "quiz",
+        type: "",
         gambar: null,
         deskripsi: "",
       }}
@@ -100,6 +100,7 @@ const AddArtikel = ({ onClose = () => {} }) => {
             <div className="mb-3">
               <label className="form-label">Tipe Artikel</label>
               <Field name="type" as="select" className="form-select" required>
+                <option value="" selected>Pilih Type</option>
                 <option value="quiz">Quiz</option>
                 <option value="debat">Debat</option>
               </Field>
