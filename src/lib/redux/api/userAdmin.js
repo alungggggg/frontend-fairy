@@ -73,20 +73,25 @@ export const deleteUsers = createAsyncThunk(
   }
 );
 
-export const addUsers = createAsyncThunk("users/addUsers", async (payload) => {
-  try {
-    const response = await fairyApi.post("/users", payload);
-    if (response.data) {
+export const addUsers = createAsyncThunk(
+  "users/addUsers",
+  async (payload, { rejectWithValue }) => {
+    try {
+      const response = await fairyApi.post("/users", payload);
       return response.data;
+    } catch (error) {
+      if (error instanceof AxiosError) {
+        if (error.response && error.response.data) {
+          return rejectWithValue(error.response.data);
+        }
+      }
+      return rejectWithValue({
+        success: false,
+        errors: { message: ["Unexpected error occurred."] }
+      });
     }
-    throw new Error();
-  } catch (error) {
-    if (error instanceof AxiosError) {
-      throw error.response ? error.response.status : error.message;
-    }
-    throw error;
   }
-});
+);
 
 const userAdminSlice = createSlice({
   name: "userAdmin",

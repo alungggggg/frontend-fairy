@@ -66,7 +66,7 @@ const login = () => {
         })
       );
 
-      if (!res.payload.data?.email_verified_at) {
+      if (false) {
         Swal.fire({
           title: "Account is`t Activate",
           icon: "warning",

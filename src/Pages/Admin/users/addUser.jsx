@@ -80,7 +80,6 @@ const addUser = () => {
   const post = async (values) => {
     // const navigate = useNavigate();
     const res = await dispatch(addUsers(values));
-    console.log(res);
     if (res.error) {
       if (res.error.message === "401") {
         console.log("getting new access token");
@@ -93,6 +92,7 @@ const addUser = () => {
       Swal.fire({
         icon: "success",
         title: "User Berhasil di buat!",
+        allowOutsideClick: false,
       }).then((res) => {
         if (res.isConfirmed) {
           navigate("../");
@@ -102,10 +102,11 @@ const addUser = () => {
       Swal.fire({
         icon: "error",
         title: "User gagal di buat!",
-      }).then((res) => {
-        if (res.isConfirmed) {
-          navigate("../");
-        }
+        allowOutsideClick: false,
+        text:
+          res?.payload?.errors?.email[0] ||
+          res?.payload?.errors?.password[0] ||
+          "unexpected error",
       });
     }
   };

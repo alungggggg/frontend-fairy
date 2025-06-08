@@ -41,9 +41,9 @@ const ItemListUser = ({ items, getUser }) => {
             } else {
               swal.fire("Gagal", "User gagal dihapus", "error");
             }
-            await dispatch(getAllUsers());
           }
           handleDelete();
+          dispatch(getAllUsers());
         }
       }
     );

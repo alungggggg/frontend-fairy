@@ -18,8 +18,10 @@ const EduBacaListBacaan = () => {
 
   const [searchParams, setSearchParams] = useState("");
 
-  const filteredArtikelData = artikelData?.filter((item) =>
-    item.judul.toLowerCase().includes(searchParams.toLowerCase())
+  const filteredArtikelData = artikelData?.filter(
+    (item) =>
+      item.judul.toLowerCase().includes(searchParams.toLowerCase()) &&
+      item.type.toLowerCase().includes(type.toLowerCase())
   );
 
   useEffect(() => {
@@ -111,7 +113,9 @@ const EduBacaListBacaan = () => {
                             </div>
                           )}
                           <img
-                            src={`${import.meta.env.VITE_IMG_URL_ARTIKEL}/${item?.image}`}
+                            src={`${import.meta.env.VITE_IMG_URL_ARTIKEL}/${
+                              item?.image
+                            }`}
                             alt={item.judul || "Thumbnail Tidak Ditemukan"}
                             className="img-fluid"
                           />

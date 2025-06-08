@@ -13,6 +13,7 @@ import { getUsersById, updateUser } from "../../../lib/redux/api/userAdmin";
 import { getNewAccessToken } from "../../../lib/redux/api/auth";
 import AdminLayout from "../adminLayout";
 import { ArrowLeft } from "../forumQuiz/forumDetail";
+import Swal from "sweetalert2";
 
 const SiswaForm = () => (
   <>
@@ -100,6 +101,7 @@ const UpdateUser = () => {
   const navigate = useNavigate();
   const { id } = useParams();
   const user = useSelector((state) => state.usersAdmin.users[0]);
+  const isLoading = useSelector((state) => state.usersAdmin.isLoading);
   const [isChangePass, setIsChangePass] = useState(false);
   const [validationSchema, setValidationSchema] = useState(updateSchema);
 
@@ -118,10 +120,29 @@ const UpdateUser = () => {
           return updateUsers();
         }
       }
+      if (updateUser.fulfilled.match(res)) {
+        Swal.fire({
+          icon: "success",
+          title: "User Berhasil di buat!",
+          allowOutsideClick: false,
+        }).then((res) => {
+          if (res.isConfirmed) {
+            navigate("../");
+          }
+        });
+      } else {
+        Swal.fire({
+          icon: "error",
+          title: "User gagal di buat!",
+          allowOutsideClick: false,
+          text:
+            res?.payload?.errors?.email[0] ||
+            res?.payload?.errors?.password[0] ||
+            "unexpected error",
+        });
+      }
     }
-
-    updateUsers();
-    navigate("/admin/users");
+    updateUsers()
   };
 
   useEffect(() => {
@@ -297,6 +318,7 @@ const UpdateUser = () => {
                         <button
                           type="submit"
                           className="btn btn-orange py-2 text-white"
+                          disabled={isLoading}
                         >
                           Update
                         </button>

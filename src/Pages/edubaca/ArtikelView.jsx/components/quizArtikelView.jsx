@@ -72,7 +72,7 @@ const QuizArtikelView = ({ artikelData }) => {
   const dispatch = useDispatch();
   const { id_artikel } = useParams();
   const { isLoading } = useSelector((state) => state.nilaiArtikel);
-  const [isSubmited, setIsSubmitet] = useState(true);
+  const [isSubmited, setIsSubmitet] = useState(false);
 
   useEffect(() => {
     async function getNilaiArtikel() {
