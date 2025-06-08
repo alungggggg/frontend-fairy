@@ -1,3 +1,6 @@
+import { Link } from "react-router-dom";
+import { ArrowLeftIcon } from "../../../Admin/eduBaca/soal";
+
 const dummySoal = [
   {
     id: 1,
@@ -55,6 +58,9 @@ const dummySoal = [
 const DebatViewArtikel = ({ artikelData }) => {
   return (
     <section>
+      <Link to={"../bacaan"} className="mb-3 d-flex align-items-center gap-2 text-black">
+        <ArrowLeftIcon /> {artikelData?.judul || "Undefined"}
+      </Link>
       <div
         className="d-flex flex-column align-items-center justify-content-center position-relative"
         style={{ minHeight: "calc(85vh)", backgroundColor: "#F8F9FA" }}

@@ -1,6 +1,7 @@
 import AddArtikel from "./addArtikel";
 import DeleteArtikel from "./deleteArtikel";
 import EditArtikel from "./editArtikel";
+import ShowArtikel from "./showArtikel";
 
 const ArtikelDialogAdmin = ({
   isOpen = false,
@@ -26,6 +27,8 @@ const ArtikelDialogAdmin = ({
                 ? "Hapus Artikel"
                 : action == "edit"
                 ? "Edit Artikel"
+                : action == "show"
+                ? "Detail Artikel"
                 : "invalid action"}
             </h1>
             {/* <button
@@ -41,6 +44,8 @@ const ArtikelDialogAdmin = ({
             <DeleteArtikel onClose={onClose} selectedData={selectedData} />
           ) : action == "edit" ? (
             <EditArtikel onClose={onClose} selectedData={selectedData} />
+          ) : action == "show" ? (
+            <ShowArtikel onClose={onClose} selectedData={selectedData} />
           ) : (
             <div className="modal-body">
               <p>Invalid action specified.</p>

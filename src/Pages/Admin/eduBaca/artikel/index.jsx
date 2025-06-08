@@ -9,12 +9,21 @@ import Loading from "../../../../Component/loading";
 import ArtikelDialogAdmin from "./components/dialog";
 import { ArrowLeftIcon } from "../soal";
 
-const tableHead = ["No", "Judul", "Gambar", "type", "Aksi"];
+const tableHead = [
+  "No",
+  "Judul",
+  "Gambar",
+  "Jumlah Soal",
+  "Total Score",
+  "type",
+  "Aksi",
+];
 
 const ArtikelEduBacaAdmin = () => {
   const { data: artikelData, isLoading } = useSelector(
     (state) => state.artikel
   );
+
   const dispatch = useDispatch();
 
   useEffect(() => {
@@ -133,9 +142,28 @@ const ArtikelEduBacaAdmin = () => {
                             style={{ width: "100px", height: "auto" }}
                           />
                         </td>
+                        <td className="text-capitalize">
+                          {item?.soal?.length}
+                        </td>
+                        <td className="text-capitalize">
+                          {item?.soal?.reduce(
+                            (total, item) => total + item.score,
+                            0
+                          )}
+                        </td>
                         <td className="text-capitalize">{item.type}</td>
                         <td style={{ width: "200px" }}>
-                          <div className="d-flex gap-2">
+                          <div className="d-flex gap-1">
+                            <button
+                              className="btn btn-success"
+                              onClick={() => {
+                                setShowDialog(true);
+                                setAction("show");
+                                setSelectedData(item);
+                              }}
+                            >
+                              Lihat
+                            </button>
                             <button
                               className="btn btn-secondary"
                               onClick={() => {

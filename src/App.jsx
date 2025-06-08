@@ -38,11 +38,13 @@ import SoalArtikelAdmin from "./Pages/Admin/eduBaca/soal/index.jsx";
 import RekapNilaiArtikel from "./Pages/Admin/eduBaca/rekapNilai/index.jsx";
 import QuizArtikel from "./Pages/edubaca/quizArtikel.jsx/quizArtikel.jsx";
 import DetailRekapNilai from "./Pages/Admin/eduBaca/rekapNilai/detailRekapNilai/index.jsx";
+import ScrollToTop from "./Component/scrollToTop.jsx";
 
 function App() {
   return (
     <>
       <HashRouter>
+        <ScrollToTop/>
         <Routes>
           <Route path="/" element={<kernel.home />} />
           <Route path="/profile" element={<kernel.profile />} />

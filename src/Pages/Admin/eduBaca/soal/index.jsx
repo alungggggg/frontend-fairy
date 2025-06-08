@@ -3,18 +3,20 @@ import AdminLayout from "../../adminLayout";
 import { useEffect, useState } from "react";
 import { getSoalArtikel } from "../../../../lib/redux/api/soalArtikelSlice";
 import { PlusIcon } from "../../forumQuiz";
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import Pagination from "../../../../Component/pagination";
 import SoalArtikelDialog from "./dialog";
 import { getArtikelData } from "../../../../lib/redux/api/artikelSlice";
 import Loading from "../../../../Component/loading";
 
 const SoalArtikelAdmin = () => {
+  const location = useLocation();
+  const urlParams = new URLSearchParams(location.search);
+  const id_artikel = urlParams?.get("id_artikel") || "";
   const { data: soalArtikelData, isLoading } = useSelector(
     (state) => state.soalArtikel
   );
   const dispatch = useDispatch();
-
   useEffect(() => {
     async function handleGetSoal() {
       await dispatch(getSoalArtikel());
@@ -28,9 +30,11 @@ const SoalArtikelAdmin = () => {
   const [searchParam, setSearchParam] = useState("");
   const searchData = soalArtikelData?.filter(
     (item) =>
-      item.soal.toLowerCase().includes(searchParam.toLowerCase()) ||
-      item.artikel.judul.toLowerCase().includes(searchParam.toLowerCase())
+      (item.soal.toLowerCase().includes(searchParam.toLowerCase()) ||
+        item.artikel.judul.toLowerCase().includes(searchParam.toLowerCase())) &&
+      item.id_artikel == id_artikel
   );
+
   const [itemsPerPage] = useState(5);
   const [currentPage, setCurrentPage] = useState(1);
   const indexOfLastItem = currentPage * itemsPerPage;
