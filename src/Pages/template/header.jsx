@@ -84,7 +84,7 @@ const Header = () => {
                     Berita
                   </Link>
                 </li>
-                {id ? (
+                {id && role.toLocaleLowerCase() != "umum" ? (
                   <li className="nav-item dropdown mx-1">
                     <Link to={"/edubaca"} className="nav-link">
                       EduBaca
