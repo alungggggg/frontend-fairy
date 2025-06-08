@@ -7,7 +7,7 @@ import errorMessage from "../../../Component/errorMessage";
 import { useNavigate, useLocation, Link } from "react-router-dom";
 import { useState } from "react";
 import AdminLayout from "../adminLayout";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { addUsers } from "../../../lib/redux/api/userAdmin";
 import Swal from "sweetalert2";
 import { getNewAccessToken } from "../../../lib/redux/api/auth";
@@ -75,9 +75,12 @@ const addUser = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
+  const { isLoading } = useSelector((state) => state.usersAdmin);
+
   const post = async (values) => {
     // const navigate = useNavigate();
     const res = await dispatch(addUsers(values));
+    console.log(res);
     if (res.error) {
       if (res.error.message === "401") {
         console.log("getting new access token");
@@ -86,23 +89,25 @@ const addUser = () => {
       }
     }
 
-    if (!res.error) {
+    if (addUsers.fulfilled.match(res)) {
       Swal.fire({
         icon: "success",
         title: "User Berhasil di buat!",
-        showConfirmButton: false,
-        timer: 1500,
+      }).then((res) => {
+        if (res.isConfirmed) {
+          navigate("../");
+        }
       });
     } else {
       Swal.fire({
         icon: "error",
         title: "User gagal di buat!",
-        showConfirmButton: false,
-        timer: 1500,
+      }).then((res) => {
+        if (res.isConfirmed) {
+          navigate("../");
+        }
       });
     }
-
-    navigate("../");
   };
 
   return (
@@ -121,17 +126,13 @@ const addUser = () => {
                   kelas: "",
                   sekolah: "",
                   password: "",
-                  confirmPassword: "",
+                  confirm_password: "",
                 }}
                 validationSchema={schema}
                 validateOnChange={false}
                 validateOnBlur={false}
-                onSubmit={(values, { setSubmitting, errors }) => {
+                onSubmit={(values, { setSubmitting }) => {
                   post(values);
-                  console.log(values);
-                  // navigate("/users", {
-                  //   state: { message: "User Berhasil di buat!", status: "success" },
-                  // });
                   setSubmitting(false);
                 }}
               >
@@ -192,7 +193,6 @@ const addUser = () => {
                           if (e.target.value == "SISWA") {
                             setIsSiswa(true);
                             setIsGuru(false);
-                            console.log(e.target.value);
                           } else if (e.target.value == "GURU") {
                             setIsGuru(true);
                             setIsSiswa(false);
@@ -200,7 +200,6 @@ const addUser = () => {
                             setIsGuru(false);
                             setIsSiswa(false);
                           }
-                          console.log(isSiswa);
                         }}
                       >
                         <option value="" key={"null"}>
@@ -242,13 +241,13 @@ const addUser = () => {
                       </label>
                       <Field
                         type="text"
-                        name="confirmPassword"
+                        name="confirm_password"
                         className="form-control"
                         placeholder="Masukan ulang kata sandi"
                       />
 
                       <ErrorMessage
-                        name="confirmPassword"
+                        name="confirm_password"
                         render={errorMessage}
                       />
                     </section>
@@ -256,6 +255,7 @@ const addUser = () => {
                       <button
                         type="submit"
                         className="btn btn-orange py-2 text-white float-left"
+                        disabled={isLoading}
                       >
                         Submit
                       </button>
