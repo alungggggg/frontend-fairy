@@ -2,7 +2,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { Field, Form, Formik } from "formik";
 import { soalArtikelSchema } from "./addSoal";
 import Swal from "sweetalert2";
-import { editSoalArtikel } from "../../../../../lib/redux/api/soalArtikelSlice";
+import { editSoalArtikel, getSoalArtikel } from "../../../../../lib/redux/api/soalArtikelSlice";
 
 const EditSoalArtikel = ({ onClose = () => {}, selectedData = {} }) => {
   const { isLoading } = useSelector((state) => state.soalArtikel);
@@ -34,6 +34,7 @@ const EditSoalArtikel = ({ onClose = () => {}, selectedData = {} }) => {
             icon: "success",
           });
           onClose();
+          dispatch(getSoalArtikel())
         } else {
           Swal.fire({
             title: "Gagal",

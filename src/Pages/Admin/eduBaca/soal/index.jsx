@@ -7,6 +7,7 @@ import { Link } from "react-router-dom";
 import Pagination from "../../../../Component/pagination";
 import SoalArtikelDialog from "./dialog";
 import { getArtikelData } from "../../../../lib/redux/api/artikelSlice";
+import Loading from "../../../../Component/loading";
 
 const SoalArtikelAdmin = () => {
   const { data: soalArtikelData, isLoading } = useSelector(
@@ -61,6 +62,7 @@ const SoalArtikelAdmin = () => {
               placeholder="Search...."
               aria-label="Search"
               aria-describedby="button-addon2"
+              value={searchParam}
               onChange={(e) => {
                 setSearchParam(e.target.value);
                 setCurrentPage(1);
@@ -85,6 +87,7 @@ const SoalArtikelAdmin = () => {
                 setShowDialog(true);
                 setAction("add");
               }}
+              disabled={isLoading}
             >
               <PlusIcon size={32} />
               Add Soal
@@ -92,70 +95,83 @@ const SoalArtikelAdmin = () => {
           </div>
         </div>
       </section>
-      <section>
-        <table className="table table-striped table-bordered">
-          <thead>
-            <tr>
-              <th>No</th>
-              <th>Soal</th>
-              <th>Judul Artikel</th>
-              <th>Jawaban</th>
-              <th>Score</th>
-              <th style={{ width: "220px" }}>Action</th>
-            </tr>
-          </thead>
-          <tbody>
-            {currentItems?.map((item, index) => (
-              <tr key={item.id}>
-                <td>{index + 1}</td>
-                <td>{item.soal}</td>
-                <td>{item?.artikel?.judul || "undefined"}</td>
-                <td>{item?.jawaban || "undefined"}</td>
-                <td>{item?.score || "undefined"}</td>
-                <td className="d-flex gap-1" style={{ width: "220px" }}>
-                  <button
-                    className="btn bg-secondary text-white"
-                    onClick={() => {
-                      setShowDialog(true);
-                      setAction("view");
-                      setSelectedData(item);
-                    }}
-                  >
-                    Lihat
-                  </button>
-                  {/* Add action buttons here */}
-                  <button
-                    className="btn btn-primary"
-                    onClick={() => {
-                      setShowDialog(true);
-                      setAction("edit");
-                      setSelectedData(item);
-                    }}
-                  >
-                    Edit
-                  </button>
-                  <button
-                    className="btn btn-danger"
-                    onClick={() => {
-                      setShowDialog(true);
-                      setAction("delete");
-                      setSelectedData(item);
-                    }}
-                  >
-                    Delete
-                  </button>
-                </td>
+      {isLoading ? (
+        <section
+          className="d-flex justify-content-center align-items-center"
+          style={{ height: "70vh" }}
+        >
+          <Loading />
+        </section>
+      ) : currentItems.length <= 0 ? (
+        <section className="bg-white border text-center p-5">
+          <h4>Data soal tidak ditemukan !</h4>
+        </section>
+      ) : (
+        <section>
+          <table className="table table-striped table-bordered">
+            <thead>
+              <tr>
+                <th>No</th>
+                <th>Soal</th>
+                <th>Judul Artikel</th>
+                <th>Jawaban</th>
+                <th>Score</th>
+                <th style={{ width: "220px" }}>Action</th>
               </tr>
-            ))}
-          </tbody>
-        </table>
-        <Pagination
-          itemsPerPage={itemsPerPage}
-          totalItems={searchData.length}
-          paginate={paginate}
-          className={"mt-3"}
-        />
-      </section>
+            </thead>
+            <tbody>
+              {currentItems?.map((item, index) => (
+                <tr key={item.id}>
+                  <td>{index + 1}</td>
+                  <td>{item.soal}</td>
+                  <td>{item?.artikel?.judul || "undefined"}</td>
+                  <td>{item?.jawaban || "undefined"}</td>
+                  <td>{item?.score || "undefined"}</td>
+                  <td className="d-flex gap-1" style={{ width: "220px" }}>
+                    <button
+                      className="btn bg-secondary text-white"
+                      onClick={() => {
+                        setShowDialog(true);
+                        setAction("view");
+                        setSelectedData(item);
+                      }}
+                    >
+                      Lihat
+                    </button>
+                    {/* Add action buttons here */}
+                    <button
+                      className="btn btn-primary"
+                      onClick={() => {
+                        setShowDialog(true);
+                        setAction("edit");
+                        setSelectedData(item);
+                      }}
+                    >
+                      Edit
+                    </button>
+                    <button
+                      className="btn btn-danger"
+                      onClick={() => {
+                        setShowDialog(true);
+                        setAction("delete");
+                        setSelectedData(item);
+                      }}
+                    >
+                      Delete
+                    </button>
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+          <Pagination
+            itemsPerPage={itemsPerPage}
+            totalItems={searchData.length}
+            paginate={paginate}
+            className={"mt-3"}
+          />
+        </section>
+      )}
       <SoalArtikelDialog
         action={action}
         selectedData={selectedData}

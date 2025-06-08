@@ -8,6 +8,7 @@ const DeleteArtikel = ({ onClose = () => {}, selectedData = {} }) => {
 
   async function handleDeleteArtikel() {
     const res = await dispatch(deleteArtikelData(selectedData));
+    
     if (deleteArtikelData.fulfilled.match(res)) {
       Swal.fire({
         title: "Berhasil",
@@ -18,7 +19,7 @@ const DeleteArtikel = ({ onClose = () => {}, selectedData = {} }) => {
     } else {
       Swal.fire({
         title: "Gagal",
-        text: "Artikel gagal dihapus",
+        text: res.payload?.message || "Unknown error",
         icon: "error",
       });
       onClose();

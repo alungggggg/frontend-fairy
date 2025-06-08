@@ -117,7 +117,7 @@ export const deleteArtikelData = createAsyncThunk(
       throw new Error("No data found");
     } catch (error) {
       if (error instanceof AxiosError) {
-        return rejectWithValue(error.message);
+        return rejectWithValue(error.response.data);
       }
 
       return rejectWithValue("An error occurred while deleting data.");

@@ -21,7 +21,7 @@ const EduBacaListBacaan = () => {
   const filteredArtikelData = artikelData?.filter(
     (item) =>
       item.judul.toLowerCase().includes(searchParams.toLowerCase()) &&
-      item.type.toLowerCase().includes(type.toLowerCase())
+      item.type.toLowerCase().includes(type?.toLowerCase() || "")
   );
 
   useEffect(() => {
@@ -89,6 +89,12 @@ const EduBacaListBacaan = () => {
                 style={{ height: "calc(100vh - 200px)" }}
               >
                 <Loading />
+              </div>
+            ) : filteredArtikelData.length <= 0 ? (
+              <div className="card mt-3">
+                <div className="car-body text-center p-4">
+                  <h1>Belum Ada Data Artikel</h1>
+                </div>
               </div>
             ) : (
               <section className="row row-cols-1 gy-3 gx-3 py-4">

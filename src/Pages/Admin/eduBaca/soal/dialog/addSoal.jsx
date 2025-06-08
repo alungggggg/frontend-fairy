@@ -1,7 +1,10 @@
 import { Field, Form, Formik } from "formik";
 import { useDispatch, useSelector } from "react-redux";
 import * as Yup from "yup";
-import { addSoalArtikel } from "../../../../../lib/redux/api/soalArtikelSlice";
+import {
+  addSoalArtikel,
+  getSoalArtikel,
+} from "../../../../../lib/redux/api/soalArtikelSlice";
 import Swal from "sweetalert2";
 
 export const soalArtikelSchema = Yup.object().shape({
@@ -46,6 +49,7 @@ const AddSoalArtikel = ({ onClose = () => {} }) => {
             icon: "success",
           });
           onClose();
+          dispatch(getSoalArtikel());
         } else {
           Swal.fire({
             title: "Gagal",

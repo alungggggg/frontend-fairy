@@ -6,6 +6,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { useEffect, useState } from "react";
 import { getRekapNilaiArtikel } from "../../../../lib/redux/api/rekapNilaiArtikelSlice";
 import Pagination from "../../../../Component/pagination";
+import Loading from "../../../../Component/loading";
 
 const RekapNilaiArtikel = () => {
   const { data: artikelNilaiData, isLoading } = useSelector(
@@ -53,6 +54,7 @@ const RekapNilaiArtikel = () => {
               placeholder="Search...."
               aria-label="Search"
               aria-describedby="button-addon2"
+              value={searchParam}
               onChange={(e) => {
                 setSearchParam(e.target.value);
                 setCurrentPage(1);
@@ -71,38 +73,51 @@ const RekapNilaiArtikel = () => {
             </button>
           </div>
         </div>
-        <section>
-          <table className="table table-striped table-bordered">
-            <thead>
-              <tr>
-                <th>No</th>
-                <th>Judul Artikel</th>
-                <th>Jumlah Peserta</th>
-                <th style={{ width: "100px" }}>Action</th>
-              </tr>
-            </thead>
-            <tbody>
-              {currentItems?.map((item, index) => (
-                <tr key={item.id}>
-                  <td>{index + 1}</td>
-                  <td>{item?.judul || "undefined"}</td>
-                  <td>{item?.nilai?.length}</td>
-                  <td className="d-flex gap-1" style={{ width: "100px" }}>
-                    <Link className="btn btn-success" to={`${item.id}`}>
-                      Detail
-                    </Link>
-                  </td>
+        {isLoading ? (
+          <section
+            className="d-flex justify-content-center align-items-center"
+            style={{ height: "70vh" }}
+          >
+            <Loading />
+          </section>
+        ) : currentItems.length <= 0 ? (
+          <section className="bg-white border text-center p-5">
+            <h4>Data artikel tidak ditemukan !</h4>
+          </section>
+        ) : (
+          <section>
+            <table className="table table-striped table-bordered">
+              <thead>
+                <tr>
+                  <th>No</th>
+                  <th>Judul Artikel</th>
+                  <th>Jumlah Peserta</th>
+                  <th style={{ width: "100px" }}>Action</th>
                 </tr>
-              ))}
-            </tbody>
-          </table>
-          <Pagination
-            itemsPerPage={itemsPerPage}
-            totalItems={searchData.length}
-            paginate={paginate}
-            className={"mt-3"}
-          />
-        </section>
+              </thead>
+              <tbody>
+                {currentItems?.map((item, index) => (
+                  <tr key={item.id}>
+                    <td>{index + 1}</td>
+                    <td>{item?.judul || "undefined"}</td>
+                    <td>{item?.nilai?.length}</td>
+                    <td className="d-flex gap-1" style={{ width: "100px" }}>
+                      <Link className="btn btn-success" to={`${item.id}`}>
+                        Detail
+                      </Link>
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+            <Pagination
+              itemsPerPage={itemsPerPage}
+              totalItems={searchData.length}
+              paginate={paginate}
+              className={"mt-3"}
+            />
+          </section>
+        )}
       </section>
     </AdminLayout>
   );

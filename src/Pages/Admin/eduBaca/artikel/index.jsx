@@ -46,58 +46,67 @@ const ArtikelEduBacaAdmin = () => {
   // dialog state
   return (
     <AdminLayout>
+      <section>
+        <div className="row mb-3">
+          <div className="input-group col">
+            <Link
+              to={"../"}
+              className="btn shadow-none border d-flex justify-content-center align-items-center"
+            >
+              <ArrowLeftIcon />
+            </Link>
+            <input
+              type="text"
+              className="form-control"
+              placeholder="Search...."
+              aria-label="Search"
+              aria-describedby="button-addon2"
+              value={searchParam}
+              onChange={(e) => {
+                setSearchParam(e.target.value);
+                setCurrentPage(1);
+              }}
+            />
+            <button
+              className="btn btn-outline-secondary"
+              type="button"
+              id="Search"
+              onClick={() => {
+                setSearchParam("");
+                setCurrentPage(1);
+              }}
+            >
+              Clear
+            </button>
+          </div>
+          <div className="col d-flex justify-content-end gap-2">
+            <button
+              className="btn btn-primary"
+              onClick={() => {
+                setShowDialog(true);
+                setAction("add");
+              }}
+              disabled={isLoading}
+            >
+              <PlusIcon size={32} />
+              Add Artikel
+            </button>
+          </div>
+        </div>
+      </section>
       {isLoading ? (
-        <section className="d-flex justify-content-center align-items-center h-100">
+        <section
+          className="d-flex justify-content-center align-items-center"
+          style={{ height: "70vh" }}
+        >
           <Loading />
+        </section>
+      ) : currentItems.length <= 0 ? (
+        <section className="bg-white border text-center p-5">
+          <h4>Data artikel tidak ditemukan !</h4>
         </section>
       ) : (
         <>
-          <section>
-            <div className="row mb-3">
-              <div className="input-group col">
-                <Link
-                  to={"../"}
-                  className="btn shadow-none border d-flex justify-content-center align-items-center"
-                >
-                  <ArrowLeftIcon />
-                </Link>
-                <input
-                  type="text"
-                  className="form-control"
-                  placeholder="Search...."
-                  aria-label="Search"
-                  aria-describedby="button-addon2"
-                  onChange={(e) => {
-                    setSearchParam(e.target.value);
-                    setCurrentPage(1);
-                  }}
-                />
-                <button
-                  className="btn btn-outline-secondary"
-                  type="button"
-                  id="Search"
-                  onClick={() => {
-                    setSearchParam("");
-                    setCurrentPage(1);
-                  }}
-                >
-                  Clear
-                </button>
-              </div>
-              <div className="col d-flex justify-content-end gap-2">
-                <button
-                  className="btn btn-primary"
-                  onClick={() => {
-                    setShowDialog(true);
-                    setAction("add");
-                  }}
-                >
-                  <PlusIcon size={32} />
-                  Add Artikel
-                </button>
-              </div>
-            </div>
-          </section>
           <section className="">
             <section className="p-0">
               <section className="table-responsive">
@@ -116,18 +125,15 @@ const ArtikelEduBacaAdmin = () => {
                         <td>{item.judul}</td>
                         <td>
                           <img
-                            src={`${import.meta.env.VITE_IMG_URL_ARTIKEL}/${item.image}`}
+                            src={`${import.meta.env.VITE_IMG_URL_ARTIKEL}/${
+                              item.image
+                            }`}
                             alt={item.judul}
                             className="img-fluid"
                             style={{ width: "100px", height: "auto" }}
                           />
                         </td>
-                        <td
-                          className="text-capitalize
-"
-                        >
-                          {item.type}
-                        </td>
+                        <td className="text-capitalize">{item.type}</td>
                         <td style={{ width: "200px" }}>
                           <div className="d-flex gap-2">
                             <button

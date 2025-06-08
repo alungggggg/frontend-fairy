@@ -8,6 +8,7 @@ const DeleteSoalArtikel = ({ onClose = () => {}, selectedData = {} }) => {
 
   async function handleDeleteSoal() {
     const res = await dispatch(deleteSoalArtikel(selectedData));
+    
     if (deleteSoalArtikel.fulfilled.match(res)) {
       Swal.fire({
         title: "Berhasil",
