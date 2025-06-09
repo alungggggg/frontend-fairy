@@ -44,7 +44,7 @@ const Header = () => {
           <section className="container">
             <Link to={"/"} className="navbar-brand d-flex align-items-center">
               <img
-                src="https://logobagus.com/wp-content/uploads/2024/01/logo_unp_kediri-768x769.png"
+                src="Logo-unp.png"
                 height={50}
                 alt="Logo"
               />
