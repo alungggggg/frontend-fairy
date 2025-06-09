@@ -28,12 +28,15 @@ const SoalArtikelAdmin = () => {
 
   // pagination and search state
   const [searchParam, setSearchParam] = useState("");
-  const searchData = soalArtikelData?.filter(
-    (item) =>
-      (item.soal.toLowerCase().includes(searchParam.toLowerCase()) ||
-        item.artikel.judul.toLowerCase().includes(searchParam.toLowerCase())) &&
-      item.id_artikel == id_artikel
-  );
+  const searchData = soalArtikelData?.filter((item) => {
+    const matchesKeyword =
+      item.soal.toLowerCase().includes(searchParam.toLowerCase()) ||
+      item.artikel.judul.toLowerCase().includes(searchParam.toLowerCase());
+
+    const matchesId = id_artikel !== "" ? item.id_artikel == id_artikel : true;
+
+    return matchesKeyword && matchesId;
+  });
 
   const [itemsPerPage] = useState(5);
   const [currentPage, setCurrentPage] = useState(1);
