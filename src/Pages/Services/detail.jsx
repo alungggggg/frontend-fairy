@@ -39,7 +39,7 @@ const Detail = () => {
     <>
       <Template
         content={
-          <main className="bg-secondary-light">
+          <main className="bg-secondary-light " style={{minHeight:"calc(100vh - 80px)"}}>
             <section className="pt-3 ">
               <section className="container p-3">
                 <nav>
@@ -153,7 +153,7 @@ const Detail = () => {
               </section>
             </section>
 
-            <section className="py-5">
+            {/* <section className="py-5">
               <section className="container">
                 <h4>Rekomendasi buku lainya</h4>
                 <section className="row my-3">
@@ -202,7 +202,7 @@ const Detail = () => {
                   ))}
                 </section>
               </section>
-            </section>
+            </section> */}
           </main>
         }
       ></Template>

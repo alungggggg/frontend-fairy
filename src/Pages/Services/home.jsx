@@ -2,7 +2,7 @@ import Header from "../template/header";
 import CountUp from "./Component/countUp";
 import Footer from "../template/footer";
 import { getCookie, getCookies } from "cookies-next";
-// import { getCookie } from "cookies-next"; 
+// import { getCookie } from "cookies-next";
 import fairyApi from "../../lib/axios";
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
@@ -18,15 +18,14 @@ const PopularBook = async () => {
 };
 
 const recomender = async (accessToken, users_id) => {
-  try{
-    if (accessToken || users_id){
+  try {
+    if (accessToken || users_id) {
       const { data } = await fairyApi.get("/recomend");
       return data[0];
     }
-  }catch(error){ 
+  } catch (error) {
     console.log(error.response.status);
   }
-  
 };
 
 const countBook = async () => {
@@ -76,7 +75,7 @@ const Home = () => {
       setCountDongeng(await countBook());
       setCountViews(await countView());
       setVisited(await getVisitor());
-      setRecomend( await recomender(accessToken, users_id));
+      setRecomend(await recomender(accessToken, users_id));
       await newVisitor();
     };
     set();
@@ -286,9 +285,6 @@ const Home = () => {
                       >
                         PDF
                       </span>
-                      <span className="badge rounded bg-secondary">
-                        SMP/MTS
-                      </span>
                     </section>
                     <section
                       className="w-100 text-center px-5 px-lg-0 position-absolute bottom-0"
@@ -302,9 +298,10 @@ const Home = () => {
                 </section>
               ))}
             </section>
-            {(recomend) ? (<section className="row mt-4">
-            <h3 className="fw-bold">
-              Rekomendasi&nbsp;
+            {recomend ? (
+              <section className="row mt-4">
+                <h3 className="fw-bold">
+                  Rekomendasi&nbsp;
                   <section className="d-inline-flex flex-column">
                     <span>Untukmu</span>
                     <span className="mtmin">
@@ -313,58 +310,58 @@ const Home = () => {
                         alt="Line title"
                       />
                     </span>
-                    
                   </section>
                 </h3>
                 <p className="">
                   Rekomendasi buku dongeng untukmu, yang sesuai dengan minatmu
                 </p>
-              {recomend.map((book) => (
-                <section className="col-lg-2 col-6 my-2" key={book.id}>
-                  <Link
-                    to={"dongeng/detail/" + book.id}
-                    className="text-decoration-none text-dark position-relative"
-                  >
-                    <section
-                      className="card border-1 mt-3 CardBook_card rounded shadow"
-                      style={{ minHeight: "200px" }}
+                {recomend.map((book) => (
+                  <section className="col-lg-2 col-6 my-2" key={book.id}>
+                    <Link
+                      to={"dongeng/detail/" + book.id}
+                      className="text-decoration-none text-dark position-relative"
                     >
-                      <section className="card-header text-center text-lg-start bg-white p-0 border-0">
-                        <img
-                          src={book.cover}
-                          alt={book.title}
-                          className="img-fluid rounded-0"
-                        />
-                      </section>
-                    </section>
-                    <section
-                      className="position-absolute d-flex flex-column gap-2"
-                      style={{ top: "30px", left: "-2px" }}
-                    >
-                      <span
-                        className="badge rounded bg-danger"
-                        style={{ width: "50px" }}
+                      <section
+                        className="card border-1 mt-3 CardBook_card rounded shadow"
+                        style={{ minHeight: "200px" }}
                       >
-                        PDF
-                      </span>
-                      <span className="badge rounded bg-secondary">
-                        SMP/MTS
-                      </span>
-                    </section>
-                    <section
-                      className="w-100 text-center px-5 px-lg-0 position-absolute bottom-0"
-                      style={{ backgroundColor: "rgba(216, 162, 94, 0.7)" }}
-                    >
-                      <section className="fs-6 my-1 text-white">
-                        {book.title}
+                        <section className="card-header text-center text-lg-start bg-white p-0 border-0">
+                          <img
+                            src={book.cover}
+                            alt={book.title}
+                            className="img-fluid rounded-0"
+                          />
+                        </section>
                       </section>
-                    </section>
-                  </Link>
-                </section>
-              ))}
-            </section>) : ""}
-            
-            
+                      <section
+                        className="position-absolute d-flex flex-column gap-2"
+                        style={{ top: "30px", left: "-2px" }}
+                      >
+                        <span
+                          className="badge rounded bg-danger"
+                          style={{ width: "50px" }}
+                        >
+                          PDF
+                        </span>
+                        <span className="badge rounded bg-secondary">
+                          SMP/MTS
+                        </span>
+                      </section>
+                      <section
+                        className="w-100 text-center px-5 px-lg-0 position-absolute bottom-0"
+                        style={{ backgroundColor: "rgba(216, 162, 94, 0.7)" }}
+                      >
+                        <section className="fs-6 my-1 text-white">
+                          {book.title}
+                        </section>
+                      </section>
+                    </Link>
+                  </section>
+                ))}
+              </section>
+            ) : (
+              ""
+            )}
           </section>
         </section>
         {getCookies("accessToken") && (
