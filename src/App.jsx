@@ -4,6 +4,7 @@ import {
   Routes,
   Route,
   HashRouter,
+  BrowserRouter,
 } from "react-router-dom";
 import kernel from "./Pages/kernel";
 import Test from "./Pages/test";
@@ -43,8 +44,8 @@ import ScrollToTop from "./Component/scrollToTop.jsx";
 function App() {
   return (
     <>
-      <HashRouter>
-        <ScrollToTop/>
+      <BrowserRouter>
+        <ScrollToTop />
         <Routes>
           <Route path="/" element={<kernel.home />} />
           <Route path="/profile" element={<kernel.profile />} />
@@ -139,7 +140,7 @@ function App() {
 
           <Route path="*" element={<kernel.err404 />} />
         </Routes>
-      </HashRouter>
+      </BrowserRouter>
     </>
   );
 }
