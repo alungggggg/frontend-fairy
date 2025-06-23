@@ -44,7 +44,7 @@ const Header = () => {
           <section className="container">
             <Link to={"/"} className="navbar-brand d-flex align-items-center">
               <img
-                src="Logo-unp.png"
+                src="/logo_unp.png"
                 height={50}
                 alt="Logo"
               />

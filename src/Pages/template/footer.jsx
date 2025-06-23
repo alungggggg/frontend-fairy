@@ -13,17 +13,17 @@ const Footer = () => {
             <section className="col-lg-4 pe-md-5 d-flex flex-column gap-3">
               <div className="d-flex gap-3">
                 <img
-                  src="https://logobagus.com/wp-content/uploads/2024/01/logo_unp_kediri-768x769.png"
+                  src="/logo_unp.png"
                   width={60}
                   alt=""
                 />
                 <img
-                  src="https://bima.kemdikbud.go.id/static/media/logo_kemdikbud.bd55be3d.png"
+                  src="/logo_kementrian.png"
                   width={60}
                   alt=""
                 />
                 <img
-                  src="https://bima.kemdikbud.go.id/static/media/bima-dikti-white.4d3e0134.png"
+                  src="/DPPM.png"
                   width={165}
                   alt=""
                 />
