@@ -40,6 +40,7 @@ import RekapNilaiArtikel from "./Pages/Admin/eduBaca/rekapNilai/index.jsx";
 import QuizArtikel from "./Pages/edubaca/quizArtikel.jsx/quizArtikel.jsx";
 import DetailRekapNilai from "./Pages/Admin/eduBaca/rekapNilai/detailRekapNilai/index.jsx";
 import ScrollToTop from "./Component/scrollToTop.jsx";
+import KebijakanPrivasiPage from "./Pages/kebijakan-privasi/index.jsx";
 
 function App() {
   return (
@@ -53,6 +54,8 @@ function App() {
           <Route path="/katalog" element={<kernel.katalog />} />
           <Route path="/berita" element={<kernel.Berita />} />
           <Route path="/berita/:id" element={<kernel.DetailBerita />} />
+
+          <Route path="/kebijakan-privasi" element={<KebijakanPrivasiPage />} />
 
           <Route path="/Petunjuk" element={<kernel.petunjuk />} />
           <Route path="/Petunjuk/siswa" element={<kernel.petunjukSiswa />} />

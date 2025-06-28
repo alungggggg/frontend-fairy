@@ -98,6 +98,11 @@ const Header = () => {
                     Petunjuk
                   </Link>
                 </li>
+                <li className="nav-item dropdown mx-1">
+                  <Link to={"/kebijakan-privasi"} className="nav-link">
+                    Privasi
+                  </Link>
+                </li>
                 <li
                   className={`nav-item dropdown mx-1 ${
                     token ? "" : "d-none"
