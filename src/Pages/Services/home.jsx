@@ -116,7 +116,7 @@ const Home = () => {
                     style={{ bottom: "5px", left: "0%" }}
                   >
                     <img
-                      src="https://buku.kemdikbud.go.id/assets/image/home/line-title.png"
+                      src="./line-title.png"
                       alt="line-title"
                     />
                   </span>
@@ -237,7 +237,7 @@ const Home = () => {
                     <span>terpopuler</span>
                     <span className="mtmin">
                       <img
-                        src="https://buku.kemdikbud.go.id/assets/image/home/line-populer.png"
+                        src="./line-populer.png"
                         alt="Line title"
                       />
                     </span>
@@ -538,7 +538,7 @@ const Home = () => {
                 <span>untuk semua</span>
                 <span className="mtmin">
                   <img
-                    src="https://buku.kemdikbud.go.id/assets/image/home/line-access-book.png"
+                    src="./line-access-book.png"
                     className="line-access w-100"
                     alt="Line title"
                   />
@@ -557,7 +557,7 @@ const Home = () => {
                   <section className="row g-0">
                     <section className="col-md-3 text-center ps-lg-2">
                       <img
-                        src="https://buku.kemdikbud.go.id/assets/image/home/Group%2020.png"
+                        src="./Group 80.png"
                         className="img-fluid rounded-start mt-3"
                         alt="..."
                       />
@@ -591,7 +591,7 @@ const Home = () => {
                   <section className="row g-0">
                     <section className="col-md-3 text-center ps-lg-2">
                       <img
-                        src="https://buku.kemdikbud.go.id/assets/image/home/Group%2021.png"
+                        src="./Group 76.png"
                         className="img-fluid rounded-start mt-3"
                         alt="..."
                       />
@@ -625,7 +625,7 @@ const Home = () => {
                   <section className="row g-0">
                     <section className="col-md-3 text-center ps-lg-2">
                       <img
-                        src="https://buku.kemdikbud.go.id/assets/image/home/Group%2022.png"
+                        src="./Group 79.png"
                         className="img-fluid rounded-start mt-3"
                         alt="..."
                       />
@@ -666,7 +666,7 @@ const Home = () => {
                     <span>untuk semua</span>
                     <span className="mtmin">
                       <img
-                        src="https://buku.kemdikbud.go.id/assets/image/home/line-populer.png"
+                        src="./line-populer.png"
                         alt="Line title"
                       />
                     </span>

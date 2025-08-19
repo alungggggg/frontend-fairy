@@ -133,7 +133,7 @@ const Footer = () => {
           <section className="d-flex justify-content-between align-items-center my-3">
             <section className="">
               <p className="text-white m-0">
-                © Copyrights 2024 Universitas Nusantara PGRI Kediri. All rights
+                © Copyrights 2025 Universitas Nusantara PGRI Kediri. All rights
                 reserved.
               </p>
             </section>
