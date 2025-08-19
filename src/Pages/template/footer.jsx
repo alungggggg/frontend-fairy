@@ -27,6 +27,11 @@ const Footer = () => {
                   width={165}
                   alt=""
                 />
+                <img
+                  src="/garuda.png"
+                  width={60}
+                  alt=""
+                />
               </div>
 
               <p className="text-white m-0">
