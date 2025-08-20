@@ -39,7 +39,7 @@ const Footer = () => {
               </p>
               <p>
                 <small className="text-white">
-                  Direktotat Riset, Teknologi, dan Pengabdian Masyarakat
+                  Direktorat Penelitian dan Pengabdian kepada Masyarakat
                 </small>
               </p>
             </section>
